@@ -1,6 +1,6 @@
-import averageWaitTime from '../talk-average-wait-time'
 import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import averageWaitTime from '../talk-average-wait-time'
 
 const initialState = {
   waitTime: '0',

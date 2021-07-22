@@ -1,7 +1,6 @@
 import { render, fireEvent } from '@testing-library/react'
-
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { http } from 'service/transport/http'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import HelpCenterArticle from '../index'
 
 const renderComponent = (props) => {

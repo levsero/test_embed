@@ -1,8 +1,8 @@
+import { TEST_IDS } from 'constants/shared'
+import { Component as ChatWidgetHeader } from 'embeds/chat/components/ChatWidgetHeader'
 import { render } from 'src/util/testHelpers'
 import { createChatPopoutWindow } from 'utility/chat'
-import { Component as ChatWidgetHeader } from 'embeds/chat/components/ChatWidgetHeader'
 import { isMobileBrowser } from 'utility/devices'
-import { TEST_IDS } from 'constants/shared'
 
 jest.mock('utility/chat', () => ({
   createChatPopoutWindow: jest.fn(),

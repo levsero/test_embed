@@ -1,6 +1,5 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { Component } from 'react'
 import { Button as PureButton } from 'component/shared/StructuredMessage/pure/Button'
 import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat'
 

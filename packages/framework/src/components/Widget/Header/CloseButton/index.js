@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import CloseIcon from '@zendeskgarden/svg-icons/src/16/dash-fill.svg'
-import { handleCloseButtonClicked } from 'src/redux/modules/base'
 import { HeaderItem } from 'components/Widget/Header'
-import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
+import useTranslate from 'src/hooks/useTranslate'
+import { handleCloseButtonClicked } from 'src/redux/modules/base'
 
 const CloseButton = ({ onClick }) => {
   const translate = useTranslate()

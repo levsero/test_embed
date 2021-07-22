@@ -1,11 +1,11 @@
+import _ from 'lodash'
+import { getDisplayName } from 'src/util/chat'
+import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types'
 import {
   CHAT_OFFLINE_FORM_CHANGED,
   SDK_VISITOR_UPDATE,
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
 } from '../../chat-action-types'
-import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types'
-import { getDisplayName } from 'src/util/chat'
-import _ from 'lodash'
 
 const initialState = {
   name: '',

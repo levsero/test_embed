@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import SuccessNotification from 'components/SuccessNotification'
 import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
 import { Main } from 'src/components/Widget'

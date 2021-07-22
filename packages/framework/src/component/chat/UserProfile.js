@@ -1,15 +1,12 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { Component } from 'react'
+import { Avatar } from 'component/Avatar'
 import { Icon } from 'component/Icon'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
-import { Avatar } from 'component/Avatar'
-
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { locals as styles } from './UserProfile.scss'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
-
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import SocialLogin from 'src/embeds/chat/components/SocialLogin'
+import { locals as styles } from './UserProfile.scss'
 
 export class UserProfile extends Component {
   static propTypes = {

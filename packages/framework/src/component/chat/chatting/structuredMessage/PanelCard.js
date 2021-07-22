@@ -1,12 +1,10 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { pick } from 'lodash'
 import classnames from 'classnames'
-
+import { pick } from 'lodash'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { PanelCard as PurePanelCard } from 'component/shared/StructuredMessage/PanelCard'
-import { Button, ButtonSchemaPropType } from './Button'
 import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat'
-
+import { Button, ButtonSchemaPropType } from './Button'
 import { locals as styles } from './PanelCard.scss'
 
 const { LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE

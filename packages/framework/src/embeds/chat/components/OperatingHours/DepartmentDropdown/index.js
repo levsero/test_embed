@@ -1,7 +1,7 @@
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import { Dropdown, Menu, Field, Select, Label, Item } from '@zendeskgarden/react-dropdowns'
-import _ from 'lodash'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import useTranslate from 'src/hooks/useTranslate'
 

@@ -1,8 +1,7 @@
-import { useEffect, useRef, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { rem } from 'polished'
+import PropTypes from 'prop-types'
+import { useEffect, useRef, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-
 import Animated from 'src/Animated'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import messageSteps from 'src/animations/messageSteps'

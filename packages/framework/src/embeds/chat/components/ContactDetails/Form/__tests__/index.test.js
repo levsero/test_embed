@@ -1,9 +1,8 @@
-import { render } from 'src/util/testHelpers'
 import { fireEvent } from '@testing-library/react'
-import { TEST_IDS } from 'src/constants/shared'
-
-import { Component } from '../'
 import { Modal } from '@zendeskgarden/react-modals'
+import { TEST_IDS } from 'src/constants/shared'
+import { render } from 'src/util/testHelpers'
+import { Component } from '../'
 
 const editContactDetailsSubmitted = jest.fn()
 const onSuccess = jest.fn()

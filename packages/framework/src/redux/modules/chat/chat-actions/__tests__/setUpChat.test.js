@@ -1,18 +1,17 @@
+import { wait } from '@testing-library/react'
+import * as zChat from 'chat-web-sdk'
 import _ from 'lodash'
+import slider from 'react-slick'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { getModifiedState } from 'src/fixtures/selectors-test-state'
-import { wait } from '@testing-library/react'
-
-import { setUpChat } from '../setUpChat'
-import { win } from 'utility/globals'
-import zopimApi from 'service/api/zopimApi'
-import * as zChat from 'chat-web-sdk'
-import slider from 'react-slick'
-import { settings } from 'service/settings'
-import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
-import * as setupChatActions from 'embeds/chat/actions/setup-chat'
 import { DEFER_CHAT_SETUP } from 'embeds/chat/actions/action-types'
+import * as setupChatActions from 'embeds/chat/actions/setup-chat'
+import zopimApi from 'service/api/zopimApi'
+import { settings } from 'service/settings'
+import { getModifiedState } from 'src/fixtures/selectors-test-state'
+import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
+import { win } from 'utility/globals'
+import { setUpChat } from '../setUpChat'
 
 jest.mock('react-slick')
 jest.mock('chat-web-sdk')

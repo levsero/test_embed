@@ -1,6 +1,6 @@
-import { testReducer } from 'utility/testHelpers'
 import clearFormTimestamp from 'embeds/webWidget/reducers/clear-form-timestamp'
 import { API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
+import { testReducer } from 'utility/testHelpers'
 
 const initialState = 0
 

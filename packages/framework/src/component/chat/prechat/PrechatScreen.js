@@ -1,16 +1,18 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-import PrechatFormOfflineMessageSuccessPage from 'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
+import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import * as screens from 'src/redux/modules/chat/chat-screen-types'
+import PrechatForm from 'src/embeds/chat/components/PrechatForm'
+import PrechatFormOfflineMessageSuccessPage from 'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage'
 import {
   updateChatScreen,
   handlePreChatFormChange,
   initiateSocialLogout,
   openedChatHistory,
 } from 'src/redux/modules/chat'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   getDepartments,
   getChatScreen,
@@ -20,8 +22,6 @@ import {
 } from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
 import { locals as styles } from './PrechatScreen.scss'
-import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
-import PrechatForm from 'src/embeds/chat/components/PrechatForm'
 
 const mapStateToProps = (state) => {
   const preChatFormState = getPreChatFormState(state)

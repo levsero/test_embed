@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { TEST_IDS } from 'src/constants/shared'
-
+import useTranslate from 'src/hooks/useTranslate'
 import { Icon } from './styles'
 
 const SendChatOption = ({ sendChat }) => {

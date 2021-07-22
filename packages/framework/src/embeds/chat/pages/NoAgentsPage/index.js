@@ -1,14 +1,11 @@
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
-
+import { connect } from 'react-redux'
 import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 import { Widget, Header, Main } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
+import useTranslate from 'src/hooks/useTranslate'
 import { cancelButtonClicked } from 'src/redux/modules/base'
 import { getChatTitle } from 'src/redux/modules/selectors'
-
 import { Button, Greeting, InnerContentContainer } from './styles'
 
 const NoAgentsPage = ({ title, onButtonClick }) => {

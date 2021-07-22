@@ -1,12 +1,12 @@
-import { render } from 'utility/testHelpers'
-import { closeReceived, openReceived } from 'src/redux/modules/base'
-import Embeds from '..'
-import * as actions from 'src/redux/modules/base/base-action-types'
+import { waitFor } from '@testing-library/dom'
 import { wait, getByTestId } from '@testing-library/react'
+import { closeReceived, openReceived } from 'src/redux/modules/base'
+import * as actions from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import { updateSettings } from 'src/redux/modules/settings'
 import * as globalUtilities from 'utility/globals'
-import { waitFor } from '@testing-library/dom'
+import { render } from 'utility/testHelpers'
+import Embeds from '..'
 
 jest.mock('component/webWidget/WebWidget', () => {
   return {

@@ -1,7 +1,6 @@
-import { render } from 'src/util/testHelpers'
-
-import { Component as MessageGroup } from '../index'
 import { TEST_IDS } from 'src/constants/shared'
+import { render } from 'src/util/testHelpers'
+import { Component as MessageGroup } from '../index'
 
 const textMessage = {
   type: 'text',

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Avatar } from 'component/Avatar'
 import { zdColorGrey800, zdColorWhite } from '@zendeskgarden/css-variables'
+import { Avatar } from 'component/Avatar'
 
 export const ProactiveContainer = styled.div`
   color: ${zdColorGrey800};

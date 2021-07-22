@@ -1,10 +1,10 @@
-import { render } from 'utility/testHelpers'
 import { find } from 'styled-components/test-utils'
+import { TEST_IDS } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
+import { render } from 'utility/testHelpers'
 import { onNextTick } from 'utility/utils'
 import { Component as ChatMenu } from './..'
 import { SoundOffIcon, SoundOnIcon } from './../styles'
-import { TEST_IDS } from 'constants/shared'
 
 jest.mock('utility/devices')
 

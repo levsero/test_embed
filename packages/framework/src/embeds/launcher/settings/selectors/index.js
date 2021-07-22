@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getTalkTitleKey } from 'src/embeds/talk/selectors/selectors'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 
 const getLabel = (_, label) => label
 

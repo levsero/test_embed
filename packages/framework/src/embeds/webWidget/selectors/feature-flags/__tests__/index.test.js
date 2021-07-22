@@ -1,5 +1,5 @@
-import isFeatureEnabled from '../'
 import { inDebugMode } from 'utility/runtime'
+import isFeatureEnabled from '../'
 import features from '../features'
 
 jest.mock('utility/runtime')

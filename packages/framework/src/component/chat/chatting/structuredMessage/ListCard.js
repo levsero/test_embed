@@ -1,9 +1,8 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { Component } from 'react'
 import { ListCard as PureListCard } from 'component/shared/StructuredMessage/ListCard'
-import { Button, ButtonSchemaPropType } from './Button'
 import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat'
+import { Button, ButtonSchemaPropType } from './Button'
 
 const { LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
 

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { zdColorGrey200, zdColorGrey300, zdColorGrey500 } from '@zendeskgarden/css-variables'
-
 import { Spinner } from '@zendeskgarden/react-loaders'
 
 const StyledSpinner = styled(Spinner)`

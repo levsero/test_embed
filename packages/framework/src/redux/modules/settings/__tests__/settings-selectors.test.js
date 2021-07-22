@@ -1,5 +1,4 @@
 import _ from 'lodash'
-
 import * as selectors from '../settings-selectors'
 
 const settings = (newSettings) => {

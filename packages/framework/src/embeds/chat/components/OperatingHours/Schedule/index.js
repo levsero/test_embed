@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { DayList } from './styles'
 import ApplicableDays from './ApplicableDays'
 import HoursForApplicableDays from './HoursForApplicableDays'
+import { DayList } from './styles'
 
 const Schedule = ({ schedule, locale }) => (
   <DayList>

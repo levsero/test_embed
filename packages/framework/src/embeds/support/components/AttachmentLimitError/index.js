@@ -1,10 +1,9 @@
-import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
-
+import { forwardRef } from 'react'
 import { Close } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
-import { ErrorTitle, StyledAlert } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
+import { ErrorTitle, StyledAlert } from './styles'
 
 const AttachmentLimitError = forwardRef(({ handleClearError, maxFileCount }, ref) => {
   const translate = useTranslate()

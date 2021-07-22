@@ -1,12 +1,12 @@
-import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
+import ActivityAPI from './api/ActivityApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
-import MessagesApi from './api/MessagesApi'
-import ActivityAPI from './api/ActivityApi'
-import SocketClient from './socket/SocketClient'
 import IntegrationsApi from './api/IntegrationsApi'
+import MessagesApi from './api/MessagesApi'
+import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser, removeAppUser } from './utils/context'
 import { getClientId, getSessionId } from './utils/device'
+import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
 
 const BASE_URL = 'https://api.smooch.io'
 

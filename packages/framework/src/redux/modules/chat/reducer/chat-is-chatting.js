@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { store } from 'src/framework/services/persistence'
 import {
   UPDATE_PREVIEWER_SCREEN,
   CHAT_MSG_REQUEST_SUCCESS,
@@ -9,7 +10,6 @@ import {
   SDK_CONNECTION_UPDATE,
   SDK_CHAT_MEMBER_JOIN,
 } from '../chat-action-types'
-import { store } from 'src/framework/services/persistence'
 
 const initialState = _.get(store.get('store'), 'is_chatting', false)
 

@@ -1,9 +1,9 @@
-import { questionValueChanged } from './question-value-changed'
-import { questionSubmitted } from './question-submitted'
-import { conversationScrollChanged } from './conversation-scroll-changed'
 import { conversationScreenClosed } from './conversation-screen-closed'
-import { getInTouchShown } from './get-in-touch-shown'
+import { conversationScrollChanged } from './conversation-scroll-changed'
 import { getInTouchClicked } from './get-in-touch-clicked'
+import { getInTouchShown } from './get-in-touch-shown'
+import { questionSubmitted } from './question-submitted'
+import { questionValueChanged } from './question-value-changed'
 
 export {
   questionSubmitted,

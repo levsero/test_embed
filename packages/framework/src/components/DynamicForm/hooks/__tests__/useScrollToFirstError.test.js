@@ -1,6 +1,6 @@
-import { render } from 'src/util/testHelpers'
-import { FORM_ERROR } from 'final-form'
 import { fireEvent } from '@testing-library/react'
+import { FORM_ERROR } from 'final-form'
+import { render } from 'src/util/testHelpers'
 import useScrollToFirstError from '../useScrollToFirstError'
 
 jest.mock('react-final-form')

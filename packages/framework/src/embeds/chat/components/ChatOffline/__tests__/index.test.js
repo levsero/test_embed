@@ -1,6 +1,5 @@
-import { render } from 'utility/testHelpers'
 import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
-
+import { render } from 'utility/testHelpers'
 import { Component as ChatOffline } from '../'
 
 jest.mock('src/embeds/chat/pages/OfflineFormPage', () => () => <div>ChatOfflineForm</div>)

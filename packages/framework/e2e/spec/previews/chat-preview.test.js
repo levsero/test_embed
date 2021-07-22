@@ -1,11 +1,11 @@
-import { queries, wait } from 'pptr-testing-library'
+import events from 'e2e/fixtures/chat-preview-events'
 import preview, { loadPreview } from 'e2e/helpers/chat-preview'
-import * as constants from 'src/redux/modules/chat/chat-screen-types'
+import widget from 'e2e/helpers/widget'
+import { queries, wait } from 'pptr-testing-library'
 import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import { CHAT_BADGE } from 'src/constants/preview'
 import { TEST_IDS } from 'src/constants/shared'
-import widget from 'e2e/helpers/widget'
-import events from 'e2e/fixtures/chat-preview-events'
+import * as constants from 'src/redux/modules/chat/chat-screen-types'
 
 beforeEach(async () => {
   await loadPreview()

@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { connect } from 'react-redux'
-
 import { Widget, Header } from 'src/components/Widget'
 import OfflineForm from 'src/embeds/chat/components/OfflineForm'
-import { getChatTitle } from 'src/redux/modules/selectors'
-import { handleOfflineFormBack } from 'src/redux/modules/chat'
 import OfflineFormSuccess from 'src/embeds/chat/components/OfflineFormSuccess'
+import { handleOfflineFormBack } from 'src/redux/modules/chat'
+import { getChatTitle } from 'src/redux/modules/selectors'
 
 const ChatOfflineFormPage = ({ title }) => {
   const [hasSubmitted, setHasSubmitted] = useState(false)

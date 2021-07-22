@@ -1,6 +1,6 @@
-import { testReducer } from 'utility/testHelpers'
-import { beginChatSetup } from 'embeds/chat/actions/setup-chat'
 import { DEFER_CHAT_SETUP } from 'embeds/chat/actions/action-types'
+import { beginChatSetup } from 'embeds/chat/actions/setup-chat'
+import { testReducer } from 'utility/testHelpers'
 import reducer from '../deferred-chat-is-polling'
 
 describe('deferredChatIsPolling reducer', () => {

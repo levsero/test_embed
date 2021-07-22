@@ -1,5 +1,4 @@
 import { render } from 'src/apps/messenger/utils/testHelpers'
-
 import TimestampStructuredMessage from '../TimestampStructuredMessage'
 
 const renderComponent = (props = {}) => {

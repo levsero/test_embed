@@ -1,10 +1,10 @@
 import { validate } from 'bcp47-validate'
-import i18n from 'src/framework/services/i18n'
 import { setLocale as suncoUpdateLocale } from 'src/apps/messenger/api/sunco'
-import { widgetOpened, widgetClosed } from 'src/apps/messenger/store/visibility'
-import logger from 'src/util/logger'
 import { zIndexUpdated } from 'src/apps/messenger/store/actions'
 import { cookiesEnabled, cookiesDisabled } from 'src/apps/messenger/store/cookies'
+import { widgetOpened, widgetClosed } from 'src/apps/messenger/store/visibility'
+import i18n from 'src/framework/services/i18n'
+import logger from 'src/util/logger'
 
 export default (store) => ({
   messenger: {

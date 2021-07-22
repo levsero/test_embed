@@ -1,10 +1,9 @@
 import createStore from 'src/apps/messenger/store'
 import i18n from 'src/framework/services/i18n'
 import * as globals from 'utility/globals'
+import { getLocale, subscribeToI18n } from '../store'
 
 jest.unmock('@zendesk/client-i18n-tools')
-
-import { getLocale, subscribeToI18n } from '../store'
 
 globals.navigator = { languages: ['ko'] }
 

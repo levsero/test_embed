@@ -1,10 +1,8 @@
-import { render } from 'utility/testHelpers'
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
-
+import snapshotDiff from 'snapshot-diff'
 import * as selectors from 'embeds/helpCenter/selectors'
 import { TEST_IDS } from 'src/constants/shared'
-import snapshotDiff from 'snapshot-diff'
-
+import { render } from 'utility/testHelpers'
 import Messages from '../index'
 
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])

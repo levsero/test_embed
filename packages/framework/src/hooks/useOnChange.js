@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { updateAcknowledged } from 'src/redux/modules/customerProvidedPrefill/actions'
 import {
   getLastUpdateAcknowledged,
   getLastTimestamp,
   getValues,
 } from 'src/redux/modules/customerProvidedPrefill/selectors'
-import { updateAcknowledged } from 'src/redux/modules/customerProvidedPrefill/actions'
 
 const useOnChange = (type, id, callback) => {
   const dispatch = useDispatch()

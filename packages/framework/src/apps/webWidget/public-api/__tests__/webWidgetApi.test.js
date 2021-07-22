@@ -1,9 +1,9 @@
-import publicApi from 'src/framework/services/publicApi'
-import tracker from 'service/tracker'
-import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { API_GET_IS_CHATTING_NAME } from 'constants/api'
 import * as apis from 'service/api/apis'
+import tracker from 'service/tracker'
+import publicApi from 'src/framework/services/publicApi'
+import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { getWebWidgetPublicApi } from '../setupApi'
 import { getWebWidgetLegacyPublicApi } from '../setupLegacyApi'
 

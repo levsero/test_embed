@@ -1,5 +1,5 @@
-import chatLog from '../log'
 import * as actions from 'src/redux/modules/chat/chat-action-types'
+import chatLog from '../log'
 
 describe('chat-history log', () => {
   let state

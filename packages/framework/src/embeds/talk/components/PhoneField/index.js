@@ -1,6 +1,7 @@
-import { connect } from 'react-redux'
+import { AsYouType, parsePhoneNumber } from 'libphonenumber-js'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Field, Label } from '@zendeskgarden/react-forms'
 import {
   FieldContainer,
@@ -8,16 +9,15 @@ import {
   ControlledComponent,
 } from '@zendeskgarden/react-selection'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
-import { AsYouType, parsePhoneNumber } from 'libphonenumber-js'
 import { TEST_IDS } from 'constants/shared'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
-import { getStyledLabelText } from 'utility/fields'
-import styleOverrides from './styles.overrides'
-import { Container, FauxInput, Input, Message } from './styles'
-import { onNextTick } from 'src/util/utils'
 import { CurrentFrameConsumer } from 'src/framework/components/Frame'
+import { onNextTick } from 'src/util/utils'
+import countriesByIso from 'translation/ze_countries'
+import { getStyledLabelText } from 'utility/fields'
+import { Container, FauxInput, Input, Message } from './styles'
+import styleOverrides from './styles.overrides'
 
 const mapStateToProps = () => {
   return {

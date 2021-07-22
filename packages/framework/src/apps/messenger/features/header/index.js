@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerHeader } from '@zendesk/conversation-components'
-import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
-import { getHeaderValues } from './store'
-import { getIsFullScreen } from '../responsiveDesign/store'
 import {
   getAllIntegrationsLinkStatus,
   linkIntegration,
   unlinkIntegration,
 } from 'src/apps/messenger/store/integrations'
-import {} from '../../store/integrations'
+import { widgetClosed } from 'src/apps/messenger/store/visibility'
+import '../../store/integrations'
+import { getIsFullScreen } from '../responsiveDesign/store'
+import { getHeaderValues } from './store'
 
 const Header = () => {
   const dispatch = useDispatch()

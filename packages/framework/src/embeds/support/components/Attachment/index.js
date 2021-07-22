@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
-
-import ProgressBar from 'src/components/ProgressBar'
 import { Close } from '@zendeskgarden/react-notifications'
+import ProgressBar from 'src/components/ProgressBar'
 import { TEST_IDS } from 'src/constants/shared'
+import { formatNameString, secondaryText } from 'src/embeds/support/utils/attachmentStringFormatter'
+import useTranslate from 'src/hooks/useTranslate'
 import {
   Description,
   PreviewName,
@@ -11,8 +12,6 @@ import {
   Container,
   StyledIcon,
 } from './styles'
-import useTranslate from 'src/hooks/useTranslate'
-import { formatNameString, secondaryText } from 'src/embeds/support/utils/attachmentStringFormatter'
 
 const Attachment = ({ icon, handleRemoveAttachment, attachment }) => {
   const translate = useTranslate()

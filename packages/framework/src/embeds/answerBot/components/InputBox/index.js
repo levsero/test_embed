@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import { Field } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
 import { keyCodes } from 'utility/keyboard'
-
 import { Container, HiddenLabel, Input } from './styles'
 
 const InputBox = ({

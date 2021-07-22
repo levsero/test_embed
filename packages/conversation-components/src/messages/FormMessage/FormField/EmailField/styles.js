@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { rgba } from 'polished'
+import styled from 'styled-components'
 import { Label, Input, Field } from '@zendeskgarden/react-forms'
 
 const StyledField = styled(Field)`

@@ -1,20 +1,18 @@
 import { forwardRef, useLayoutEffect, useRef, useState } from 'react'
-import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
-import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { LauncherLabel as SuncoLauncherLabel } from '@zendesk/conversation-components'
-
-import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
-import Frame from 'src/framework/components/Frame'
-import ThemeProvider from 'src/apps/messenger/features/themeProvider'
-import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
+import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+import { getLauncherLabelText } from 'src/apps/messenger/features/launcherLabel/store/config'
 import {
   getIsLauncherLabelVisible,
   labelHidden,
 } from 'src/apps/messenger/features/launcherLabel/store/visibility'
-import { getLauncherLabelText } from 'src/apps/messenger/features/launcherLabel/store/config'
-
+import ThemeProvider from 'src/apps/messenger/features/themeProvider'
+import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
+import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
+import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
+import Frame from 'src/framework/components/Frame'
 import { Container, GlobalStyles } from './styles'
 
 const roughSizeForBoxShadows = 20

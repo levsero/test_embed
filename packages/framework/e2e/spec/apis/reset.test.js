@@ -1,9 +1,9 @@
-import { testForm } from '../../helpers/support-embed'
 import { queries } from 'pptr-testing-library'
+import launcher from '../../helpers/launcher'
+import { testForm } from '../../helpers/support-embed'
+import { assertInputValue } from '../../helpers/utils'
 import widget from '../../helpers/widget'
 import { allowsInputTextEditing } from '../shared-examples'
-import { assertInputValue } from '../../helpers/utils'
-import launcher from '../../helpers/launcher'
 
 describe('support embed', () => {
   beforeEach(async () => {

@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { settings } from '../settings'
 import * as actions from 'src/redux/modules/settings/settings-actions'
+import { settings } from '../settings'
 
 jest.mock('src/redux/modules/settings/settings-actions')
 jest.mock('src/redux/modules/selectors')

@@ -1,10 +1,10 @@
-import styled, { css, keyframes } from 'styled-components'
 import { rem } from 'polished'
+import styled, { css, keyframes } from 'styled-components'
 import { Anchor } from '@zendeskgarden/react-buttons'
 import AlertSVG from '@zendeskgarden/svg-icons/src/12/alert-error-stroke.svg'
+import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import messageSteps, { transition } from 'src/animations/messageSteps'
 import { MESSAGE_STATUS } from 'src/constants'
-import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import dirStyles from 'src/utils/dirStyles'
 
 const enter = `

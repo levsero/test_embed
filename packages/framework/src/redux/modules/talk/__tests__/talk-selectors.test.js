@@ -1,10 +1,10 @@
-import * as selectors from '../talk-selectors'
 import {
   PHONE_ONLY,
   CALLBACK_ONLY,
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
 } from '../talk-capability-types'
+import * as selectors from '../talk-selectors'
 
 const embeddableConfig = (state) => ({
   talk: {

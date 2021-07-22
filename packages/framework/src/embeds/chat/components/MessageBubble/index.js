@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import Linkify from 'react-linkify'
-
-import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
-import { Container, MessageContainer, Message, TranslateLink, MessageBubbleLink } from './styles'
+import useTranslate from 'src/hooks/useTranslate'
 import MessageOptions from './MessageOptions'
+import { Container, MessageContainer, Message, TranslateLink, MessageBubbleLink } from './styles'
 
 const MessageBubble = ({ message, translatedMessage, isAgent, options = [], onOptionSelect }) => {
   const translate = useTranslate()

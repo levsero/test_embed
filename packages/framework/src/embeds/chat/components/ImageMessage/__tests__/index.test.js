@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/dom'
 import { render } from 'src/util/testHelpers'
-
 import ImageMessage from '../'
 
 jest.useFakeTimers()

@@ -1,6 +1,5 @@
-import { SESSION_FALLBACK } from './action-types'
-
 import { getCurrentSessionID } from 'src/embeds/answerBot/selectors/root'
+import { SESSION_FALLBACK } from './action-types'
 
 export const sessionFallback = () => {
   return (dispatch, getState) => {

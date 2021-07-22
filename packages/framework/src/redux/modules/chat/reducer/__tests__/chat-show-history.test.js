@@ -1,5 +1,5 @@
-import reducer from '../chat-show-history'
 import * as actions from 'src/redux/modules/chat/chat-action-types'
+import reducer from '../chat-show-history'
 
 const initialState = reducer(undefined)
 

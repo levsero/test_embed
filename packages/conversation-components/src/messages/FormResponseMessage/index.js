@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
-import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
-import FieldResponse from './FieldResponse'
-
-import { FormContainer, Field } from './styles'
 import { MESSAGE_STATUS } from 'src'
+import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from '../../layouts/PrimaryParticipantLayout'
+import FieldResponse from './FieldResponse'
+import { FormContainer, Field } from './styles'
 
 const FormResponseMessage = ({
   avatar,

@@ -1,6 +1,6 @@
-import BaseApi from './BaseApi'
 import { getClientInfo } from '../utils/device'
 import storage from '../utils/storage'
+import BaseApi from './BaseApi'
 
 class AppUsersApi extends BaseApi {
   create(data = {}) {

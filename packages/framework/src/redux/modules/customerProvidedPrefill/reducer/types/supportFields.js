@@ -1,6 +1,6 @@
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import _ from 'lodash'
 import normaliseFieldPrefillValues from 'embeds/support/utils/normaliseFieldPrefillValues'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = {
   timestamp: 0,

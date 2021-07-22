@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { getMetaTagsByName, appendMetaTag } from 'utility/devices'
 import { onNextTick } from 'src/util/utils'
+import { getMetaTagsByName, appendMetaTag } from 'utility/devices'
 
 const win = window.parent
 const document = win.document

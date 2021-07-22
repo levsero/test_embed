@@ -1,7 +1,7 @@
 import { useForm } from 'react-final-form'
-import { render } from 'src/util/testHelpers'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 import getFields from 'embeds/support/utils/getFields'
+import { render } from 'src/util/testHelpers'
 
 jest.mock('react-final-form')
 jest.mock('embeds/support/utils/getFields')

@@ -1,8 +1,7 @@
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import { render, fireEvent } from '@testing-library/react'
-
-import { Component as ChannelChoiceMenu } from '../ChannelChoiceMenu'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { Component as ChannelChoiceMenu } from '../ChannelChoiceMenu'
 
 beforeEach(() => {
   i18n.isRTL = () => false

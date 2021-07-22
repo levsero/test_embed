@@ -1,8 +1,8 @@
-import { find } from 'styled-components/test-utils'
 import { fireEvent } from '@testing-library/react'
-import { render } from 'src/util/testHelpers'
+import { find } from 'styled-components/test-utils'
 import { Component as ViewHistoryButton } from 'embeds/chat/components/ViewHistoryButton'
 import { Container, HistoryIcon } from 'embeds/chat/components/ViewHistoryButton/styles'
+import { render } from 'src/util/testHelpers'
 
 describe('ViewHistoryButton', () => {
   const defaultProps = {

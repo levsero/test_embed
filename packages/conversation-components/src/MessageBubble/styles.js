@@ -1,8 +1,7 @@
-import styled, { keyframes } from 'styled-components'
 import { rem } from 'polished'
-
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import styled, { keyframes } from 'styled-components'
 import messageSteps, { animation, transition } from 'src/animations/messageSteps'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import dirStyles from 'src/utils/dirStyles'
 
 const getRadius = (props) => props.theme.messenger.borderRadii.textMessage

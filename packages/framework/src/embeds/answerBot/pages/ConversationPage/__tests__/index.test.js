@@ -1,7 +1,6 @@
-import { render } from '@testing-library/react'
-
-import { Component as ConversationPage } from '../index'
 import { waitFor } from '@testing-library/dom'
+import { render } from '@testing-library/react'
+import { Component as ConversationPage } from '../index'
 
 const actions = Object.freeze({
   conversationScreenClosed: jest.fn(),

@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
+import { withTheme } from 'styled-components'
+import { getMenuVisible } from 'embeds/chat/selectors'
 import DesktopFooter from 'src/embeds/chat/components/ChattingFooter/Desktop'
 import MobileFooter from 'src/embeds/chat/components/ChattingFooter/Mobile'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
-import { getMenuVisible } from 'embeds/chat/selectors'
 import { sendAttachments } from 'src/redux/modules/chat'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-import { withTheme } from 'styled-components'
 
 const ChattingFooter = ({
   attachmentsEnabled,

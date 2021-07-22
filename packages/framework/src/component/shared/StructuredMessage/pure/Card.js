@@ -1,7 +1,6 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { locals as styles } from './Card.scss'
 
 export class Card extends Component {

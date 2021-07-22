@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
+import { useState } from 'react'
 import LoadingButton from 'embeds/talk/components/LoadingButton'
-
+import useTranslate from 'src/hooks/useTranslate'
 import {
   Button,
   Container,

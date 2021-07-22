@@ -1,7 +1,16 @@
 import _ from 'lodash'
-
-import * as actions from '../chat-action-types'
-import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
+import {
+  CHAT_CONNECTED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT,
+} from 'constants/event'
+import * as callbacks from 'service/api/callbacks'
+import zopimApi from 'service/api/zopimApi'
+import audio from 'service/audio'
+import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
+import errorTracker from 'src/framework/services/errorTracker'
+import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import {
   getChatVisitor,
   getShowRatingScreen,
@@ -14,25 +23,15 @@ import {
   getPrechatFormRequired,
   getChatBanned,
 } from 'src/redux/modules/chat/chat-selectors'
-import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import audio from 'service/audio'
-import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
-import { formatSchedule } from 'src/util/chat'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
-import {
-  CHAT_CONNECTED_EVENT,
-  CHAT_STARTED_EVENT,
-  CHAT_UNREAD_MESSAGES_EVENT,
-} from 'constants/event'
-import * as callbacks from 'service/api/callbacks'
-import zopimApi from 'service/api/zopimApi'
-import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
 import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
+import { formatSchedule } from 'src/util/chat'
+import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import { isMobileBrowser } from 'utility/devices'
-import errorTracker from 'src/framework/services/errorTracker'
+import * as actions from '../chat-action-types'
+import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
 
 const chatTypingTimeout = 2000
 let history = []

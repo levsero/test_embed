@@ -1,11 +1,11 @@
 import { fireEvent, queryByAltText } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import createStore from 'src/redux/createStore'
-import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
-import Talk from '../../'
 import { http } from 'service/transport'
 import { TEST_IDS } from 'src/constants/shared/'
+import createStore from 'src/redux/createStore'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
+import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
+import Talk from '../../'
 
 jest.mock('service/transport')
 

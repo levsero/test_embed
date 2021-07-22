@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
-
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
-import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import MessageBubble from 'src/MessageBubble'
-import { Container, Icon, Name, Size, Content } from './styles'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
+import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
+import { Container, Icon, Name, Size, Content } from './styles'
 
 const parseFileNameFromUrl = (url) => {
   const splitUrl = url.split('/')

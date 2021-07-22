@@ -1,6 +1,5 @@
-import { render } from 'src/util/testHelpers'
 import { MemoryRouter } from 'react-router-dom'
-
+import { render } from 'src/util/testHelpers'
 import { Component as HasResults } from '../'
 
 const handleArticleViewSpy = jest.fn()

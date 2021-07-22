@@ -1,7 +1,7 @@
 import { find } from 'styled-components/test-utils'
 import { render } from 'utility/testHelpers'
-import { Message } from '../styles'
 import ReconnectionBubble from '../'
+import { Message } from '../styles'
 
 describe('ReconnectionBubble', () => {
   const renderComponent = () => render(<ReconnectionBubble />)

@@ -1,9 +1,8 @@
 import { fireEvent } from '@testing-library/react'
-import { render } from 'src/util/testHelpers'
-
-import { Component as ChannelChoice } from '../index'
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { render } from 'src/util/testHelpers'
+import { Component as ChannelChoice } from '../index'
 
 jest.mock('src/embeds/webWidget/selectors/feature-flags')
 

@@ -1,6 +1,6 @@
-import reducer from '../messages'
 import * as actionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
 import * as rootActionTypes from 'src/embeds/answerBot/actions/root/action-types'
+import reducer from '../messages'
 
 test('initial state is empty map', () => {
   expect(reducer(undefined, { type: '' }).size).toEqual(0)

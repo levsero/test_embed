@@ -1,9 +1,9 @@
 import { useEffect, useCallback } from 'react'
-import { useSelector } from 'react-redux'
 import { useForm } from 'react-final-form'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import useOnChange from 'src/hooks/useOnChange'
+import { useSelector } from 'react-redux'
 import createKeyID from 'embeds/support/utils/createKeyID'
+import useOnChange from 'src/hooks/useOnChange'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getValues } from 'src/redux/modules/customerProvidedPrefill/selectors'
 
 const useWidgetFormApis = (formId, fields = []) => {

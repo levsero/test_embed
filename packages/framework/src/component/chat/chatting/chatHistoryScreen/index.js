@@ -1,11 +1,11 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import classNames from 'classnames'
-
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import HistoryLog from 'component/chat/chatting/HistoryLog'
-import getScrollBottom from 'utility/get-scroll-bottom'
-import { isFirefox, isIE } from 'utility/devices'
+import { Widget, Header, Main, Footer } from 'components/Widget'
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
+import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
 import {
   getHistoryLength,
@@ -14,11 +14,10 @@ import {
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
-import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
-import { locals as styles } from './styles/index.scss'
 import { onNextTick } from 'src/util/utils'
-import { Widget, Header, Main, Footer } from 'components/Widget'
-import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
+import { isFirefox, isIE } from 'utility/devices'
+import getScrollBottom from 'utility/get-scroll-bottom'
+import { locals as styles } from './styles/index.scss'
 
 const mapStateToProps = (state) => {
   return {

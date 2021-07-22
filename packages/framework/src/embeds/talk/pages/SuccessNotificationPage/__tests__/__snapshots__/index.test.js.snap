@@ -275,6 +275,62 @@ exports[`SuccessNotificationPage renders 1`] = `
   height: 16px;
 }
 
+.c10 {
+  height: 70%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c11 {
+  min-width: 11.428571428571429rem;
+  width: 11.428571428571429rem;
+  height: 5.714285714285714rem;
+  margin-bottom: 1.0714285714285714rem;
+}
+
+.c11 .customColor {
+  fill: #17494D !important;
+}
+
+.c12 {
+  font-weight: 700;
+  color: #17494D !important;
+  fill: #17494D !important;
+  font-size: 1.0714285714285714rem;
+  text-align: center;
+}
+
+.c12:hover,
+.c12:active,
+.c12:focus {
+  color: #195055 !important;
+  fill: #195055 !important;
+}
+
+.c13 {
+  margin-top: 0.35714285714285715rem;
+  color: #2f3941;
+  text-align: center;
+}
+
+.c14 {
+  margin-top: 1.0714285714285714rem;
+  color: #17494D;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -472,62 +528,6 @@ exports[`SuccessNotificationPage renders 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c10 {
-  height: 70%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.c11 {
-  min-width: 11.428571428571429rem;
-  width: 11.428571428571429rem;
-  height: 5.714285714285714rem;
-  margin-bottom: 1.0714285714285714rem;
-}
-
-.c11 .customColor {
-  fill: #17494D !important;
-}
-
-.c12 {
-  font-weight: 700;
-  color: #17494D !important;
-  fill: #17494D !important;
-  font-size: 1.0714285714285714rem;
-  text-align: center;
-}
-
-.c12:hover,
-.c12:active,
-.c12:focus {
-  color: #195055 !important;
-  fill: #195055 !important;
-}
-
-.c13 {
-  margin-top: 0.35714285714285715rem;
-  color: #2f3941;
-  text-align: center;
-}
-
-.c14 {
-  margin-top: 1.0714285714285714rem;
-  color: #17494D;
 }
 
 <div>

@@ -1,9 +1,9 @@
+import * as actions from 'src/redux/modules/talk'
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
   talkAverageWaitTimeEventToAction,
 } from '../events'
-import * as actions from 'src/redux/modules/talk'
 
 jest.mock('src/redux/modules/talk')
 

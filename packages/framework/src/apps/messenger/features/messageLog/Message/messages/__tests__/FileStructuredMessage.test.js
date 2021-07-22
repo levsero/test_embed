@@ -1,5 +1,5 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
 import { screen } from '@testing-library/dom'
+import { render } from 'src/apps/messenger/utils/testHelpers'
 import FileStructuredMessage from '../FileStructuredMessage'
 
 describe('FileStructuredMessage', () => {

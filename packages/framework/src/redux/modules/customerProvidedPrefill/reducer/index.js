@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import acknowledged from './acknowledged'
 import types from './types'
-import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const reducers = combineReducers({
   acknowledged,

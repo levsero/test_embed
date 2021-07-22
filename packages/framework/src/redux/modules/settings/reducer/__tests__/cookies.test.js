@@ -1,6 +1,6 @@
-import cookies from '../cookies'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import cookies from '../cookies'
 
 const settingsPayload = {
   webWidget: {

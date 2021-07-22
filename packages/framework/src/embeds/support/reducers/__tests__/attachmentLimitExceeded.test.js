@@ -1,4 +1,3 @@
-import attachmentLimitExceeded from '../attachmentLimitExceeded'
 import {
   ATTACHMENT_REMOVED,
   ATTACHMENTS_CLEARED,
@@ -6,6 +5,7 @@ import {
   CLEAR_LIMIT_EXCEEDED_ERROR,
 } from 'src/embeds/support/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
+import attachmentLimitExceeded from '../attachmentLimitExceeded'
 
 const initialState = undefined
 

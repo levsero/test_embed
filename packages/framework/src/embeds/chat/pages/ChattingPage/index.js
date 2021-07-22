@@ -1,17 +1,32 @@
-import { useRef, useCallback } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import _ from 'lodash'
-import ChatBox from 'src/embeds/chat/components/InputBox'
-import ChattingFooter from 'src/embeds/chat/components/ChattingFooter'
+import PropTypes from 'prop-types'
+import { useRef, useCallback } from 'react'
+import { connect } from 'react-redux'
 import ChatLog from 'component/chat/chatting/ChatLog'
 import HistoryLog from 'component/chat/chatting/HistoryLog'
+import { Widget, Main } from 'components/Widget'
+import {
+  SCROLL_BOTTOM_THRESHOLD,
+  HISTORY_REQUEST_STATUS,
+  CONNECTION_STATUSES,
+} from 'constants/chat'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
-import getScrollBottom from 'utility/get-scroll-bottom'
-import ScrollPill from 'src/embeds/chat/components/ScrollPill'
-import { QuickReply, QuickReplies } from 'src/embeds/chat/components/QuickReplies'
+import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
+import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import { TEST_IDS } from 'src/constants/shared'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
+import ChattingFooter from 'src/embeds/chat/components/ChattingFooter'
+import ChatBox from 'src/embeds/chat/components/InputBox'
+import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
+import QueuePosition from 'src/embeds/chat/components/QueuePosition'
+import { QuickReply, QuickReplies } from 'src/embeds/chat/components/QuickReplies'
+import ScrollPill from 'src/embeds/chat/components/ScrollPill'
+import {
+  useMessagesOnMount,
+  useHistoryUpdate,
+  useAgentTyping,
+  useNewMessages,
+} from 'src/embeds/chat/hooks/chattingScreenHooks'
 import {
   fetchConversationHistory,
   handleChatBoxChange,
@@ -20,32 +35,17 @@ import {
   sendMsg,
   updateChatScreen,
 } from 'src/redux/modules/chat'
-import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   getHasMoreHistory,
   getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
-import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
-import {
-  SCROLL_BOTTOM_THRESHOLD,
-  HISTORY_REQUEST_STATUS,
-  CONNECTION_STATUSES,
-} from 'constants/chat'
-import { onNextTick } from 'src/util/utils'
-import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
-import { Widget, Main } from 'components/Widget'
-import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
-import QueuePosition from 'src/embeds/chat/components/QueuePosition'
-import {
-  useMessagesOnMount,
-  useHistoryUpdate,
-  useAgentTyping,
-  useNewMessages,
-} from 'src/embeds/chat/hooks/chattingScreenHooks'
-import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
-import { ChatLogContainer, Shadow } from './styles'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
+import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
+import { onNextTick } from 'src/util/utils'
+import getScrollBottom from 'utility/get-scroll-bottom'
+import { ChatLogContainer, Shadow } from './styles'
 
 const mapStateToProps = (state) => {
   return {

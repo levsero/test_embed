@@ -1,10 +1,10 @@
 /* eslint no-console:0 */
 import { MESSAGE_STATUS } from 'src/constants'
-import PrimaryParticipantReceipt from './'
 import {
   MessengerContainerDecorator,
   MessageLogListDecorator,
 } from '../../../.storybook/decorators'
+import PrimaryParticipantReceipt from './'
 
 const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
 

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import {
   zdColorGrey100,
   zdColorGrey200,
@@ -7,6 +6,7 @@ import {
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import { Button } from '@zendeskgarden/react-buttons'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const StyledButton = styled(Button)`
   &&& {

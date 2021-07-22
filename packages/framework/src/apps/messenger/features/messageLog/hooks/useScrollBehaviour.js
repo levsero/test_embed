@@ -1,20 +1,19 @@
-import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
+import { FORM_ERROR } from 'final-form'
 import { rem, stripUnit } from 'polished'
+import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
-import { useCurrentFrame } from 'src/framework/components/Frame'
-import { FORM_ERROR } from 'final-form'
-
-import hostPageWindow, {
-  restoreHostPageScrollPositionIfSafari,
-} from 'src/framework/utils/hostPageWindow'
+import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
 import {
   getLastReadTimestamp,
   getLastUnreadTimestamp,
   markAsRead,
 } from 'src/apps/messenger/store/unreadIndicator'
-import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { useCurrentFrame } from 'src/framework/components/Frame'
+import hostPageWindow, {
+  restoreHostPageScrollPositionIfSafari,
+} from 'src/framework/utils/hostPageWindow'
 
 const scrollOffsetInRems = 3
 

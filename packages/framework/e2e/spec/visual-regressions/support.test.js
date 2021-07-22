@@ -1,16 +1,15 @@
 /**
  * @group visual-regressions
  */
-
-import loadWidget from 'e2e/helpers/widget-page'
 import {
   mockTicketSubmissionEndpoint,
   waitForContactForm,
   waitForSubmissionSuccess,
 } from 'e2e/helpers/support-embed'
-import widget from 'e2e/helpers/widget'
-import { assertScreenshot } from 'e2e/helpers/visual-regressions'
 import { fillForm } from 'e2e/helpers/utils'
+import { assertScreenshot } from 'e2e/helpers/visual-regressions'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 const buildWidget = () =>
   loadWidget()

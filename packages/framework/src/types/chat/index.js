@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import sharedPropTypes from 'types/shared'
-import { CHAT_MESSAGE_EVENTS } from 'constants/chat'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { CHAT_MESSAGE_EVENTS } from 'constants/chat'
+import sharedPropTypes from 'types/shared'
 
 const chatMessage = PropTypes.shape({
   type: PropTypes.oneOf(_.values(CHAT_MESSAGE_EVENTS)).isRequired,

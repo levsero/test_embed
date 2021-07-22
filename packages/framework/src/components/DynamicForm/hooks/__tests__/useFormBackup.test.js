@@ -1,8 +1,8 @@
-import { render } from 'utility/testHelpers'
 import { useForm } from 'react-final-form'
-import { setFormState } from 'src/redux/modules/form/actions'
-import wait from 'utility/wait'
 import createStore from 'src/redux/createStore'
+import { setFormState } from 'src/redux/modules/form/actions'
+import { render } from 'utility/testHelpers'
+import wait from 'utility/wait'
 import useFormBackup from '../useFormBackup'
 
 jest.mock('react-final-form')

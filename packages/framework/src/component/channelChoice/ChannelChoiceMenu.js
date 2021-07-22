@@ -1,20 +1,18 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { connect } from 'react-redux'
 import _ from 'lodash'
-
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import { ButtonIcon } from 'component/button/ButtonIcon'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { TEST_IDS, ICONS } from 'src/constants/shared'
+import { getCapability } from 'src/embeds/talk/selectors'
 import {
   getContactOptionsChatLabelOnline,
   getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel,
 } from 'src/redux/modules/selectors'
-import { getCapability } from 'src/embeds/talk/selectors'
-import { TEST_IDS, ICONS } from 'src/constants/shared'
-
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { locals as styles } from './ChannelChoiceMenu.scss'
 
 const mapStateToProps = (state) => ({

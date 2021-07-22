@@ -1,7 +1,7 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
-import launcher from 'e2e/helpers/launcher'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 describe('widget navbar', () => {
   beforeEach(async () => {

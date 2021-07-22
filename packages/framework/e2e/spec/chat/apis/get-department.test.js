@@ -1,5 +1,5 @@
-import zChat from 'e2e/helpers/zChat'
 import { openChattingScreen } from 'e2e/helpers/chat-embed'
+import zChat from 'e2e/helpers/zChat'
 
 test('chat:department returns details about a department by passing an ID', async () => {
   await openChattingScreen()

@@ -1,8 +1,6 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { Component } from 'react'
 import { ButtonList } from './ButtonCard'
-
 import { locals as styles } from './MessageCard.scss'
 
 export class MessageCard extends Component {

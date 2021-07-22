@@ -1,5 +1,5 @@
-import Schedule from '../'
 import { render } from 'utility/testHelpers'
+import Schedule from '../'
 
 const singleScheduleSingleDay = {
   days: [2],

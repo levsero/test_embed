@@ -242,9 +242,8 @@ export const getChatMessages = createSelector(
 When we need state from multiple modules we should import and combine the selectors from each module into a common selector in the root folder. This ensures we have a common place for all this kind of state.
 
 ```js
-import { getZopimChatOnline } from './zopimChat/zopimChat-selectors'
 import { getSettingsChatSuppress } from './settings/settings-selectors'
-
+import { getZopimChatOnline } from './zopimChat/zopimChat-selectors'
 export const getChatEnabled = (state) =>
   getZopimChatOnline(state) && !getSettingsChatSuppress(state)
 ```

@@ -1,5 +1,3 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import {
   search,
   waitForAnswerBot,
@@ -8,10 +6,12 @@ import {
   mockResolutionEndpoint,
   mockRejectionEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
+import launcher from 'e2e/helpers/launcher'
 import { getJsonPayload } from 'e2e/helpers/utils'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 import { queries, wait } from 'pptr-testing-library'
 import { TEST_IDS } from 'src/constants/shared'
-import launcher from 'e2e/helpers/launcher'
 
 const buildWidget = () =>
   loadWidget()

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import { Button } from '@zendeskgarden/react-buttons'
-
+import { TEST_IDS } from 'constants/shared'
 import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
 import useTranslate from 'src/hooks/useTranslate'
-import { TEST_IDS } from 'constants/shared'
 import { ChatEndModalDescription } from './styles'
 
 const EndChatModal = ({ endChatViaPostChatScreen, onClose }) => {

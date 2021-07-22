@@ -1,6 +1,6 @@
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { render } from 'utility/testHelpers'
 import { Component as PostChatPage } from '../'
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {

@@ -1,8 +1,8 @@
-import { testReducer } from 'src/util/testHelpers'
-import reducer from '../chat-account-status'
+import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import { updatePreviewerScreen } from 'src/redux/modules/chat'
 import { SDK_ACCOUNT_STATUS } from 'src/redux/modules/chat/chat-action-types'
-import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
+import { testReducer } from 'src/util/testHelpers'
+import reducer from '../chat-account-status'
 
 testReducer(reducer, [
   {

@@ -1,16 +1,15 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-
-import ChatOffline from 'embeds/chat/components/ChatOffline'
-import LoadingPage from 'components/LoadingPage'
 import ChatOnline from 'component/chat/ChatOnline'
+import LoadingPage from 'components/LoadingPage'
+import ChatOffline from 'embeds/chat/components/ChatOffline'
+import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
 import {
   getShowOfflineChat,
   getShowChatHistory,
   getHasChatSdkConnected,
 } from 'src/redux/modules/chat/chat-selectors'
-import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
 
 const mapStateToProps = (state) => {
   return {

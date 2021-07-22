@@ -1,5 +1,4 @@
 import { render } from 'src/apps/messenger/utils/testHelpers'
-
 import UnreadIndicator from '../'
 
 const renderComponent = (props = {}) => {

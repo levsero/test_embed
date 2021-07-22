@@ -1,5 +1,5 @@
-import MessengerHeader from './index'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
+import MessengerHeader from './index'
 
 export default {
   title: 'Messenger/MessengerHeader',

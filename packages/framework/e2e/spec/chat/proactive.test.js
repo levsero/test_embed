@@ -1,8 +1,8 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
-import launcher from 'e2e/helpers/launcher'
-import zChat from 'e2e/helpers/zChat'
 import { agentJoinsChat, waitForChatToBeReady } from 'e2e/helpers/chat-embed'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import zChat from 'e2e/helpers/zChat'
 
 const sendMessageFromAgent = async (proactive) => {
   const detail = {

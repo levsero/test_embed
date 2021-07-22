@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import PillButton from 'src/embeds/answerBot/components/PillButton'
 import { FONT_SIZE } from 'src/constants/shared'
+import PillButton from 'src/embeds/answerBot/components/PillButton'
 
 const ReasonButtons = styled.div`
   margin: 0 auto;

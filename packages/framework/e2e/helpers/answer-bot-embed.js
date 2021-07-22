@@ -1,8 +1,8 @@
-import { queries } from 'pptr-testing-library'
-import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/answer-bot-interaction.json'
-import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
+import widget from 'e2e/helpers/widget'
+import { queries } from 'pptr-testing-library'
 import { TEST_IDS } from 'src/constants/shared'
+import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 
 export const mockInteractionEndpoint = (results = searchResults, callback) => {
   return mockCorsRequest('/api/v2/answer_bot/interaction', (request) => {

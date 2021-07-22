@@ -1,6 +1,6 @@
-import { wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
+import loadWidget from 'e2e/helpers/widget-page'
+import { wait } from 'pptr-testing-library'
 
 describe("zE('webWidget', 'setLocale', locale)", () => {
   const buildWidget = () => loadWidget().withPresets('helpCenter')

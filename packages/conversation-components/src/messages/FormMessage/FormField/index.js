@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import TextField from './TextField'
 import EmailField from './EmailField'
 import SelectField from './SelectField'
+import TextField from './TextField'
 
 const fields = {
   text: TextField,

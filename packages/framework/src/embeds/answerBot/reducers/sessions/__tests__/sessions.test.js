@@ -1,7 +1,7 @@
-import reducer from '../sessions'
-import * as actionTypes from 'src/embeds/answerBot/actions/sessions/action-types'
-import * as conversationActionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
 import * as articleActionTypes from 'src/embeds/answerBot/actions/article/action-types'
+import * as conversationActionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
+import * as actionTypes from 'src/embeds/answerBot/actions/sessions/action-types'
+import reducer from '../sessions'
 
 const initialState = reducer(undefined, { type: '' })
 

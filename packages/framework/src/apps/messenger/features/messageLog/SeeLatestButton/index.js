@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-
 import { getUnreadCount } from 'src/apps/messenger/store/unreadIndicator'
-
 import { ArrowDown, Button, Text, Container } from './styles'
 
 const SeeLatestButton = ({ onClick }) => {

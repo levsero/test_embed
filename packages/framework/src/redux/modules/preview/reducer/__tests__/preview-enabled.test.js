@@ -1,5 +1,5 @@
-import reducer from '../preview-enabled'
 import { PREVIEWER_LOADED } from 'src/redux/modules/chat/chat-action-types'
+import reducer from '../preview-enabled'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

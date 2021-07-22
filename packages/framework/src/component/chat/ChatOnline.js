@@ -1,12 +1,19 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-
-import ChattingScreen from 'src/embeds/chat/pages/ChattingPage'
+import { KEY_CODES } from '@zendeskgarden/react-selection'
+import PrechatScreen from 'component/chat/prechat/PrechatScreen'
+import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
+import { CONNECTION_STATUSES } from 'constants/chat'
+import { updateMenuVisibility } from 'embeds/chat/actions/actions'
+import ReconnectButton from 'embeds/chat/components/ReconnectButton'
+import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
+import { getMenuVisible } from 'embeds/chat/selectors'
+import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
+import ChattingScreen from 'src/embeds/chat/pages/ChattingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
-import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import {
   sendAttachments,
   resetEmailTranscript,
@@ -17,15 +24,7 @@ import {
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
-import { CONNECTION_STATUSES } from 'constants/chat'
-import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { getMenuVisible } from 'embeds/chat/selectors'
-import { updateMenuVisibility } from 'embeds/chat/actions/actions'
-import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
-import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
 import { locals as styles } from './ChatOnline.scss'
-import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
-import ReconnectButton from 'embeds/chat/components/ReconnectButton'
 
 const mapStateToProps = (state) => {
   return {

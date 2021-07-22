@@ -1,6 +1,6 @@
 import { queries, wait } from 'pptr-testing-library'
-import frame from './frame'
 import { TEST_IDS } from 'src/constants/shared'
+import frame from './frame'
 
 const webWidgetId = 'webWidget'
 const selector = `iframe#${webWidgetId}`

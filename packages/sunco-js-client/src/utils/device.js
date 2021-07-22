@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-
 import { VENDOR_ID, VERSION } from './constants'
 import storage from './storage'
 

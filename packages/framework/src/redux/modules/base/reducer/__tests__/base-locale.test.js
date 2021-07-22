@@ -1,6 +1,6 @@
-import locale from '../base-locale'
-import { LOCALE_SET } from '../../base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { LOCALE_SET } from '../../base-action-types'
+import locale from '../base-locale'
 
 testReducer(locale, [
   {

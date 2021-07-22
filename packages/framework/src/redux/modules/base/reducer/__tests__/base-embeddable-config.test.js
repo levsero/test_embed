@@ -1,6 +1,6 @@
-import embeddableConfig from '../base-embeddable-config'
-import { UPDATE_EMBEDDABLE_CONFIG } from '../../base-action-types'
 import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
+import { UPDATE_EMBEDDABLE_CONFIG } from '../../base-action-types'
+import embeddableConfig from '../base-embeddable-config'
 
 test('initial state', () => {
   expect(embeddableConfig(undefined, { type: '' })).toMatchSnapshot()

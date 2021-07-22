@@ -1,6 +1,6 @@
-import { Component as ChatHistoryScreen } from '../'
 import snapshotDiff from 'snapshot-diff'
 import { render } from 'src/util/testHelpers'
+import { Component as ChatHistoryScreen } from '../'
 
 const renderChatHistoryScreen = (customProps = {}) => {
   const defaultProps = {

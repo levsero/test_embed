@@ -1,7 +1,7 @@
 import _ from 'lodash'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import createStore from 'src/redux/createStore'
 import { BOOT_UP_TIMER_COMPLETE } from 'src/redux/modules/base/base-action-types'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 jest.mock('service/settings')
 jest.mock('src/framework/services/errorTracker')

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Footer } from 'src/components/Widget'
 import { Button } from '@zendeskgarden/react-buttons'
+import { Footer } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 
 const ChatFooter = ({ onClick, label, hideButton }) => {

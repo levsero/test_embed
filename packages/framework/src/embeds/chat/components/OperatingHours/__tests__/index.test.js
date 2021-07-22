@@ -1,6 +1,6 @@
-import OperatingHours from '../'
-import { render } from 'utility/testHelpers'
 import { fireEvent } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
+import OperatingHours from '../'
 
 const mockAccountOperatingHours = {
   account_schedule: [

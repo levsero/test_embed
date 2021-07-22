@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Dots } from '@zendeskgarden/react-loaders'
-import { IconButton } from '@zendeskgarden/react-buttons'
 import { zdColorGrey600, zdColorGrey800 } from '@zendeskgarden/css-variables'
+import { IconButton } from '@zendeskgarden/react-buttons'
+import { Dots } from '@zendeskgarden/react-loaders'
 
 const ClearInputButton = styled(IconButton)`
   color: ${zdColorGrey600} !important;

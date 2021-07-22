@@ -1,8 +1,8 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as actions from '../session-resolved'
-import { http } from 'service/transport'
 import { settings } from 'service/settings'
+import { http } from 'service/transport'
+import * as actions from '../session-resolved'
 
 jest.mock('service/transport')
 

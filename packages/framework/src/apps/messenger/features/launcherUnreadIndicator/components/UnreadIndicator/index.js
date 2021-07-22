@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-
 import { unreadIndicatorSize } from 'src/apps/messenger/constants'
 import { widgetToggled } from 'src/apps/messenger/store/visibility'
-
 import { Container, Plus } from './styles'
 
 const max = 99

@@ -1,18 +1,16 @@
+import _ from 'lodash'
+import PropTypes from 'prop-types'
 import { Component } from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
-
-import AnswerBotIcon from 'src/embeds/answerBot/icons/answerBot.svg'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import Messages from 'src/embeds/answerBot/components/Messages'
+import AnswerBotIcon from 'src/embeds/answerBot/icons/answerBot.svg'
 import {
   makeGetGroupMessages,
   getLastScreenClosed,
 } from 'src/embeds/answerBot/selectors/conversation'
 import { getBrandLogoUrl, getLocale } from 'src/redux/modules/base/base-selectors'
-
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Container, Name, Avatar, IconContainer } from './styles'
 
 const makeMapStateToProps = () => {

@@ -1,7 +1,6 @@
 import { fireEvent } from '@testing-library/react'
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
 import snapshotDiff from 'snapshot-diff'
-
 import { render } from 'src/util/testHelpers'
 import ScrollPill from '../index'
 

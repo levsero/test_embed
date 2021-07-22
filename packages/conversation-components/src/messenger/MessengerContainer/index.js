@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { rem } from 'polished'
+import styled from 'styled-components'
 
 const MessengerContainer = styled.div.attrs((props) => {
   if (props.theme?.rtl !== undefined) {

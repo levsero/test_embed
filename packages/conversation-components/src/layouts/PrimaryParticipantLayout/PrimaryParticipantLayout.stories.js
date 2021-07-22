@@ -1,9 +1,9 @@
 import styled from 'styled-components'
+import { MESSAGE_STATUS } from 'src/constants'
 import {
   MessageLogListDecorator,
   MessengerContainerDecorator,
 } from '../../../.storybook/decorators'
-import { MESSAGE_STATUS } from 'src/constants'
 import PrimaryParticipantLayout from './'
 
 export default {

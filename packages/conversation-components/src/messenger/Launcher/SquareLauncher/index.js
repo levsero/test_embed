@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { forwardRef } from 'react'
 import useLabels from 'src/hooks/useLabels'
 import LauncherIcon from './LauncherIcon'
 import { Container, Button } from './styles'

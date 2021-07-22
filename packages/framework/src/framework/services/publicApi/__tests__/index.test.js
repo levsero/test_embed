@@ -1,7 +1,7 @@
-import publicApi from '../'
-import tracker from 'service/tracker'
 import { logAndTrackApiError } from 'service/api/errorHandlers'
+import tracker from 'service/tracker'
 import LegacyZEApiError from 'src/framework/services/publicApi/LegacyZEApiError'
+import publicApi from '../'
 
 jest.mock('service/tracker')
 jest.mock('service/api/errorHandlers')

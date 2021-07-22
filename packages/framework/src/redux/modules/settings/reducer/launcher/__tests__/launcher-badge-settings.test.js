@@ -1,5 +1,5 @@
-import reducer from '../launcher-badge-settings'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../launcher-badge-settings'
 
 describe('launcher settings reducer', () => {
   const initialState = reducer(undefined, { type: '' })

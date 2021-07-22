@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as actions from '../bot'
 import * as selectors from 'src/redux/modules/selectors/selectors'
+import * as actions from '../bot'
 
 const mockStore = configureMockStore([thunk])
 

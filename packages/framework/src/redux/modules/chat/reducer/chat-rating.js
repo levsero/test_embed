@@ -1,3 +1,5 @@
+import { ratings } from 'src/embeds/chat/components/RatingGroup'
+import { isAgent } from 'src/util/chat'
 import {
   CHAT_RATING_REQUEST_SUCCESS,
   CHAT_RATING_COMMENT_REQUEST_SUCCESS,
@@ -9,8 +11,6 @@ import {
   SDK_CHAT_COMMENT,
   SDK_CHAT_MEMBER_JOIN,
 } from '../chat-action-types'
-import { isAgent } from 'src/util/chat'
-import { ratings } from 'src/embeds/chat/components/RatingGroup'
 
 const initialState = {
   value: ratings.NOT_SET,

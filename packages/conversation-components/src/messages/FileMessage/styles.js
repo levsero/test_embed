@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { rem } from 'polished'
+import styled from 'styled-components'
 import AttachmentIcon from '@zendeskgarden/svg-icons/src/12/paperclip.svg'
 import dirStyles from 'src/utils/dirStyles'
 

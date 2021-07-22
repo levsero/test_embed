@@ -1,5 +1,5 @@
-import { UPDATE_SETTINGS } from '../../settings-action-types'
 import _ from 'lodash'
+import { UPDATE_SETTINGS } from '../../settings-action-types'
 
 const initialState = {
   avatarPath: null,

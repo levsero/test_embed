@@ -1,7 +1,6 @@
-import { choosePreview } from 'src/redux/modules/preview/preview-actions'
-
 import { CHAT } from 'src/constants/preview'
 import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
+import { choosePreview } from 'src/redux/modules/preview/preview-actions'
 
 describe('choosePreview', () => {
   it('returns PREVIEW_CHOICE_SELECTED action', () => {

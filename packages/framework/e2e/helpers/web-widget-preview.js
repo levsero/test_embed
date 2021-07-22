@@ -1,6 +1,6 @@
 import { hostWithPort } from 'e2e/env'
-import { setupContainer } from './previews'
 import frame from './frame'
+import { setupContainer } from './previews'
 
 const goToTestPage = async () =>
   await page.goto(`http://${hostWithPort}/webWidgetPreview.html`, {

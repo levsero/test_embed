@@ -1,7 +1,7 @@
-import createStore from 'src/apps/messenger/store'
 import { forgetUserAndDisconnect } from 'src/apps/messenger/api/sunco'
-import { cookiesEnabled, cookiesDisabled, getAreCookiesEnabled } from '../cookies'
+import createStore from 'src/apps/messenger/store'
 import { store as persistence } from 'src/framework/services/persistence'
+import { cookiesEnabled, cookiesDisabled, getAreCookiesEnabled } from '../cookies'
 
 jest.mock('src/apps/messenger/api/sunco')
 jest.mock('src/framework/services/persistence')

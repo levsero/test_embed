@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-
-import useTranslate from 'src/hooks/useTranslate'
-
-import { screenChanged, articleShown } from 'src/embeds/answerBot/actions/root'
 import { articleViewed } from 'src/embeds/answerBot/actions/article'
-import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
-
+import { screenChanged, articleShown } from 'src/embeds/answerBot/actions/root'
 import Results from 'src/embeds/answerBot/components/Results'
+import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
+import useTranslate from 'src/hooks/useTranslate'
 
 const SearchResults = ({ articles, sessionID }) => {
   const translate = useTranslate()

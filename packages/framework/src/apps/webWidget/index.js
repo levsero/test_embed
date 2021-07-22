@@ -1,7 +1,16 @@
 import _ from 'lodash'
-
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import { setUpHelpCenterAuth } from 'embeds/helpCenter/actions'
+import webWidgetApp from 'embeds/webWidget'
+import { GA } from 'service/analytics/googleAnalytics'
+import { setLocaleApi } from 'service/api/apis'
+import zopimApi from 'service/api/zopimApi'
+import { beacon } from 'service/beacon'
 import { settings } from 'service/settings'
+import { http } from 'service/transport'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import errorTracker from 'src/framework/services/errorTracker'
+import publicApi from 'src/framework/services/publicApi'
+import createStore from 'src/redux/createStore'
 import {
   updateEmbedAccessible,
   updateEmbeddableConfig,
@@ -9,20 +18,10 @@ import {
 } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
 import { pollTalkStatus } from 'src/redux/modules/talk'
-import { setUpHelpCenterAuth } from 'embeds/helpCenter/actions'
-import { setLocaleApi } from 'service/api/apis'
-import webWidgetApp from 'embeds/webWidget'
-import publicApi from 'src/framework/services/publicApi'
-import errorTracker from 'src/framework/services/errorTracker'
+import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
+import { win } from 'utility/globals'
 import { getWebWidgetPublicApi } from './public-api/setupApi'
 import { getWebWidgetLegacyPublicApi } from './public-api/setupLegacyApi'
-import { GA } from 'service/analytics/googleAnalytics'
-import zopimApi from 'service/api/zopimApi'
-import { win } from 'utility/globals'
-import { beacon } from 'service/beacon'
-import { http } from 'service/transport'
-import createStore from 'src/redux/createStore'
-import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
 
 let initialised = false
 let hasRendered = false

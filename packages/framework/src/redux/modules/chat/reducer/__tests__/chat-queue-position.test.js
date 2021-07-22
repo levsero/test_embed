@@ -1,8 +1,8 @@
-import { testReducer } from 'src/util/testHelpers'
-import chatQueuePosition from '../chat-queue-position'
+import { CONNECTION_STATUSES } from 'constants/chat'
 import { SDK_CHAT_QUEUE_POSITION } from 'src/redux/modules/chat/chat-action-types'
 import { SDK_CONNECTION_UPDATE } from 'src/redux/modules/chat/chat-action-types'
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { testReducer } from 'src/util/testHelpers'
+import chatQueuePosition from '../chat-queue-position'
 
 testReducer(chatQueuePosition, [
   {

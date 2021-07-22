@@ -1,19 +1,16 @@
 import { settings } from 'service/settings'
-
-import {
-  ARTICLE_DISMISSED_PENDING,
-  ARTICLE_DISMISSED_FULFILLED,
-  ARTICLE_DISMISSED_REJECTED,
-} from './action-types'
-
+import { http } from 'service/transport'
 import {
   getCurrentSessionID,
   getCurrentArticleID,
   getCurrentDeflection,
   getCurrentInteractionToken,
 } from 'src/embeds/answerBot/selectors/root'
-
-import { http } from 'service/transport'
+import {
+  ARTICLE_DISMISSED_PENDING,
+  ARTICLE_DISMISSED_FULFILLED,
+  ARTICLE_DISMISSED_REJECTED,
+} from './action-types'
 
 function articleDismissedPending(sessionID, articleID, reasonID) {
   return {

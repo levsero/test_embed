@@ -1,8 +1,8 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import Launcher from '../'
+import { frameMarginFromPage } from 'src/apps/messenger/constants'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { widgetOpened } from 'src/apps/messenger/store/visibility'
-import { frameMarginFromPage } from 'src/apps/messenger/constants'
+import { render } from 'src/apps/messenger/utils/testHelpers'
+import Launcher from '../'
 
 describe('Launcher', () => {
   const renderComponent = () => render(<Launcher />)

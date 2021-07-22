@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import { Footer, Header, Main, Widget } from 'components/Widget'
+import { connect } from 'react-redux'
 import SuccessNotification from 'components/SuccessNotification'
+import { Footer, Header, Main, Widget } from 'components/Widget'
 import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
 import useTranslate from 'src/hooks/useTranslate'
 import { onCancelClick } from 'src/redux/modules/base'
-import { connect } from 'react-redux'
 
 const SuccessPage = ({ onCancelClick }) => {
   const t = useTranslate()

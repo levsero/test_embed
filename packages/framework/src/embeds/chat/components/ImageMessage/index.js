@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
-
+import { TEST_IDS } from 'constants/shared'
 import useSafeState from 'src/hooks/useSafeState'
 import sharedPropTypes from 'types/shared'
-import { TEST_IDS } from 'constants/shared'
-
 import { ImageContainer, Link, Spinner, StyledImage } from './styles'
 
 const ImageMessage = ({ placeholderEl, onImageLoad, file }) => {

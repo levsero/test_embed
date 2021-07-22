@@ -1,5 +1,6 @@
 import { render } from 'src/util/testHelpers'
 import { Component as SearchPage } from '../index'
+
 jest.mock('src/embeds/helpCenter/components/NotificationPopup', () => {
   return () => <div>NotificationPopup</div>
 })

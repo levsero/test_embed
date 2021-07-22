@@ -1,5 +1,5 @@
-import { http } from 'service/transport'
 import attachmentSender from 'embeds/support/utils/attachment-sender'
+import { http } from 'service/transport'
 
 jest.mock('service/transport', () => ({
   http: { sendFile: jest.fn() },

@@ -1,5 +1,5 @@
-import * as actions from 'src/redux/modules/chat/chat-action-types'
 import { store } from 'src/framework/services/persistence'
+import * as actions from 'src/redux/modules/chat/chat-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 let chatIsChatting = require('../chat-is-chatting').default

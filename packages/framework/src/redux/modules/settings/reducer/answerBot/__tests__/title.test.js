@@ -1,5 +1,5 @@
-import reducer from '../title'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../title'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

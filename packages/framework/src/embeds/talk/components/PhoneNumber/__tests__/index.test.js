@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import PhoneNumber from '../'
 
 test('renders the component', () => {

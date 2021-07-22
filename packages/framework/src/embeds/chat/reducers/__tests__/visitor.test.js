@@ -1,10 +1,10 @@
-import { testReducer } from 'utility/testHelpers'
-import reducer from '../visitor'
 import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_VISITOR_UPDATE,
   SET_VISITOR_INFO_REQUEST_SUCCESS,
 } from 'src/redux/modules/chat/chat-action-types'
+import { testReducer } from 'utility/testHelpers'
+import reducer from '../visitor'
 
 describe('deferredChatIsPolling reducer', () => {
   testReducer(reducer, [

@@ -1,5 +1,5 @@
-import { CHAT_VENDOR_LOADED, PREVIEWER_LOADED } from '../chat-action-types'
 import { nullZChat } from 'src/util/nullZChat'
+import { CHAT_VENDOR_LOADED, PREVIEWER_LOADED } from '../chat-action-types'
 
 const initialState = {
   zChat: nullZChat,

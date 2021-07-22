@@ -1,10 +1,10 @@
-import { wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import launcher from 'e2e/helpers/launcher'
-import widget from 'e2e/helpers/widget'
-import { search, mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import searchResults from 'e2e/fixtures/responses/search-results.json'
+import { search, mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from 'e2e/helpers/utils'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { wait } from 'pptr-testing-library'
 
 const mockAuthSuccessEndpoint = (callback) => {
   return mockCorsRequest('embeddable/authenticate', (request) => {

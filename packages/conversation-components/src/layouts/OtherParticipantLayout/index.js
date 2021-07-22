@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import Receipt from 'src/receipts/OtherParticipantReceipt'
 import Avatar from 'src/Avatar'
 import Label from 'src/Label'
-
+import Receipt from 'src/receipts/OtherParticipantReceipt'
 import { LayoutContainer, VerticalContainer } from './styles'
 
 const OtherParticipantLayout = ({

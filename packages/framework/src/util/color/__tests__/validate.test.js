@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import * as validate from '../validate'
 import { settings } from 'service/settings'
+import * as validate from '../validate'
 
 let mockSettingsValue
 

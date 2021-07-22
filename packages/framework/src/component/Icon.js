@@ -1,11 +1,10 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-
-import { isMobileBrowser } from 'utility/devices'
-import { ICONS } from 'constants/shared'
-import { locals as styles } from './Icon.scss'
-import { triggerOnEnter } from 'utility/keyboard'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { ICONS } from 'constants/shared'
+import { isMobileBrowser } from 'utility/devices'
+import { triggerOnEnter } from 'utility/keyboard'
+import { locals as styles } from './Icon.scss'
 
 const icons = {
   Icon: require('icons/widget-icon_help.svg'),

@@ -1,6 +1,6 @@
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import ChattingFooter from '../'
-import { TEST_IDS } from 'src/constants/shared'
 
 const renderComponent = (inProps) => {
   const props = {

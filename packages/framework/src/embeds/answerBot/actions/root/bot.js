@@ -1,3 +1,6 @@
+import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation/get-in-touch-shown'
+import { getCurrentSessionID } from 'src/embeds/answerBot/selectors/root'
+import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
 import {
   BOT_MESSAGE,
   BOT_GREETED,
@@ -8,9 +11,6 @@ import {
   BOT_TYPING,
   BOT_CONTEXTUAL_SEARCH_RESULTS,
 } from './action-types'
-import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
-import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation/get-in-touch-shown'
-import { getCurrentSessionID } from 'src/embeds/answerBot/selectors/root'
 
 const generateBotMessage = (state, key, interpolation = {}, payloadOptions = {}) => {
   const sessionID = getCurrentSessionID(state)

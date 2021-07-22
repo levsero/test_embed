@@ -1,4 +1,13 @@
 import _ from 'lodash'
+import {
+  SEARCH_REQUEST_SUCCESS,
+  ARTICLE_VIEWED,
+  ORIGINAL_ARTICLE_CLICKED,
+} from 'embeds/helpCenter/actions/action-types'
+import { GA } from 'service/analytics/googleAnalytics'
+import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
+import { FORM_OPENED } from 'src/embeds/support/actions/action-types'
+import { TICKET_SUBMISSION_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import { UPDATE_ACTIVE_EMBED, UPDATE_WIDGET_SHOWN } from 'src/redux/modules/base/base-action-types'
 import {
   SDK_CHAT_MEMBER_JOIN,
@@ -7,19 +16,11 @@ import {
   SDK_CHAT_COMMENT,
   PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
-import {
-  SEARCH_REQUEST_SUCCESS,
-  ARTICLE_VIEWED,
-  ORIGINAL_ARTICLE_CLICKED,
-} from 'embeds/helpCenter/actions/action-types'
-import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
-import { FORM_OPENED } from 'src/embeds/support/actions/action-types'
-import { PHONE_ONLY, CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
-import { TICKET_SUBMISSION_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
-import { GA } from 'service/analytics/googleAnalytics'
-import { trackAnalytics } from '../analytics'
+import { PHONE_ONLY, CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import * as callbacks from 'src/service/api/callbacks'
+import { trackAnalytics } from '../analytics'
+
 jest.mock('src/service/api/callbacks')
 
 describe('analytics', () => {

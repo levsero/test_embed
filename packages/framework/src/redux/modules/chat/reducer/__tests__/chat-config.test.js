@@ -1,6 +1,6 @@
-import config from '../chat-config'
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import config from '../chat-config'
 
 const initialState = {
   defaultToChatWidgetLite: false,

@@ -1,9 +1,9 @@
 import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
-import TextMessage from './'
 import {
   MessengerContainerDecorator,
   MessageLogListDecorator,
 } from '../../../.storybook/decorators'
+import TextMessage from './'
 
 export default {
   title: 'Messages/TextMessage',

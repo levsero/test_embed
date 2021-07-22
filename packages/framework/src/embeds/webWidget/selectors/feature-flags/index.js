@@ -1,6 +1,6 @@
-import { inDebugMode } from 'utility/runtime'
 import { store as persistenceStore } from 'src/framework/services/persistence'
 import logger from 'src/util/logger'
+import { inDebugMode } from 'utility/runtime'
 import features from './features'
 
 const featurePrefix = 'feature-'

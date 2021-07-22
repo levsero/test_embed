@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Alert, Title } from '@zendeskgarden/react-notifications'
 import { zdColorRed300, zdColorRed500 } from '@zendeskgarden/css-variables'
+import { Alert, Title } from '@zendeskgarden/react-notifications'
 
 const StyledAlert = styled(Alert)`
   border-radius: ${(props) => 4 / props.theme.fontSize}rem;

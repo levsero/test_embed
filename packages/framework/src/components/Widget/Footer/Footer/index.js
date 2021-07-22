@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import FooterView from 'components/Widget/Footer/FooterView'
 import ZendeskLogo from 'components/ZendeskLogo'
-import { Container } from './styles'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
+import { Container } from './styles'
 
 const Footer = ({ hideZendeskLogo, children, shadow = true }) => {
   if (!children && hideZendeskLogo) {

@@ -1,7 +1,7 @@
-import { IconButton } from '@zendeskgarden/react-buttons'
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { zdColorGrey100, zdColorGrey400, zdColorWhite } from '@zendeskgarden/css-variables'
+import { IconButton } from '@zendeskgarden/react-buttons'
+import { FONT_SIZE } from 'src/constants/shared'
 import FacebookIcon from 'src/embeds/chat/icons/widget-icon_facebook.svg'
 import GoogleIcon from 'src/embeds/chat/icons/widget-icon_google.svg'
 

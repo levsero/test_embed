@@ -1,10 +1,9 @@
-import { setUpChat } from '../setUpChat'
-
-import { getModifiedState } from 'src/fixtures/selectors-test-state'
+import * as zChat from 'chat-web-sdk'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import * as actions from 'src/redux/modules/chat/chat-actions/actions'
-import * as zChat from 'chat-web-sdk'
+import { setUpChat } from '../setUpChat'
 
 const dispatchAction = (customState = {}) => {
   const mockStore = configureMockStore([thunk])

@@ -1,5 +1,5 @@
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import normaliseDescriptionOverrideValues from 'embeds/support/utils/normaliseDescriptionOverrideValues'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = {}
 

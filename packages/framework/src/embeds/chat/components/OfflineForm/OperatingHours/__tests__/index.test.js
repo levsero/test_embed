@@ -1,6 +1,5 @@
 import userEvent from '@testing-library/user-event'
 import { render } from 'src/util/testHelpers'
-
 import OperatingHours from '../'
 
 const renderComponent = (props = {}) => {

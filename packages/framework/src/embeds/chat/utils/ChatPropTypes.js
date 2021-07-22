@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { ratings } from 'embeds/chat/components/RatingGroup'
 
 const chatRating = PropTypes.shape({

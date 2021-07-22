@@ -1,11 +1,11 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import {
   mockInteractionEndpoint,
   waitForAnswerBot,
   search,
   waitForGetInTouchButton,
 } from 'e2e/helpers/answer-bot-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 test('only show get in touch button after query', async () => {
   await loadWidget()

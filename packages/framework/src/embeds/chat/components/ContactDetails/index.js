@@ -1,9 +1,9 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { withTheme } from 'styled-components'
+import { TEST_IDS } from 'constants/shared'
 import ChatContactDetailsForm from 'src/embeds/chat/components/ContactDetails/Form'
 import ContactDetailsSuccess from 'src/embeds/chat/components/ContactDetails/Success'
-import { TEST_IDS } from 'constants/shared'
 import { StyledModal } from './styles'
 
 const ContactDetailsModal = ({ onClose }) => {

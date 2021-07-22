@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import superagent from 'superagent'
-import { getReferrerPolicy, getZendeskHost, location, win } from 'utility/globals'
 import HttpApiError from 'errors/nonFatal/HttpApiError'
-import errorTracker from 'src/framework/services/errorTracker'
 import { identity } from 'service/identity'
+import errorTracker from 'src/framework/services/errorTracker'
+import { getReferrerPolicy, getZendeskHost, location, win } from 'utility/globals'
 import { base64encode, referrerPolicyUrl } from 'utility/utils'
 
 let config = {

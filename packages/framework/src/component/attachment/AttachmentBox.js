@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
 import { Dropzone } from 'component/Dropzone'
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH } from 'src/constants/shared'
 import { TEST_IDS } from 'src/constants/shared'
+import useTranslate from 'src/hooks/useTranslate'
 import { locals as styles } from './AttachmentBox.scss'
 import { Container, DropzoneChild, DropzoneChildLabel, PaperclipIcon } from './AttachmentBoxStyles'
 

@@ -1,7 +1,6 @@
 import { fireEvent } from '@testing-library/react'
-import { render } from 'src/util/testHelpers'
 import { TEST_IDS } from 'src/constants/shared'
-
+import { render } from 'src/util/testHelpers'
 import SendChatOption from '../'
 
 const sendChat = jest.fn()

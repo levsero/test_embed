@@ -1,5 +1,5 @@
-import reducer from '../banner'
 import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
+import reducer from '../banner'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

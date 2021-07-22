@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import * as devices from 'utility/devices'
 import { LoadingEllipses } from '../LoadingEllipses'
 

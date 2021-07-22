@@ -1,6 +1,6 @@
-import onChatConnectOnDemandTrigger from '../onChatConnectOnDemandTrigger'
-import { setUpChat } from 'src/redux/modules/chat'
 import { LAUNCHER_CLICKED } from 'src/redux/modules/base/base-action-types'
+import { setUpChat } from 'src/redux/modules/chat'
+import onChatConnectOnDemandTrigger from '../onChatConnectOnDemandTrigger'
 
 jest.mock('src/redux/modules/chat')
 

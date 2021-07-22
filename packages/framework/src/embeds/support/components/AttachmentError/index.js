@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
-
 import { Close } from '@zendeskgarden/react-notifications'
-import { TEST_IDS } from 'src/constants/shared'
-import { FileName, FileSize, ErrorBody } from './styles'
 import { Alert, Title } from 'src/components/Alert'
+import { TEST_IDS } from 'src/constants/shared'
+import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 import {
   formatNameString,
   formatAttachmentSize,
 } from 'src/embeds/support/utils/attachmentStringFormatter'
 import useTranslate from 'src/hooks/useTranslate'
-import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import { FileName, FileSize, ErrorBody } from './styles'
 
 const AttachmentError = ({
   handleRemoveAttachment,

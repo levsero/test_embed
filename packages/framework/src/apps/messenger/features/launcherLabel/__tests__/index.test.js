@@ -1,19 +1,19 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-import LauncherLabel from '../index'
-import { launcherSize } from 'src/apps/messenger/constants'
-import { stripUnit } from 'polished'
 import { waitFor, within } from '@testing-library/dom'
-import wait from 'utility/wait'
-import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { stripUnit } from 'polished'
+import { launcherSize } from 'src/apps/messenger/constants'
 import {
   initialiseLauncherLabel,
   labelHidden,
   launcherLabelStorageKey,
 } from 'src/apps/messenger/features/launcherLabel/store/visibility'
-import createStore from 'src/apps/messenger/store'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import createStore from 'src/apps/messenger/store'
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { render } from 'src/apps/messenger/utils/testHelpers'
 import { store as persistence } from 'src/framework/services/persistence'
+import wait from 'utility/wait'
+import LauncherLabel from '../index'
 
 describe('launcher label', () => {
   const renderComponent = (props = {}, options = {}) =>

@@ -1,5 +1,5 @@
-import reducer from '../branding'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../../chat-action-types'
+import reducer from '../branding'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

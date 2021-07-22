@@ -1,13 +1,9 @@
+import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
-
+import HelpCenterArticle from 'src/components/HelpCenterArticle'
 import { Widget, Main, Header } from 'src/components/Widget'
-import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { getRestrictedImages, getResultsLocale, getArticles } from 'src/embeds/helpCenter/selectors'
-import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 import {
   handleOriginalArticleClicked,
   performImageSearch,
@@ -15,13 +11,16 @@ import {
   closeCurrentArticle,
   handleArticleView,
 } from 'src/embeds/helpCenter/actions'
+import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
+import { getRestrictedImages, getResultsLocale, getArticles } from 'src/embeds/helpCenter/selectors'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getSettingsHelpCenterTitle,
   getHelpCenterButtonLabel,
   getChatConnectionConnecting,
   getShowNextButton,
 } from 'src/redux/modules/selectors'
-import HelpCenterArticle from 'src/components/HelpCenterArticle'
+import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 
 const ArticlePage = ({
   addRestrictedImage,

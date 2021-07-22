@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
-
 import { useSelector } from 'react-redux'
-import { HeaderItem } from 'components/Widget/Header'
-import { BackIcon } from './styles'
-import { getShowBackButton } from 'src/redux/modules/selectors'
+import { withRouter } from 'react-router-dom'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
-import useTranslate from 'src/hooks/useTranslate'
+import { HeaderItem } from 'components/Widget/Header'
 import { TEST_IDS } from 'constants/shared'
+import useTranslate from 'src/hooks/useTranslate'
+import { getShowBackButton } from 'src/redux/modules/selectors'
+import { BackIcon } from './styles'
 
 const BackButton = ({ useReactRouter, history }) => {
   const translate = useTranslate()

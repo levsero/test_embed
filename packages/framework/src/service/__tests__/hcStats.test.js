@@ -1,8 +1,8 @@
-import hcStats from '../hcStats'
 import { http } from 'service/transport'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as selectors from 'src/redux/modules/base/base-selectors'
 import * as pages from 'utility/pages'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import hcStats from '../hcStats'
 
 beforeEach(() => {
   jest.spyOn(http, 'send')

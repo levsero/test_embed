@@ -1,12 +1,11 @@
 import _ from 'lodash'
-
-import { UPDATE_SETTINGS } from './settings-action-types'
 import { CONNECTION_STATUSES } from 'constants/chat'
+import { settings as legacySettings } from 'service/settings'
+import { setDepartment } from 'src/redux/modules/chat'
 import { getConnection, getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
-import { setDepartment } from 'src/redux/modules/chat'
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors'
-import { settings as legacySettings } from 'service/settings'
+import { UPDATE_SETTINGS } from './settings-action-types'
 
 const handleTagsChange = (zChat, tags = [], oldTags = []) => {
   if (_.isEqual(tags, oldTags) || !_.isArray(tags) || !_.isArray(oldTags)) {

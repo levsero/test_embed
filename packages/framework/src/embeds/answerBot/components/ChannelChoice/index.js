@@ -1,9 +1,13 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { ICONS, TEST_IDS } from 'src/constants/shared'
 import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleChoices'
+import { getCapability } from 'src/embeds/talk/selectors'
+import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getSubmitTicketAvailable,
   getChatAvailable,
@@ -14,13 +18,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { getCapability } from 'src/embeds/talk/selectors'
-import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import { triggerOnEnter } from 'utility/keyboard'
-import { ICONS, TEST_IDS } from 'src/constants/shared'
-
 import { Item, Label, ChannelIcon } from './styles'
 
 class ChannelChoice extends Component {

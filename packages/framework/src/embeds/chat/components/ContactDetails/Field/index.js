@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types'
-
 import { Field as GardenField, Label, Input, Message } from '@zendeskgarden/react-forms'
-
 import useSafeState from 'src/hooks/useSafeState'
-
-import { renderLabel } from 'src/util/fields'
 import useTranslate from 'src/hooks/useTranslate'
+import { renderLabel } from 'src/util/fields'
 import { Field } from './styles'
 
 const ContactDetailField = ({

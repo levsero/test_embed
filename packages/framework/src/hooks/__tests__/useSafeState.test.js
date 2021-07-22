@@ -1,6 +1,6 @@
-import { render } from 'src/util/testHelpers'
-import useSafeState from 'src/hooks/useSafeState'
 import { fireEvent, waitFor } from '@testing-library/dom'
+import useSafeState from 'src/hooks/useSafeState'
+import { render } from 'src/util/testHelpers'
 
 describe('useSafeState', () => {
   // eslint-disable-next-line react/prop-types

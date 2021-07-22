@@ -1,8 +1,8 @@
 import { render, fireEvent } from '@testing-library/react'
-import { Component as FrameFocusJail } from '../'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import * as globals from 'utility/globals'
+import { Component as FrameFocusJail } from '../'
 
 describe('FrameFocusJail', () => {
   const defaultProps = {

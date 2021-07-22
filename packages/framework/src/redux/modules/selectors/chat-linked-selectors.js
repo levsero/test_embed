@@ -1,7 +1,9 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import { DEPARTMENT_STATUSES } from 'constants/chat'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import {
   getChatScreen,
   getWindowSettings,
@@ -36,8 +38,6 @@ import {
   getSettingsChatConnectOnDemand,
   getSettingsChatConnectOnPageLoad,
 } from 'src/redux/modules/settings/settings-selectors'
-import { DEPARTMENT_STATUSES } from 'constants/chat'
-import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { isPopout } from 'utility/globals'
 
 export const getShowMenu = (state) =>

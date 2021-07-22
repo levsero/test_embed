@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
-
+import { TEST_IDS } from 'src/constants/shared'
 import AttachmentOption from 'src/embeds/chat/components/ChattingFooter/AttachmentOption'
 import SendChatOption from 'src/embeds/chat/components/ChattingFooter/SendChatOption'
-import { TEST_IDS } from 'src/constants/shared'
-
 import { Container, InputContainer } from './styles'
 
 const ChattingFooterMobile = ({

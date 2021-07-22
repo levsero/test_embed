@@ -1,17 +1,17 @@
-import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Legend from 'embeds/helpCenter/components/Legend'
-import List from 'src/embeds/helpCenter/components/List'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { isMobileBrowser } from 'utility/devices'
 import {
   getSearchedArticles,
   getHasContextuallySearched,
   getPreviousActiveArticle,
 } from 'embeds/helpCenter/selectors'
-import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
 import { handleArticleView } from 'src/embeds/helpCenter/actions'
+import List from 'src/embeds/helpCenter/components/List'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
+import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'utility/devices'
 
 const HasResults = ({
   isMobile,

@@ -1,11 +1,11 @@
+import createStore from 'src/apps/messenger/store'
+import { mockMatchMedia } from 'src/apps/messenger/utils/testHelpers'
 import {
   breakpoints,
   getIsFullScreen,
   getIsVerticallySmallScreen,
   watchForScreenChanges,
 } from '../store'
-import createStore from 'src/apps/messenger/store'
-import { mockMatchMedia } from 'src/apps/messenger/utils/testHelpers'
 
 describe('response design store', () => {
   it('is vertically small when the screen is smaller than 400px', () => {

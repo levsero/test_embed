@@ -1,4 +1,9 @@
-import webWidgetVisibility from '../web-widget-open'
+import {
+  CHAT_WINDOW_OPEN_ON_NAVIGATE,
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
+  CHAT_BANNED,
+} from 'src/redux/modules/chat/chat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,
@@ -12,12 +17,7 @@ import {
   POPOUT_CREATED,
   ESCAPE_KEY_PRESSED,
 } from '../../base-action-types'
-import {
-  CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED,
-} from 'src/redux/modules/chat/chat-action-types'
-import { testReducer } from 'src/util/testHelpers'
+import webWidgetVisibility from '../web-widget-open'
 
 testReducer(webWidgetVisibility, [
   {

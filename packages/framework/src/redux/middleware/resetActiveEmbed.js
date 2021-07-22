@@ -1,5 +1,11 @@
 import _ from 'lodash'
-
+import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
+import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
+import helpCenterRoutes from 'embeds/helpCenter/routes'
+import { getArticleViewActive } from 'embeds/helpCenter/selectors'
+import supportRoutes from 'embeds/support/routes'
+import history from 'service/history'
+import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import {
   WIDGET_INITIALISED,
   ACTIVATE_RECEIVED,
@@ -7,13 +13,7 @@ import {
   API_RESET_WIDGET,
   CLOSE_BUTTON_CLICKED,
 } from 'src/redux/modules/base/base-action-types'
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
-import {
-  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-  TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-  TALK_SUCCESS_DONE_BUTTON_CLICKED,
-  RECEIVED_DEFERRED_TALK_STATUS,
-} from 'src/redux/modules/talk/talk-action-types'
+import { getChatStandalone, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import {
   CHAT_BANNED,
   CHAT_CONNECTED,
@@ -21,8 +21,7 @@ import {
   SDK_ACCOUNT_STATUS,
   SDK_CONNECTION_UPDATE,
 } from 'src/redux/modules/chat/chat-action-types'
-import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
-import { getChatStandalone, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
+import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
 import {
   getChatAvailable,
   getTalkOnline,
@@ -33,14 +32,14 @@ import {
   getAnswerBotAvailable,
   getWebWidgetVisibleOpenAndReady,
 } from 'src/redux/modules/selectors'
-import { getArticleViewActive } from 'embeds/helpCenter/selectors'
-import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import {
+  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+  TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+  TALK_SUCCESS_DONE_BUTTON_CLICKED,
+  RECEIVED_DEFERRED_TALK_STATUS,
+} from 'src/redux/modules/talk/talk-action-types'
 import { isPopout } from 'utility/globals'
-import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
-import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
-import history from 'service/history'
-import helpCenterRoutes from 'embeds/helpCenter/routes'
-import supportRoutes from 'embeds/support/routes'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)

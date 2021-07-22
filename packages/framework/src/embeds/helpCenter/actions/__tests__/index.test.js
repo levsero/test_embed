@@ -1,17 +1,18 @@
+import { wait } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as actions from '../index'
 import * as types from 'embeds/helpCenter/actions/action-types'
-import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
-import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
-import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
-import * as pages from 'utility/pages'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { wait } from '@testing-library/react'
+import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
+import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
+import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
+import * as pages from 'utility/pages'
+import * as actions from '../index'
+
 jest.mock('service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('utility/pages')

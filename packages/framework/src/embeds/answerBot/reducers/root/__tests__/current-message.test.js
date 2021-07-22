@@ -1,5 +1,5 @@
-import reducer from '../current-message'
 import * as actionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
+import reducer from '../current-message'
 
 test('initial state is null', () => {
   expect(reducer(undefined, { type: '' })).toEqual('')

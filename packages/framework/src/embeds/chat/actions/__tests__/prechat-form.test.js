@@ -8,9 +8,9 @@ import {
   setVisitorInfo,
   updateChatScreen,
 } from 'src/redux/modules/chat'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
 import { createMockStore } from 'utility/testHelpers'
-import * as screens from 'src/redux/modules/chat/chat-screen-types'
 
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/chat/chat-selectors')

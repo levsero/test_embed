@@ -1,9 +1,9 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
-import launcher from 'e2e/helpers/launcher'
-import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
 import searchResults from 'e2e/fixtures/responses/search-results.json'
+import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries, wait } from 'pptr-testing-library'
 
 const assertUrlIncludes = (endpoint, matches) => {
   expect(endpoint).toHaveBeenCalled()

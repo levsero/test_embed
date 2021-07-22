@@ -1,7 +1,7 @@
-import { AGENT_BOT } from 'constants/chat'
-import { win, getZendeskHost } from 'utility/globals'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import _ from 'lodash'
+import { AGENT_BOT } from 'constants/chat'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { win, getZendeskHost } from 'utility/globals'
 
 /**
  * Return a new array with consecutive numbers combined into an array containing only the start and end (inclusive) number.

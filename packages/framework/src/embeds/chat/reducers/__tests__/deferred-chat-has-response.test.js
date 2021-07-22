@@ -1,6 +1,5 @@
-import { testReducer } from 'utility/testHelpers'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
-
+import { testReducer } from 'utility/testHelpers'
 import reducer from '../deferred-chat-has-response'
 
 describe('deferredChatHasResponse reducer', () => {

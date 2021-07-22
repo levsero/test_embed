@@ -1,7 +1,7 @@
-import * as actionTypes from '../action-types'
-import * as actions from '../email-transcript'
 import { zChatWithTimeout } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import { createMockStore } from 'utility/testHelpers'
+import * as actionTypes from '../action-types'
+import * as actions from '../email-transcript'
 
 jest.mock('src/redux/modules/chat/helpers/zChatWithTimeout')
 

@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { forwardRef } from 'react'
 import { IconButton } from './styles'
 
 const HeaderItem = forwardRef(({ children, ...props }, ref) => {

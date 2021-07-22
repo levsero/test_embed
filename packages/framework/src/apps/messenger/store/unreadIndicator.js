@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
+import { sendConversationRead } from 'src/apps/messenger/api/sunco'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
-import { sendConversationRead } from 'src/apps/messenger/api/sunco'
 
 const markAsRead = createAsyncThunk('markAsRead', async () => {
   await sendConversationRead()

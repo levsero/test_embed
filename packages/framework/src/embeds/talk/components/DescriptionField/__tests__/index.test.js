@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import DescriptionField from '../'
 
 test('DescriptionField', () => {

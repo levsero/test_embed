@@ -1,31 +1,30 @@
-import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
+import { createRef, Component } from 'react'
 import { connect } from 'react-redux'
-import { locals as styles } from './WidgetLauncher.scss'
-
 import { Icon } from 'component/Icon'
+import WidgetLauncherTitle from 'component/launcher/WidgetLauncherTitle'
+import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { TEST_IDS, ICONS } from 'src/constants/shared'
+import {
+  getLauncherChatLabel,
+  getLauncherTalkLabel,
+  getLauncherLabel,
+} from 'src/embeds/launcher/settings/selectors'
+import { launcherClicked } from 'src/redux/modules/base/'
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
+import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'
 import {
   getChatAvailable,
   getTalkOnline,
   getChatOfflineAvailable,
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'
-import { launcherClicked } from 'src/redux/modules/base/'
-import {
-  getLauncherChatLabel,
-  getLauncherTalkLabel,
-  getLauncherLabel,
-} from 'src/embeds/launcher/settings/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
-import { TEST_IDS, ICONS } from 'src/constants/shared'
-import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
-import { onNextTick } from 'utility/utils'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { isSafari } from 'utility/devices'
-import WidgetLauncherTitle from 'component/launcher/WidgetLauncherTitle'
+import { onNextTick } from 'utility/utils'
+import { locals as styles } from './WidgetLauncher.scss'
 
 const baseLauncherStyle = {
   width: 240,

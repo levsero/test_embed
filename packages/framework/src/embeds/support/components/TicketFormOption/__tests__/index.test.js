@@ -1,5 +1,4 @@
 import { render, fireEvent } from '@testing-library/react'
-
 import Component from '..'
 
 const onClick = jest.fn()

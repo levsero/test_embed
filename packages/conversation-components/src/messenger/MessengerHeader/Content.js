@@ -1,6 +1,6 @@
-import { Avatar, Description, Details, Title } from 'src/messenger/MessengerHeader/styles'
-import useLabels from 'src/hooks/useLabels'
 import PropTypes from 'prop-types'
+import useLabels from 'src/hooks/useLabels'
+import { Avatar, Description, Details, Title } from 'src/messenger/MessengerHeader/styles'
 
 const Content = ({ title, description, avatar }) => {
   const labels = useLabels().messengerHeader

@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import { Avatar } from '../Avatar'
 
 test('renders an img when src is provided ', () => {

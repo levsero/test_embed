@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { SlideAppear } from 'component/transition/SlideAppear'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const FeedbackContainer = styled(SlideAppear)`
   width: 100%;

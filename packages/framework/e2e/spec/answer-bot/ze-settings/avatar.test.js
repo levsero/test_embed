@@ -1,6 +1,6 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import { waitForAnswerBot } from 'e2e/helpers/answer-bot-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 import { queries } from 'pptr-testing-library'
 
 test('uses the supplied avatar values', async () => {

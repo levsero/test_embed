@@ -1,6 +1,6 @@
-import { locals as styles } from './ButtonGroup.scss'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { locals as styles } from './ButtonGroup.scss'
 
 const ButtonGroup = ({ center, children, className, fullscreen, rtl, style }) => {
   const directionStyles = rtl ? styles.buttonLeft : styles.buttonRight

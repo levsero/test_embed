@@ -1,6 +1,6 @@
-import reducer from '../preview-choice'
-import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
 import { CHAT, CHAT_BADGE } from 'src/constants/preview'
+import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
+import reducer from '../preview-choice'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

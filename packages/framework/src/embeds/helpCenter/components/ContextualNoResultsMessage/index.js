@@ -1,5 +1,5 @@
-import { Container, Content } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
+import { Container, Content } from './styles'
 
 const ContextualNoResultsMessage = () => {
   const translate = useTranslate()

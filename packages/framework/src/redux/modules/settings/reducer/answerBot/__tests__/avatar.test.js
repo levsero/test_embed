@@ -1,5 +1,5 @@
-import reducer from '../avatar'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../avatar'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

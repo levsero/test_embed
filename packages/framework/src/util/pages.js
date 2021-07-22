@@ -1,5 +1,4 @@
 import _ from 'lodash'
-
 import { win, location } from 'utility/globals'
 import { base64decode } from 'utility/utils'
 

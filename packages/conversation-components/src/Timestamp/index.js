@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Container, Text } from './styles'
 import useLabels from 'src/hooks/useLabels'
+import { Container, Text } from './styles'
 
 const Timestamp = ({ timestamp }) => {
   const { formatTimestamp } = useLabels()

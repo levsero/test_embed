@@ -1,9 +1,8 @@
-import { createSelector } from 'reselect'
 import _ from 'lodash'
-
+import { createSelector } from 'reselect'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getSessions } from 'src/embeds/answerBot/selectors/sessions'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const getState = (state) => state.answerBot
 const getConversation = (state) => state.answerBot.conversation

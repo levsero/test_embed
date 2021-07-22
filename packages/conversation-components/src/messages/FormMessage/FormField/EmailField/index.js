@@ -1,8 +1,7 @@
-import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-
-import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
+import { useRef, useEffect } from 'react'
 import Message from 'src/messages/FormMessage/FormField/Message'
+import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
 import { Input, Label, Field } from './styles'
 
 const EmailField = ({ field, value = '', onChange, error, lastSubmittedTimestamp }) => {

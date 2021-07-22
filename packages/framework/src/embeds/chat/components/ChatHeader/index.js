@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import useTranslate from 'src/hooks/useTranslate'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
-import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
+import RatingGroup from 'src/embeds/chat/components/RatingGroup'
+import useTranslate from 'src/hooks/useTranslate'
 import { sendChatRating } from 'src/redux/modules/chat'
+import { getChatRating } from 'src/redux/modules/chat/chat-selectors'
 import {
   getProfileConfig,
   getShowRatingButtons,
   getCurrentConcierges,
 } from 'src/redux/modules/selectors'
-import { getChatRating } from 'src/redux/modules/chat/chat-selectors'
 import {
   Container,
   AvatarContainer,

@@ -1,11 +1,11 @@
-import Text from './Text'
-import Textarea from './Textarea'
-import Integer from './Integer'
-import Decimal from './Decimal'
+import AttachmentField from 'embeds/support/components/AttachmentField'
 import Checkbox from './Checkbox'
+import Decimal from './Decimal'
 import Dropdown from './Dropdown'
 import FallbackField from './FallbackField'
-import AttachmentField from 'embeds/support/components/AttachmentField'
+import Integer from './Integer'
+import Text from './Text'
+import Textarea from './Textarea'
 
 // Each field will be provided these props
 // value - The value of your field, this can be any type you want
