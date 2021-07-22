@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { zdColorGrey600, zdColorBlack, zdColorWhite } from '@zendeskgarden/css-variables'
 import { Button } from '@zendeskgarden/react-buttons'
 import RemoveIcon from '@zendeskgarden/svg-icons/src/14/remove.svg'
-import { FONT_SIZE } from 'constants/shared'
 import { SlideAppear } from 'src/component/transition/SlideAppear'
+import { FONT_SIZE } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 export const CtaContainer = styled.div`

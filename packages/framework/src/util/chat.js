@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { AGENT_BOT } from 'constants/chat'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { AGENT_BOT } from 'src/constants/chat'
 import { win, getZendeskHost } from 'utility/globals'
 
 /**

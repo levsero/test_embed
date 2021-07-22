@@ -2,7 +2,10 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { CHAT_STRUCTURED_CONTENT_TYPE, CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat'
+import {
+  CHAT_STRUCTURED_CONTENT_TYPE,
+  CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
+} from 'src/constants/chat'
 import { sendMsg } from 'src/redux/modules/chat'
 import { win } from 'utility/globals'
 import { ButtonCard } from './structuredMessage/ButtonCard'

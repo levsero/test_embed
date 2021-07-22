@@ -8,7 +8,7 @@ describe('chat chat-history reducer', () => {
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-history/index')
 
     initMockRegistry({
-      'constants/chat': {
+      'src/constants/chat': {
         HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS,
       },
     })

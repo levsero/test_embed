@@ -1,4 +1,4 @@
-import { EMAIL_PATTERN, PHONE_PATTERN } from 'constants/shared'
+import { EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 
 const fieldValidation = {
   name: ({ field, value }) => {

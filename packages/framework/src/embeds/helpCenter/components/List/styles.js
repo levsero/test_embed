@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 export const StyledList = styled.ol`

@@ -33,7 +33,7 @@ describe('HistoryLog component', () => {
       'src/component/chat/chatting/log/messages/ConnectedHistoryGroup': HistoryChatGroup,
       'src/embeds/chat/components/EventMessage': HistoryEventMessage,
       '@zendeskgarden/react-buttons': { Button },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
       },

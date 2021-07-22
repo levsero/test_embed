@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import Linkify from 'react-linkify'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 import MessageOptions from './MessageOptions'
 import { Container, MessageContainer, Message, TranslateLink, MessageBubbleLink } from './styles'

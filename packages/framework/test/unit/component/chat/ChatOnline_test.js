@@ -89,10 +89,10 @@ describe('ChatOnline component', () => {
           isRTL: () => {},
         },
       },
-      'constants/shared': {
+      'src/constants/shared': {
         TEST_IDS: {},
       },
-      'constants/chat': {
+      'src/constants/chat': {
         AGENT_BOT: 'agent:trigger',
         CONNECTION_STATUSES,
         DEPARTMENT_STATUSES,

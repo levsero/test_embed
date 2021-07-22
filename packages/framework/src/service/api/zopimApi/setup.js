@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import { settings } from 'service/settings'
+import tracker from 'service/tracker'
 import {
   API_ON_CHAT_CONNECTED_NAME,
   API_ON_CHAT_START_NAME,
@@ -6,9 +8,7 @@ import {
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME,
-} from 'constants/api'
-import { settings } from 'service/settings'
-import tracker from 'service/tracker'
+} from 'src/constants/api'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat'

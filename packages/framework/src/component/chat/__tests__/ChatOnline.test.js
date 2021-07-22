@@ -1,4 +1,4 @@
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { render } from 'src/util/testHelpers'
 import { Component } from '../ChatOnline'
 

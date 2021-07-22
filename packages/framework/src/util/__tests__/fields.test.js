@@ -1,5 +1,5 @@
 import snapshotDiff from 'snapshot-diff'
-import { EMAIL_PATTERN } from 'constants/shared'
+import { EMAIL_PATTERN } from 'src/constants/shared'
 import { noopReactComponent } from 'utility/testHelpers'
 import {
   getStyledLabelText,

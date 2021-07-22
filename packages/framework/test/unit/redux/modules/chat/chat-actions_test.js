@@ -141,7 +141,7 @@ describe('chat redux actions', () => {
           CONNECTED: 'connected',
         },
       },
-      'constants/event': {},
+      'src/constants/event': {},
       'service/audio': {
         load: loadSoundSpy,
       },

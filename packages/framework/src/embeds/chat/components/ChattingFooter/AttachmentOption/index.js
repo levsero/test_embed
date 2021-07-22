@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
-import { TEST_IDS } from 'constants/shared'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { Dropzone } from 'src/component/chat/attachment/Dropzone'
+import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 import { Icon } from './styles'
 

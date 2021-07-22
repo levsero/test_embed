@@ -1,13 +1,13 @@
 import _ from 'lodash'
-import {
-  CHAT_CONNECTED_EVENT,
-  CHAT_STARTED_EVENT,
-  CHAT_UNREAD_MESSAGES_EVENT,
-} from 'constants/event'
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
 import audio from 'service/audio'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
+import {
+  CHAT_CONNECTED_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT,
+} from 'src/constants/event'
 import errorTracker from 'src/framework/services/errorTracker'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'

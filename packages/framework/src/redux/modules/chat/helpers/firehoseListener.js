@@ -1,7 +1,11 @@
-import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'constants/chat'
-import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT, CHAT_ENDED_EVENT } from 'constants/event'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import * as callbacks from 'service/api/callbacks'
+import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'src/constants/chat'
+import {
+  CHAT_DEPARTMENT_STATUS_EVENT,
+  CHAT_STATUS_EVENT,
+  CHAT_ENDED_EVENT,
+} from 'src/constants/event'
 import { chatBanned } from 'src/redux/modules/chat'
 import {
   SDK_ACCOUNT_STATUS,

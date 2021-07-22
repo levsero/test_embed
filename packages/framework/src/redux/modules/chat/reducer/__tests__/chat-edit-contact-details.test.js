@@ -1,4 +1,4 @@
-import * as chatConstants from 'constants/chat'
+import * as chatConstants from 'src/constants/chat'
 import * as baseActions from 'src/redux/modules/base/base-action-types'
 import * as actions from 'src/redux/modules/chat/chat-action-types'
 import editContactDetails from '../chat-edit-contact-details'

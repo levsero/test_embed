@@ -20,7 +20,7 @@ describe('UserProfile component', () => {
           historyAuthProfileFieldContainer: 'historyAuthProfileFieldContainerClasses',
         },
       },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_SOCIAL_LOGIN_SCREENS,
       },
       'src/component/Icon': { Icon },

@@ -35,7 +35,7 @@ describe('chat selectors', () => {
     CHATTING_SCREEN = 'chatlog'
 
     initMockRegistry({
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
         CHAT_CUSTOM_MESSAGE_EVENTS,

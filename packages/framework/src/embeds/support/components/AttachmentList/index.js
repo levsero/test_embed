@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { ICONS, FILETYPE_ICONS } from 'constants/shared'
+import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import { deleteAttachment } from 'src/embeds/support/actions/index'
 import Attachment from 'src/embeds/support/components/Attachment'
 import AttachmentError from 'src/embeds/support/components/AttachmentError'

@@ -1,5 +1,5 @@
-import { TEST_IDS } from 'constants/shared'
 import { Component as ChatWidgetHeader } from 'embeds/chat/components/ChatWidgetHeader'
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import { createChatPopoutWindow } from 'utility/chat'
 import { isMobileBrowser } from 'utility/devices'

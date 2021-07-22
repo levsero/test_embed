@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { zdColorGrey200, zdColorGrey100 } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const mobileStyles = `

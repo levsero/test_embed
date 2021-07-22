@@ -1,5 +1,5 @@
 import { find } from 'styled-components/test-utils'
-import { TEST_IDS, ICONS } from 'constants/shared'
+import { TEST_IDS, ICONS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import { Component as ChatHeader } from '..'
 import { Container } from '../styles'

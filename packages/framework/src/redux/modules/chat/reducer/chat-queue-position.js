@@ -1,4 +1,4 @@
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { SDK_CHAT_QUEUE_POSITION, SDK_CONNECTION_UPDATE } from '../chat-action-types'
 
 const initialState = 0

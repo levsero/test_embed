@@ -24,7 +24,7 @@ describe('PanelCard Component', () => {
         Button,
         ButtonSchemaPropType,
       },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
       },
       './PanelCard.scss': {

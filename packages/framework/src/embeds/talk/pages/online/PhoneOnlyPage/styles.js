@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 import TalkIcon from 'src/embeds/talk/icons/talk.svg'
 import { isMobileBrowser } from 'utility/devices'
 

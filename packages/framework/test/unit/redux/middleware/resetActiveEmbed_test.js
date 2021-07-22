@@ -89,8 +89,8 @@ describe('resetActiveEmbed middleware', () => {
         isPopout: () => mockIsPopout,
       },
       'utility/chat': {},
-      'constants/chat': {},
-      'constants/shared': {
+      'src/constants/chat': {},
+      'src/constants/shared': {
         EMBED_MAP: {
           helpCenterForm: 'helpCenter',
           submitTicketForm: 'contactForm',

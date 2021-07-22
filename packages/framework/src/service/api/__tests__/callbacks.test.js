@@ -3,7 +3,7 @@ import {
   WIDGET_CLOSED_EVENT,
   CHAT_CONNECTED_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
-} from 'constants/event'
+} from 'src/constants/event'
 import * as callbacks from '../callbacks'
 
 test('invalid event name', () => {

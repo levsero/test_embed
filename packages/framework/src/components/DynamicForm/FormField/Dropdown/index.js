@@ -12,8 +12,8 @@ import {
   Hint,
   Message,
 } from '@zendeskgarden/react-dropdowns'
-import { TEST_IDS } from 'constants/shared'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
+import { TEST_IDS } from 'src/constants/shared'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import { DropdownSelect } from './styles'
 

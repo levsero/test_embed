@@ -1,4 +1,4 @@
-import { SDK_CHAT_REASON } from 'constants/chat'
+import { SDK_CHAT_REASON } from 'src/constants/chat'
 import { isAgent } from 'src/util/chat'
 import { SDK_CHAT_MEMBER_LEAVE, SDK_CHAT_MEMBER_JOIN } from '../chat-action-types'
 

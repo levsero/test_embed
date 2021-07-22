@@ -8,7 +8,7 @@ describe('chat reducer agentJoined', () => {
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
     initMockRegistry({
-      'constants/chat': {
+      'src/constants/chat': {
         AGENT_BOT: 'agent:trigger',
       },
     })

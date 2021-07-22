@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { ICONS } from 'constants/shared'
+import { ICONS } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 import { triggerOnEnter } from 'utility/keyboard'
 import { locals as styles } from './Icon.scss'

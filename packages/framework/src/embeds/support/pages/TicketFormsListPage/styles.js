@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorGrey200 } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
 import { Main } from 'src/components/Widget'
+import { FONT_SIZE } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 export const HeaderTitle = styled.h2`

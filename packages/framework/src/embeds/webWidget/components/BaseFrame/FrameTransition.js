@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import Transition from 'react-transition-group/Transition'
-import { FRAME_TRANSITION_DURATION } from 'constants/shared'
+import { FRAME_TRANSITION_DURATION } from 'src/constants/shared'
 import { getHorizontalPosition } from 'src/redux/modules/selectors'
 import {
   getStylingOffset,

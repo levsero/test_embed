@@ -1,4 +1,4 @@
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat'
+import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'src/constants/chat'
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state'
 import * as globals from 'utility/globals'
 import * as selectors from '../reselectors'

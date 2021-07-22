@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { HISTORY_REQUEST_STATUS } from 'constants/chat'
-import { SCROLL_BOTTOM_THRESHOLD } from 'constants/chat'
+import { HISTORY_REQUEST_STATUS } from 'src/constants/chat'
+import { SCROLL_BOTTOM_THRESHOLD } from 'src/constants/chat'
 import { markAsRead } from 'src/redux/modules/chat'
 import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
 import {

@@ -7,7 +7,7 @@ import {
   CHAT_SYSTEM_EVENTS,
   WHITELISTED_SOCIAL_LOGINS,
   CONNECTION_STATUSES,
-} from 'constants/chat'
+} from 'src/constants/chat'
 import { isDefaultNickname } from 'utility/chat'
 import { isPopout } from 'utility/globals'
 import {

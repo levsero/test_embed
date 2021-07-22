@@ -1,6 +1,6 @@
 import { waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { handlePrefillReceived } from 'src/redux/modules/base'
 import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import { render } from 'src/util/testHelpers'

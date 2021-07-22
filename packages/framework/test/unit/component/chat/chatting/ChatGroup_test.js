@@ -43,7 +43,7 @@ describe('ChatGroup component', () => {
       'embeds/chat/components/ImageMessage': ImageMessage,
       'src/component/chat/chatting/StructuredMessage': StructuredMessage,
       'src/component/chat/chatting/Carousel': Carousel,
-      'constants/chat': {
+      'src/constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES,
         CHAT_STRUCTURED_CONTENT_TYPE,

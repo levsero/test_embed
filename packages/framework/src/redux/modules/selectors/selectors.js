@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { settings } from 'service/settings'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import {
   FONT_SIZE,
   EMBED_MAP,
@@ -9,9 +11,7 @@ import {
   WIDGET_MARGIN,
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
   DEFAULT_WIDGET_HEIGHT,
-} from 'constants/shared'
-import { settings } from 'service/settings'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+} from 'src/constants/shared'
 import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
   getAnswerBotEnabled as getAnswerBotConfigEnabled,

@@ -1,5 +1,5 @@
 import { Modal } from '@zendeskgarden/react-modals'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import Footer from '../'
 

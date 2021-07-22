@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react'
-import { TEST_IDS } from 'constants/shared'
 import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import createKeyID from 'embeds/support/utils/createKeyID'
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'utility/testHelpers'
 import wait from 'utility/wait'
 import { Component as TicketForm } from '../'

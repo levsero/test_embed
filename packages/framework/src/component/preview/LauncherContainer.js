@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'constants/launcher'
 import { launcherStyles } from 'embeds/webWidget/components/Launcher/styles'
 import Frame from 'src/component/frame/Frame'
+import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'src/constants/launcher'
 import { generateUserLauncherCSS } from 'utility/color/styles'
 import { LauncherPreview } from './LauncherPreview'
 

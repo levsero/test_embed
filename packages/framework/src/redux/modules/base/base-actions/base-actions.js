@@ -1,9 +1,9 @@
-import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { contextualSearch } from 'embeds/helpCenter/actions'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import * as callbacks from 'service/api/callbacks'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
+import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'src/constants/event'
 import { clearAttachments } from 'src/embeds/support/actions'
 import { store } from 'src/framework/services/persistence'
 import {

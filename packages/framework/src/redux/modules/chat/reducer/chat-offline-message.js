@@ -1,4 +1,4 @@
-import { OFFLINE_FORM_SCREENS } from 'constants/chat'
+import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import {
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_REQUEST_FAILURE,

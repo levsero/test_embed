@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { DISCONNECTION_REASONS } from 'constants/chat'
+import { DISCONNECTION_REASONS } from 'src/constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 import { getHistoryEventMessage, getEventMessage } from 'src/embeds/chat/selectors'
 import useTranslate from 'src/hooks/useTranslate'

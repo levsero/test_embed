@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react'
-import { TEST_IDS } from 'constants/shared'
 import { ratings } from 'embeds/chat/components/RatingGroup'
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import FeedbackForm from '../'
 

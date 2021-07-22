@@ -1,6 +1,6 @@
-import { MAX_CHAT_POLL_INTERVAL, BASE_CHAT_POLL_INTERVAL } from 'constants/chat'
 import { BEGIN_CHAT_SETUP, RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import { fetchDeferredChatStatus } from 'embeds/chat/apis/deferred-chat-api'
+import { MAX_CHAT_POLL_INTERVAL, BASE_CHAT_POLL_INTERVAL } from 'src/constants/chat'
 import errorTracker from 'src/framework/services/errorTracker'
 import createStore from 'src/redux/createStore'
 import { beginChatSetup, deferChatSetup } from '../setup-chat'

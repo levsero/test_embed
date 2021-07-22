@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
-import { FONT_SIZE } from 'constants/shared'
 import {
   FrameStyleConsumer,
   FrameStyleProvider,
@@ -11,6 +10,7 @@ import HTMLManager from 'embeds/webWidget/components/BaseFrame/HTMLManager'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getGardenOverrides } from 'src/component/frame/gardenOverrides'
 import { WidgetThemeProvider } from 'src/components/Widget'
+import { FONT_SIZE } from 'src/constants/shared'
 import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import { getZoomSizingRatio } from 'utility/devices'
 

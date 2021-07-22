@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const HeaderView = styled.div`
   padding: ${8 / FONT_SIZE}rem ${14 / FONT_SIZE}rem;

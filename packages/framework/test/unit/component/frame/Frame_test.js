@@ -113,7 +113,7 @@ describe('Frame', () => {
       'src/redux/modules/base/base-actions': {
         widgetShowAnimationComplete: noop,
       },
-      'constants/shared': {
+      'src/constants/shared': {
         FONT_SIZE: 14,
         DEFAULT_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,

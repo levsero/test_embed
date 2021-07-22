@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import helpCenterRoutes from 'embeds/helpCenter/routes'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import supportRoutes from 'embeds/support/routes'
 import history from 'service/history'
+import { EMBED_MAP, NIL_EMBED } from 'src/constants/shared'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import {
   WIDGET_INITIALISED,

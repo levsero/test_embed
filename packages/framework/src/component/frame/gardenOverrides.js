@@ -5,7 +5,7 @@ import {
   zdColorGrey600,
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 import { getWidgetColorVariables } from 'utility/color/styles'
 import { getThemeColor } from 'utility/color/validate'
 import { isMobileBrowser } from 'utility/devices'

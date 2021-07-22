@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Field, Checkbox as GardenCheckbox, Message, Hint } from '@zendeskgarden/react-forms'
-import { TEST_IDS } from 'constants/shared'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
+import { TEST_IDS } from 'src/constants/shared'
 import { Container } from './styles'
 
 const Checkbox = ({

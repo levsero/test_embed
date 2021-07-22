@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import useSafeState from 'src/hooks/useSafeState'
 import sharedPropTypes from 'types/shared'
 import { ImageContainer, Link, Spinner, StyledImage } from './styles'

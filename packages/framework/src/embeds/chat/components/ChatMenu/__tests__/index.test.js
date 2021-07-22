@@ -1,5 +1,5 @@
 import { find } from 'styled-components/test-utils'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 import { render } from 'utility/testHelpers'
 import { onNextTick } from 'utility/utils'

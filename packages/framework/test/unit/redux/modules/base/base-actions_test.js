@@ -56,7 +56,7 @@ describe('base redux actions', () => {
       .and.returnValue({ type: 'widget/chat/CHAT_OPENED' })
 
     initMockRegistry({
-      'constants/event': {
+      'src/constants/event': {
         WIDGET_CLOSED_EVENT,
         WIDGET_OPENED_EVENT,
         CHAT_POPOUT_EVENT,

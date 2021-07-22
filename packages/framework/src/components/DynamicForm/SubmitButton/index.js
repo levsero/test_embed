@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { Hidden, LoadingContainer, LoadingDots } from './styles'
 
 const SubmitButton = ({ submitting, label, theme: { fontSize, buttonTextColorStr } }) => {

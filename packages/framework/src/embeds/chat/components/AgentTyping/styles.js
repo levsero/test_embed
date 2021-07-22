@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorGrey500, zdColorGrey600 } from '@zendeskgarden/css-variables'
 import { Inline } from '@zendeskgarden/react-loaders'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const LoadingDots = styled(Inline)`

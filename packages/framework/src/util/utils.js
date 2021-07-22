@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import jsSha1 from 'sha1'
-import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'constants/shared'
+import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 import { document as doc, location } from 'utility/globals'
 
 function parseUrl(url) {

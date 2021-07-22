@@ -114,7 +114,6 @@ module.exports = {
   resolve: {
     alias: {
       // Framework
-      constants: path.join(projectRoot + '/src/constants'),
       embed: path.join(projectRoot + '/src/embed'),
       embeds: path.join(projectRoot + '/src/embeds'),
       errors: path.join(projectRoot + '/src/errors'),

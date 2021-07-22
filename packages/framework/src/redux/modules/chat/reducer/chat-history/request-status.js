@@ -1,4 +1,4 @@
-import { HISTORY_REQUEST_STATUS } from 'constants/chat'
+import { HISTORY_REQUEST_STATUS } from 'src/constants/chat'
 import {
   HISTORY_REQUEST_SENT,
   HISTORY_REQUEST_SUCCESS,

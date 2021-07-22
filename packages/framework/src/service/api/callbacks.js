@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import * as events from 'constants/event'
+import * as events from 'src/constants/event'
 
 const callbacksRegistry = {
   [events.WIDGET_OPENED_EVENT]: [],

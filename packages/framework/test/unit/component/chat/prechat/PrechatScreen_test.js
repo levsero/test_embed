@@ -76,7 +76,7 @@ describe('PrechatScreen component', () => {
           isRTL: () => {},
         },
       },
-      'constants/chat': {
+      'src/constants/chat': {
         AGENT_BOT: 'agent:trigger',
         DEPARTMENT_STATUSES,
       },

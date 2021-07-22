@@ -1,5 +1,5 @@
-import { CONNECTION_STATUSES } from 'constants/chat'
 import { settings as legacySettings } from 'service/settings'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { mockZChatVendor, initialState, createMockStore } from 'utility/testHelpers'
 import * as actionTypes from '../settings-action-types'
 import * as actions from '../settings-actions'

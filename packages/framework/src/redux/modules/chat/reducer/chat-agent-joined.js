@@ -1,4 +1,4 @@
-import { AGENT_BOT } from 'constants/chat'
+import { AGENT_BOT } from 'src/constants/chat'
 import {
   SDK_CHAT_MEMBER_JOIN,
   END_CHAT_REQUEST_SUCCESS,

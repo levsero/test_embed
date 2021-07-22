@@ -2,14 +2,14 @@ import PropTypes from 'prop-types'
 import { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { performSearch } from 'embeds/helpCenter/actions'
+import { useFrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import {
   WIDGET_MARGIN,
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
-} from 'constants/shared'
-import { performSearch } from 'embeds/helpCenter/actions'
-import { useFrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
-import { Widget, Header, Main, Footer } from 'src/components/Widget'
+} from 'src/constants/shared'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import routes from 'src/embeds/helpCenter/routes'
 import { getHideZendeskLogo, getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'

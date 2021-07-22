@@ -70,7 +70,7 @@ describe('ChatBadge component', () => {
       'utility/keyboard': {
         triggerOnEnter: noop,
       },
-      'constants/shared': {
+      'src/constants/shared': {
         ICONS,
         TEST_IDS,
       },

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { CHAT_MESSAGE_EVENTS } from 'constants/chat'
+import { CHAT_MESSAGE_EVENTS } from 'src/constants/chat'
 import sharedPropTypes from 'types/shared'
 
 const chatMessage = PropTypes.shape({

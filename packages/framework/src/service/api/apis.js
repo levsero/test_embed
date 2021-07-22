@@ -1,4 +1,9 @@
 import _ from 'lodash'
+import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
+import * as callbacks from 'service/api/callbacks'
+import { beacon } from 'service/beacon'
+import { identity } from 'service/identity'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   API_ON_CHAT_STATUS_NAME,
   API_ON_CLOSE_NAME,
@@ -9,7 +14,7 @@ import {
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CHAT_DEPARTMENT_STATUS,
   API_ON_CHAT_POPOUT,
-} from 'constants/api'
+} from 'src/constants/api'
 import {
   WIDGET_OPENED_EVENT,
   WIDGET_CLOSED_EVENT,
@@ -21,12 +26,7 @@ import {
   CHAT_DEPARTMENT_STATUS_EVENT,
   CHAT_POPOUT_EVENT,
   USER_EVENT,
-} from 'constants/event'
-import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
-import * as callbacks from 'service/api/callbacks'
-import { beacon } from 'service/beacon'
-import { identity } from 'service/identity'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+} from 'src/constants/event'
 import {
   handlePrefillReceived,
   logout,

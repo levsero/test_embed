@@ -2,13 +2,13 @@ import * as zChat from 'chat-web-sdk'
 import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import * as callbacks from 'service/api/callbacks'
+import zopimApi from 'service/api/zopimApi'
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
-} from 'constants/event'
-import * as callbacks from 'service/api/callbacks'
-import zopimApi from 'service/api/zopimApi'
+} from 'src/constants/event'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/routing-actions'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'

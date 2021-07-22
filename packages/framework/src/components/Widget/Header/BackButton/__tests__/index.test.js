@@ -1,5 +1,5 @@
-import { TEST_IDS } from 'constants/shared'
 import { useOnBack } from 'src/component/webWidget/OnBackProvider'
+import { TEST_IDS } from 'src/constants/shared'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import { render } from 'src/util/testHelpers'
 import { Component as BackButton } from '../'

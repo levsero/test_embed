@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { waitFor } from '@testing-library/dom'
-import { HISTORY_REQUEST_STATUS } from 'constants/chat'
+import { HISTORY_REQUEST_STATUS } from 'src/constants/chat'
 import createStore from 'src/redux/createStore'
 import * as chatActions from 'src/redux/modules/chat'
 import * as chatHistorySelectors from 'src/redux/modules/chat/chat-history-selectors'

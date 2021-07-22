@@ -22,7 +22,7 @@ describe('StructuredMessage component', () => {
       './structuredMessage/ButtonCard': { ButtonCard },
       './structuredMessage/PanelCard': { PanelCard },
       './structuredMessage/ListCard': { ListCard },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_STRUCTURED_CONTENT_TYPE,
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
       },

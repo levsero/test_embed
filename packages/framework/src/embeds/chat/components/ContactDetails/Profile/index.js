@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import ContactDetailField from 'src/embeds/chat/components/ContactDetails/Field'
 import UserProfile from 'src/embeds/chat/components/UserProfile'
 

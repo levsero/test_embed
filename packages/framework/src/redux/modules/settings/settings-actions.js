@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { CONNECTION_STATUSES } from 'constants/chat'
 import { settings as legacySettings } from 'service/settings'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { setDepartment } from 'src/redux/modules/chat'
 import { getConnection, getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'

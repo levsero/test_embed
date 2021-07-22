@@ -1,4 +1,4 @@
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { SDK_CONNECTION_UPDATE, CHAT_CONNECTION_ERROR, CHAT_BANNED } from '../chat-action-types'
 
 const initialState = ''
