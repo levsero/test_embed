@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import TicketFormList from 'src/embeds/support/components/TicketFormList'
-import { HeaderTitle } from './styles'
+import LoadingPage from 'components/LoadingPage'
+import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
+import routes from 'embeds/support/routes'
+import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
 import { Widget, Header, Footer } from 'src/components/Widget'
-import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
+import TicketFormList from 'src/embeds/support/components/TicketFormList'
 import {
   getContactFormTitle,
   getFormIdsToDisplay,
   getFormsToDisplay,
 } from 'src/embeds/support/selectors'
-import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
-import routes from 'embeds/support/routes'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import LoadingPage from 'components/LoadingPage'
-import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
+import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
+import { HeaderTitle } from './styles'
 
 const mapStateToProps = (state) => ({
   ticketForms: getFormsToDisplay(state),

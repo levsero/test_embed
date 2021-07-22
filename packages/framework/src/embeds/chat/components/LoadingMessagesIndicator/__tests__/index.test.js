@@ -1,5 +1,5 @@
-import LoadingMessagesIndicator from '..'
 import { render } from 'src/util/testHelpers'
+import LoadingMessagesIndicator from '..'
 
 describe('LoadingMessagesIndicator', () => {
   const defaultProps = {

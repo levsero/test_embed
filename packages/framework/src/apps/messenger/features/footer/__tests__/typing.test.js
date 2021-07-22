@@ -1,5 +1,6 @@
-import { startTyping, stopTyping, cancelTyping } from '../typing'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
+import { startTyping, stopTyping, cancelTyping } from '../typing'
+
 jest.mock('src/apps/messenger/api/sunco')
 jest.useFakeTimers()
 

@@ -1,5 +1,5 @@
-import { getIsChatPreviewEnabled } from '../preview-selectors'
 import getPreviewState from 'src/fixtures/preview-selectors-test-state'
+import { getIsChatPreviewEnabled } from '../preview-selectors'
 
 describe('getIsChatPreviewEnabled', () => {
   describe('when preview enabled and preview choice is CHAT', () => {

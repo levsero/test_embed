@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { ImageMessage } from '@zendesk/conversation-components'
-
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const ImageStructuredMessage = ({

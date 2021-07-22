@@ -1,11 +1,11 @@
 import { fireEvent } from '@testing-library/react'
 import { find } from 'styled-components/test-utils'
-import { render } from 'utility/testHelpers'
+import { zdColorGrey200 } from '@zendeskgarden/css-variables'
 import { OptionsList } from 'embeds/chat/components/MessageBubble/MessageOptions/styles'
 import * as colorUtils from 'utility/color/styles'
-import { MessageContainer } from '../styles'
+import { render } from 'utility/testHelpers'
 import MessageBubble from '../'
-import { zdColorGrey200 } from '@zendeskgarden/css-variables'
+import { MessageContainer } from '../styles'
 
 describe('MessageBubble', () => {
   const defaultProps = {

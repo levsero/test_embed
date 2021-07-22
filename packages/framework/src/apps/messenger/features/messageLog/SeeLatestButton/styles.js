@@ -1,8 +1,8 @@
+import { rem } from 'polished'
 import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
-import ArrowDown from 'src/apps/messenger/icons/icon_arrow-down.svg'
-import { rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/constants'
+import ArrowDown from 'src/apps/messenger/icons/icon_arrow-down.svg'
 
 const StyledButton = styled(Button)`
   width: ${rem(117, baseFontSize)};

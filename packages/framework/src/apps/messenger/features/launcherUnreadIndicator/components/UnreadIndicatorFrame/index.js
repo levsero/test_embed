@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types'
-import Frame from 'src/framework/components/Frame'
-import ThemeProvider from 'src/apps/messenger/features/themeProvider'
+import { useSelector } from 'react-redux'
 import {
   frameMarginFromPage,
   unreadIndicatorSize,
   launcherSize,
 } from 'src/apps/messenger/constants'
-import { getZIndex, getPosition } from 'src/apps/messenger/features/themeProvider/store'
-import { useSelector } from 'react-redux'
-import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-
+import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+import ThemeProvider from 'src/apps/messenger/features/themeProvider'
+import { getZIndex, getPosition } from 'src/apps/messenger/features/themeProvider/store'
+import Frame from 'src/framework/components/Frame'
 import { GlobalStyles } from './styles'
 
 const UnreadIndicatorFrame = ({ children }) => {

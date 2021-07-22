@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import Linkify from 'react-linkify'
+import styled from 'styled-components'
 
 const OfflineGreetingLink = styled(Linkify)`
   margin-top: ${(props) => 5 / props.theme.fontSize}rem !important;

@@ -1,7 +1,7 @@
-import styled from 'styled-components'
 import { rgba, rem } from 'polished'
-import { Dots } from '@zendeskgarden/react-loaders'
+import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
+import { Dots } from '@zendeskgarden/react-loaders'
 
 const Label = styled.div`
   opacity: ${(props) => (props.showLabel ? 1 : 0)};

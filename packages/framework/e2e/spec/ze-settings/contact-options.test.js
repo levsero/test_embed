@@ -1,10 +1,10 @@
+import { waitForPrechatForm } from 'e2e/helpers/chat-embed'
+import { search, waitForHelpCenter, mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
+import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
 import zChat from 'e2e/helpers/zChat'
-import widget from 'e2e/helpers/widget'
-import launcher from 'e2e/helpers/launcher'
-import { search, waitForHelpCenter, mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
-import { waitForContactForm } from 'e2e/helpers/support-embed'
-import { waitForPrechatForm } from 'e2e/helpers/chat-embed'
 
 const setup = async (extraProducts = []) => {
   await loadWidget()

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import prefill from './prefill'
-import identify from './identify'
 import chatDepartmentSelect from './chatDepartmentSelect'
-import supportFields from './supportFields'
-import supportCustomFormFields from './supportCustomFormFields'
 import chatVisitor from './chatVisitor'
+import identify from './identify'
+import prefill from './prefill'
+import supportCustomFormFields from './supportCustomFormFields'
+import supportFields from './supportFields'
 
 const reducers = {
   prefill,

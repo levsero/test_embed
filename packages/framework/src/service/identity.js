@@ -1,5 +1,5 @@
-import { store } from 'src/framework/services/persistence'
 import _ from 'lodash'
+import { store } from 'src/framework/services/persistence'
 import { onBrowserTabHidden } from 'src/framework/utils/browser'
 
 const timeToExpire = 1000 * 60 * 15 // 15 Minutes

@@ -1,8 +1,7 @@
-import _ from 'lodash'
 import { fireEvent } from '@testing-library/react'
-
-import { Component as ArticlePage } from '../index'
+import _ from 'lodash'
 import { render } from 'src/util/testHelpers'
+import { Component as ArticlePage } from '../index'
 
 jest.useFakeTimers()
 

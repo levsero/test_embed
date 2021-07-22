@@ -1,5 +1,5 @@
-import reducer from '../chat-profile-card'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../chat-profile-card'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

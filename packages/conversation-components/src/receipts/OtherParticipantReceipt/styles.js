@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import messageSteps, { transition } from 'src/animations/messageSteps'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
+import messageSteps, { transition } from 'src/animations/messageSteps'
 import dirStyles from 'src/utils/dirStyles'
 
 const enter = `

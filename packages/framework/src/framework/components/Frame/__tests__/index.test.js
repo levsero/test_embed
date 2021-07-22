@@ -1,8 +1,8 @@
-import { createRef } from 'react'
+import { waitFor } from '@testing-library/dom'
 import { render } from '@testing-library/react'
+import { createRef } from 'react'
 import styled from 'styled-components'
 import Frame, { useCurrentFrame } from '../index'
-import { waitFor } from '@testing-library/dom'
 
 describe('Frame', () => {
   const defaultProps = {

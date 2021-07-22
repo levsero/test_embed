@@ -1,5 +1,9 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
+import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
+import { CHAT_RATING_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
+import { isAgent } from 'src/util/chat'
 import {
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
@@ -16,10 +20,6 @@ import {
   CHAT_LAST_CHAT_RATING_REQUEST_COMPLETE,
   END_CHAT_REQUEST_SUCCESS,
 } from '../chat-action-types'
-import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
-import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
-import { CHAT_RATING_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import { isAgent } from 'src/util/chat'
 
 const UNSET_TIMESTAMP = -1
 const initialState = {

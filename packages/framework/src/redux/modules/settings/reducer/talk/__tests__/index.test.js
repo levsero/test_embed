@@ -1,5 +1,5 @@
-import reducer from '../index'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../index'
 
 describe('talk settings reducer', () => {
   const callReducer = (state, payload) => reducer(state, { type: UPDATE_SETTINGS, payload })

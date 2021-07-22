@@ -1,6 +1,6 @@
+import { waitFor, fireEvent } from '@testing-library/dom'
 import { render } from 'src/util/testHelpers'
 import EndChat from '../'
-import { waitFor, fireEvent } from '@testing-library/dom'
 
 const endChatViaPostChatScreen = jest.fn(),
   onClose = jest.fn()

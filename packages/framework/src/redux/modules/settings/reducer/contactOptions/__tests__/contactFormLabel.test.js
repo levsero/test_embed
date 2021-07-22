@@ -1,6 +1,6 @@
-import contactFormLabel from '../contactFormLabel'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import contactFormLabel from '../contactFormLabel'
 
 const badPayload = {
   foo: 'bar',

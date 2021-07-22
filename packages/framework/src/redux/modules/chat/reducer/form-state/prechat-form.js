@@ -1,5 +1,6 @@
 import _ from 'lodash'
-
+import { getDisplayName } from 'src/util/chat'
+import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types'
 import {
   PRE_CHAT_FORM_ON_CHANGE,
   VISITOR_DEFAULT_DEPARTMENT_SELECTED,
@@ -7,8 +8,6 @@ import {
   SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
   SDK_VISITOR_UPDATE,
 } from '../../chat-action-types'
-import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../../base/base-action-types'
-import { getDisplayName } from 'src/util/chat'
 
 const initialState = {
   name: '',

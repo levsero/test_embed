@@ -1,14 +1,13 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
-import * as actions from 'src/redux/modules/base/base-actions'
-import * as actionTypes from 'src/redux/modules/base/base-action-types'
-import * as selectors from 'src/redux/modules/selectors'
 import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
 import * as supportSelectors from 'embeds/support/selectors'
 import history from 'service/history'
+import * as actionTypes from 'src/redux/modules/base/base-action-types'
+import * as actions from 'src/redux/modules/base/base-actions'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import * as selectors from 'src/redux/modules/selectors'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/base/base-selectors')

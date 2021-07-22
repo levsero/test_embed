@@ -1,11 +1,11 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import {
   search,
   waitForAnswerBot,
   mockInteractionEndpoint,
   mockViewedEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 import { queries, wait } from 'pptr-testing-library'
 
 const assertOriginalArticleLink = async () => {

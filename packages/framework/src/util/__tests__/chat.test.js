@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as globals from 'utility/globals'
 import {
   combineNumbers,
@@ -9,7 +10,6 @@ import {
   createChatPopoutWindow,
   getDisplayName,
 } from '../chat'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 
 jest.mock('utility/globals')
 

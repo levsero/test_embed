@@ -1,4 +1,4 @@
-import isAuthenticationPending from '../base-is-authentication-pending'
+import { testReducer } from 'src/util/testHelpers'
 import {
   AUTHENTICATION_PENDING,
   AUTHENTICATION_SUCCESS,
@@ -6,7 +6,7 @@ import {
   AUTHENTICATION_TOKEN_REVOKED,
   AUTHENTICATION_TOKEN_NOT_REVOKED,
 } from '../../base-action-types'
-import { testReducer } from 'src/util/testHelpers'
+import isAuthenticationPending from '../base-is-authentication-pending'
 
 testReducer(isAuthenticationPending, [
   {

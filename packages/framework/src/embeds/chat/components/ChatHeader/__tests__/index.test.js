@@ -1,8 +1,8 @@
 import { find } from 'styled-components/test-utils'
+import { TEST_IDS, ICONS } from 'constants/shared'
 import { render } from 'src/util/testHelpers'
 import { Component as ChatHeader } from '..'
 import { Container } from '../styles'
-import { TEST_IDS, ICONS } from 'constants/shared'
 
 const renderComponent = (props) => {
   return render(<ChatHeader {...props} />)

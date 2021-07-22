@@ -1,7 +1,8 @@
 import { fireEvent } from '@testing-library/dom'
+import { isMobileBrowser } from 'utility/devices'
 import { render } from 'utility/testHelpers'
 import AttachmentInput from '../'
-import { isMobileBrowser } from 'utility/devices'
+
 jest.mock('utility/devices')
 
 const defaultProps = {

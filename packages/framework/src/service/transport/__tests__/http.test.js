@@ -1,8 +1,8 @@
-import { http } from '../http'
-import { identity } from 'service/identity'
-import { base64decode } from 'utility/utils'
 import superagent from 'superagent'
+import { identity } from 'service/identity'
 import errorTracker from 'src/framework/services/errorTracker'
+import { base64decode } from 'utility/utils'
+import { http } from '../http'
 
 jest.mock('superagent')
 jest.mock('service/settings', () => {

@@ -1,7 +1,7 @@
-import { queries } from 'pptr-testing-library'
 import { createField, createForm, testForm } from 'e2e/helpers/support-embed'
-import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import widget from 'e2e/helpers/widget'
+import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
+import { queries } from 'pptr-testing-library'
 
 const testCustomForm = async ({ field, queryElement = true, ...other }) => {
   // Add a description field to each custom form we are testing, this is because our code will fail if

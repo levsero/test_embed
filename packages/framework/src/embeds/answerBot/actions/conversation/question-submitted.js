@@ -1,31 +1,26 @@
 import _ from 'lodash'
-import { settings } from 'service/settings'
 import { identity } from 'service/identity'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import { settings } from 'service/settings'
 import { http } from 'service/transport'
-
-import { isOnHostMappedDomain } from 'utility/pages'
-
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { botTyping } from 'src/embeds/answerBot/actions/root/bot'
+import { sessionStarted } from 'src/embeds/answerBot/actions/sessions'
 import { WEB_WIDGET_SUID } from 'src/embeds/answerBot/constants'
-
+import {
+  getCurrentSessionID,
+  getCurrentRequestStatus,
+  getQuestionValueChangedTime,
+} from 'src/embeds/answerBot/selectors/root'
+import { isInitialSession } from 'src/embeds/answerBot/selectors/sessions'
+import { getAuthToken } from 'src/redux/modules/base/base-selectors'
+import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
+import { isOnHostMappedDomain } from 'utility/pages'
 import {
   QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_PENDING,
   QUESTION_SUBMITTED_FULFILLED,
   QUESTION_SUBMITTED_REJECTED,
 } from './action-types'
-
-import { isInitialSession } from 'src/embeds/answerBot/selectors/sessions'
-import {
-  getCurrentSessionID,
-  getCurrentRequestStatus,
-  getQuestionValueChangedTime,
-} from 'src/embeds/answerBot/selectors/root'
-import { getAuthToken } from 'src/redux/modules/base/base-selectors'
-import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
-
-import { sessionStarted } from 'src/embeds/answerBot/actions/sessions'
-import { botTyping } from 'src/embeds/answerBot/actions/root/bot'
 
 const BOT_THINKING_DELAY = 3000
 

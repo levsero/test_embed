@@ -1,9 +1,9 @@
 import { getByRole, fireEvent } from '@testing-library/react'
-import { render } from 'utility/testHelpers'
-import { updateSettings } from 'src/redux/modules/settings'
-import Launcher from '../'
-import * as baseSelectors from 'src/redux/modules/selectors/selectors'
 import { renewToken } from 'src/redux/modules/base'
+import * as baseSelectors from 'src/redux/modules/selectors/selectors'
+import { updateSettings } from 'src/redux/modules/settings'
+import { render } from 'utility/testHelpers'
+import Launcher from '../'
 
 jest.mock('src/redux/modules/base')
 

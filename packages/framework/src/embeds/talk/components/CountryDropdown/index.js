@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
 import { Dropdown, Field } from '@zendeskgarden/react-dropdowns'
-
 import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
-
-import { Item, Menu, Select } from './styles'
 import { useCurrentFrame } from 'src/framework/components/Frame'
+import { Item, Menu, Select } from './styles'
 
 const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onToggleOpen }) => {
   const frame = useCurrentFrame()

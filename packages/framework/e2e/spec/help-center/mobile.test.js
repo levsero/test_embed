@@ -1,12 +1,12 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import launcher from 'e2e/helpers/launcher'
-import widget from 'e2e/helpers/widget'
 import {
   mockSearchEndpoint,
   waitForHelpCenter,
   clickClearInputIcon,
 } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries, wait } from 'pptr-testing-library'
 
 beforeEach(async () => {
   await loadWidget().withPresets('helpCenter').intercept(mockSearchEndpoint()).useMobile().load()

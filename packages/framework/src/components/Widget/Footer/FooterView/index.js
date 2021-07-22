@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
 import { zdColorGrey200 } from '@zendeskgarden/css-variables'
+import { FONT_SIZE } from 'constants/shared'
 
 const padding = (props) => {
   switch (props.size) {

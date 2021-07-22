@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { Banner, BANNER_STATUS } from '@zendesk/conversation-components'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-
 import { getIsOnline } from './store'
 import { Container } from './styles'
 

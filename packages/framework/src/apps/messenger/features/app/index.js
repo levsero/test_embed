@@ -1,10 +1,10 @@
-import { useFocusJail } from './hooks/focusJail'
+import { useSelector } from 'react-redux'
 import Launcher from 'src/apps/messenger/features/launcher'
-import Widget from 'src/apps/messenger/features/widget'
 import LauncherLabel from 'src/apps/messenger/features/launcherLabel'
 import LauncherUnreadIndicator from 'src/apps/messenger/features/launcherUnreadIndicator'
-import { useSelector } from 'react-redux'
+import Widget from 'src/apps/messenger/features/widget'
 import { getAreCookiesEnabled } from 'src/apps/messenger/store/cookies'
+import { useFocusJail } from './hooks/focusJail'
 
 const App = () => {
   const { refLauncher, refWidget, refLauncherLabel, onKeyDownForContainer } = useFocusJail()

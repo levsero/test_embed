@@ -1,17 +1,16 @@
 import { combineReducers } from 'redux'
-import rootReducer from './root/reducer/root'
-
-import base from './base/reducer'
-import settings from './settings/reducer'
-import chat from './chat/reducer'
-import talk from './talk/reducer'
+import answerBot from 'embeds/answerBot/reducers'
 import helpCenter from 'embeds/helpCenter/reducers'
-import preview from './preview/reducer'
 import support from 'embeds/support/reducers'
 import webWidget from 'embeds/webWidget/reducers'
-import answerBot from 'embeds/answerBot/reducers'
+import base from './base/reducer'
+import chat from './chat/reducer'
 import customerProvidedPrefill from './customerProvidedPrefill/reducer'
 import form from './form/reducer'
+import preview from './preview/reducer'
+import rootReducer from './root/reducer/root'
+import settings from './settings/reducer'
+import talk from './talk/reducer'
 
 const combinedReducers = combineReducers({
   base,

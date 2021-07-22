@@ -1,6 +1,7 @@
 import { fireEvent } from '@testing-library/dom'
 import { render } from 'utility/testHelpers'
 import { Component as AttachmentList } from '../'
+
 jest.mock('utility/devices')
 
 const validAttachment = {

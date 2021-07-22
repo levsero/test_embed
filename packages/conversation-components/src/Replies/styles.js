@@ -1,6 +1,6 @@
+import { rgba } from 'polished'
 import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
-import { rgba } from 'polished'
 import dirStyles from 'src/utils/dirStyles'
 
 const replyButtonHorizontalMargin = (props) => props.theme.messenger.space.xxs

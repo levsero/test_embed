@@ -1,9 +1,9 @@
+import { HISTORY_REQUEST_STATUS } from 'constants/chat'
 import {
   HISTORY_REQUEST_SENT,
   HISTORY_REQUEST_SUCCESS,
   HISTORY_REQUEST_FAILURE,
 } from '../../chat-action-types'
-import { HISTORY_REQUEST_STATUS } from 'constants/chat'
 
 const initialState = null
 

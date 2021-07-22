@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import routes from './routes'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import LoadingPage from 'components/LoadingPage'
+import { fetchTicketForms, getTicketFields } from 'embeds/support/actions/fetchForms'
 import SuccessPage from 'embeds/support/pages/SuccessPage'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import TicketFormsListPage from 'embeds/support/pages/TicketFormsListPage'
 import { getTicketForms } from 'src/embeds/support/selectors'
 import { getLocale, getCustomFieldsAvailable } from 'src/redux/modules/base/base-selectors'
-import { fetchTicketForms, getTicketFields } from 'embeds/support/actions/fetchForms'
-import LoadingPage from 'components/LoadingPage'
+import routes from './routes'
 
 const Support = ({
   ticketForms,

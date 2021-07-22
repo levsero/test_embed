@@ -1,7 +1,7 @@
-import SuccessNotification from '../'
 import { render, getByTestId, fireEvent } from '@testing-library/react'
-import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
+import SuccessNotification from '../'
 
 const onClickSpy = jest.fn()
 

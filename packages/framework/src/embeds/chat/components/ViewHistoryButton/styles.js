@@ -1,7 +1,7 @@
 import styled from 'styled-components'
+import { zdColorGrey300, zdColorGrey600, zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { Button as GardenButton } from '@zendeskgarden/react-buttons'
 import ClockIcon from '@zendeskgarden/svg-icons/src/16/clock-stroke.svg'
-import { zdColorGrey300, zdColorGrey600, zdColorGrey800 } from '@zendeskgarden/css-variables'
 
 const Container = styled.div`
   border-bottom: ${zdColorGrey300} ${(props) => 1 / props.theme.fontSize}rem solid;

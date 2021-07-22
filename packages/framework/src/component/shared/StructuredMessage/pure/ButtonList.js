@@ -1,9 +1,7 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { isMobileBrowser } from 'utility/devices'
-
 import { locals as styles } from './ButtonList.scss'
 
 const isMobile = isMobileBrowser()

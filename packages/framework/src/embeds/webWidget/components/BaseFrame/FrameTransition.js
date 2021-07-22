@@ -1,14 +1,14 @@
-import { useMemo } from 'react'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { FRAME_TRANSITION_DURATION } from 'constants/shared'
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import Transition from 'react-transition-group/Transition'
+import { FRAME_TRANSITION_DURATION } from 'constants/shared'
 import { getHorizontalPosition } from 'src/redux/modules/selectors'
 import {
   getStylingOffset,
   getStylingPositionVertical,
 } from 'src/redux/modules/settings/settings-selectors'
-import { useSelector } from 'react-redux'
-import _ from 'lodash'
 import { isMobileBrowser } from 'utility/devices'
 
 const useTransitionStyles = () => {

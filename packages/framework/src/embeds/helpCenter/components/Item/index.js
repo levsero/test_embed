@@ -1,10 +1,9 @@
-import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
-
-import { TEST_IDS } from 'src/constants/shared'
-import { ListItem, ArticleLink } from './styles'
-import routes from 'src/embeds/helpCenter/routes'
+import { forwardRef } from 'react'
 import { useHistory } from 'react-router-dom'
+import { TEST_IDS } from 'src/constants/shared'
+import routes from 'src/embeds/helpCenter/routes'
+import { ListItem, ArticleLink } from './styles'
 
 const handleClick = (e, route, history) => {
   e.preventDefault()

@@ -1,8 +1,8 @@
-import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import { LoadingDots, Container } from './styles'
+import { forwardRef } from 'react'
 import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
+import { LoadingDots, Container } from './styles'
 
 const oneAgentTyping = (translate, agentsTyping) => {
   const agent = agentsTyping[0].display_name

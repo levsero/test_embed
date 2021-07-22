@@ -1,10 +1,9 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
-
-import { locals as styles } from './MessageOptions.scss'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
 import { TEST_IDS } from 'src/constants/shared'
+import { locals as styles } from './MessageOptions.scss'
 
 export class MessageOptions extends Component {
   static propTypes = {

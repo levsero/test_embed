@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
-
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
-import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import MessageBubble from 'src/MessageBubble'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import { OtherParticipantImage, PrimaryParticipantImage, Text } from './styles'
 
 const ImageMessage = ({

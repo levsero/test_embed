@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { Inline } from '@zendeskgarden/react-loaders'
 
 const DotLoader = styled(Inline)`

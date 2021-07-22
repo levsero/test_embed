@@ -1,7 +1,7 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
+import loadWidget from 'e2e/helpers/widget-page'
 import zChat from 'e2e/helpers/zChat'
+import { queries, wait } from 'pptr-testing-library'
 
 beforeEach(async () => {
   await loadWidget('helpCenter', 'chat')

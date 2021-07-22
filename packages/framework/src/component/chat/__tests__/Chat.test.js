@@ -1,7 +1,7 @@
-import { render } from 'src/util/testHelpers'
-import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import { render } from 'src/util/testHelpers'
+import Chat from '../Chat'
 
 let showOfflineChatMock, getShowChatHistoryMock, hasChatSdkConnected
 

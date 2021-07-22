@@ -1,12 +1,11 @@
 /**
  * @group visual-regressions
  */
-
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { assertScreenshot } from 'e2e/helpers/visual-regressions'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries, wait } from 'pptr-testing-library'
 
 const buildWidget = () => loadWidget().withPresets('helpCenter').intercept(mockSearchEndpoint())
 

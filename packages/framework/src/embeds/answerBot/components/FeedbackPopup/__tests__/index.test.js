@@ -1,8 +1,7 @@
 import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
-
-import FeedbackPopup from '../index'
 import createStore from 'src/redux/createStore'
+import FeedbackPopup from '../index'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {

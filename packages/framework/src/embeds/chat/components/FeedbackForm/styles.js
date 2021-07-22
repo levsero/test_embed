@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import { Button } from '@zendeskgarden/react-buttons'
 import { zdColorGrey800 } from '@zendeskgarden/css-variables'
+import { Button } from '@zendeskgarden/react-buttons'
 import { Textarea, Label } from '@zendeskgarden/react-forms'
-
 import RatingGroup from 'embeds/chat/components/RatingGroup'
 
 const SecondaryButton = styled(Button)`

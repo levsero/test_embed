@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
+import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
 import SocialLogin from 'src/embeds/chat/components/SocialLogin'
 import { DefaultProfileContainer } from './styles'
-import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
 
 const UserProfile = ({
   isAuthenticated,

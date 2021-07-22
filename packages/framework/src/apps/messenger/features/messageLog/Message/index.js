@@ -1,14 +1,14 @@
-import { memo } from 'react'
-import PropTypes from 'prop-types'
 import _isEqual from 'lodash/isEqual'
+import PropTypes from 'prop-types'
+import { memo } from 'react'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
-import FormStructuredMessage from './messages/FormStructuredMessage'
+import FileStructuredMessage from './messages/FileStructuredMessage'
 import FormResponseStructuredMessage from './messages/FormResponseStructuredMessage'
+import FormStructuredMessage from './messages/FormStructuredMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
 import TextStructuredMessage from './messages/TextStructuredMessage'
-import FileStructuredMessage from './messages/FileStructuredMessage'
-import TypingIndicator from './messages/TypingIndicator'
 import TimestampStructuredMessage from './messages/TimestampStructuredMessage'
+import TypingIndicator from './messages/TypingIndicator'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types

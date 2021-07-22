@@ -1,5 +1,4 @@
 import { Component } from 'react'
-
 import ChatBadge from 'src/component/launcher/ChatBadge'
 
 const noop = () => {}

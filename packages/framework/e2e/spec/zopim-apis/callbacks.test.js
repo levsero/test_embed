@@ -1,5 +1,5 @@
-import { wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
+import { wait } from 'pptr-testing-library'
 
 test('callbacks in $zopim are called', async () => {
   await loadWidget()

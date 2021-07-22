@@ -1,6 +1,5 @@
 import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-
 import { Component as Results } from '..'
 
 const actions = Object.freeze({

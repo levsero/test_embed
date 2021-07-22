@@ -1,7 +1,7 @@
 import { act, render } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
-import CountryDropdown from '../'
 import { TEST_IDS } from 'src/constants/shared'
+import CountryDropdown from '../'
 
 describe('CountryDropdown', () => {
   const defaultProps = {

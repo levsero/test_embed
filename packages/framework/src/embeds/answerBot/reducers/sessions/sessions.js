@@ -1,19 +1,16 @@
 import _ from 'lodash'
-
+import { ARTICLE_DISMISSED_PENDING } from 'src/embeds/answerBot/actions/article/action-types'
 import {
   QUESTION_SUBMITTED_FULFILLED,
   QUESTION_SUBMITTED_PENDING,
   QUESTION_SUBMITTED_REJECTED,
 } from 'src/embeds/answerBot/actions/conversation/action-types'
-
 import {
   SESSION_STARTED,
   SESSION_RESOLVED_PENDING,
   SESSION_FALLBACK,
   SESSION_AUTO_SCROLL,
 } from 'src/embeds/answerBot/actions/sessions/action-types'
-
-import { ARTICLE_DISMISSED_PENDING } from 'src/embeds/answerBot/actions/article/action-types'
 
 const initialState = new Map()
 

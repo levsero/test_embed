@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-
-import { Image } from './styles'
-import { ICONS } from 'src/constants/shared'
 import BlankAvatar from 'src/asset/icons/widget-icon_avatar.svg'
+import { ICONS } from 'src/constants/shared'
+import { Image } from './styles'
 
 const FALLBACK_ICONS = {
   [ICONS.AGENT_AVATAR]: BlankAvatar,

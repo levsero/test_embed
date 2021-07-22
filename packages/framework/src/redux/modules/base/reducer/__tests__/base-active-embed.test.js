@@ -1,6 +1,6 @@
-import baseActiveEmbed from '../base-active-embed'
-import { UPDATE_ACTIVE_EMBED } from '../../base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { UPDATE_ACTIVE_EMBED } from '../../base-action-types'
+import baseActiveEmbed from '../base-active-embed'
 
 testReducer(baseActiveEmbed, [
   {

@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
 import ChatBadgeConnect from '../ChatBadge'
+
 const ChatBadge = ChatBadgeConnect.WrappedComponent
 
 const renderComponent = (props = {}) => {

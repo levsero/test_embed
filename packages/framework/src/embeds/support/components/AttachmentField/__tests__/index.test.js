@@ -1,8 +1,8 @@
 import { fireEvent, wait } from '@testing-library/react'
+import { FileDropProvider } from 'components/FileDropProvider'
+import * as utils from 'src/util/utils'
 import { render } from 'utility/testHelpers'
 import { Component as AttachmentField } from '../'
-import * as utils from 'src/util/utils'
-import { FileDropProvider } from 'components/FileDropProvider'
 
 jest.mock('utility/devices')
 

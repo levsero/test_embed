@@ -1,3 +1,4 @@
+import { css } from 'styled-components'
 import {
   zdColorGrey100,
   zdColorGrey400,
@@ -5,11 +6,10 @@ import {
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'constants/shared'
-import { css } from 'styled-components'
+import { getWidgetColorVariables } from 'utility/color/styles'
+import { getThemeColor } from 'utility/color/validate'
 import { isMobileBrowser } from 'utility/devices'
 import { isSafari } from 'utility/devices'
-import { getThemeColor } from 'utility/color/validate'
-import { getWidgetColorVariables } from 'utility/color/styles'
 
 /* eslint max-len: 0 */
 const isMobile = isMobileBrowser()

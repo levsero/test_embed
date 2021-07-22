@@ -1,7 +1,7 @@
-import searchAttempted from '../searchAttempted'
 import { SEARCH_REQUEST_SENT } from 'embeds/helpCenter/actions/action-types'
-import { testReducer } from 'src/util/testHelpers'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
+import searchAttempted from '../searchAttempted'
 
 testReducer(searchAttempted, [
   {

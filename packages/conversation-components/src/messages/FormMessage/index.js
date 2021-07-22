@@ -1,16 +1,15 @@
-import { useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-
+import { useLayoutEffect, useState } from 'react'
 import { FORM_MESSAGE_STATUS, MESSAGE_STATUS } from 'src/constants'
-import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
-import FormField from './FormField'
-import FormButton from './FormButton'
-import SubmissionError from './SubmissionError'
-import validateFields from './validateFields'
-import { useScroll } from 'src/hooks/useScrollBehaviour'
 import useLabels from 'src/hooks/useLabels'
+import { useScroll } from 'src/hooks/useScrollBehaviour'
+import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
+import FormButton from './FormButton'
+import FormField from './FormField'
+import SubmissionError from './SubmissionError'
 import { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field } from './styles'
+import validateFields from './validateFields'
 
 const FormMessage = ({
   label,

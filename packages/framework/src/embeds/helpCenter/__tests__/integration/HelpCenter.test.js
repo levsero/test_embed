@@ -1,15 +1,14 @@
 import { fireEvent } from '@testing-library/react'
-
-import createStore from 'src/redux/createStore'
+import { wait } from '@testing-library/react'
+import { setContextualSuggestionsManually, contextualSearch } from 'embeds/helpCenter/actions'
 import { http } from 'service/transport'
+import { TEST_IDS } from 'src/constants/shared'
+import createStore from 'src/redux/createStore'
+import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
+import { updateSettings } from 'src/redux/modules/settings/settings-actions'
 import { render } from 'src/util/testHelpers'
 import * as utility from 'utility/devices'
-import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
-import { setContextualSuggestionsManually, contextualSearch } from 'embeds/helpCenter/actions'
-import { TEST_IDS } from 'src/constants/shared'
-import { updateSettings } from 'src/redux/modules/settings/settings-actions'
 import HelpCenter from '../../index'
-import { wait } from '@testing-library/react'
 
 const renderComponent = () => {
   const store = createStore()

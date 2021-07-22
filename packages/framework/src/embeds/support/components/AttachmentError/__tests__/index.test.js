@@ -1,7 +1,7 @@
-import { render } from 'utility/testHelpers'
-import AttachmentError from '../'
 import { fireEvent } from '@testing-library/react'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import { render } from 'utility/testHelpers'
+import AttachmentError from '../'
 
 describe('AttachmentError', () => {
   const renderComponent = (props = {}) => {

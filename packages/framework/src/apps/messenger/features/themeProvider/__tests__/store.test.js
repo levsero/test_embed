@@ -1,6 +1,6 @@
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import store, { getMessengerColors } from '../store'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 
 testReducer(store, [
   {

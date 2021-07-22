@@ -1,5 +1,5 @@
-import { Skeleton } from '@zendeskgarden/react-loaders'
 import styled from 'styled-components'
+import { Skeleton } from '@zendeskgarden/react-loaders'
 import { FONT_SIZE } from 'constants/shared'
 
 export const StyledSkeleton = styled(Skeleton)`

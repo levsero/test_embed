@@ -1,8 +1,7 @@
 import _ from 'lodash'
-
+import { store } from 'src/framework/services/persistence'
 import { UPDATE_ACTIVE_EMBED, UPDATE_WIDGET_SHOWN } from 'src/redux/modules/base/base-action-types'
 import { END_CHAT_REQUEST_SUCCESS, CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
-import { store } from 'src/framework/services/persistence'
 
 const keysToStore = {
   activeEmbed: 'base',

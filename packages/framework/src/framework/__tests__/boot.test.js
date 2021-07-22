@@ -1,14 +1,14 @@
 import { waitFor } from '@testing-library/dom'
-import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
-import { isBlacklisted } from 'utility/devices'
-import errorTracker from 'src/framework/services/errorTracker'
-import * as globals from 'utility/globals'
-import framework from '../index'
 import { beacon } from 'service/beacon'
 import tracker from 'service/tracker'
 import messenger from 'src/apps/messenger'
 import webWidget from 'src/apps/webWidget'
+import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
+import errorTracker from 'src/framework/services/errorTracker'
 import publicApi from 'src/framework/services/publicApi'
+import { isBlacklisted } from 'utility/devices'
+import * as globals from 'utility/globals'
+import framework from '../index'
 
 jest.mock('src/framework/api/embeddableConfig')
 jest.mock('utility/devices')

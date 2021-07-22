@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components'
 import { rgba, rem, math } from 'polished'
+import styled, { css } from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import dirStyles from 'src/utils/dirStyles'
 

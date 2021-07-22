@@ -1,5 +1,5 @@
-import reducer from '../chat-hideWhenOffline'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../chat-hideWhenOffline'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

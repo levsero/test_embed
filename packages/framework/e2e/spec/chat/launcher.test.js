@@ -1,11 +1,11 @@
-import { queries } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import launcher from 'e2e/helpers/launcher'
 import { waitForPrechatForm } from 'e2e/helpers/chat-embed'
-import { waitForContactForm } from 'e2e/helpers/support-embed'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
-import { TEST_IDS } from 'src/constants/shared'
+import launcher from 'e2e/helpers/launcher'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
+import loadWidget from 'e2e/helpers/widget-page'
 import zChat from 'e2e/helpers/zChat'
+import { queries } from 'pptr-testing-library'
+import { TEST_IDS } from 'src/constants/shared'
 
 const buildWidget = async (...embeds) => {
   await loadWidget()

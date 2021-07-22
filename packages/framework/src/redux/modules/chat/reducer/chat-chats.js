@@ -1,3 +1,11 @@
+import _ from 'lodash'
+import {
+  CHAT_MESSAGE_TYPES,
+  CHAT_CUSTOM_MESSAGE_EVENTS,
+  CHAT_SYSTEM_EVENTS,
+  CHAT_STRUCTURED_CONTENT_TYPE,
+} from 'constants/chat'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import {
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
@@ -17,15 +25,6 @@ import {
   CHAT_BANNED,
   CHAT_DROPPED,
 } from '../chat-action-types'
-import {
-  CHAT_MESSAGE_TYPES,
-  CHAT_CUSTOM_MESSAGE_EVENTS,
-  CHAT_SYSTEM_EVENTS,
-  CHAT_STRUCTURED_CONTENT_TYPE,
-} from 'constants/chat'
-import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
-
-import _ from 'lodash'
 
 const initialState = new Map()
 

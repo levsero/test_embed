@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
 import LoadingButton from 'embeds/talk/components/LoadingButton'
-
+import useTranslate from 'src/hooks/useTranslate'
 import { Container, Heading, Message, SectionContainer } from './styles'
 
 const NetworkError = ({ onClick, isLoading = false }) => {

@@ -1,8 +1,8 @@
-import Footer from '../'
+import { getByTestId } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'utility/testHelpers'
-import { getByTestId } from '@testing-library/dom'
+import Footer from '../'
 
 const onClickSpy = jest.fn()
 

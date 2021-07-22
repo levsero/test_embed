@@ -1,6 +1,7 @@
 /* eslint no-console:0 */
-import Replies from './'
 import { MessageLogListDecorator, MessengerContainerDecorator } from '../../.storybook/decorators'
+import Replies from './'
+
 export default {
   title: 'Components/Replies',
   component: Replies,

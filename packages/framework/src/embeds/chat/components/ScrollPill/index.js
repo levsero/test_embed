@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-
+import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 import useTranslate from 'src/hooks/useTranslate'
 import { ArrowDownIcon } from './styles'
-import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 
 const ScrollPill = ({ notificationCount, onClick }) => {
   const translate = useTranslate()

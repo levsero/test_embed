@@ -1,11 +1,11 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import createStore from 'src/apps/messenger/store'
-import { widgetOpened } from 'src/apps/messenger/store/visibility'
-import App from '../'
-import userEvent from '@testing-library/user-event'
 import { waitFor, within } from '@testing-library/dom'
+import userEvent from '@testing-library/user-event'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import createStore from 'src/apps/messenger/store'
 import { cookiesDisabled } from 'src/apps/messenger/store/cookies'
+import { widgetOpened } from 'src/apps/messenger/store/visibility'
+import { render } from 'src/apps/messenger/utils/testHelpers'
+import App from '../'
 
 jest.mock('src/apps/messenger/api/sunco')
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({

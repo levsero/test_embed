@@ -1,6 +1,6 @@
-import bootupTimeout from '../base-bootupTimeout'
-import { BOOT_UP_TIMER_COMPLETE } from '../../base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { BOOT_UP_TIMER_COMPLETE } from '../../base-action-types'
+import bootupTimeout from '../base-bootupTimeout'
 
 testReducer(bootupTimeout, [
   {

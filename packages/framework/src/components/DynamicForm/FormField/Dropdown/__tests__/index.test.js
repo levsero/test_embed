@@ -1,6 +1,6 @@
+import { fireEvent } from '@testing-library/dom'
 import { render } from 'utility/testHelpers'
 import Dropdown from '../'
-import { fireEvent } from '@testing-library/dom'
 
 describe('Dropdown', () => {
   const defaultProps = {

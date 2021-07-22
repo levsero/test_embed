@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import jsSha1 from 'sha1'
-
-import { document as doc, location } from 'utility/globals'
 import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'constants/shared'
+import { document as doc, location } from 'utility/globals'
 
 function parseUrl(url) {
   const anchor = document.createElement('a')

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import { getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors'
-import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
+import { connect } from 'react-redux'
 import useTranslate from 'src/hooks/useTranslate'
 import { openedChatHistory } from 'src/redux/modules/chat'
-import { connect } from 'react-redux'
+import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
+import { getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors'
 import { Container, Button, HistoryIcon } from './styles'
 
 const ViewHistoryButton = ({ canShowHistory, onOpenChatHistory }) => {

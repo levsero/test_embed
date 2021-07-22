@@ -1,7 +1,7 @@
-import formatRequestData from '../requestFormatter'
+import routes from 'embeds/support/routes'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as globals from 'utility/globals'
-import routes from 'embeds/support/routes'
+import formatRequestData from '../requestFormatter'
 
 jest.mock('src/apps/webWidget/services/i18n')
 jest.mock('utility/globals')

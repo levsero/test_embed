@@ -1,6 +1,6 @@
+import { rgba, rem } from 'polished'
 import styled from 'styled-components'
 import { Dropdown, Menu, Item, Select, Label, Field, Message } from '@zendeskgarden/react-dropdowns'
-import { rgba, rem } from 'polished'
 
 const StyledDropdown = styled(Dropdown)`
   &&& {

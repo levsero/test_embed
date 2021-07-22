@@ -1,9 +1,9 @@
-import { render } from 'utility/testHelpers'
-import useFormBackup from 'src/components/DynamicForm/hooks/useFormBackup'
 import { fireEvent } from '@testing-library/react'
+import useFormBackup from 'src/components/DynamicForm/hooks/useFormBackup'
+import { apiClearForm } from 'src/redux/modules/base'
+import { render } from 'utility/testHelpers'
 import wait from 'utility/wait'
 import DynamicForm from '../.'
-import { apiClearForm } from 'src/redux/modules/base'
 
 jest.mock('src/components/DynamicForm/hooks/useFormBackup')
 

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { TextMessage, Replies, MESSAGE_STATUS } from '@zendesk/conversation-components'
-
-import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
+import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const extractReplies = (actions) => {
   return actions?.filter((action) => action.type === 'reply') ?? []

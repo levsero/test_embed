@@ -1,19 +1,20 @@
 import {
-  DEFER_CHAT_SETUP,
-  BEGIN_CHAT_SETUP,
-  RECEIVE_DEFERRED_CHAT_STATUS,
-} from 'embeds/chat/actions/action-types'
-import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
-import {
   BASE_CHAT_POLL_INTERVAL,
   MAX_CHAT_POLL_INTERVAL,
   REQUESTS_BEFORE_BACKOFF,
 } from 'constants/chat'
-import wait from 'utility/wait'
-import { getIsPollingChat } from 'embeds/chat/selectors'
+import {
+  DEFER_CHAT_SETUP,
+  BEGIN_CHAT_SETUP,
+  RECEIVE_DEFERRED_CHAT_STATUS,
+} from 'embeds/chat/actions/action-types'
 import { fetchDeferredChatStatus } from 'embeds/chat/apis/deferred-chat-api'
+import { getIsPollingChat } from 'embeds/chat/selectors'
 import errorTracker from 'src/framework/services/errorTracker'
+import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
 import { document } from 'utility/globals'
+import wait from 'utility/wait'
+
 export const beginChatSetup = () => ({
   type: BEGIN_CHAT_SETUP,
 })

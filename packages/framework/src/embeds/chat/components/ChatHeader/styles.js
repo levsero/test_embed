@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorGrey400, zdColorGrey600 } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'src/constants/shared'
 import { Avatar } from 'component/Avatar'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
   display: flex;

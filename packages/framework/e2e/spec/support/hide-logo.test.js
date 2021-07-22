@@ -1,12 +1,12 @@
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
-import widget from 'e2e/helpers/widget'
 import {
   mockTicketSubmissionEndpoint,
   waitForContactForm,
   waitForSubmissionSuccess,
 } from 'e2e/helpers/support-embed'
 import { fillForm } from 'e2e/helpers/utils'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 test('hides the zendesk logo in the ticket form when requested in config', async () => {
   await loadWidget()

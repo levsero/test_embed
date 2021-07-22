@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { MESSAGE_STATUS } from 'src/constants'
 import Receipt from 'src/receipts/PrimaryParticipantReceipt'
 import { LayoutContainer, VerticalLayout } from './styles'

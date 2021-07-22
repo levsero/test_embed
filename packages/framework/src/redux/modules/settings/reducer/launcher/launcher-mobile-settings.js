@@ -1,5 +1,4 @@
 import _ from 'lodash'
-
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = {

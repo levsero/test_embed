@@ -1,6 +1,6 @@
+import 'jest-styled-components'
 import { render } from 'utility/testHelpers'
 import { Alert, Title } from '../index'
-import 'jest-styled-components'
 
 describe('Alert', () => {
   const renderComponent = (theme = {}) =>

@@ -7,8 +7,13 @@ import {
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME,
 } from 'constants/api'
-import { onChatConnected, onChatSDKInitialized } from './callbacks'
+import { settings } from 'service/settings'
+import tracker from 'service/tracker'
+import { updateActiveEmbed } from 'src/redux/modules/base'
+import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat'
+import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
+import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
   endChatApi,
   sendChatMsgApi,
@@ -29,6 +34,8 @@ import {
   addTagsApi,
   removeTagsApi,
 } from 'src/service/api/apis'
+import { nameValid, emailValid, phoneValid } from 'utility/utils'
+import { onChatConnected, onChatSDKInitialized } from './callbacks'
 import {
   setPositionApi,
   setOffsetApi,
@@ -41,13 +48,6 @@ import {
   showBadgeApi,
   hideBadgeApi,
 } from './helpers'
-import tracker from 'service/tracker'
-import { updateActiveEmbed } from 'src/redux/modules/base'
-import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
-import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
-import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
-import { settings } from 'service/settings'
-import { nameValid, emailValid, phoneValid } from 'utility/utils'
 
 const noop = () => {}
 

@@ -1,5 +1,5 @@
-import { ALL_FORMS_CLEARED, SET_FORM_STATE, CLEARED_FORM_STATE } from '../action-types'
 import { API_CLEAR_FORM, API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
+import { ALL_FORMS_CLEARED, SET_FORM_STATE, CLEARED_FORM_STATE } from '../action-types'
 
 const initialState = {}
 

@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux'
-
-import lastScroll from './last-scroll'
-import lastScreenClosed from './last-screen-closed'
 import getInTouchVisible from './get-in-touch-visible'
+import lastScreenClosed from './last-screen-closed'
+import lastScroll from './last-scroll'
 
 export default combineReducers({
   lastScroll,

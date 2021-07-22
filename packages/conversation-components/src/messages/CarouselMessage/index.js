@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types'
 import sanitizeHtml from 'sanitize-html'
+import ArrowIcon from '@zendeskgarden/svg-icons/src/16/arrow-left-stroke.svg'
+import Avatar from 'src/Avatar'
+import Label from 'src/Label'
+import { sanitizeHtmlOptions } from 'src/utils/html-sanitization'
 import {
   SlideMessage,
   Slide,
@@ -15,11 +19,7 @@ import {
   PreviousButton,
   Heading,
 } from './styles'
-import ArrowIcon from '@zendeskgarden/svg-icons/src/16/arrow-left-stroke.svg'
-import Avatar from 'src/Avatar'
-import Label from 'src/Label'
 import useCarousel from './use-carousel'
-import { sanitizeHtmlOptions } from 'src/utils/html-sanitization'
 
 const cleanHtml = (element) => {
   return {

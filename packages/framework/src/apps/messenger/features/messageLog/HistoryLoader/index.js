@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types'
+import { Spinner } from '@zendeskgarden/react-loaders'
+import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import {
   CenterSpinnerContainer,
   TopSpinnerContainer,
@@ -7,9 +10,6 @@ import {
   TopLoadingErrorContainer,
   LoadingErrorButton,
 } from './styles'
-import { Spinner } from '@zendeskgarden/react-loaders'
-import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
-import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const HistoryLoader = ({
   hasFetchedConversation,

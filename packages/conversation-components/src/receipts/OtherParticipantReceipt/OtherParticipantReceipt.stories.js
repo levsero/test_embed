@@ -1,8 +1,8 @@
-import OtherParticipantReceipt from './'
 import {
   MessengerContainerDecorator,
   MessageLogListDecorator,
 } from '../../../.storybook/decorators'
+import OtherParticipantReceipt from './'
 
 const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
 

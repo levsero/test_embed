@@ -1,11 +1,10 @@
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
-import { find } from 'styled-components/test-utils'
 import snapshotDiff from 'snapshot-diff'
-
+import { find } from 'styled-components/test-utils'
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import ChatMessagingChannels from '../ChatMessagingChannels'
 import { Container } from '../ChatMessagingChannelsStyles'
-import { TEST_IDS } from 'src/constants/shared'
 
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
 expect.addSnapshotSerializer(styleSheetSerializer)

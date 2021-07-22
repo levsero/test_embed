@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
-import { getMicrophoneMuted, getTimeInCall } from 'src/embeds/talk/selectors'
+import { useDispatch, useSelector } from 'react-redux'
 import { muteMicrophone, unmuteMicrophone } from 'src/embeds/talk/actions'
+import { getMicrophoneMuted, getTimeInCall } from 'src/embeds/talk/selectors'
+import useTranslate from 'src/hooks/useTranslate'
 import {
   CallButton,
   CallControls,

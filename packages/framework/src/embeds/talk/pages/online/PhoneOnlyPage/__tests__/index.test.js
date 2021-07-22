@@ -1,14 +1,13 @@
+import { styleSheetSerializer } from 'jest-styled-components/serializer'
+import snapshotDiff from 'snapshot-diff'
+import { render } from 'src/util/testHelpers'
+import { Component as PhoneOnlyPage } from './../'
+
 jest.mock('src/redux/modules/talk/talk-selectors')
 jest.mock('utility/devices')
 
-import snapshotDiff from 'snapshot-diff'
-import { styleSheetSerializer } from 'jest-styled-components/serializer'
-
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
 expect.addSnapshotSerializer(styleSheetSerializer)
-
-import { render } from 'src/util/testHelpers'
-import { Component as PhoneOnlyPage } from './../'
 
 describe('PhoneOnlyPage', () => {
   const defaultProps = {

@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
-
+import { useState } from 'react'
 import useTranslate from 'src/hooks/useTranslate'
 import InitialOptions from './InitialOptions'
 import ReasonOptions from './ReasonOptions'

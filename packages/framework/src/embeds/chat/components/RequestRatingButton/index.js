@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
+import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
 import useTranslate from 'src/hooks/useTranslate'
 import {
   getLatestRating,
@@ -10,8 +10,6 @@ import {
   getRatingSettings,
   getChatRating,
 } from 'src/redux/modules/chat/chat-selectors'
-import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
-
 import { Button } from './styles'
 
 const ratingButtonLabel = (

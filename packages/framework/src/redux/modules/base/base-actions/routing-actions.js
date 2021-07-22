@@ -1,8 +1,9 @@
-import * as actions from './../base-action-types'
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { updateChatScreen } from 'src/redux/modules/chat'
-import { cancelButtonClicked } from './base-actions'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
+import supportRoutes from 'embeds/support/routes'
+import { getFormsToDisplay } from 'embeds/support/selectors'
+import history from 'service/history'
+import { updateChatScreen } from 'src/redux/modules/chat'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import {
   getChannelChoiceAvailable,
   getAnswerBotAvailable,
@@ -10,9 +11,8 @@ import {
   getChatAvailable,
   getTalkOnline,
 } from 'src/redux/modules/selectors'
-import history from 'service/history'
-import supportRoutes from 'embeds/support/routes'
-import { getFormsToDisplay } from 'embeds/support/selectors'
+import * as actions from './../base-action-types'
+import { cancelButtonClicked } from './base-actions'
 
 export const updateActiveEmbed = (embedName) => {
   return {

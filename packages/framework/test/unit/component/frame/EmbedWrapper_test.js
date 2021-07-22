@@ -1,5 +1,5 @@
-import { Fragment } from 'react'
 import { createMemoryHistory } from 'history'
+import { Fragment } from 'react'
 
 describe('EmbedWrapper', () => {
   let EmbedWrapper

@@ -1,7 +1,7 @@
-import { Children, cloneElement, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { HiddenInput } from './styles'
+import { Children, cloneElement, useRef } from 'react'
 import { TEST_IDS } from 'constants/shared'
+import { HiddenInput } from './styles'
 
 // FileInput allows you to provide your own button-like component that will trigger a hidden input element onClick.
 const FileInput = ({ onFileSelect, children, ...props }) => {

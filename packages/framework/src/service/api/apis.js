@@ -1,17 +1,4 @@
 import _ from 'lodash'
-
-import {
-  handlePrefillReceived,
-  logout,
-  apiClearForm,
-  showReceived,
-  hideReceived,
-  openReceived,
-  closeReceived,
-  toggleReceived,
-  handlePopoutCreated,
-  renewToken,
-} from 'src/redux/modules/base'
 import {
   API_ON_CHAT_STATUS_NAME,
   API_ON_CLOSE_NAME,
@@ -35,6 +22,26 @@ import {
   CHAT_POPOUT_EVENT,
   USER_EVENT,
 } from 'constants/event'
+import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
+import * as callbacks from 'service/api/callbacks'
+import { beacon } from 'service/beacon'
+import { identity } from 'service/identity'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import {
+  handlePrefillReceived,
+  logout,
+  apiClearForm,
+  showReceived,
+  hideReceived,
+  openReceived,
+  closeReceived,
+  toggleReceived,
+  handlePopoutCreated,
+  renewToken,
+} from 'src/redux/modules/base'
+import { apiResetWidget } from 'src/redux/modules/base/base-actions'
+import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
+import { setUpChat } from 'src/redux/modules/chat'
 import {
   reinitialiseChat,
   sendVisitorPath,
@@ -42,7 +49,6 @@ import {
   sendMsg,
   setVisitorInfo,
 } from 'src/redux/modules/chat/chat-actions'
-import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import {
   getDepartment,
   getDepartmentsList,
@@ -54,20 +60,12 @@ import {
   getChatStatus,
   getHasBackfillCompleted,
 } from 'src/redux/modules/chat/chat-selectors'
-import { setUpChat } from 'src/redux/modules/chat'
+import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import { updateSettings } from 'src/redux/modules/settings'
-import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
-
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { identity } from 'service/identity'
-import { beacon } from 'service/beacon'
+import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
 import { createChatPopoutWindow } from 'src/util/chat'
 import { nameValid, emailValid, phoneValid } from 'utility/utils'
-import { apiResetWidget } from 'src/redux/modules/base/base-actions'
-import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
-import * as callbacks from 'service/api/callbacks'
-import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
 
 const getTagsInString = (tags) => {
   return tags.reduce((newTags, tag) => {

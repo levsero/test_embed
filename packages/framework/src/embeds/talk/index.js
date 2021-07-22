@@ -1,29 +1,29 @@
-import { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch, Redirect } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import { Component, lazy } from 'react'
 import { connect } from 'react-redux'
-
-import routes from './routes'
-import { CONTACT_OPTIONS } from './constants'
+import { withRouter } from 'react-router'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import LoadingPage from 'components/LoadingPage'
 import { WidgetThemeProvider } from 'src/components/Widget'
 import SuspensePage from 'src/components/Widget/SuspensePage'
-import SuccessNotificationPage from './pages/SuccessNotificationPage'
-import OfflinePage from './pages/offline/OfflinePage'
-import PhoneOnlyPage from './pages/online/PhoneOnlyPage'
-import CallbackOnlyPage from './pages/online/CallbackOnlyPage'
-import CallbackAndPhonePage from './pages/online/CallbackAndPhonePage'
-import LoadingPage from 'components/LoadingPage'
-const EmbeddedVoicePage = lazy(() =>
-  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/EmbeddedVoicePage')
-)
+import { getCapability, getIsCallInProgress } from 'src/embeds/talk/selectors'
+import { loadTalkVendors } from 'src/redux/modules/talk'
 import {
   getAgentAvailability,
   getSocketIoVendor,
   getDeferredStatusOnline,
 } from 'src/redux/modules/talk/talk-selectors'
-import { getCapability, getIsCallInProgress } from 'src/embeds/talk/selectors'
-import { loadTalkVendors } from 'src/redux/modules/talk'
+import { CONTACT_OPTIONS } from './constants'
+import SuccessNotificationPage from './pages/SuccessNotificationPage'
+import OfflinePage from './pages/offline/OfflinePage'
+import CallbackAndPhonePage from './pages/online/CallbackAndPhonePage'
+import CallbackOnlyPage from './pages/online/CallbackOnlyPage'
+import PhoneOnlyPage from './pages/online/PhoneOnlyPage'
+import routes from './routes'
+
+const EmbeddedVoicePage = lazy(() =>
+  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/EmbeddedVoicePage')
+)
 
 const onlineContactOptions = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),

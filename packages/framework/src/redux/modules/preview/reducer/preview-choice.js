@@ -1,5 +1,5 @@
-import { PREVIEW_CHOICE_SELECTED } from '../preview-action-types'
 import { CHAT } from 'src/constants/preview'
+import { PREVIEW_CHOICE_SELECTED } from '../preview-action-types'
 
 const initialState = CHAT
 

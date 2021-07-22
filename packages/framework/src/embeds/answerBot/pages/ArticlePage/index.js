@@ -1,34 +1,29 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-
-import FeedbackPopup from 'src/embeds/answerBot/components/FeedbackPopup'
-
+import { bindActionCreators } from 'redux'
 import HelpCenterArticle from 'components/HelpCenterArticle'
-import { FeedbackContainer } from './styles'
-
+import { Widget, Header, Main, Footer } from 'components/Widget'
+import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selectors'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { articleDismissed } from 'src/embeds/answerBot/actions/article'
-import * as sessionActions from 'src/embeds/answerBot/actions/sessions'
+import { originalArticleClicked } from 'src/embeds/answerBot/actions/article/article-viewed'
+import * as rootActions from 'src/embeds/answerBot/actions/root'
 import {
   botMessage,
   botFeedbackMessage,
   botFeedbackRequested,
   botFallbackMessage,
 } from 'src/embeds/answerBot/actions/root/bot'
-import * as rootActions from 'src/embeds/answerBot/actions/root'
-import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
-import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selectors'
-import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/actions'
-import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
-
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions'
+import FeedbackPopup from 'src/embeds/answerBot/components/FeedbackPopup'
 import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
-
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
+import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/actions'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
+import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 import { appendParams } from 'utility/utils'
-import { originalArticleClicked } from 'src/embeds/answerBot/actions/article/article-viewed'
-import { Widget, Header, Main, Footer } from 'components/Widget'
+import { FeedbackContainer } from './styles'
 
 class ArticlePage extends Component {
   static propTypes = {

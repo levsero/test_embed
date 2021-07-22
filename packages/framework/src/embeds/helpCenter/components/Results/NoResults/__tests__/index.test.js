@@ -1,5 +1,5 @@
-import { Component as NoResults } from '../'
 import { render } from 'src/util/testHelpers'
+import { Component as NoResults } from '../'
 
 const renderComponent = (inProps) => {
   const props = {

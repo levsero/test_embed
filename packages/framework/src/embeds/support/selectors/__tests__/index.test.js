@@ -1,10 +1,3 @@
-import createStore from 'src/redux/createStore'
-import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
-import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import createKeyID from 'embeds/support/utils/createKeyID'
-import * as selectors from '..'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getCanDisplayForm,
   getContactFormFields,
@@ -17,6 +10,13 @@ import {
   getIsAnyTicketFormLoading,
   getHasFetchedTicketForms,
 } from 'embeds/support/selectors'
+import createKeyID from 'embeds/support/utils/createKeyID'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
+import createStore from 'src/redux/createStore'
+import { updateEmbeddableConfig } from 'src/redux/modules/base'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import * as selectors from '..'
 
 const expectedNameField = {
   id: 'name',

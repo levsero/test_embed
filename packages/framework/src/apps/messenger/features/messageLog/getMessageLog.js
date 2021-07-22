@@ -1,8 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { MESSAGE_STATUS, FORM_MESSAGE_STATUS } from '@zendesk/conversation-components'
-
-import { getUserTyping } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 import { getFormsState } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
+import { getUserTyping } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 import { getAllMessages } from 'src/apps/messenger/features/messageLog/store'
 import insertTimestampsInLog from './utils/insertTimestampsInLog'
 

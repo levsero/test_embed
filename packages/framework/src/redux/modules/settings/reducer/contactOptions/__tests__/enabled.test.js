@@ -1,6 +1,6 @@
-import enabled from '../enabled'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import enabled from '../enabled'
 
 const badPayload = {
   foo: 'bar',

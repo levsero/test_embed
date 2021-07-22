@@ -1,15 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
-
 import {
   getComposerDraft,
   getIsComposerEnabled,
   saveDraft,
 } from 'src/apps/messenger/features/footer/store'
+import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
-import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 
 const Footer = () => {

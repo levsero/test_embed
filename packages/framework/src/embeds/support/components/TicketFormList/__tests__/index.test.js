@@ -1,5 +1,4 @@
 import { render } from 'src/util/testHelpers'
-
 import Component from '..'
 
 const handleFormOptionClick = jest.fn()

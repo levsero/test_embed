@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
-import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { withTheme } from 'styled-components'
-
-import useTranslate from 'src/hooks/useTranslate'
+import { Tooltip } from '@zendeskgarden/react-tooltips'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { TEST_IDS } from 'src/constants/shared'
-
+import useTranslate from 'src/hooks/useTranslate'
 import { Icon } from './styles'
 
 const EndChatOption = ({ endChat, isChatting, theme: { rtl } }) => {

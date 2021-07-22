@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { Button as GardenButton } from '@zendeskgarden/react-buttons'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const Button = styled(GardenButton)`
   &&& {

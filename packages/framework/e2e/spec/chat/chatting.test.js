@@ -1,6 +1,3 @@
-import widget from 'e2e/helpers/widget'
-import frame from 'e2e/helpers/frame'
-
 import {
   loadWidgetWithChatOnline,
   clickStartChat,
@@ -9,6 +6,8 @@ import {
   sendMessageFromAgent,
   waitForChatToBeReady,
 } from 'e2e/helpers/chat-embed'
+import frame from 'e2e/helpers/frame'
+import widget from 'e2e/helpers/widget'
 
 const getFrame = () => frame.getByName('webWidget')
 

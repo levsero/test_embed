@@ -1,6 +1,6 @@
-import connectOnPageLoad from '../connectOnPageLoad'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import connectOnPageLoad from '../connectOnPageLoad'
 
 const initialState = true
 const badPayload = {

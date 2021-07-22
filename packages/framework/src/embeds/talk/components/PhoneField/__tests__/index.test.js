@@ -1,13 +1,12 @@
 import { render, fireEvent, queryByAltText } from '@testing-library/react'
 import * as libphonenumber from 'libphonenumber-js'
-import { Component as PhoneField } from '../'
 import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
+import { TEST_IDS } from 'src/constants/shared'
 import countriesByIso from 'translation/ze_countries'
+import { Component as PhoneField } from '../'
 
 jest.mock('libphonenumber-js')
-
-import { TEST_IDS } from 'src/constants/shared'
 
 describe('PhoneField', () => {
   const mockFormattedValue = '+61412 345 678'

@@ -1,6 +1,5 @@
 import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
-
 import { Component as Footer } from '../index'
 
 const renderComponent = (props = {}) => {

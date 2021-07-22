@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Avatar as AvatarComponent } from 'src/component/Avatar'
 import { zdColorGrey600 } from '@zendeskgarden/css-variables'
+import { Avatar as AvatarComponent } from 'src/component/Avatar'
 
 const Container = styled.div`
   ${(props) => {

@@ -1,5 +1,4 @@
 import { render, fireEvent } from '@testing-library/react'
-
 import { ButtonIcon } from '../ButtonIcon'
 
 const renderComponent = (props) => {

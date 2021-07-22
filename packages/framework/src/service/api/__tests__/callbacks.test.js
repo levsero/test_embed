@@ -1,10 +1,10 @@
-import * as callbacks from '../callbacks'
 import {
   WIDGET_OPENED_EVENT,
   WIDGET_CLOSED_EVENT,
   CHAT_CONNECTED_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
 } from 'constants/event'
+import * as callbacks from '../callbacks'
 
 test('invalid event name', () => {
   const callbackSpy = jest.fn()

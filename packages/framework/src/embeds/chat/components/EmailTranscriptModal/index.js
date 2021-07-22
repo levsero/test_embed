@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { withTheme } from 'styled-components'
-import { StyledModal } from './styles'
-
+import { TEST_IDS } from 'constants/shared'
 import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
 import EmailTranscriptSuccess from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptSuccess'
-import { TEST_IDS } from 'constants/shared'
+import { StyledModal } from './styles'
 
 const EmailTranscriptModal = ({ onClose }) => {
   const [container, setContainer] = useState(null)

@@ -1,7 +1,7 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { locals as styles } from './LoadingSpinner.scss'
+import { Component } from 'react'
 import { TEST_IDS } from 'src/constants/shared'
+import { locals as styles } from './LoadingSpinner.scss'
 
 export class LoadingSpinner extends Component {
   static propTypes = {

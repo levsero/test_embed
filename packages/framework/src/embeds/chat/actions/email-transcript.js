@@ -1,5 +1,5 @@
-import * as actions from './action-types'
 import { zChatWithTimeout } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
+import * as actions from './action-types'
 
 export function sendEmailTranscript(email) {
   return (dispatch, getState) => {

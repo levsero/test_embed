@@ -1,7 +1,7 @@
-import { getIsLauncherVisible } from '../store'
-import createStore from 'src/apps/messenger/store'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import createStore from 'src/apps/messenger/store'
 import { widgetClosed, widgetOpened } from 'src/apps/messenger/store/visibility'
+import { getIsLauncherVisible } from '../store'
 
 describe('launcher store', () => {
   describe('getIsLauncherVisible', () => {

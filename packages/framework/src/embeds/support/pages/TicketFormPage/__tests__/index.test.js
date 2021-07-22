@@ -1,8 +1,8 @@
 import { createMemoryHistory } from 'history'
-import { render } from 'src/util/testHelpers'
-import { Component as TicketFormPage } from '../'
 import { TEST_IDS } from 'constants/shared'
 import routes from 'src/embeds/support/routes'
+import { render } from 'src/util/testHelpers'
+import { Component as TicketFormPage } from '../'
 
 describe('TicketFormPage', () => {
   const defaultProps = {

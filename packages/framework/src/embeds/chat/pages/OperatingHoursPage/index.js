@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { handleOfflineFormBack } from 'src/redux/modules/chat'
-import OperatingHours from 'src/embeds/chat/components/OperatingHours'
 import { Widget, Header, Main } from 'components/Widget'
+import OperatingHours from 'src/embeds/chat/components/OperatingHours'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
+import { handleOfflineFormBack } from 'src/redux/modules/chat'
 import { getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
 
 const OperatingHoursPage = ({ handleOfflineFormBack, operatingHours, title, locale }) => {
   return (

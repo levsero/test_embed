@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types'
 import CSSTransition from 'react-transition-group/CSSTransition'
-
+import { FRAME_ANIMATION_DURATION } from 'src/constants'
 import { useScroll } from 'src/hooks/useScrollBehaviour'
 import { isSafari } from 'src/utils/hostPageWindow'
-
-import { FRAME_ANIMATION_DURATION } from 'src/constants'
 
 const Animated = ({
   children,

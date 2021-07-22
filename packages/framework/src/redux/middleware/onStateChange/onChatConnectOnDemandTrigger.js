@@ -1,7 +1,4 @@
 import _ from 'lodash'
-
-import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
-import { setUpChat } from 'src/redux/modules/chat'
 import {
   LAUNCHER_CLICKED,
   OPEN_RECEIVED,
@@ -11,6 +8,8 @@ import {
   WIDGET_SHOW_ANIMATION_COMPLETE,
 } from 'src/redux/modules/base/base-action-types'
 import { getChatEmbed } from 'src/redux/modules/base/base-selectors'
+import { setUpChat } from 'src/redux/modules/chat'
+import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 
 let setupChatCalled = false
 

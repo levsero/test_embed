@@ -1,8 +1,8 @@
 import { MESSAGE_STATUS } from '@zendesk/conversation-components'
+import * as suncoClient from 'src/apps/messenger/api/sunco'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
-import * as suncoClient from 'src/apps/messenger/api/sunco'
 import reducer, { messageReceived, sendMessage } from '../store'
 
 jest.mock('src/apps/messenger/api/sunco')

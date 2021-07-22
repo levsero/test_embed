@@ -1,5 +1,4 @@
 import { render } from 'src/util/testHelpers'
-
 import { Component as RequestRatingButton } from '../'
 
 describe('RequestRatingButton', () => {

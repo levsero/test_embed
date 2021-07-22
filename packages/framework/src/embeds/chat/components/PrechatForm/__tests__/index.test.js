@@ -1,12 +1,12 @@
-import { render } from 'src/util/testHelpers'
-import { Component as PrechatForm } from '../'
-import { TEST_IDS } from 'constants/shared'
-import { wait } from '@testing-library/react'
 import { fireEvent } from '@testing-library/dom'
-import { setDefaultDepartment } from 'src/redux/modules/chat'
+import { wait } from '@testing-library/react'
+import { TEST_IDS } from 'constants/shared'
 import { handlePrefillReceived } from 'src/redux/modules/base'
+import { setDefaultDepartment } from 'src/redux/modules/chat'
 import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import { SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types'
+import { render } from 'src/util/testHelpers'
+import { Component as PrechatForm } from '../'
 
 jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
   return {

@@ -1,6 +1,5 @@
-import { wait } from 'pptr-testing-library'
-
 import { clearInputField } from 'e2e/helpers/utils'
+import { wait } from 'pptr-testing-library'
 
 /*
   For testing that user-input text is maliable in HTML input elements.

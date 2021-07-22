@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
-
-import enabled from './enabled'
+import chat from './chat-contactOptions'
 import contactButton from './contactButton'
 import contactFormLabel from './contactFormLabel'
-import chat from './chat-contactOptions'
+import enabled from './enabled'
 
 export default combineReducers({
   enabled,

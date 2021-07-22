@@ -1,8 +1,7 @@
-import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types'
-import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
-import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
-
 import _ from 'lodash'
+import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
+import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
+import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types'
 
 const initialState = {
   embeds: {

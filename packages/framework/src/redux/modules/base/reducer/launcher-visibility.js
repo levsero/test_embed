@@ -1,3 +1,11 @@
+import { isMobileBrowser } from 'utility/devices'
+import { isPopout } from 'utility/globals'
+import {
+  PROACTIVE_CHAT_RECEIVED,
+  CHAT_WINDOW_OPEN_ON_NAVIGATE,
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
+  CHAT_BANNED,
+} from '../../chat/chat-action-types'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,
@@ -12,14 +20,6 @@ import {
   POPOUT_CREATED,
   ESCAPE_KEY_PRESSED,
 } from '../base-action-types'
-import {
-  PROACTIVE_CHAT_RECEIVED,
-  CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED,
-} from '../../chat/chat-action-types'
-import { isMobileBrowser } from 'utility/devices'
-import { isPopout } from 'utility/globals'
 
 const initialState = !isPopout()
 

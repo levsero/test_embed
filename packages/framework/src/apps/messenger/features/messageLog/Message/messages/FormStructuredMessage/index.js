@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { FormMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
-import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
 
 const FormStructuredMessage = ({
   message: {

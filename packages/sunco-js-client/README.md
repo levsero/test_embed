@@ -20,11 +20,10 @@ If you need to toggle the feature flag, you can do so via a script in our develo
 
 ```js
 import Sunco from '@zendesk/sunco-js-client'
-
 const appId = 'replace with app id'
 const integrationId = 'replace with integration id'
-
-// by default the client will attempt to connect to a production URL (https://api.smooch.io). If you wish to use a different base url you can pass in during initialisation.
+ by default the client will attempt to connect to a production URL (https://api.smooch.io). If you wish to use a different base url you can pass in during initialisation.
+c
 const client = new Sunco({
   integrationId: integrationId,
   appId: appId,

@@ -1,5 +1,5 @@
-import { testReducer } from 'src/util/testHelpers'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 import chatLogBackfillCompleted from '../chat-log-backfill-completed'
 
 testReducer(chatLogBackfillCompleted, [

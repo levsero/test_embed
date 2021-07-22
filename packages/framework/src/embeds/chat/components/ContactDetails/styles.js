@@ -1,5 +1,5 @@
-import { Modal } from '@zendeskgarden/react-modals'
 import styled from 'styled-components'
+import { Modal } from '@zendeskgarden/react-modals'
 import { isIE } from 'utility/devices'
 
 const StyledModal = styled(Modal)`

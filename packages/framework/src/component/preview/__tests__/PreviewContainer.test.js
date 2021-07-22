@@ -1,9 +1,7 @@
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
-
-import createStore from 'src/redux/createStore'
 import { CHAT } from 'src/constants/preview'
-
+import createStore from 'src/redux/createStore'
 import { PreviewContainer } from '../PreviewContainer'
 
 const renderComponent = (props = {}) => {

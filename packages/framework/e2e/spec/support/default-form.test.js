@@ -1,5 +1,4 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
+import { queryAllByText } from 'e2e/helpers/queries'
 import {
   createField,
   mockTicketFieldsEndpoint,
@@ -7,8 +6,9 @@ import {
   waitForContactForm,
 } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
-import { queryAllByText } from 'e2e/helpers/queries'
+import loadWidget from 'e2e/helpers/widget-page'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
+import { queries, wait } from 'pptr-testing-library'
 
 const testDefaultForm = async ({ config }) => {
   const form = await testForm({ config })

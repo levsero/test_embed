@@ -1,6 +1,6 @@
-import baseArturos from '../base-arturos'
-import { UPDATE_ARTUROS } from '../../base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { UPDATE_ARTUROS } from '../../base-action-types'
+import baseArturos from '../base-arturos'
 
 testReducer(baseArturos, [
   {

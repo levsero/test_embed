@@ -1,10 +1,10 @@
-import { render } from 'utility/testHelpers'
-import { Component as TicketForm } from '../'
-import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'constants/shared'
-import wait from 'utility/wait'
+import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import createKeyID from 'embeds/support/utils/createKeyID'
+import { render } from 'utility/testHelpers'
+import wait from 'utility/wait'
+import { Component as TicketForm } from '../'
 
 jest.mock('embeds/support/hooks/useWidgetFormApis')
 

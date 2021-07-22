@@ -1,6 +1,5 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { Component } from 'react'
 import PureCarousel from 'embeds/chat/components/Carousel'
 import StructuredMessage from './StructuredMessage'
 

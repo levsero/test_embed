@@ -1,6 +1,6 @@
 import { find } from 'styled-components/test-utils'
-import render from 'src/utils/test/render'
 import { Image } from 'src/Avatar/styles'
+import render from 'src/utils/test/render'
 import CarouselMessage from '../'
 import { Heading } from '../styles'
 

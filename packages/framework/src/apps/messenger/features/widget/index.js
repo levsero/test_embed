@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
-import WidgetFrame from './components/WidgetFrame'
 import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
+import WidgetFrame from './components/WidgetFrame'
 
 const Widget = forwardRef((_props, ref) => {
   return (

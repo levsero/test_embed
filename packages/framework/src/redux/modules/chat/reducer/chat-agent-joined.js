@@ -1,9 +1,9 @@
+import { AGENT_BOT } from 'constants/chat'
 import {
   SDK_CHAT_MEMBER_JOIN,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
 } from '../chat-action-types'
-import { AGENT_BOT } from 'constants/chat'
 
 const initialState = false
 

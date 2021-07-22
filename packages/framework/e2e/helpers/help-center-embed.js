@@ -1,8 +1,8 @@
-import { queries } from 'pptr-testing-library'
-import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/search-results.json'
-import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
+import widget from 'e2e/helpers/widget'
+import { queries } from 'pptr-testing-library'
 import { TEST_IDS } from 'src/constants/shared'
+import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 
 export const mockSearchEndpoint = (results = searchResults, callback) => {
   return mockCorsRequest('embeddable_search.json', (request) => {

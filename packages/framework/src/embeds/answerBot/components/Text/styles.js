@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { zdColorWhite, zdColorGrey800, zdColorGrey100 } from '@zendeskgarden/css-variables'
 import { MessageBubble } from 'component/shared/MessageBubble'
 

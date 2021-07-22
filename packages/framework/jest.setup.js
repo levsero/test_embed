@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect'
 import '@testing-library/react/cleanup-after-each'
 import 'jest-styled-components'
-
 import 'mutationobserver-shim'
 
 jest.mock('translation/ze_localeIdMap', () => require('translation/__mocks__/ze_localeIdMap'), {

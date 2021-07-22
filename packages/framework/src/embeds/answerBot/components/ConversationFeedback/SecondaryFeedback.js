@@ -1,9 +1,5 @@
 import { useDispatch } from 'react-redux'
-
-import useTranslate from 'src/hooks/useTranslate'
-
 import { ButtonGroup } from 'component/button/ButtonGroup'
-
 import { articleDismissed } from 'src/embeds/answerBot/actions/article'
 import {
   botFeedbackMessage,
@@ -11,6 +7,7 @@ import {
   botFallbackMessage,
 } from 'src/embeds/answerBot/actions/root/bot'
 import { sessionFallback } from 'src/embeds/answerBot/actions/sessions'
+import useTranslate from 'src/hooks/useTranslate'
 import { Container, Option } from './styles'
 
 const SecondaryFeedback = () => {

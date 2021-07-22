@@ -1,14 +1,10 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import FeedbackForm from 'embeds/chat/components/FeedbackForm'
+import { Widget, Main, Footer } from 'components/Widget'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
-import {
-  getIsChatting,
-  getChatRating,
-  getAgentEndedChatSession,
-} from 'src/redux/modules/chat/chat-selectors'
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
+import FeedbackForm from 'embeds/chat/components/FeedbackForm'
+import useTranslate from 'src/hooks/useTranslate'
 import {
   sendChatRating,
   sendLastChatRatingInfo,
@@ -16,9 +12,12 @@ import {
   endChat,
   updateChatScreen,
 } from 'src/redux/modules/chat'
-import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
-import { Widget, Main, Footer } from 'components/Widget'
-import useTranslate from 'src/hooks/useTranslate'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import {
+  getIsChatting,
+  getChatRating,
+  getAgentEndedChatSession,
+} from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = (state) => {
   return {

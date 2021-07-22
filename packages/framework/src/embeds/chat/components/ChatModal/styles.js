@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorWhite } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
 import { SlideAppear } from 'component/transition/SlideAppear'
+import { FONT_SIZE } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const Backdrop = styled.div`

@@ -1,6 +1,6 @@
+import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import AttachmentLimitError from '../'
-import { fireEvent } from '@testing-library/react'
 
 describe('AttachmentLimitError', () => {
   const renderComponent = (props = {}) => {

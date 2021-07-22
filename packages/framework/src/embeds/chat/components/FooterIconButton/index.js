@@ -1,13 +1,13 @@
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { IconButton } from '@zendeskgarden/react-buttons'
-import { FONT_SIZE } from 'constants/shared'
+import styled from 'styled-components'
 import {
   zdColorGrey300,
   zdColorGrey400,
   zdColorGrey600,
   zdColorGrey800,
 } from '@zendeskgarden/css-variables'
+import { IconButton } from '@zendeskgarden/react-buttons'
+import { FONT_SIZE } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const size = () => `${(isMobileBrowser() ? 16 : 14) / FONT_SIZE}rem`

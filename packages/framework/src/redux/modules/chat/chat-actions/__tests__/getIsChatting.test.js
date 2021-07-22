@@ -1,13 +1,12 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
+import { store } from 'src/framework/services/persistence'
+import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
 import {
   IS_CHATTING,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   CHAT_DROPPED,
 } from 'src/redux/modules/chat/chat-action-types'
-import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
-import { store } from 'src/framework/services/persistence'
 
 let getIsChatting = require('../getIsChatting').getIsChatting
 let isMobileBrowser = require('utility/devices').isMobileBrowser

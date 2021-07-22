@@ -1,9 +1,9 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
-import { waitForAnswerBot, mockInteractionEndpoint, search } from 'e2e/helpers/answer-bot-embed'
 import searchResults from 'e2e/fixtures/responses/answer-bot-interaction.json'
+import { waitForAnswerBot, mockInteractionEndpoint, search } from 'e2e/helpers/answer-bot-embed'
 import { queryAllByText } from 'e2e/helpers/queries'
 import { getJsonPayload } from 'e2e/helpers/utils'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 import { TEST_IDS } from 'src/constants/shared'
 
 const buildWidget = () => loadWidget().withPresets('answerBot')

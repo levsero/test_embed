@@ -1,7 +1,7 @@
-import { queries } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries } from 'pptr-testing-library'
 
 const buildWidget = () =>
   loadWidget().withPresets('helpCenterWithContextualHelp').intercept(mockSearchEndpoint())

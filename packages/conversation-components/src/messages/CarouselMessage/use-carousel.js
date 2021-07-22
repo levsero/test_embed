@@ -1,6 +1,6 @@
+import { stripUnit } from 'polished'
 import { useEffect, useRef, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
-import { stripUnit } from 'polished'
 import { scrollPadding } from './styles'
 
 const remToPx = (rem) => {

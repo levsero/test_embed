@@ -1,5 +1,4 @@
 import { render } from 'src/util/testHelpers'
-
 import ProgressBar from '../'
 
 test('renders with expected classes', () => {

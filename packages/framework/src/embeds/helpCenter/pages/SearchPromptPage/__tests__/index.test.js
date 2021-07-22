@@ -1,16 +1,16 @@
 import { fireEvent } from '@testing-library/react'
-import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import { TEST_IDS } from 'src/constants/shared'
 import { http } from 'service/transport'
+import { TEST_IDS } from 'src/constants/shared'
+import { render } from 'utility/testHelpers'
+import SearchPromptPage, { Component } from '../index'
+
 http.get = jest.fn(
   () =>
     new Promise((resolve) => {
       resolve()
     })
 )
-
-import SearchPromptPage, { Component } from '../index'
 
 const placeHolder = 'How can we help?'
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Button } from '@zendeskgarden/react-buttons'
 import { zdColorGrey800 } from '@zendeskgarden/css-variables'
+import { Button } from '@zendeskgarden/react-buttons'
 
 const OperatingHoursLink = styled(Button)`
   &&& {

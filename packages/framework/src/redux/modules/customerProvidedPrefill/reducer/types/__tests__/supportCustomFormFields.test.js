@@ -1,6 +1,6 @@
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'utility/testHelpers'
 import supportCustomFormFields from '../supportCustomFormFields'
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 
 const initialState = {
   values: {},

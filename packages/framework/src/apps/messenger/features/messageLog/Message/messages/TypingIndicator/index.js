@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { MessageBubble, OtherParticipantLayout } from '@zendesk/conversation-components'
-import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import { DotLoader } from './styles'
 
 const TypingIndicator = ({

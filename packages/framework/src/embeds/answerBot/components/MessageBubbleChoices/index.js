@@ -1,7 +1,6 @@
-import { Children } from 'react'
 import PropTypes from 'prop-types'
+import { Children } from 'react'
 import { TEST_IDS } from 'src/constants/shared'
-
 import { Header, Container, Item } from './styles'
 
 const renderLeadingMessage = (leadingMessage) => {

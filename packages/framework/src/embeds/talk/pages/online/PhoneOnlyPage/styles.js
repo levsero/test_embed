@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { isMobileBrowser } from 'utility/devices'
 import { FONT_SIZE } from 'constants/shared'
 import TalkIcon from 'src/embeds/talk/icons/talk.svg'
+import { isMobileBrowser } from 'utility/devices'
 
 const Container = styled.div`
   text-align: center;

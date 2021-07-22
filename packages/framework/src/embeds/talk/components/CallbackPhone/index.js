@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import getFormattedPhoneNumber from 'embeds/talk/utils/getFormattedPhoneNumber'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { getPhoneNumber } from 'src/embeds/talk/selectors'
-
 import { DisplayLabel } from './styles'
-import getFormattedPhoneNumber from 'embeds/talk/utils/getFormattedPhoneNumber'
 
 const CallbackPhone = ({ phoneNumber, formattedPhoneNumber, phoneLabel }) => {
   if (phoneNumber && formattedPhoneNumber) {

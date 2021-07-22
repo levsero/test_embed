@@ -1,11 +1,6 @@
 /**
  * @group visual-regressions
  */
-import { queries } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
-import launcher from 'e2e/helpers/launcher'
-import zChat from 'e2e/helpers/zChat'
 import {
   waitForChatToBeReady,
   clickStartChat,
@@ -13,9 +8,14 @@ import {
   loadWidgetWithChatOnline,
   clickChatOptions,
 } from 'e2e/helpers/chat-embed'
-import { allowsInputTextEditing } from '../shared-examples'
+import launcher from 'e2e/helpers/launcher'
 import { clearInputField } from 'e2e/helpers/utils'
 import { assertScreenshot } from 'e2e/helpers/visual-regressions'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import zChat from 'e2e/helpers/zChat'
+import { queries } from 'pptr-testing-library'
+import { allowsInputTextEditing } from '../shared-examples'
 
 const sendMessageFromAgent = async (proactive) => {
   const detail = {

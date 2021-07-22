@@ -1,8 +1,7 @@
-import '../webWidgetPreview'
-
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import { waitFor } from '@testing-library/dom'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
+import '../webWidgetPreview'
 
 beforeEach(() => {
   const div = document.createElement('div')

@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { updateSettingsApi } from 'src/service/api/apis'
-import { getChatStatus } from 'src/redux/modules/chat/chat-selectors'
-import { badgeHideReceived, badgeShowReceived } from 'src/redux/modules/base'
-import * as callbacks from 'service/api/callbacks'
 import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event'
+import * as callbacks from 'service/api/callbacks'
 import tracker from 'service/tracker'
+import { badgeHideReceived, badgeShowReceived } from 'src/redux/modules/base'
+import { getChatStatus } from 'src/redux/modules/chat/chat-selectors'
+import { updateSettingsApi } from 'src/service/api/apis'
 
 export const setPositionApi = (store) => (position) => {
   const mapPositions = {

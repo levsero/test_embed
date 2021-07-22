@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-
 import { zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'

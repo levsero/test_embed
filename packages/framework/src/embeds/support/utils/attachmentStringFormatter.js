@@ -1,4 +1,5 @@
 import _ from 'lodash'
+
 const MAX_FILENAME_LENGTH = 30
 const TRAILING_CHARS_LENGTH = 7
 

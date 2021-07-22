@@ -1,9 +1,9 @@
+import { rem } from 'polished'
 import PropTypes from 'prop-types'
 import { DEFAULT_THEME, ThemeProvider as GardenThemeProvider } from '@zendeskgarden/react-theming'
-import { rem } from 'polished'
 import { MESSAGE_STATUS } from 'src/constants'
-import getReadableMessengerColor from './getReadableMessengerColor'
 import defaultLabels from './defaultLabels'
+import getReadableMessengerColor from './getReadableMessengerColor'
 
 const ThemeProvider = ({
   primaryColor = DEFAULT_THEME.palette.kale[600],

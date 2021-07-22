@@ -1,8 +1,8 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
-import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
+import loadWidget from 'e2e/helpers/widget-page'
 import zChat from 'e2e/helpers/zChat'
+import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
+import { queries, wait } from 'pptr-testing-library'
 import widget from './widget'
 
 const loadWidgetWithChatOnline = async (options = {}) => {

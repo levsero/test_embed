@@ -223,7 +223,6 @@ found [here](https://github.com/kentcdodds/dom-testing-library/blob/master/src/e
 
 ```js
 import createStore from 'src/redux/createStore'
-
 const store = createStore()
 const utils = render(
   <Provider store={store}>
@@ -257,12 +256,9 @@ test('myComposedSelector unit test', () => {
 ```js
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
 const mockStore = configureMockStore([thunk])
 const store = mockStore(state)
-
 store.dispatch(actionToTest())
-
 expect(store.getActions()).toEqual(expected)
 ```
 

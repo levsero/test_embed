@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Container, Content } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
+import { Container, Content } from './styles'
 
 const Legend = ({ hasContextuallySearched }) => {
   const translate = useTranslate()

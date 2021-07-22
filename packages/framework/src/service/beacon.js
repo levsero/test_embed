@@ -1,12 +1,11 @@
 import _ from 'lodash'
-
+import { sendWithMeta } from 'service/transport/http-base'
 import i18n from 'src/framework/services/i18n'
 import { store } from 'src/framework/services/persistence'
-import { sendWithMeta } from 'service/transport/http-base'
+import { getMetaTagsByName, isMobileBrowser } from 'utility/devices'
 import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
 import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'utility/utils'
-import { getMetaTagsByName, isMobileBrowser } from 'utility/devices'
 
 let configLoadTime,
   previousTime = 0

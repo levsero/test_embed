@@ -1,5 +1,5 @@
-import { testReducer } from 'src/util/testHelpers'
 import { CHAT_BANNED } from 'src/redux/modules/chat/chat-action-types'
+import { testReducer } from 'src/util/testHelpers'
 import chatBanned from '../chat-banned'
 
 testReducer(chatBanned, [

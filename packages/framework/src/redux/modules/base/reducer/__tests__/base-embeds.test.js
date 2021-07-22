@@ -1,6 +1,6 @@
-import embeds from '../base-embeds'
-import { UPDATE_EMBED } from '../../base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { UPDATE_EMBED } from '../../base-action-types'
+import embeds from '../base-embeds'
 
 testReducer(embeds, [
   {

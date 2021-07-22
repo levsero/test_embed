@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { FONT_SIZE } from 'constants/shared'
 
 const HeaderView = styled.div`

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
-
-import useParseTime from 'src/receipts/hooks/useParseTime'
 import AnimatedReceipt from 'src/receipts/AnimatedReceipt'
+import useParseTime from 'src/receipts/hooks/useParseTime'
 import { Layout, Tail, Time } from './styles'
 
 const OtherParticipantReceipt = ({

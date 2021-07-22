@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
 import { genericOverrides, mobileOverrides, selectOverrides } from 'component/frame/gardenOverrides'
+import { FONT_SIZE } from 'constants/shared'
 
 const overrides = {
   'forms.input': genericOverrides,

@@ -1,5 +1,5 @@
-import BaseApi from './BaseApi'
 import storage from '../utils/storage'
+import BaseApi from './BaseApi'
 
 class ConversationsApi extends BaseApi {
   list(appUserId) {

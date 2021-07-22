@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Alert, Title } from '@zendeskgarden/react-notifications'
 import { zdColorRed300, zdColorRed500 } from '@zendeskgarden/css-variables'
+import { Alert, Title } from '@zendeskgarden/react-notifications'
 import { FONT_SIZE } from 'src/constants/shared'
 
 export const ErrorTitle = styled(Title)`

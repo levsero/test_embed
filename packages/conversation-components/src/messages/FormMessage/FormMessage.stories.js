@@ -1,10 +1,10 @@
 /* eslint no-console:0 */
-import FormMessage from './'
+import { FORM_MESSAGE_STATUS, MESSAGE_STATUS } from 'src/constants'
 import {
   MessageLogListDecorator,
   MessengerContainerDecorator,
 } from '../../../.storybook/decorators'
-import { FORM_MESSAGE_STATUS, MESSAGE_STATUS } from 'src/constants'
+import FormMessage from './'
 
 export default {
   title: 'Messages/FormMessage',

@@ -1,10 +1,10 @@
-import { queries, wait } from 'pptr-testing-library'
+import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
-import launcher from 'e2e/helpers/launcher'
-import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import zChat from 'e2e/helpers/zChat'
-import { waitForContactForm } from 'e2e/helpers/support-embed'
+import { queries, wait } from 'pptr-testing-library'
 
 const buildWidget = (settings) =>
   loadWidget()

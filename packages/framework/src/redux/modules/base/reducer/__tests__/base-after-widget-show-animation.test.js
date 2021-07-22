@@ -1,5 +1,5 @@
-import reducer from '../base-after-widget-show-animation'
 import * as actionTypes from 'src/redux/modules/base/base-action-types'
+import reducer from '../base-after-widget-show-animation'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import { ButtonNav } from '../ButtonNav'
 
 const renderComponent = (props) => {

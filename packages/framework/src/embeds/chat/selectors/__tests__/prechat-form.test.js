@@ -3,11 +3,7 @@ import {
   getVisiblePrechatFields,
   getPrechatGreeting,
 } from 'embeds/chat/selectors/prechat-form'
-import {
-  getDefaultFormFields,
-  getPrechatFormFields,
-  getPrechatFormSettings,
-} from 'src/redux/modules/selectors'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getAccountDefaultDepartmentId,
   getDepartment,
@@ -17,11 +13,15 @@ import {
   getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
 import {
+  getDefaultFormFields,
+  getPrechatFormFields,
+  getPrechatFormSettings,
+} from 'src/redux/modules/selectors'
+import {
   getSettingsChatDepartment,
   getSettingsChatDepartmentsEnabled,
   getSettingsChatPrechatForm,
 } from 'src/redux/modules/settings/settings-selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/chat/chat-selectors')

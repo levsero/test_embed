@@ -1,5 +1,5 @@
-import reducer from '../delay-channel-choice'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../delay-channel-choice'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

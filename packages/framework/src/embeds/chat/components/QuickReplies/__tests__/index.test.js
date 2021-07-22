@@ -1,6 +1,5 @@
-import { render } from 'src/util/testHelpers'
 import { snapshotDiff } from 'snapshot-diff'
-
+import { render } from 'src/util/testHelpers'
 import { QuickReplies } from '../'
 
 const renderComponent = (props = {}) => {

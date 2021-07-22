@@ -1,6 +1,6 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { TEST_IDS } from 'src/constants/shared'
 
 export class Form extends Component {

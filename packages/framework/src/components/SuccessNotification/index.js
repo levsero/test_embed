@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
+import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 import { Container, SuccessIcon, Heading, Message, LinkText } from './styles'
-import { TEST_IDS } from 'src/constants/shared'
 
 const SuccessNotification = ({ onClick, doneText, icon }) => {
   const translate = useTranslate()

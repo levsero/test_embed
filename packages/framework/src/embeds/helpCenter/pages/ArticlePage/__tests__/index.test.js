@@ -1,5 +1,5 @@
-import { render } from 'src/util/testHelpers'
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
+import { render } from 'src/util/testHelpers'
 
 const performImageSearch = jest.fn(),
   onClick = jest.fn(),

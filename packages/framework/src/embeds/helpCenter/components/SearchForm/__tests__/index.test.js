@@ -1,8 +1,9 @@
 import { fireEvent, wait } from '@testing-library/react'
-import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import SearchForm from '../index'
 import { http } from 'service/transport'
+import { render } from 'utility/testHelpers'
+import SearchForm from '../index'
+
 http.get = jest.fn(() => {
   return new Promise((resolve) => {
     resolve()

@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import PillButton from '../index'
 
 test('renders the element', () => {

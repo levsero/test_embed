@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { rem } from 'polished'
+import styled from 'styled-components'
 import { Message as GardenMessage } from '@zendeskgarden/react-forms'
 import dirStyles from 'src/utils/dirStyles'
 

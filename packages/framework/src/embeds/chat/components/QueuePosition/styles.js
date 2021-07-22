@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { zdColorGrey600 } from '@zendeskgarden/css-variables'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
   text-align: center !important;

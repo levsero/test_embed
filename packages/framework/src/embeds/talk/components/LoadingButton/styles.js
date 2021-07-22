@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Dots } from '@zendeskgarden/react-loaders'
 import { Button } from '@zendeskgarden/react-buttons'
+import { Dots } from '@zendeskgarden/react-loaders'
 
 const Label = styled.div`
   opacity: ${(props) => (props.showLabel ? 1 : 0)};

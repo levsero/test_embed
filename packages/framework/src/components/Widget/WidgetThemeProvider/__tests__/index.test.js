@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types'
 import { render } from '@testing-library/react'
+import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import styled from 'styled-components'
-
 import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
 import reducer from 'src/redux/modules/reducer'
 import WidgetThemeProvider from '../index'

@@ -1,9 +1,9 @@
-import userEvent from '@testing-library/user-event'
 import { waitFor, screen, fireEvent } from '@testing-library/dom'
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import FormStructuredMessage from '../'
+import userEvent from '@testing-library/user-event'
 import { sendFormResponse } from 'src/apps/messenger/api/sunco'
 import { getFormInfo } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
+import { render } from 'src/apps/messenger/utils/testHelpers'
+import FormStructuredMessage from '../'
 
 jest.mock('src/apps/messenger/api/sunco')
 

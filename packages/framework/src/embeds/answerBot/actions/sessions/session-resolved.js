@@ -1,19 +1,16 @@
 import { settings } from 'service/settings'
-
-import {
-  SESSION_RESOLVED_PENDING,
-  SESSION_RESOLVED_FULFILLED,
-  SESSION_RESOLVED_REJECTED,
-} from './action-types'
-
+import { http } from 'service/transport'
 import {
   getCurrentArticleID,
   getCurrentSessionID,
   getCurrentDeflection,
   getCurrentInteractionToken,
 } from 'src/embeds/answerBot/selectors/root'
-
-import { http } from 'service/transport'
+import {
+  SESSION_RESOLVED_PENDING,
+  SESSION_RESOLVED_FULFILLED,
+  SESSION_RESOLVED_REJECTED,
+} from './action-types'
 
 function sessionResolvedPending(sessionID, articleID) {
   return {

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import Avatar from 'components/Avatar'
 import { ICONS } from 'src/constants/shared'
 import { Container, TextContainer, AgentName, AgentTitle } from './styles'

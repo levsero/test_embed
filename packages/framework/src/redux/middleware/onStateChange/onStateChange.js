@@ -1,5 +1,34 @@
 import _ from 'lodash'
-
+import { getUserSoundSettings } from 'embeds/chat/selectors'
+import routes from 'embeds/helpCenter/routes'
+import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
+import audio from 'service/audio'
+import history from 'service/history'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
+import { store } from 'src/framework/services/persistence'
+import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave'
+import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger'
+import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen'
+import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen'
+import {
+  updateActiveEmbed,
+  updateBackButtonVisibility,
+  activateReceived,
+} from 'src/redux/modules/base'
+import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
+import {
+  getActiveEmbed,
+  getWidgetShown,
+  getHasWidgetShown,
+  getChatEmbed,
+  getHelpCenterEmbed,
+  getIPMWidget,
+} from 'src/redux/modules/base/base-selectors'
+import {
+  END_CHAT_REQUEST_SUCCESS,
+  SDK_VISITOR_UPDATE,
+  CHAT_SOCIAL_LOGIN_SUCCESS,
+} from 'src/redux/modules/chat/chat-action-types'
 import {
   getAccountSettings,
   newAgentMessageReceived,
@@ -10,21 +39,8 @@ import {
   proactiveMessageReceived,
   chatNotificationTimedOut,
 } from 'src/redux/modules/chat/chat-actions/actions'
-import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
-import {
-  updateActiveEmbed,
-  updateBackButtonVisibility,
-  activateReceived,
-} from 'src/redux/modules/base'
-import {
-  END_CHAT_REQUEST_SUCCESS,
-  SDK_VISITOR_UPDATE,
-  CHAT_SOCIAL_LOGIN_SUCCESS,
-} from 'src/redux/modules/chat/chat-action-types'
-import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
-import { CONNECTION_STATUSES } from 'src/constants/chat'
-import audio from 'service/audio'
+import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import {
   getChatMessagesFromAgents,
   getConnection,
@@ -36,33 +52,16 @@ import {
   hasUnseenAgentMessage,
   getIsLoggingOut,
 } from 'src/redux/modules/chat/chat-selectors'
-import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
-import {
-  getActiveEmbed,
-  getWidgetShown,
-  getHasWidgetShown,
-  getChatEmbed,
-  getHelpCenterEmbed,
-  getIPMWidget,
-} from 'src/redux/modules/base/base-selectors'
-import { store } from 'src/framework/services/persistence'
-import history from 'service/history'
+import { getAnswerBotAvailable, getSubmitTicketAvailable } from 'src/redux/modules/selectors'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import {
   getSettingsMobileNotificationsDisabled,
   getCookiesDisabled,
 } from 'src/redux/modules/settings/settings-selectors'
-import { getAnswerBotAvailable, getSubmitTicketAvailable } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
 import { resetShouldWarn } from 'src/util/nullZChat'
-import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen'
-import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen'
-import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave'
-import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger'
-import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
+import { isMobileBrowser } from 'utility/devices'
 import { isPopout } from 'utility/globals'
-import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
-import routes from 'embeds/helpCenter/routes'
-import { getUserSoundSettings } from 'embeds/chat/selectors'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { CloseIcon, HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
 import useLabels from 'src/hooks/useLabels'
+import { CloseIcon, HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
 
 const Close = ({ onClick }) => {
   const labels = useLabels().messengerHeader

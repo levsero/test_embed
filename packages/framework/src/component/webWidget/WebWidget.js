@@ -1,12 +1,16 @@
-import { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
+import { Component, lazy } from 'react'
 import { connect } from 'react-redux'
-
 import Chat from 'component/chat/Chat'
-
-import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
-import ChatNotificationPopup from 'components/NotificationPopup'
 import { Container } from 'component/container/Container'
+import OnBackProvider from 'component/webWidget/OnBackProvider'
+import ChatNotificationPopup from 'components/NotificationPopup'
+import { closeCurrentArticle } from 'embeds/helpCenter/actions'
+import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
+import history from 'service/history'
+import SuspensePage from 'src/components/Widget/SuspensePage'
+import { screenChanged as updateAnswerBotScreen } from 'src/embeds/answerBot/actions/root'
+import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import {
   updateActiveEmbed,
   updateEmbedAccessible,
@@ -14,12 +18,20 @@ import {
   onChannelChoiceNextClick,
 } from 'src/redux/modules/base'
 import {
+  getActiveEmbed,
+  getChatStandalone,
+  getWebWidgetOpen,
+} from 'src/redux/modules/base/base-selectors'
+import {
   proactiveChatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
   closedChatHistory,
 } from 'src/redux/modules/chat'
-import { closeCurrentArticle } from 'embeds/helpCenter/actions'
+import {
+  getStandaloneMobileNotificationVisible,
+  getShowChatHistory,
+} from 'src/redux/modules/chat/chat-selectors'
 import {
   getChatEnabled,
   getHideZendeskLogo,
@@ -28,23 +40,9 @@ import {
   getSubmitTicketAvailable,
   getAnswerBotAvailable,
 } from 'src/redux/modules/selectors'
-import {
-  getActiveEmbed,
-  getChatStandalone,
-  getWebWidgetOpen,
-} from 'src/redux/modules/base/base-selectors'
-import {
-  getStandaloneMobileNotificationVisible,
-  getShowChatHistory,
-} from 'src/redux/modules/chat/chat-selectors'
 import { getChatNotification } from 'src/redux/modules/selectors'
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
-import { screenChanged as updateAnswerBotScreen } from 'src/embeds/answerBot/actions/root'
-import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
-import OnBackProvider from 'component/webWidget/OnBackProvider'
-import SuspensePage from 'src/components/Widget/SuspensePage'
-import history from 'service/history'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { isMobileBrowser } from 'utility/devices'
 import { isPopout } from 'utility/globals'
 import { WidgetContainer } from './styles'

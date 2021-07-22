@@ -1,23 +1,22 @@
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { FRAME_ANIMATION_DURATION } from '@zendesk/conversation-components'
-import Frame from 'src/framework/components/Frame'
-import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import {
   bezierCurve,
   frameBoxShadow,
   frameMarginFromPage,
   launcherSize,
 } from 'src/apps/messenger/constants'
-import { useSelector } from 'react-redux'
-import { getPosition, getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-
-import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import {
   getIsFullScreen,
   getIsVerticallySmallScreen,
 } from 'src/apps/messenger/features/responsiveDesign/store'
-import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+import ThemeProvider from 'src/apps/messenger/features/themeProvider'
+import { getPosition, getZIndex } from 'src/apps/messenger/features/themeProvider/store'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import Frame from 'src/framework/components/Frame'
 import { launcherAnimation } from './styles'
 
 const LauncherFrame = ({ children }) => {

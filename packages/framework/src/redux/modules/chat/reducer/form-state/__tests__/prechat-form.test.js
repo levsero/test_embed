@@ -1,6 +1,6 @@
-import prechatForm from '../prechat-form'
-import * as actions from 'src/redux/modules/chat/chat-action-types'
 import * as baseActions from 'src/redux/modules/base/base-action-types'
+import * as actions from 'src/redux/modules/chat/chat-action-types'
+import prechatForm from '../prechat-form'
 
 describe('prechat-form', () => {
   const initialState = prechatForm(undefined, { type: '' })

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import HeaderView from 'components/Widget/Header/HeaderView'
 import BackButton from 'components/Widget/Header/BackButton'
-import Title from 'components/Widget/Header/Title'
 import CloseButton from 'components/Widget/Header/CloseButton'
+import HeaderView from 'components/Widget/Header/HeaderView'
+import Title from 'components/Widget/Header/Title'
 import TitleRow from 'components/Widget/Header/TitleRow'
 import { TEST_IDS } from 'src/constants/shared'
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
-import { FONT_SIZE } from 'constants/shared'
 import { Dots } from '@zendeskgarden/react-loaders'
+import { FONT_SIZE } from 'constants/shared'
 
 export const ButtonContainer = styled.div`
   position: relative !important;

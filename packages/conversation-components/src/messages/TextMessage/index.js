@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
-
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import MessageBubble from 'src/MessageBubble'
-import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import { Text, Content } from './styles'
 
 const TextMessage = ({

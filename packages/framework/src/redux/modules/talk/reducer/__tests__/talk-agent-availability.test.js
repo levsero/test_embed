@@ -1,6 +1,6 @@
-import agentAvailability from '../talk-agent-availability'
 import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import agentAvailability from '../talk-agent-availability'
 
 testReducer(agentAvailability, [
   {

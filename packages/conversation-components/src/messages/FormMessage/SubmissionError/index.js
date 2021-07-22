@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { ErrorIcon, Alert } from './styles'
 
 const SubmissionError = ({ message }) => {

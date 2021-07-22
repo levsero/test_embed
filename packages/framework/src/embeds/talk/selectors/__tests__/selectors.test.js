@@ -5,7 +5,6 @@ import {
   CALLBACK_ONLY,
   CALLBACK_AND_PHONE,
 } from 'src/redux/modules/talk/talk-capability-types'
-
 import { getOfflineTitle, getTalkTitleKey, getCapability } from '../selectors'
 
 describe('talk selectors', () => {

@@ -1,8 +1,8 @@
-import { mockZChatVendor, initialState, createMockStore } from 'utility/testHelpers'
 import { CONNECTION_STATUSES } from 'constants/chat'
-import * as actions from '../settings-actions'
-import * as actionTypes from '../settings-action-types'
 import { settings as legacySettings } from 'service/settings'
+import { mockZChatVendor, initialState, createMockStore } from 'utility/testHelpers'
+import * as actionTypes from '../settings-action-types'
+import * as actions from '../settings-actions'
 
 describe('updateSettings', () => {
   describe('when chat jwtFn provided', () => {

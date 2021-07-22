@@ -1,11 +1,9 @@
-import { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { locals as styles } from './ChatLog.scss'
-
 import ChatGroup from 'component/chat/chatting/log/messages/ConnectedChatGroup'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import EventMessage from 'src/embeds/chat/components/EventMessage'
 import RequestRatingButton from 'src/embeds/chat/components/RequestRatingButton'
 import {
@@ -15,6 +13,7 @@ import {
   getIsChatting,
 } from 'src/redux/modules/chat/chat-selectors'
 import chatPropTypes from 'types/chat'
+import { locals as styles } from './ChatLog.scss'
 
 const mapStateToProps = (state) => {
   return {

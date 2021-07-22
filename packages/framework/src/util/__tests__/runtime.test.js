@@ -1,5 +1,5 @@
-import { inDebugMode } from '../runtime'
 import { store } from 'src/framework/services/persistence'
+import { inDebugMode } from '../runtime'
 
 beforeEach(() => {
   store.clear()

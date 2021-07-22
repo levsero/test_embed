@@ -1,9 +1,8 @@
 import { fireEvent } from '@testing-library/react'
-
-import { render } from 'src/util/testHelpers'
-import FeedbackForm from '../'
 import { TEST_IDS } from 'constants/shared'
 import { ratings } from 'embeds/chat/components/RatingGroup'
+import { render } from 'src/util/testHelpers'
+import FeedbackForm from '../'
 
 describe('FeedbackForm', () => {
   const defaultRating = { value: null, disableEndScreen: false, comment: null }

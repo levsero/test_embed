@@ -1,5 +1,5 @@
-import widget from 'e2e/helpers/widget'
 import { agentJoinsChat, openChattingScreen, visitorLeavesChat } from 'e2e/helpers/chat-embed'
+import widget from 'e2e/helpers/widget'
 
 test('endChat() ends a chat', async () => {
   await openChattingScreen()

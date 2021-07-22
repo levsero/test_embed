@@ -1,12 +1,12 @@
-import formStates from '../formStates'
 import {
   CLEARED_FORM_STATES,
   SET_FORM_STATE,
   CLEARED_FORM_STATE,
   TICKET_SUBMISSION_REQUEST_SUCCESS,
 } from 'src/embeds/support/actions/action-types'
-import { testReducer } from 'src/util/testHelpers'
 import { API_CLEAR_FORM, API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
+import { testReducer } from 'src/util/testHelpers'
+import formStates from '../formStates'
 
 const initialState = { bob: { fieldOne: 'saget' } }
 const formStatePayload = {

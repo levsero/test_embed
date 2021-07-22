@@ -1,7 +1,7 @@
 /* eslint max-len:0 */
-import * as devices from '../devices'
 import * as globals from 'utility/globals'
 import { clearDOM } from 'utility/testHelpers'
+import * as devices from '../devices'
 
 const createViewportMetaTag = () => {
   const metaTag = document.createElement('meta')

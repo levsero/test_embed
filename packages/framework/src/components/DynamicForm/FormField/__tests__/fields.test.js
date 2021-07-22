@@ -1,11 +1,11 @@
-import getField from '../fields'
-import Text from '../Text'
-import Textarea from '../Textarea'
-import Integer from '../Integer'
-import Decimal from '../Decimal'
 import Checkbox from '../Checkbox'
+import Decimal from '../Decimal'
 import Dropdown from '../Dropdown'
 import FallbackField from '../FallbackField'
+import Integer from '../Integer'
+import Text from '../Text'
+import Textarea from '../Textarea'
+import getField from '../fields'
 
 describe('getField', () => {
   const expectedFieldTypes = [

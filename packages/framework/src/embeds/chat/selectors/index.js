@@ -1,5 +1,5 @@
-import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
 import createCachedSelector from 're-reselect'
+import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
 
 const getHistory = (state) => state.chat.chatHistory.chats
 

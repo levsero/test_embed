@@ -1,12 +1,12 @@
 /**
  * @group visual-regressions
  */
-import * as constants from 'src/redux/modules/chat/chat-screen-types'
+import events from 'e2e/fixtures/chat-preview-events'
 import preview, { loadPreview } from 'e2e/helpers/chat-preview'
+import { assertScreenshot } from 'e2e/helpers/visual-regressions'
 import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import { CHAT_BADGE } from 'src/constants/preview'
-import { assertScreenshot } from 'e2e/helpers/visual-regressions'
-import events from 'e2e/fixtures/chat-preview-events'
+import * as constants from 'src/redux/modules/chat/chat-screen-types'
 
 beforeEach(async () => {
   await loadPreview()

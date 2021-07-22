@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
 import { store } from 'src/framework/services/persistence'
-import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types'
-import { isMobileBrowser } from 'utility/devices'
 import { updateActiveEmbed } from 'src/redux/modules/base'
+import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types'
 import { chatWindowOpenOnNavigate, chatDropped } from 'src/redux/modules/chat/chat-actions/actions'
+import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
+import { isMobileBrowser } from 'utility/devices'
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown')
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed')

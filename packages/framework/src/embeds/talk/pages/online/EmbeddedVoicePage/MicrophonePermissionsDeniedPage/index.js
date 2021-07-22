@@ -1,8 +1,6 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-
+import React from 'react'
 import useTranslate from 'src/hooks/useTranslate'
-
 import { Button, Container, Heading, Message, SectionContainer } from './styles'
 
 const MicrophonePermissionsDeniedPage = ({ onClick }) => {

@@ -1,5 +1,5 @@
-import { win, document as doc } from 'utility/globals'
 import { setScaleLock } from 'utility/devices'
+import { win, document as doc } from 'utility/globals'
 
 let oldHostBodyPosition
 let oldWindowScrollY = null

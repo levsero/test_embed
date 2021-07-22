@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import Attachment from 'src/embeds/support/components/Attachment'
-import AttachmentError from 'src/embeds/support/components/AttachmentError'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { deleteAttachment } from 'src/embeds/support/actions/index'
+import Attachment from 'src/embeds/support/components/Attachment'
+import AttachmentError from 'src/embeds/support/components/AttachmentError'
 import { getAttachmentsForForm, getMaxFileSize } from 'src/embeds/support/selectors'
 
 const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment, maxFileSize }) => {

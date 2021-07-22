@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import { ListCard } from '../ListCard'
 
 const renderListCard = (items = [], buttons = [], createAction = jest.fn()) => {

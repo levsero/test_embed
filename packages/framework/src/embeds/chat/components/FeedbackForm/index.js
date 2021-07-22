@@ -1,14 +1,12 @@
-import PropTypes from 'prop-types'
 import { FORM_ERROR } from 'final-form'
+import PropTypes from 'prop-types'
 import { Field as FinalFormField, Form as ReactFinalForm } from 'react-final-form'
 import { Field } from '@zendeskgarden/react-forms'
-
-import { Alert, Title } from 'src/components/Alert'
-import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
 import { ratings } from 'embeds/chat/components/RatingGroup'
+import { Alert, Title } from 'src/components/Alert'
 import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
-
+import useTranslate from 'src/hooks/useTranslate'
 import { SecondaryButton, SubmitButton, ButtonGroup, Label, Textarea, RatingGroup } from './styles'
 
 const FeedbackForm = ({

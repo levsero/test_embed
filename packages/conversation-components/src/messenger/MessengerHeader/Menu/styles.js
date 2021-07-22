@@ -1,7 +1,7 @@
+import { rem } from 'polished'
 import styled from 'styled-components'
 import MenuSvg from '@zendeskgarden/svg-icons/src/16/overflow-stroke.svg'
 import { Item } from 'src/Dropdown'
-import { rem } from 'polished'
 import { Menu } from 'src/Dropdown'
 import dirStyles from 'src/utils/dirStyles'
 

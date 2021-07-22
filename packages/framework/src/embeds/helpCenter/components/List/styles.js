@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { FONT_SIZE } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 

@@ -1,16 +1,6 @@
 import _ from 'lodash'
-import {
-  getDefaultFormFields,
-  getPrechatFormFields,
-  getPrechatFormSettings,
-} from 'src/redux/modules/selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import {
-  getSettingsChatDepartment,
-  getSettingsChatDepartmentsEnabled,
-  getSettingsChatPrechatForm,
-} from 'src/redux/modules/settings/settings-selectors'
 import { createSelector } from 'reselect'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getAccountDefaultDepartmentId,
   getDepartment,
@@ -19,6 +9,16 @@ import {
   getLoginSettings,
   getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
+import {
+  getDefaultFormFields,
+  getPrechatFormFields,
+  getPrechatFormSettings,
+} from 'src/redux/modules/selectors'
+import {
+  getSettingsChatDepartment,
+  getSettingsChatDepartmentsEnabled,
+  getSettingsChatPrechatForm,
+} from 'src/redux/modules/settings/settings-selectors'
 
 const getCanViewDepartmentSelect = (state) => {
   const customerDefinedDepartmentsEnabled = getSettingsChatDepartmentsEnabled(state)

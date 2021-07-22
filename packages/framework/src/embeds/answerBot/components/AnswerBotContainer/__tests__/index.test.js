@@ -1,7 +1,5 @@
 import { render } from '@testing-library/react'
-
 import { CONVERSATION_SCREEN, ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
-
 import { Component as AnswerBotContainer } from '..'
 
 jest.useFakeTimers()

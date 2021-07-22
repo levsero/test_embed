@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { Label, Textarea } from '@zendeskgarden/react-forms'
+import { FONT_SIZE } from 'src/constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const Container = styled.div`
