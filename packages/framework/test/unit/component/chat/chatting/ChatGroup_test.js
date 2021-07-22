@@ -32,7 +32,7 @@ describe('ChatGroup component', () => {
     }
 
     initMockRegistry({
-      'types/chat': {
+      'src/types/chat': {
         chatMessage: 'chatMessage',
       },
       'src/component/Icon': { Icon },

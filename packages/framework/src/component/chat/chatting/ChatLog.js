@@ -12,7 +12,7 @@ import {
   getShowUpdateVisitorDetails,
   getIsChatting,
 } from 'src/redux/modules/chat/chat-selectors'
-import chatPropTypes from 'types/chat'
+import chatPropTypes from 'src/types/chat'
 import { locals as styles } from './ChatLog.scss'
 
 const mapStateToProps = (state) => {

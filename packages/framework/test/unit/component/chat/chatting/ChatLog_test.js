@@ -44,7 +44,7 @@ describe('ChatLog component', () => {
       'src/apps/webWidget/services/i18n': {
         i18n,
       },
-      'types/chat': {
+      'src/types/chat': {
         chatLogEntry: 'chatLogEntry',
       },
     })

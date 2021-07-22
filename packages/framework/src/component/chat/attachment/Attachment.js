@@ -7,7 +7,7 @@ import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Icon } from 'src/component/Icon'
 import ProgressBar from 'src/components/ProgressBar/index'
 import { TEST_IDS } from 'src/constants/shared'
-import sharedPropTypes from 'types/shared'
+import sharedPropTypes from 'src/types/shared'
 import { locals as styles } from './Attachment.scss'
 
 export class Attachment extends Component {

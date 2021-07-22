@@ -17,7 +17,7 @@ import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import ImageMessage from 'src/embeds/chat/components/ImageMessage'
 import MessageBubble from 'src/embeds/chat/components/MessageBubble'
 import MessageError from 'src/embeds/chat/components/MessageError'
-import chatPropTypes from 'types/chat'
+import chatPropTypes from 'src/types/chat'
 import { locals as styles } from './ChatGroup.scss'
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE)
