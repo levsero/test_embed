@@ -4,12 +4,6 @@
   "jsxBracketSameLine": false,
   "tabWidth": 2,
   "printWidth": 100,
-  "importOrder": [
-    "^@zendeskgarden/(.*)$",
-    "^@zendesk/(.*)$",
-    "^(component|components|constants|embed|embeds|errors|mixin|service|src|utility|translation|types|vendor|componentCSS|icons|globalCSS)",
-    "^[../]",
-    "^[./]"
-  ],
+  "importOrder": ["^@zendeskgarden/(.*)$", "^@zendesk/(.*)$", "^src/", "^[../]", "^[./]"],
   "experimentalBabelParserPluginsList": ["jsx", "typescript", "classProperties"]
 }
