@@ -1,9 +1,9 @@
-import * as http from 'service/transport/http-base'
 import i18n from 'src/framework/services/i18n'
 import { store } from 'src/framework/services/persistence'
-import { appendMetaTag } from 'utility/devices'
-import * as globals from 'utility/globals'
-import * as pages from 'utility/pages'
+import * as http from 'src/service/transport/http-base'
+import { appendMetaTag } from 'src/util/devices'
+import * as globals from 'src/util/globals'
+import * as pages from 'src/util/pages'
 import { beacon } from '../beacon'
 
 globals.navigator = {
@@ -11,7 +11,7 @@ globals.navigator = {
   language: 'th',
 }
 
-jest.mock('service/transport/http-base')
+jest.mock('src/service/transport/http-base')
 
 let dateNowMock
 

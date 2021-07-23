@@ -5,8 +5,8 @@ import errorTracker from 'src/framework/services/errorTracker'
 import fetchLocale from 'src/framework/services/i18n/fetchLocale'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors'
-import zELocaleIdMap from 'translation/ze_localeIdMap'
-import { navigator } from 'utility/globals'
+import zELocaleIdMap from 'src/translation/ze_localeIdMap'
+import { navigator } from 'src/util/globals'
 
 let store
 let currentLocale

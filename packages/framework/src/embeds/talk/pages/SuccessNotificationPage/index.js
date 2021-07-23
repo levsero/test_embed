@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SuccessNotification from 'components/SuccessNotification'
+import SuccessNotification from 'src/components/SuccessNotification'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import useGetTitle from 'src/embeds/talk/hooks/useGetTitle'
 import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'
 import useTranslate from 'src/hooks/useTranslate'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
-import { focusLauncher } from 'utility/globals'
+import { focusLauncher } from 'src/util/globals'
 
 const SuccessNotificationPage = ({ onClick, history }) => {
   const translate = useTranslate()

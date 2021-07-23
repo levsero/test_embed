@@ -6,9 +6,7 @@ import {
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME,
-} from 'constants/api'
-import { settings } from 'service/settings'
-import tracker from 'service/tracker'
+} from 'src/constants/api'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat'
@@ -34,7 +32,9 @@ import {
   addTagsApi,
   removeTagsApi,
 } from 'src/service/api/apis'
-import { nameValid, emailValid, phoneValid } from 'utility/utils'
+import { settings } from 'src/service/settings'
+import tracker from 'src/service/tracker'
+import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 import { onChatConnected, onChatSDKInitialized } from './callbacks'
 import {
   setPositionApi,

@@ -13,7 +13,7 @@ import {
   API_ON_CHAT_POPOUT,
   API_ON_OPEN_NAME,
   API_ON_CLOSE_NAME,
-} from 'constants/api'
+} from 'src/constants/api'
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
@@ -25,7 +25,14 @@ import {
   USER_EVENT,
   WIDGET_CLOSED_EVENT,
   WIDGET_OPENED_EVENT,
-} from 'constants/event'
+} from 'src/constants/event'
+import { apiResetWidget } from 'src/redux/modules/base'
+import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
+import {
+  getChatStatus,
+  getHasBackfillCompleted,
+  getNotificationCount,
+} from 'src/redux/modules/chat/chat-selectors'
 import {
   endChatApi,
   openApi,
@@ -51,16 +58,9 @@ import {
   addTagsApi,
   removeTagsApi,
   reauthenticateApi,
-} from 'service/api/apis'
-import * as callbacks from 'service/api/callbacks'
-import tracker from 'service/tracker'
-import { apiResetWidget } from 'src/redux/modules/base'
-import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
-import {
-  getChatStatus,
-  getHasBackfillCompleted,
-  getNotificationCount,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/service/api/apis'
+import * as callbacks from 'src/service/api/callbacks'
+import tracker from 'src/service/tracker'
 
 export const getApiObj = () => {
   return {

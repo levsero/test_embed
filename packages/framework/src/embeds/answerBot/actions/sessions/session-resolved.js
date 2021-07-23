@@ -1,11 +1,11 @@
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
 import {
   getCurrentArticleID,
   getCurrentSessionID,
   getCurrentDeflection,
   getCurrentInteractionToken,
 } from 'src/embeds/answerBot/selectors/root'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
 import {
   SESSION_RESOLVED_PENDING,
   SESSION_RESOLVED_FULFILLED,

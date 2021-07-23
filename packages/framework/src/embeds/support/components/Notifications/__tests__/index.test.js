@@ -1,5 +1,5 @@
 import 'jest-styled-components'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import { Alert, Title } from '../index'
 
 describe('Alert', () => {

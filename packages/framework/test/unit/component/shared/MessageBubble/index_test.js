@@ -18,7 +18,7 @@ describe('MessageBubble component', () => {
           messageBubble: 'messageBubble',
         },
       },
-      'component/shared/MessageOptions': {
+      'src/component/shared/MessageOptions': {
         MessageOptions: MessageOptions,
       },
       'react-linkify': Linkify,

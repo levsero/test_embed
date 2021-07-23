@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useForm, Field as ReactFinalFormField } from 'react-final-form'
 import { Field, Input, Label, Message } from '@zendeskgarden/react-forms'
-import useOnClear from 'embeds/webWidget/hooks/useOnClear'
+import useOnClear from 'src/embeds/webWidget/hooks/useOnClear'
 import useTranslate from 'src/hooks/useTranslate'
 
 const EmailTranscriptFormValues = ({ showErrors }) => {

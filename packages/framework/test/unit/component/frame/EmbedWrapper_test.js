@@ -21,8 +21,8 @@ describe('EmbedWrapper', () => {
     mockery.enable()
 
     initMockRegistry({
-      'utility/color/styles': {},
-      'utility/globals': {
+      'src/util/color/styles': {},
+      'src/util/globals': {
         focusLauncher: focusSpy,
         getDocumentHost: () => {
           return {
@@ -38,12 +38,12 @@ describe('EmbedWrapper', () => {
       'src/components/Widget': {
         WidgetThemeProvider: ({ children }) => <Fragment>{children}</Fragment>,
       },
-      'component/frame/Navigation': noopReactComponent(),
-      'components/FrameFocusJail': noopReactComponent(),
+      'src/component/frame/Navigation': noopReactComponent(),
+      'src/components/FrameFocusJail': noopReactComponent(),
       'src/redux/modules/selectors': {
         getColor: noop,
       },
-      'service/history': createMemoryHistory(),
+      'src/service/history': createMemoryHistory(),
       lodash: _,
       'src/apps/webWidget/services/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL']),

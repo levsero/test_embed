@@ -33,10 +33,10 @@ describe('ChatOnline component', () => {
       './ChatOnline.scss': {
         locals: {},
       },
-      'component/loading/LoadingSpinner': {
+      'src/component/loading/LoadingSpinner': {
         LoadingSpinner,
       },
-      'components/FileDropProvider': {
+      'src/components/FileDropProvider': {
         FileDropProvider: noopReactComponent(),
         FileDropTarget,
       },
@@ -44,21 +44,21 @@ describe('ChatOnline component', () => {
       'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
       'src/embeds/chat/pages/ChatRatingPage': noopReactComponent(),
       'src/embeds/chat/pages/PostChatPage': noopReactComponent(),
-      'component/chat/prechat/PrechatScreen': noopReactComponent(),
-      'embeds/chat/selectors': {},
-      'embeds/chat/actions/actions': {},
-      'embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
-      'embeds/chat/components/ReconnectButton': noopReactComponent(),
-      'component/button/ButtonPill': {
+      'src/component/chat/prechat/PrechatScreen': noopReactComponent(),
+      'src/embeds/chat/selectors': {},
+      'src/embeds/chat/actions/actions': {},
+      'src/embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
+      'src/embeds/chat/components/ReconnectButton': noopReactComponent(),
+      'src/component/button/ButtonPill': {
         ButtonPill,
       },
-      'embeds/chat/components/ChatMenu': ChatMenu,
-      'component/container/Container': {
+      'src/embeds/chat/components/ChatMenu': ChatMenu,
+      'src/component/container/Container': {
         Container: noopReactComponent(),
       },
-      'embeds/chat/components/ChatModal': noopReactComponent(),
-      'embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
-      'component/chat/ChatRatingGroup': {
+      'src/embeds/chat/components/ChatModal': noopReactComponent(),
+      'src/embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
+      'src/component/chat/ChatRatingGroup': {
         ChatRatings: {},
       },
       'src/component/attachment/AttachmentBox': AttachmentBox,
@@ -89,10 +89,10 @@ describe('ChatOnline component', () => {
           isRTL: () => {},
         },
       },
-      'constants/shared': {
+      'src/constants/shared': {
         TEST_IDS: {},
       },
-      'constants/chat': {
+      'src/constants/chat': {
         AGENT_BOT: 'agent:trigger',
         CONNECTION_STATUSES,
         DEPARTMENT_STATUSES,
@@ -105,7 +105,6 @@ describe('ChatOnline component', () => {
         onNextTick: (cb) => setTimeout(cb, 0),
       },
       'src/embeds/chat/components/ButtonPill': {},
-      'src/embeds/chat/selectors': {},
       'src/embeds/webWidget/selectors/feature-flags': {},
     })
 

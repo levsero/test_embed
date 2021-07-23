@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from '@zendeskgarden/react-buttons'
-import { Widget, Header, Main, Footer } from 'components/Widget'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import AgentList from 'src/embeds/chat/components/AgentList'
 import useTranslate from 'src/hooks/useTranslate'
 import { updateChatScreen } from 'src/redux/modules/chat'

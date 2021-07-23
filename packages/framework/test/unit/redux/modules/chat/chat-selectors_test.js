@@ -35,7 +35,7 @@ describe('chat selectors', () => {
     CHATTING_SCREEN = 'chatlog'
 
     initMockRegistry({
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
         CHAT_CUSTOM_MESSAGE_EVENTS,
@@ -72,12 +72,12 @@ describe('chat selectors', () => {
           getSettingTranslation: () => mockTranslation,
         },
       },
-      'embeds/webWidget/selectors/feature-flags': () => false,
-      'utility/chat': {
+      'src/embeds/webWidget/selectors/feature-flags': () => false,
+      'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname,
       },
-      'utility/devices': {},
-      'utility/globals': {
+      'src/util/devices': {},
+      'src/util/globals': {
         isPopout: () => mockIsPopout,
       },
     })

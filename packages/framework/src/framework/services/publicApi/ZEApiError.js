@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import NonFatalError from 'errors/NonFatalError'
+import NonFatalError from 'src/errors/NonFatalError'
 
 export default class ZEApiError extends NonFatalError {
   constructor(apiName = null, realError = {}) {

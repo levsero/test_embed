@@ -1,16 +1,16 @@
 import { waitFor } from '@testing-library/dom'
 import { getByText, wait } from '@testing-library/react'
 import styled from 'styled-components'
-import { getGardenOverrides } from 'component/frame/gardenOverrides'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { getGardenOverrides } from 'src/component/frame/gardenOverrides'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import BaseFrame, { useFrameStyle } from '../'
 
 jest.mock('src/apps/webWidget/services/i18n')
-jest.mock('component/frame/gardenOverrides')
+jest.mock('src/component/frame/gardenOverrides')
 
-jest.mock('components/Widget/WidgetThemeProvider', () => {
+jest.mock('src/components/Widget/WidgetThemeProvider', () => {
   return {
     __esModule: true,
     // eslint-disable-next-line react/prop-types

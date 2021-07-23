@@ -1,5 +1,5 @@
 import { createMemoryHistory } from 'history'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import routes from 'src/embeds/support/routes'
 import { render } from 'src/util/testHelpers'
 import { Component as TicketFormPage } from '../'

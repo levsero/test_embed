@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 
 const useShouldDisableAnimations = () => {

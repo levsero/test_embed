@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
   display: inline-flex;

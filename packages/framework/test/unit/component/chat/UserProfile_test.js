@@ -20,13 +20,13 @@ describe('UserProfile component', () => {
           historyAuthProfileFieldContainer: 'historyAuthProfileFieldContainerClasses',
         },
       },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_SOCIAL_LOGIN_SCREENS,
       },
-      'component/Icon': { Icon },
-      'component/loading/LoadingSpinner': { LoadingSpinner },
+      'src/component/Icon': { Icon },
+      'src/component/loading/LoadingSpinner': { LoadingSpinner },
       'src/embeds/chat/components/SocialLogin': SocialLoginGroup,
-      'component/Avatar': { Avatar },
+      'src/component/Avatar': { Avatar },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,

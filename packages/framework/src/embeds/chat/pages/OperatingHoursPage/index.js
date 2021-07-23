@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Widget, Header, Main } from 'components/Widget'
+import { Widget, Header, Main } from 'src/components/Widget'
 import OperatingHours from 'src/embeds/chat/components/OperatingHours'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { handleOfflineFormBack } from 'src/redux/modules/chat'

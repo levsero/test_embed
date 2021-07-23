@@ -1,5 +1,5 @@
 import { find } from 'styled-components/test-utils'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import ReconnectionBubble from '../'
 import { Message } from '../styles'
 

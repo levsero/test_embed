@@ -1,9 +1,9 @@
 let baseSelectors = require('src/redux/modules/base/base-selectors')
 let selectors = require('src/redux/modules/selectors')
 let baseActions = require('src/redux/modules/base/base-actions')
-let scrollHacks = require('utility/scrollHacks')
+let scrollHacks = require('src/util/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
-let devices = require('utility/devices')
+let devices = require('src/util/devices')
 let chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
 const dispatch = jest.fn()
@@ -13,18 +13,18 @@ beforeEach(() => {
   jest.useFakeTimers()
 
   onWidgetOpen = require('../onWidgetOpen').default
-  devices = require('utility/devices')
+  devices = require('src/util/devices')
   baseSelectors = require('src/redux/modules/base/base-selectors')
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
-  scrollHacks = require('utility/scrollHacks')
+  scrollHacks = require('src/util/scrollHacks')
   chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
-  jest.mock('service/renderer')
-  jest.mock('utility/devices')
+  jest.mock('src/service/renderer')
+  jest.mock('src/util/devices')
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')
-  jest.mock('utility/scrollHacks')
+  jest.mock('src/util/scrollHacks')
   jest.mock('src/redux/modules/chat/chat-selectors/selectors')
 
   jest.spyOn(selectors, 'getWebWidgetVisibleOpenAndReady').mockImplementation((state) => state)

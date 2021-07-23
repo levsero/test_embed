@@ -4,7 +4,7 @@ import {
   CHAT_CUSTOM_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
   CHAT_STRUCTURED_CONTENT_TYPE,
-} from 'constants/chat'
+} from 'src/constants/chat'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import {
   SDK_CHAT_MSG,

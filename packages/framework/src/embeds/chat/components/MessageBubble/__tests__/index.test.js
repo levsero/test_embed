@@ -1,9 +1,9 @@
 import { fireEvent } from '@testing-library/react'
 import { find } from 'styled-components/test-utils'
 import { zdColorGrey200 } from '@zendeskgarden/css-variables'
-import { OptionsList } from 'embeds/chat/components/MessageBubble/MessageOptions/styles'
-import * as colorUtils from 'utility/color/styles'
-import { render } from 'utility/testHelpers'
+import { OptionsList } from 'src/embeds/chat/components/MessageBubble/MessageOptions/styles'
+import * as colorUtils from 'src/util/color/styles'
+import { render } from 'src/util/testHelpers'
 import MessageBubble from '../'
 import { MessageContainer } from '../styles'
 

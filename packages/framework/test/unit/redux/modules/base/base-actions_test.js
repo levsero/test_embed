@@ -56,12 +56,12 @@ describe('base redux actions', () => {
       .and.returnValue({ type: 'widget/chat/CHAT_OPENED' })
 
     initMockRegistry({
-      'constants/event': {
+      'src/constants/event': {
         WIDGET_CLOSED_EVENT,
         WIDGET_OPENED_EVENT,
         CHAT_POPOUT_EVENT,
       },
-      'service/api/callbacks': {
+      'src/service/api/callbacks': {
         fireFor: fireEventsForSpy,
       },
       'src/redux/modules/chat': {
@@ -79,7 +79,7 @@ describe('base redux actions', () => {
         emailValid: () => mockEmailValidValue,
         phoneValid: () => mockPhoneValidValue,
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           getAuthSettingsJwtFn: () => mockJwtFn,
         },
@@ -91,7 +91,7 @@ describe('base redux actions', () => {
         getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue,
         getWebWidgetOpen: () => mockWebWidgetOpen,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched,
         getArticleDisplayed: () => mockGetArticleDisplayed,
       },
@@ -101,7 +101,7 @@ describe('base redux actions', () => {
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: 'PRECHAT_SCREEN',
       },
-      'embeds/helpCenter/actions': {
+      'src/embeds/helpCenter/actions': {
         contextualSearch: contextualSearchSpy,
       },
       'src/constants/shared': {
@@ -114,12 +114,12 @@ describe('base redux actions', () => {
           set: persistentStoreSetSpy,
         },
       },
-      'service/transport': {
+      'src/service/transport': {
         http: {
           send: httpPostSpy,
         },
       },
-      'utility/globals': {
+      'src/util/globals': {
         focusLauncher: focusLauncherSpy,
       },
       'src/embeds/support/actions': {

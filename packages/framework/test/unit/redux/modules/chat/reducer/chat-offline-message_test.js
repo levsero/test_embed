@@ -8,7 +8,7 @@ describe('chat reducer offline message', () => {
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
     initMockRegistry({
-      'constants/chat': {
+      'src/constants/chat': {
         OFFLINE_FORM_SCREENS: {
           MAIN: 'main',
           SUCCESS: 'success',

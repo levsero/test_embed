@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useRef } from 'react'
 import { useModal } from '@zendeskgarden/container-modal'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 import { Backdrop, Header, ModalActions, SlideAppear } from './styles'
 
 const ChatModal = ({

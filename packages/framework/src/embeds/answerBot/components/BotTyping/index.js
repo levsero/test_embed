@@ -1,4 +1,4 @@
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { Container, Loader } from './styles'
 
 const BotTyping = () => (

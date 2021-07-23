@@ -1,11 +1,6 @@
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
-import {
-  getUserRecordingConsentRequirement,
-  getIsCallInProgress,
-  getHasLastCallFailed,
-} from 'embeds/talk/selectors'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import {
   unmuteMicrophone,
@@ -16,6 +11,11 @@ import {
 } from 'src/embeds/talk/actions'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import routes from 'src/embeds/talk/routes'
+import {
+  getUserRecordingConsentRequirement,
+  getIsCallInProgress,
+  getHasLastCallFailed,
+} from 'src/embeds/talk/selectors'
 import useTranslate from 'src/hooks/useTranslate'
 import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import CallInProgress from './CallInProgress'

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { Container } from './styles'
 
 const Main = forwardRef(({ ...props }, ref) => (

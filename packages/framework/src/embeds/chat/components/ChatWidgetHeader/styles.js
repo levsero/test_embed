@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import PopoutIcon from 'icons/widget-icon_popout.svg'
+import PopoutIcon from 'src/asset/icons/widget-icon_popout.svg'
 
 const StyledPopoutIcon = styled(PopoutIcon)`
   &&& {

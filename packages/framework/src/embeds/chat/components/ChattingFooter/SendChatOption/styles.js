@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Icon from 'embeds/chat/icons/widget-icon_sendChat.svg'
+import Icon from 'src/embeds/chat/icons/widget-icon_sendChat.svg'
 
 const StyledIcon = styled(Icon)`
   &&& {

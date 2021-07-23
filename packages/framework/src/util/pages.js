@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { win, location } from 'utility/globals'
-import { base64decode } from 'utility/utils'
+import { win, location } from 'src/util/globals'
+import { base64decode } from 'src/util/utils'
 
 function isOnHelpCenterPage() {
   const hcPattern = /^\/hc\//

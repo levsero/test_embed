@@ -7,8 +7,8 @@ import {
   zdColorGrey800,
 } from '@zendeskgarden/css-variables'
 import TrashIcon from '@zendeskgarden/svg-icons/src/16/trash-fill.svg'
-import { Avatar } from 'component/Avatar'
-import { LoadingSpinner } from 'component/loading/LoadingSpinner'
+import { Avatar } from 'src/component/Avatar'
+import { LoadingSpinner } from 'src/component/loading/LoadingSpinner'
 
 const AuthenticatedProfileContainer = styled.div`
   position: relative;

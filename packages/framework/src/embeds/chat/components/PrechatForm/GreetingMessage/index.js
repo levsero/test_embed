@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { Container } from './styles'
 
 const GreetingMessage = ({ message }) => {

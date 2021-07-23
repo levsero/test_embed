@@ -1,6 +1,6 @@
 import { waitFor } from '@testing-library/dom'
-import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
 import '../chatPreview'
 

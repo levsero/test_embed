@@ -4,11 +4,11 @@ import { closeReceived, openReceived } from 'src/redux/modules/base'
 import * as actions from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import { updateSettings } from 'src/redux/modules/settings'
-import * as globalUtilities from 'utility/globals'
-import { render } from 'utility/testHelpers'
+import * as globalUtilities from 'src/util/globals'
+import { render } from 'src/util/testHelpers'
 import Embeds from '..'
 
-jest.mock('component/webWidget/WebWidget', () => {
+jest.mock('src/component/webWidget/WebWidget', () => {
   return {
     __esModule: true,
     default: () => {

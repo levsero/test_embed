@@ -1,12 +1,3 @@
-import {
-  getTotalUserSearches,
-  getResultsCount,
-  getSearchTerm,
-  getCurrentActiveArticle,
-  getHasContextuallySearched,
-} from 'embeds/helpCenter/selectors'
-import { beacon } from 'service/beacon'
-import hcStats from 'service/hcStats'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 import {
@@ -29,6 +20,13 @@ import {
   SEARCH_REQUEST_FAILURE,
 } from 'src/embeds/helpCenter/actions/action-types'
 import {
+  getTotalUserSearches,
+  getResultsCount,
+  getSearchTerm,
+  getCurrentActiveArticle,
+  getHasContextuallySearched,
+} from 'src/embeds/helpCenter/selectors'
+import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_WIDGET_SHOWN,
   LAUNCHER_CLICKED,
@@ -44,6 +42,8 @@ import {
   getFormState,
   getAverageWaitTime,
 } from 'src/redux/modules/talk/talk-selectors'
+import { beacon } from 'src/service/beacon'
+import hcStats from 'src/service/hcStats'
 
 let talkOpenedBlipSent = false
 let chatOpenedBlipSent = false

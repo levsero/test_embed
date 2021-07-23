@@ -8,7 +8,7 @@ describe('auth utils', () => {
     mockery.enable()
 
     initMockRegistry({
-      'utility/utils': {
+      'src/util/utils': {
         base64UrlDecode: window.atob,
         sha1: () => mockSha1,
       },

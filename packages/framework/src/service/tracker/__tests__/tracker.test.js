@@ -1,7 +1,7 @@
-import { beacon } from 'service/beacon'
+import { beacon } from 'src/service/beacon'
 import tracker from '../tracker'
 
-jest.mock('service/beacon')
+jest.mock('src/service/beacon')
 
 beforeEach(() => {
   tracker.send = false

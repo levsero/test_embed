@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ChatEmailTranscriptModal from 'embeds/chat/components/EmailTranscriptModal'
-import { getEditContactDetails } from 'embeds/chat/selectors'
 import { TEST_IDS } from 'src/constants/shared'
 import ChatContactDetailsModal from 'src/embeds/chat/components/ContactDetails'
+import ChatEmailTranscriptModal from 'src/embeds/chat/components/EmailTranscriptModal'
 import EndChatModal from 'src/embeds/chat/components/Modals/EndChat'
+import { getEditContactDetails } from 'src/embeds/chat/selectors'
 import {
   endChatViaPostChatScreen,
   updateEmailTranscriptVisibility,

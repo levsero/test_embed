@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import NonFatalError from 'errors/NonFatalError'
+import NonFatalError from 'src/errors/NonFatalError'
 
 const truncateCodeBlock = (zopimCodeBlock) => {
   if (_.isString(zopimCodeBlock)) {

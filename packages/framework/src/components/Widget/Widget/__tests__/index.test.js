@@ -1,5 +1,5 @@
-import { Widget } from 'components/Widget'
-import { render } from 'utility/testHelpers'
+import { Widget } from 'src/components/Widget'
+import { render } from 'src/util/testHelpers'
 
 const renderWidgetContainer = (inProps) => {
   const defaultProps = {}

@@ -1,5 +1,5 @@
 import { Field } from '@zendeskgarden/react-forms'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import ContactFormLabel from '../'
 
 describe('ContactFormLabel', () => {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Button } from '@zendeskgarden/react-buttons'
-import { TEST_IDS } from 'constants/shared'
-import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
+import { TEST_IDS } from 'src/constants/shared'
+import ChatModal, { ModalActions } from 'src/embeds/chat/components/ChatModal'
 import useTranslate from 'src/hooks/useTranslate'
 import { ChatEndModalDescription } from './styles'
 

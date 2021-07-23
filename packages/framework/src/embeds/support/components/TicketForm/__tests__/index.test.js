@@ -1,12 +1,12 @@
 import { fireEvent } from '@testing-library/react'
-import { TEST_IDS } from 'constants/shared'
-import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
-import createKeyID from 'embeds/support/utils/createKeyID'
-import { render } from 'utility/testHelpers'
-import wait from 'utility/wait'
+import { TEST_IDS } from 'src/constants/shared'
+import useWidgetFormApis from 'src/embeds/support/hooks/useWidgetFormApis'
+import createKeyID from 'src/embeds/support/utils/createKeyID'
+import { render } from 'src/util/testHelpers'
+import wait from 'src/util/wait'
 import { Component as TicketForm } from '../'
 
-jest.mock('embeds/support/hooks/useWidgetFormApis')
+jest.mock('src/embeds/support/hooks/useWidgetFormApis')
 
 describe('TicketForm', () => {
   const field1 = {

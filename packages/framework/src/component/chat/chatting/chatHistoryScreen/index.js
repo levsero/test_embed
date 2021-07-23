@@ -2,10 +2,10 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import HistoryLog from 'component/chat/chatting/HistoryLog'
-import { Widget, Header, Main, Footer } from 'components/Widget'
-import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
-import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
+import HistoryLog from 'src/component/chat/chatting/HistoryLog'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'src/constants/chat'
+import LoadingMessagesIndicator from 'src/embeds/chat/components/LoadingMessagesIndicator'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
 import {
   getHistoryLength,
@@ -14,9 +14,9 @@ import {
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
+import { isFirefox, isIE } from 'src/util/devices'
+import getScrollBottom from 'src/util/get-scroll-bottom'
 import { onNextTick } from 'src/util/utils'
-import { isFirefox, isIE } from 'utility/devices'
-import getScrollBottom from 'utility/get-scroll-bottom'
 import { locals as styles } from './styles/index.scss'
 
 const mapStateToProps = (state) => {

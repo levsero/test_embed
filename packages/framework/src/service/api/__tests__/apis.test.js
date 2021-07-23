@@ -1,13 +1,9 @@
 import { wait } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as constants from 'constants/api'
-import * as eventConstants from 'constants/event'
-import * as callbacks from 'service/api/callbacks'
-import * as chatCallbacks from 'service/api/zopimApi/callbacks'
-import { beacon } from 'service/beacon'
-import { identity } from 'service/identity'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import * as constants from 'src/constants/api'
+import * as eventConstants from 'src/constants/event'
 import * as hcActions from 'src/embeds/helpCenter/actions'
 import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 import createStore from 'src/redux/createStore'
@@ -24,12 +20,16 @@ import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselect
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as settingsActions from 'src/redux/modules/settings/settings-actions'
 import * as settingSelectors from 'src/redux/modules/settings/settings-selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import * as chatCallbacks from 'src/service/api/zopimApi/callbacks'
+import { beacon } from 'src/service/beacon'
+import { identity } from 'src/service/identity'
 import * as chatUtils from 'src/util/chat'
 import * as apis from '../apis'
 
-jest.mock('service/settings')
-jest.mock('service/beacon')
-jest.mock('service/identity')
+jest.mock('src/service/settings')
+jest.mock('src/service/beacon')
+jest.mock('src/service/identity')
 
 const mockStore = configureMockStore([thunk])
 const mockActionValue = Date.now()

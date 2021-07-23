@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { logAndTrackApiError } from 'service/api/errorHandlers'
-import tracker from 'service/tracker'
+import { logAndTrackApiError } from 'src/service/api/errorHandlers'
+import tracker from 'src/service/tracker'
 import LegacyZEApiError from './LegacyZEApiError'
 import ZEApiError from './ZEApiError'
 

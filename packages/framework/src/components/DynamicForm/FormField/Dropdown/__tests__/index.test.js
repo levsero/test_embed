@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/dom'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import Dropdown from '../'
 
 describe('Dropdown', () => {

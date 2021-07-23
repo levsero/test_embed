@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import { find } from 'styled-components/test-utils'
-import ChatModal from 'embeds/chat/components/ChatModal'
-import { Header, Backdrop } from 'embeds/chat/components/ChatModal/styles'
+import ChatModal from 'src/embeds/chat/components/ChatModal'
+import { Header, Backdrop } from 'src/embeds/chat/components/ChatModal/styles'
 
 describe('ChatModal', () => {
   const defaultProps = {

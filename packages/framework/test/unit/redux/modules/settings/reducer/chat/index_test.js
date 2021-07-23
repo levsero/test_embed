@@ -5,7 +5,7 @@ describe('settings chat reducer', () => {
     mockery.enable()
 
     initMockRegistry({
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           get: noop,
         },

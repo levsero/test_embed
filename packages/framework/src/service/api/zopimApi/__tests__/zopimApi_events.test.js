@@ -6,11 +6,11 @@ import {
   CHAT_UNREAD_MESSAGES_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
   CHAT_STATUS_EVENT,
-} from 'constants/event'
-import * as callbacks from 'service/api/callbacks'
+} from 'src/constants/event'
 import createStore from 'src/redux/createStore'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
+import * as callbacks from 'src/service/api/callbacks'
 import zopimApi from '..'
 
 const setup = () => {

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
 

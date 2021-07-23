@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Dropdown, Field } from '@zendeskgarden/react-dropdowns'
-import { FONT_SIZE, TEST_IDS } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import { Item, Menu, Select } from './styles'

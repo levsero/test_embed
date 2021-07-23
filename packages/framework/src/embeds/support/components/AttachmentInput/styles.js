@@ -8,7 +8,7 @@ import {
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import Paperclip from '@zendeskgarden/svg-icons/src/16/paperclip.svg'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 export const AttachmentButton = styled.button.attrs(() => ({
   type: 'button',

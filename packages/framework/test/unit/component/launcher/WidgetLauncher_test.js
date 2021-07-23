@@ -16,12 +16,12 @@ describe('WidgetLauncher component', () => {
     mockChatSuppressedValue = false
 
     initMockRegistry({
-      'utility/devices': {
+      'src/util/devices': {
         isMobileBrowser: () => {
           return false
         },
       },
-      'component/Icon': {
+      'src/component/Icon': {
         Icon: class extends Component {
           render() {
             return <div className={this.props.className}>{this.props.type}</div>
@@ -34,8 +34,8 @@ describe('WidgetLauncher component', () => {
           icon: 'iconClasses',
         },
       },
-      'component/launcher/WidgetLauncherTitle': noopReactComponent(),
-      'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
+      'src/component/launcher/WidgetLauncherTitle': noopReactComponent(),
+      'src/embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent(),
       },
       'src/apps/webWidget/services/i18n': {
@@ -45,13 +45,13 @@ describe('WidgetLauncher component', () => {
           isRTL: () => mockIsRTL,
         },
       },
-      'utility/utils': {
+      'src/util/utils': {
         onNextTick: (callback) => callback(),
       },
       'src/redux/modules/selectors': {
         getChatOnline: noop,
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           get: () => mockChatSuppressedValue,
         },
@@ -71,7 +71,7 @@ describe('WidgetLauncher component', () => {
       'src/redux/modules/base/': {
         launcherClicked: noop,
       },
-      'utility/keyboard': {
+      'src/util/keyboard': {
         keyCodes: {
           SPACE: 32,
           ENTER: 13,

@@ -1,4 +1,4 @@
-import { performContextualSearch } from 'embeds/helpCenter/actions'
+import { performContextualSearch } from 'src/embeds/helpCenter/actions'
 import { removeFromQueue } from 'src/redux/modules/base'
 import { AUTHENTICATION_SUCCESS } from 'src/redux/modules/base/base-action-types'
 import { getQueue } from 'src/redux/modules/base/base-selectors'

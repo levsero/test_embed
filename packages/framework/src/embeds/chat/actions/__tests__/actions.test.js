@@ -1,4 +1,7 @@
-import { SOUND_ICON_CLICKED, UPDATE_CHAT_MENU_VISIBILITY } from 'embeds/chat/actions/action-types'
+import {
+  SOUND_ICON_CLICKED,
+  UPDATE_CHAT_MENU_VISIBILITY,
+} from 'src/embeds/chat/actions/action-types'
 import { handleSoundIconClick, updateMenuVisibility } from '../actions'
 
 describe('chat actions', () => {

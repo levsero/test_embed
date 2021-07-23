@@ -1,5 +1,5 @@
 import { store } from 'src/framework/services/persistence'
-import { getZendeskHost } from 'utility/globals'
+import { getZendeskHost } from 'src/util/globals'
 
 const inDebugMode = () => __DEV__ || store.get('debug') || false
 

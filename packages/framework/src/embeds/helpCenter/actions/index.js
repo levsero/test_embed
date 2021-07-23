@@ -1,15 +1,13 @@
 import _ from 'lodash'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
+import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import {
   getLastSearchTimestamp,
   getContextualHelpRequestNeeded,
   getSearchQuery,
   getTokensRevokedAt,
-} from 'embeds/helpCenter/selectors'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
-import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
+} from 'src/embeds/helpCenter/selectors'
 import { updateQueue, authenticate, expireToken } from 'src/redux/modules/base'
 import {
   getAuthToken,
@@ -21,8 +19,10 @@ import {
   getSettingsHelpCenterFilter,
   getSettingsHelpCenterLocaleFallbacks,
 } from 'src/redux/modules/settings/settings-selectors'
-import { location } from 'utility/globals'
-import { isOnHostMappedDomain } from 'utility/pages'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
+import { location } from 'src/util/globals'
+import { isOnHostMappedDomain } from 'src/util/pages'
 import {
   SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,

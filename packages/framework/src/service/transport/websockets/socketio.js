@@ -1,4 +1,4 @@
-import { parseUrl } from 'utility/utils'
+import { parseUrl } from 'src/util/utils'
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,

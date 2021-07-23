@@ -1,4 +1,4 @@
-import reducer from 'embeds/webWidget/reducers'
+import reducer from 'src/embeds/webWidget/reducers'
 
 describe('webWidget reducers', () => {
   it('includes all expected substates', () => {

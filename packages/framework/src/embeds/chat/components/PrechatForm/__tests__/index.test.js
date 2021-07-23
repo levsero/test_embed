@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/dom'
 import { wait } from '@testing-library/react'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { handlePrefillReceived } from 'src/redux/modules/base'
 import { setDefaultDepartment } from 'src/redux/modules/chat'
 import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import LoadingPage from 'components/LoadingPage'
-import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
-import routes from 'embeds/support/routes'
-import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
+import LoadingPage from 'src/components/LoadingPage'
 import { Widget, Header, Footer } from 'src/components/Widget'
 import TicketFormList from 'src/embeds/support/components/TicketFormList'
+import { TicketFormsMain } from 'src/embeds/support/pages/TicketFormsListPage/styles'
+import routes from 'src/embeds/support/routes'
+import { getIsAnyTicketFormLoading } from 'src/embeds/support/selectors'
 import {
   getContactFormTitle,
   getFormIdsToDisplay,

@@ -1,4 +1,4 @@
-import { http } from 'service/transport/http'
-import { socketio } from 'service/transport/websockets/socketio'
+import { http } from 'src/service/transport/http'
+import { socketio } from 'src/service/transport/websockets/socketio'
 
 export { http, socketio }

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
 import flagIcons from 'src/asset/images/flags.png'
+import { FONT_SIZE } from 'src/constants/shared'
 
 export const flagSpritePositions = {
   ad: '0%',

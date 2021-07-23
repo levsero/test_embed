@@ -4,7 +4,7 @@ import { render } from 'src/util/testHelpers'
 import { Component as PhoneOnlyPage } from './../'
 
 jest.mock('src/redux/modules/talk/talk-selectors')
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
 expect.addSnapshotSerializer(styleSheetSerializer)

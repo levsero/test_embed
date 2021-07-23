@@ -1,13 +1,13 @@
 import { fireEvent } from '@testing-library/react'
 import { wait } from '@testing-library/react'
-import { setContextualSuggestionsManually, contextualSearch } from 'embeds/helpCenter/actions'
-import { http } from 'service/transport'
 import { TEST_IDS } from 'src/constants/shared'
+import { setContextualSuggestionsManually, contextualSearch } from 'src/embeds/helpCenter/actions'
 import createStore from 'src/redux/createStore'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 import { updateSettings } from 'src/redux/modules/settings/settings-actions'
+import { http } from 'src/service/transport'
+import * as utility from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
-import * as utility from 'utility/devices'
 import HelpCenter from '../../index'
 
 const renderComponent = () => {

@@ -5,7 +5,7 @@ import { TEST_IDS } from 'src/constants/shared'
 import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleChoices'
 import Text from 'src/embeds/answerBot/components/Text'
 import { MAX_TITLE_LENGTH } from 'src/embeds/answerBot/constants'
-import { triggerOnEnter } from 'utility/keyboard'
+import { triggerOnEnter } from 'src/util/keyboard'
 import { Header, Snippet, Title, Container, ArticleIcon } from './styles'
 
 const Results = ({ articles, onArticleClick, leadingMessage }) => {

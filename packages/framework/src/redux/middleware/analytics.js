@@ -1,15 +1,14 @@
 import _ from 'lodash'
-import { USER_EVENT } from 'constants/event'
-import { GA_CATEGORY } from 'constants/shared'
+import { USER_EVENT } from 'src/constants/event'
+import { GA_CATEGORY } from 'src/constants/shared'
+import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
+import { getArticleForArticleAndSessionsID } from 'src/embeds/answerBot/selectors/root'
 import {
   SEARCH_REQUEST_SUCCESS,
   ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
-} from 'embeds/helpCenter/actions/action-types'
-import { getSearchTerm } from 'embeds/helpCenter/selectors'
-import { GA } from 'service/analytics/googleAnalytics'
-import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
-import { getArticleForArticleAndSessionsID } from 'src/embeds/answerBot/selectors/root'
+} from 'src/embeds/helpCenter/actions/action-types'
+import { getSearchTerm } from 'src/embeds/helpCenter/selectors'
 import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/selectors/index'
 import {
   TICKET_SUBMISSION_REQUEST_SUCCESS,
@@ -31,6 +30,7 @@ import {
 import { getDepartments } from 'src/redux/modules/chat/chat-selectors'
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
+import { GA } from 'src/service/analytics/googleAnalytics'
 import * as callbacks from 'src/service/api/callbacks'
 import { isAgent } from 'src/util/chat'
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Widget, Header, Main } from 'components/Widget'
+import { Widget, Header, Main } from 'src/components/Widget'
 import { conversationScrollChanged } from 'src/embeds/answerBot/actions/conversation'
 import AnswerBotContainer from 'src/embeds/answerBot/components/AnswerBotContainer'
 import ConversationFooter from 'src/embeds/answerBot/components/ConversationFooter'
@@ -14,8 +14,8 @@ import { getCurrentScreen } from 'src/embeds/answerBot/selectors/root'
 import { updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'src/util/devices'
 import { onNextTick } from 'src/util/utils'
-import { isMobileBrowser } from 'utility/devices'
 
 const SCROLL_TO_BOTTOM_INDICATOR = -1
 

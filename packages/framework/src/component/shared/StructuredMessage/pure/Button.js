@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
-import { isMobileBrowser } from 'utility/devices'
+import { KeyboardFocusButton } from 'src/component/shared/KeyboardFocusButton'
+import { isMobileBrowser } from 'src/util/devices'
 import { locals as styles } from './Button.scss'
 
 const isMobile = isMobileBrowser()

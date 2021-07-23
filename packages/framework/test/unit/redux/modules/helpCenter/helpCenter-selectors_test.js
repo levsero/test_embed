@@ -33,15 +33,15 @@ describe('helpCenter selectors', () => {
     mockery.enable()
 
     initMockRegistry({
-      'embeds/helpCenter/actions/action-types': {
+      'src/embeds/helpCenter/actions/action-types': {
         CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestPending,
         CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess,
         CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure,
       },
-      'utility/utils': {
+      'src/util/utils': {
         getPageKeywords: () => mockPageKeywords,
       },
-      'utility/pages': {
+      'src/util/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
       },
     })

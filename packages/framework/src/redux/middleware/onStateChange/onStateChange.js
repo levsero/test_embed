@@ -1,10 +1,8 @@
 import _ from 'lodash'
-import { getUserSoundSettings } from 'embeds/chat/selectors'
-import routes from 'embeds/helpCenter/routes'
-import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
-import audio from 'service/audio'
-import history from 'service/history'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
+import { getUserSoundSettings } from 'src/embeds/chat/selectors'
+import routes from 'src/embeds/helpCenter/routes'
+import { getArticleDisplayed } from 'src/embeds/helpCenter/selectors'
 import { store } from 'src/framework/services/persistence'
 import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave'
 import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger'
@@ -59,9 +57,11 @@ import {
   getSettingsMobileNotificationsDisabled,
   getCookiesDisabled,
 } from 'src/redux/modules/settings/settings-selectors'
+import audio from 'src/service/audio'
+import history from 'src/service/history'
+import { isMobileBrowser } from 'src/util/devices'
+import { isPopout } from 'src/util/globals'
 import { resetShouldWarn } from 'src/util/nullZChat'
-import { isMobileBrowser } from 'utility/devices'
-import { isPopout } from 'utility/globals'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false

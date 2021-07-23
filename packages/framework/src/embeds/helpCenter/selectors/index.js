@@ -3,9 +3,9 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
-} from 'embeds/helpCenter/actions/action-types'
-import { isOnHelpCenterPage } from 'utility/pages'
-import { getPageKeywords } from 'utility/utils'
+} from 'src/embeds/helpCenter/actions/action-types'
+import { isOnHelpCenterPage } from 'src/util/pages'
+import { getPageKeywords } from 'src/util/utils'
 
 const getContextualSearch = (state) => state.helpCenter.contextualSearch
 const getContextualSearchScreen = (state) => getContextualSearch(state).screen

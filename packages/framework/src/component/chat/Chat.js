@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import ChatOnline from 'component/chat/ChatOnline'
-import LoadingPage from 'components/LoadingPage'
-import ChatOffline from 'embeds/chat/components/ChatOffline'
+import ChatOnline from 'src/component/chat/ChatOnline'
 import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
+import LoadingPage from 'src/components/LoadingPage'
+import ChatOffline from 'src/embeds/chat/components/ChatOffline'
 import {
   getShowOfflineChat,
   getShowChatHistory,

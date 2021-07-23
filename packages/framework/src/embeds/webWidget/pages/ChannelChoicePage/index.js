@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu'
+import ChannelChoiceMenu from 'src/component/channelChoice/ChannelChoiceMenu'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
@@ -13,7 +13,7 @@ import {
   getSubmitTicketAvailable,
 } from 'src/redux/modules/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 const ChannelChoicePage = ({
   isMobile,

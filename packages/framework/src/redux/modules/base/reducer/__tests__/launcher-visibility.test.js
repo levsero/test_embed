@@ -4,8 +4,8 @@ import {
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED,
 } from 'src/redux/modules/chat/chat-action-types'
+import * as devices from 'src/util/devices'
 import { testReducer } from 'src/util/testHelpers'
-import * as devices from 'utility/devices'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,

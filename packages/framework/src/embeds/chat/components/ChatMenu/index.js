@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { connect } from 'react-redux'
 import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
-import { HeaderItem } from 'components/Widget'
-import { TEST_IDS } from 'constants/shared'
-import { handleSoundIconClick, updateMenuVisibility } from 'embeds/chat/actions/actions'
-import FooterIconButton from 'embeds/chat/components/FooterIconButton'
-import { getMenuVisible, getUserSoundSettings } from 'embeds/chat/selectors'
+import { HeaderItem } from 'src/components/Widget'
+import { TEST_IDS } from 'src/constants/shared'
+import { handleSoundIconClick, updateMenuVisibility } from 'src/embeds/chat/actions/actions'
+import FooterIconButton from 'src/embeds/chat/components/FooterIconButton'
+import { getMenuVisible, getUserSoundSettings } from 'src/embeds/chat/selectors'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import useTranslate from 'src/hooks/useTranslate'
 import {
@@ -21,8 +21,8 @@ import {
   getChatEmailTranscriptEnabled,
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
-import { onNextTick } from 'utility/utils'
+import { isMobileBrowser } from 'src/util/devices'
+import { onNextTick } from 'src/util/utils'
 import {
   SoundOffIcon,
   SoundOnIcon,

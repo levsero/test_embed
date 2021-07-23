@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getSearchedArticles } from 'embeds/helpCenter/selectors'
 import { screenChanged, contextualArticleShown } from 'src/embeds/answerBot/actions/root'
 import Results from 'src/embeds/answerBot/components/Results'
 import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
+import { getSearchedArticles } from 'src/embeds/helpCenter/selectors'
 
 class ContextualSearchResults extends Component {
   static propTypes = {

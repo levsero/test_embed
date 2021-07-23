@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import ZopimApiError from 'errors/nonFatal/ZopimApiError'
+import ZopimApiError from 'src/errors/nonFatal/ZopimApiError'
 import { logAndTrackApiError } from 'src/service/api/errorHandlers'
 
 export function setupZopimQueue(win) {

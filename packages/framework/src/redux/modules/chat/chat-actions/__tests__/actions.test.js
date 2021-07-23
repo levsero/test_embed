@@ -6,9 +6,7 @@ import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
-} from 'constants/event'
-import * as callbacks from 'service/api/callbacks'
-import zopimApi from 'service/api/zopimApi'
+} from 'src/constants/event'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/routing-actions'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
@@ -19,12 +17,14 @@ import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as formActionTypes from 'src/redux/modules/form/action-types'
 import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import * as connectedSelectors from 'src/redux/modules/selectors/selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import zopimApi from 'src/service/api/zopimApi'
 import {
   handleChatSDKInitialized,
   handleChatConnected,
   reset as resetChatSDKInitializedQueue,
 } from 'src/service/api/zopimApi/callbacks'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 import * as actions from '../actions'
 
 const timeoutError = { code: 'ETIMEDOUT' }
@@ -58,7 +58,7 @@ const getState = (state = {}) => {
 
   return _.merge(defaults, state)
 }
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
 

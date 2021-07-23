@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { beacon } from 'service/beacon'
+import { beacon } from 'src/service/beacon'
 
 const blacklist = ['zE.identify', 'webWidget.identify']
 

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { cloneElement, Component } from 'react'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group/Transition'
-import EmbedWrapper from 'component/frame/EmbedWrapper'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import EmbedWrapper from 'src/component/frame/EmbedWrapper'
 import {
   FONT_SIZE,
   DEFAULT_WIDGET_HEIGHT,
@@ -12,8 +13,7 @@ import {
   FRAME_TRANSITION_DURATION,
   TEST_IDS,
   WIDGET_MARGIN,
-} from 'constants/shared'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+} from 'src/constants/shared'
 import IFrame from 'src/framework/components/Frame'
 import { widgetShowAnimationComplete } from 'src/redux/modules/base/base-actions'
 import { getChatStandalone, getLocale } from 'src/redux/modules/base/base-selectors'
@@ -29,8 +29,8 @@ import {
   getStylingPositionVertical,
   getStylingZIndex,
 } from 'src/redux/modules/settings/settings-selectors'
+import { getZoomSizingRatio } from 'src/util/devices'
 import { onNextTick } from 'src/util/utils'
-import { getZoomSizingRatio } from 'utility/devices'
 import { locals as styles } from './Frame.scss'
 
 const mapStateToProps = (state, ownProps) => {

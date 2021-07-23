@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
+import { KeyboardFocusButton } from 'src/component/shared/KeyboardFocusButton'
 import { TEST_IDS } from 'src/constants/shared'
 import { locals as styles } from './MessageOptions.scss'
 

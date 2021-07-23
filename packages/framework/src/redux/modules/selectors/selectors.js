@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import {
   FONT_SIZE,
   EMBED_MAP,
@@ -9,9 +10,7 @@ import {
   WIDGET_MARGIN,
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
   DEFAULT_WIDGET_HEIGHT,
-} from 'constants/shared'
-import { settings } from 'service/settings'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+} from 'src/constants/shared'
 import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
   getAnswerBotEnabled as getAnswerBotConfigEnabled,
@@ -27,9 +26,10 @@ import {
   getHelpCenterAvailable,
   getHelpCenterReady,
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
-import { isMobileBrowser } from 'utility/devices'
-import { getZendeskHost } from 'utility/globals'
-import { isPopout } from 'utility/globals'
+import { settings } from 'src/service/settings'
+import { isMobileBrowser } from 'src/util/devices'
+import { getZendeskHost } from 'src/util/globals'
+import { isPopout } from 'src/util/globals'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,

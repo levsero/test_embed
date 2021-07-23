@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react'
 import { find } from 'styled-components/test-utils'
-import { Component as ViewHistoryButton } from 'embeds/chat/components/ViewHistoryButton'
-import { Container, HistoryIcon } from 'embeds/chat/components/ViewHistoryButton/styles'
+import { Component as ViewHistoryButton } from 'src/embeds/chat/components/ViewHistoryButton'
+import { Container, HistoryIcon } from 'src/embeds/chat/components/ViewHistoryButton/styles'
 import { render } from 'src/util/testHelpers'
 
 describe('ViewHistoryButton', () => {

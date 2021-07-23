@@ -279,7 +279,7 @@ export {
 When importing either from an internal or external module, try to import only what function(s) or module(s) are actually required.
 
 ```js
-import { FooComponent } from 'component/FooComponent'
+import { FooComponent } from 'src/component/FooComponent'
 ```
 
 _Note: the lodash library is an exception to this rule as we typically use a range of different functions from it._
@@ -292,10 +292,10 @@ import _ from 'lodash'
 When importing modules, make sure that they are imported in alphabetical order by the path/names.
 
 ```js
-import { Container } from 'component/Container';
-import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
+import { Container } from 'src/component/Container';
+import { HelpCenterArticle } from 'src/component/helpCenter/HelpCenterArticle';
 import { i18n } from 'src/apps/webWidget/services/i18n';
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser } from 'src/util/devices';
 
 ...
 ```

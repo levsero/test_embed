@@ -1,10 +1,10 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
 import * as actions from '../article-dismissed'
 
-jest.mock('service/transport')
+jest.mock('src/service/transport')
 
 const mockStore = configureMockStore([thunk])
 

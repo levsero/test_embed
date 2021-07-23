@@ -1,18 +1,18 @@
 import _ from 'lodash'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { Container } from 'component/container/Container'
-import Frame from 'component/frame/Frame'
-import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
-import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { Container } from 'src/component/container/Container'
+import Frame from 'src/component/frame/Frame'
 import { DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
 import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
+import { webWidgetStyles } from 'src/embed/webWidget/webWidgetStyles'
+import TicketFormPage from 'src/embeds/support/pages/TicketFormPage'
 import createStore from 'src/redux/createStore'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
 import { updateSettings } from 'src/redux/modules/settings'
-import { generateUserWidgetCSS } from 'utility/color/styles'
+import { generateUserWidgetCSS } from 'src/util/color/styles'
 
 const FRAME_WIDTH = WIDGET_WIDTH
 const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT
@@ -67,7 +67,7 @@ const renderWebWidgetPreview = (options) => {
 
   const renderComponent = () => {
     const frameParams = {
-      rawCSS: `${require('globalCSS')} ${webWidgetStyles}`,
+      rawCSS: `${require('src/styles/globals.scss')} ${webWidgetStyles}`,
       name: 'webWidgetPreview',
       customFrameStyle: frameStyle,
       alwaysShow: true,

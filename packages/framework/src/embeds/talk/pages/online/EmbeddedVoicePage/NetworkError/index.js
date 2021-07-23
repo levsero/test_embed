@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import LoadingButton from 'embeds/talk/components/LoadingButton'
+import LoadingButton from 'src/embeds/talk/components/LoadingButton'
 import useTranslate from 'src/hooks/useTranslate'
 import { Container, Heading, Message, SectionContainer } from './styles'
 

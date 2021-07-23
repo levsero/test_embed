@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Dropzone } from 'component/Dropzone'
+import { Dropzone } from 'src/component/Dropzone'
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH } from 'src/constants/shared'
 import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'

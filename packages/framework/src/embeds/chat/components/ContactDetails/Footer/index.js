@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Footer, FooterItem } from '@zendeskgarden/react-modals'
-import { TEST_IDS } from 'constants/shared'
 import SubmitButton from 'src/components/DynamicForm/SubmitButton'
+import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 
 const FormFooter = ({ isAuthenticated, submitting, updateContactDetailsVisibility }) => {

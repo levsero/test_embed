@@ -1,13 +1,10 @@
 import _ from 'lodash'
+import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
-} from 'constants/event'
-import * as callbacks from 'service/api/callbacks'
-import zopimApi from 'service/api/zopimApi'
-import audio from 'service/audio'
-import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
+} from 'src/constants/event'
 import errorTracker from 'src/framework/services/errorTracker'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
@@ -26,10 +23,13 @@ import {
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import zopimApi from 'src/service/api/zopimApi'
 import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
+import audio from 'src/service/audio'
 import { formatSchedule } from 'src/util/chat'
+import { isMobileBrowser } from 'src/util/devices'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
-import { isMobileBrowser } from 'utility/devices'
 import * as actions from '../chat-action-types'
 import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
 

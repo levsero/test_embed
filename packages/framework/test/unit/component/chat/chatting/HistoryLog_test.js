@@ -30,10 +30,10 @@ describe('HistoryLog component', () => {
     }
 
     initMockRegistry({
-      'component/chat/chatting/log/messages/ConnectedHistoryGroup': HistoryChatGroup,
+      'src/component/chat/chatting/log/messages/ConnectedHistoryGroup': HistoryChatGroup,
       'src/embeds/chat/components/EventMessage': HistoryEventMessage,
       '@zendeskgarden/react-buttons': { Button },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
       },
@@ -46,7 +46,7 @@ describe('HistoryLog component', () => {
       'src/apps/webWidget/services/i18n': {
         i18n,
       },
-      'utility/formatters': {
+      'src/util/formatters': {
         dateTime: dateTimeSpy,
       },
     })

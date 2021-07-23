@@ -23,7 +23,7 @@ describe('blip middleware', () => {
 
     mockery.enable()
     initMockRegistry({
-      'service/beacon': {
+      'src/service/beacon': {
         beacon: beaconSpy,
       },
       'src/apps/webWidget/services/i18n': {
@@ -42,7 +42,7 @@ describe('blip middleware', () => {
         getWebWidgetOpen: (prevState) => prevState.webWidgetOpen,
         getActiveEmbed: (prevState) => prevState.activeEmbed,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
         getSearchTerm: (prevState) => prevState.searchTerm,
         getResultsCount: (prevState) => prevState.resultsCount,
@@ -91,7 +91,7 @@ describe('blip middleware', () => {
       'src/redux/modules/chat/chat-action-types': {
         CHAT_STARTED,
       },
-      'service/hcStats': hcStatsSpy,
+      'src/service/hcStats': hcStatsSpy,
     })
 
     sendBlips = requireUncached(blipPath).sendBlips

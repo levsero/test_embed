@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { ButtonGroup } from 'component/button/ButtonGroup'
+import { ButtonGroup } from 'src/component/button/ButtonGroup'
 import {
   botFeedback,
   botFeedbackMessage,

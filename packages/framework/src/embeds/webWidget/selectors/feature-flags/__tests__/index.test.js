@@ -1,8 +1,8 @@
-import { inDebugMode } from 'utility/runtime'
+import { inDebugMode } from 'src/util/runtime'
 import isFeatureEnabled from '../'
 import features from '../features'
 
-jest.mock('utility/runtime')
+jest.mock('src/util/runtime')
 jest.mock('../features', () => ({
   fancyFeature: {
     defaultValue: true,

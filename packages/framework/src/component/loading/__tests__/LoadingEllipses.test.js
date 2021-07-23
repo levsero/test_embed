@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import * as devices from 'utility/devices'
+import * as devices from 'src/util/devices'
 import { LoadingEllipses } from '../LoadingEllipses'
 
 beforeEach(() => {

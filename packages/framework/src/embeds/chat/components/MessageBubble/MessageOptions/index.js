@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { OptionsList, ListItem, Button } from './styles'
 
 const MessageOptions = ({ options = [], onSelect }) => {

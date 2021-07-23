@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FONT_SIZE, TEST_IDS } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
 
 const Title = styled.h1.attrs(() => ({
   'data-testid': TEST_IDS.WIDGET_TITLE,

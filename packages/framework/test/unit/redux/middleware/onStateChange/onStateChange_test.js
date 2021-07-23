@@ -101,10 +101,10 @@ describe('onStateChange middleware', () => {
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
         activateReceived: activateReceivedSpy,
       },
-      'service/audio': {
+      'src/service/audio': {
         play: audioPlaySpy,
       },
-      'service/history': historySpy,
+      'src/service/history': historySpy,
       'src/redux/modules/chat/chat-selectors': {
         getConnection: _.identity,
         getChatMessagesFromAgents: (val) => {
@@ -159,15 +159,15 @@ describe('onStateChange middleware', () => {
         },
       },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getArticleDisplayed: (x) => x && x.articleDisplayed,
         getHasSearched: () => mockHasSearched,
         getActiveArticle: () => mockActiveArticle,
       },
-      'embeds/helpCenter/routes': {
+      'src/embeds/helpCenter/routes': {
         articles: (id) => `/articles/${id}`,
       },
-      'embeds/chat/selectors': {
+      'src/embeds/chat/selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
       },
       'src/redux/modules/base/base-selectors': {
@@ -191,12 +191,12 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting',
       },
-      'utility/devices': {
+      'src/util/devices': {
         isMobileBrowser() {
           return mockIsMobileBrowser
         },
       },
-      'utility/globals': {
+      'src/util/globals': {
         win: mockWin,
         isPopout: () => mockIsPopout,
       },

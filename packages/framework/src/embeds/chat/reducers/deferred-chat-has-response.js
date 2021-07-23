@@ -1,4 +1,4 @@
-import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
+import { RECEIVE_DEFERRED_CHAT_STATUS } from 'src/embeds/chat/actions/action-types'
 
 const deferredChatHasResponse = (state = false, action) => {
   switch (action.type) {

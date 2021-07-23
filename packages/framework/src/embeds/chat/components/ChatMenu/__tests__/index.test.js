@@ -1,12 +1,12 @@
 import { find } from 'styled-components/test-utils'
-import { TEST_IDS } from 'constants/shared'
-import { isMobileBrowser } from 'utility/devices'
-import { render } from 'utility/testHelpers'
-import { onNextTick } from 'utility/utils'
+import { TEST_IDS } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
+import { render } from 'src/util/testHelpers'
+import { onNextTick } from 'src/util/utils'
 import { Component as ChatMenu } from './..'
 import { SoundOffIcon, SoundOnIcon } from './../styles'
 
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 describe('ChatMenu', () => {
   const defaultProps = {

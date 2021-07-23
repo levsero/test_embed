@@ -5,11 +5,11 @@ import {
   zdColorGrey600,
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
-import { getWidgetColorVariables } from 'utility/color/styles'
-import { getThemeColor } from 'utility/color/validate'
-import { isMobileBrowser } from 'utility/devices'
-import { isSafari } from 'utility/devices'
+import { FONT_SIZE } from 'src/constants/shared'
+import { getWidgetColorVariables } from 'src/util/color/styles'
+import { getThemeColor } from 'src/util/color/validate'
+import { isMobileBrowser } from 'src/util/devices'
+import { isSafari } from 'src/util/devices'
 
 /* eslint max-len: 0 */
 const isMobile = isMobileBrowser()

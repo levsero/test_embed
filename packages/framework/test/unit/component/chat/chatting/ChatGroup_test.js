@@ -32,18 +32,18 @@ describe('ChatGroup component', () => {
     }
 
     initMockRegistry({
-      'types/chat': {
+      'src/types/chat': {
         chatMessage: 'chatMessage',
       },
-      'component/Icon': { Icon },
-      'component/Avatar': { Avatar },
+      'src/component/Icon': { Icon },
+      'src/component/Avatar': { Avatar },
       'src/embeds/chat/components/MessageBubble': MessageBubble,
-      'component/chat/attachment/Attachment': { Attachment },
+      'src/component/chat/attachment/Attachment': { Attachment },
       'src/embeds/chat/components/MessageError': MessageError,
-      'embeds/chat/components/ImageMessage': ImageMessage,
-      'component/chat/chatting/StructuredMessage': StructuredMessage,
-      'component/chat/chatting/Carousel': Carousel,
-      'constants/chat': {
+      'src/embeds/chat/components/ImageMessage': ImageMessage,
+      'src/component/chat/chatting/StructuredMessage': StructuredMessage,
+      'src/component/chat/chatting/Carousel': Carousel,
+      'src/constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES,
         CHAT_STRUCTURED_CONTENT_TYPE,

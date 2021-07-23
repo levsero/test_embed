@@ -1,4 +1,4 @@
-import { CONNECTION_STATUSES } from 'constants/chat'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { SDK_CHAT_QUEUE_POSITION } from 'src/redux/modules/chat/chat-action-types'
 import { SDK_CONNECTION_UPDATE } from 'src/redux/modules/chat/chat-action-types'
 import { testReducer } from 'src/util/testHelpers'

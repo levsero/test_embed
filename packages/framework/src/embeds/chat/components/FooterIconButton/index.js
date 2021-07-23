@@ -7,8 +7,8 @@ import {
   zdColorGrey800,
 } from '@zendeskgarden/css-variables'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import { FONT_SIZE } from 'constants/shared'
-import { isMobileBrowser } from 'utility/devices'
+import { FONT_SIZE } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
 
 const size = () => `${(isMobileBrowser() ? 16 : 14) / FONT_SIZE}rem`
 const padding = () => `${(isMobileBrowser() ? 8 : 5) / FONT_SIZE}rem`

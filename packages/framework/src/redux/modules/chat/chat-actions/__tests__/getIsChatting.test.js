@@ -9,15 +9,15 @@ import {
 } from 'src/redux/modules/chat/chat-action-types'
 
 let getIsChatting = require('../getIsChatting').getIsChatting
-let isMobileBrowser = require('utility/devices').isMobileBrowser
+let isMobileBrowser = require('src/util/devices').isMobileBrowser
 
 const resetMocks = () => {
   jest.resetModules()
 
   getIsChatting = require('../getIsChatting').getIsChatting
-  isMobileBrowser = require('utility/devices').isMobileBrowser
+  isMobileBrowser = require('src/util/devices').isMobileBrowser
 
-  jest.mock('utility/devices')
+  jest.mock('src/util/devices')
   isMobileBrowser.mockReturnValue(false)
 }
 const callAction = (isChatting = true) => {

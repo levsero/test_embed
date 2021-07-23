@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Children, cloneElement, Component } from 'react'
 import { Button } from '@zendeskgarden/react-buttons'
-import Slider from 'embeds/chat/components/SliderContainer'
+import Slider from 'src/embeds/chat/components/SliderContainer'
 import { locals as styles } from './QuickReplies.scss'
 
 export class QuickReply extends Component {

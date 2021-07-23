@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
+import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
 import getField from './fields'
 
 const FormField = ({

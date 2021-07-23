@@ -5,8 +5,8 @@ import MenuIcon from '@zendeskgarden/svg-icons/src/16/menu-fill.svg'
 import EllipsisIcon from '@zendeskgarden/svg-icons/src/16/overflow-stroke.svg'
 import SoundOffIcon from '@zendeskgarden/svg-icons/src/16/volume-muted-stroke.svg'
 import SoundOnIcon from '@zendeskgarden/svg-icons/src/16/volume-unmuted-stroke.svg'
-import { FONT_SIZE } from 'constants/shared'
-import { isMobileBrowser } from 'utility/devices'
+import { FONT_SIZE } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
 
 const StyledSoundOffIcon = styled(SoundOffIcon)`
   height: 1em;

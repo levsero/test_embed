@@ -3,7 +3,7 @@ import {
   EDIT_CONTACT_DETAILS_SCREEN,
   EDIT_CONTACT_DETAILS_LOADING_SCREEN,
   EDIT_CONTACT_DETAILS_ERROR_SCREEN,
-} from 'constants/chat'
+} from 'src/constants/chat'
 import { getDisplayName } from 'src/util/chat'
 import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../base/base-action-types'
 import {

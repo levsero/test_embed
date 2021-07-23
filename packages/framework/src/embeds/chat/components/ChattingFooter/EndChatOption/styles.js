@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Icon from 'embeds/chat/icons/widget-icon_endChat.svg'
+import Icon from 'src/embeds/chat/icons/widget-icon_endChat.svg'
 
 const StyledIcon = styled(Icon)`
   display: inline-block;

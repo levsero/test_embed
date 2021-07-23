@@ -25,7 +25,7 @@ describe('chat reducer chats', () => {
     mockery.enable()
 
     initMockRegistry({
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_MESSAGE_TYPES,
         CHAT_CUSTOM_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,

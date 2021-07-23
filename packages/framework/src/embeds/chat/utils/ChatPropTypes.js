@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { ratings } from 'embeds/chat/components/RatingGroup'
+import { ratings } from 'src/embeds/chat/components/RatingGroup'
 
 const chatRating = PropTypes.shape({
   value: PropTypes.oneOf(Object.values(ratings)),

@@ -1,6 +1,6 @@
 import { wait } from '@testing-library/react'
 import { useForm } from 'react-final-form'
-import createKeyID from 'embeds/support/utils/createKeyID'
+import createKeyID from 'src/embeds/support/utils/createKeyID'
 import { handlePrefillReceived } from 'src/redux/modules/base'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { updateSettings } from 'src/redux/modules/settings'

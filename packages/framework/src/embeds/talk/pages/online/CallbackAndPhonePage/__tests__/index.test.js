@@ -1,7 +1,7 @@
 import * as libphonenumber from 'libphonenumber-js'
 import createStore from 'src/redux/createStore'
 import { handleTalkVendorLoaded, updateTalkCallbackForm } from 'src/redux/modules/talk'
-import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
+import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
 import CallbackAndPhonePage from '../index'
 
 const renderComponent = (params = { country: 'AU' }) => {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import LoadingButton from 'embeds/talk/components/LoadingButton'
+import LoadingButton from 'src/embeds/talk/components/LoadingButton'
 import useTranslate from 'src/hooks/useTranslate'
 import {
   Button,

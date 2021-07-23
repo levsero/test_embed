@@ -1,4 +1,4 @@
-import AttachmentField from 'embeds/support/components/AttachmentField'
+import AttachmentField from 'src/embeds/support/components/AttachmentField'
 import Checkbox from './Checkbox'
 import Decimal from './Decimal'
 import Dropdown from './Dropdown'

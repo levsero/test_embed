@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const HeaderRow = styled.div`
   :not(:first-child) {

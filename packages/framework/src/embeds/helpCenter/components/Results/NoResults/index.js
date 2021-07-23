@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ContextualNoResultsMessage from 'embeds/helpCenter/components/ContextualNoResultsMessage'
-import NoResultsMessage from 'embeds/helpCenter/components/NoResultsMessage'
+import ContextualNoResultsMessage from 'src/embeds/helpCenter/components/ContextualNoResultsMessage'
+import NoResultsMessage from 'src/embeds/helpCenter/components/NoResultsMessage'
 import {
   getSearchFailed,
   getPreviousSearchTerm,
   shouldShowContextualResults,
-} from 'embeds/helpCenter/selectors'
+} from 'src/embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getShowNextButton } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 const NoResults = ({
   isMobile,

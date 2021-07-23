@@ -28,10 +28,10 @@ describe('ChatLog component', () => {
     }
 
     initMockRegistry({
-      'component/chat/chatting/log/messages/ConnectedChatGroup': ChatGroup,
+      'src/component/chat/chatting/log/messages/ConnectedChatGroup': ChatGroup,
       'src/embeds/chat/components/EventMessage': EventMessage,
       'src/embeds/chat/components/RequestRatingButton': RequestRatingButton,
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
       },
@@ -44,7 +44,7 @@ describe('ChatLog component', () => {
       'src/apps/webWidget/services/i18n': {
         i18n,
       },
-      'types/chat': {
+      'src/types/chat': {
         chatLogEntry: 'chatLogEntry',
       },
     })

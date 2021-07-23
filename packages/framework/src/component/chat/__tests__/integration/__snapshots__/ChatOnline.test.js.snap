@@ -416,6 +416,22 @@ exports[`chat log agent typing 1`] = `
   color: #68737d;
 }
 
+.c3 {
+  color: #87929d !important;
+  vertical-align: middle;
+  height: 1.4rem !important;
+  width: 1.4rem !important;
+  padding-bottom: 0.14285714285714285rem;
+  margin-right: 0.35714285714285715rem;
+}
+
+.c2 {
+  width: 100%;
+  padding-top: 0.8571428571428571rem;
+  padding-bottom: 0.42857142857142855rem;
+  color: #68737d;
+}
+
 .c6 {
   position: absolute;
   display: -webkit-box;
@@ -433,22 +449,6 @@ exports[`chat log agent typing 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
-}
-
-.c3 {
-  color: #87929d !important;
-  vertical-align: middle;
-  height: 1.4rem !important;
-  width: 1.4rem !important;
-  padding-bottom: 0.14285714285714285rem;
-  margin-right: 0.35714285714285715rem;
-}
-
-.c2 {
-  width: 100%;
-  padding-top: 0.8571428571428571rem;
-  padding-bottom: 0.42857142857142855rem;
-  color: #68737d;
 }
 
 .c0 {

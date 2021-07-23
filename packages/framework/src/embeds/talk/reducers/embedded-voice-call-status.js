@@ -3,7 +3,7 @@ import {
   CALL_ENDED,
   CALL_FAILED,
   RESET_CALL_FAILED,
-} from 'embeds/talk/actions/action-types'
+} from 'src/embeds/talk/actions/action-types'
 
 const initialState = {
   isCallInProgress: false,

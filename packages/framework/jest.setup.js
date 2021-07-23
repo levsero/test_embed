@@ -3,18 +3,21 @@ import '@testing-library/react/cleanup-after-each'
 import 'jest-styled-components'
 import 'mutationobserver-shim'
 
-jest.mock('translation/ze_localeIdMap', () => require('translation/__mocks__/ze_localeIdMap'), {
-  virtual: true,
-})
+jest.mock(
+  'src/translation/ze_localeIdMap',
+  () => require('src/translation/__mocks__/ze_localeIdMap'),
+  {
+    virtual: true,
+  }
+)
 
-jest.mock('translation/ze_countries', () => require('translation/__mocks__/ze_countries'), {
+jest.mock('src/translation/ze_countries', () => require('src/translation/__mocks__/ze_countries'), {
   virtual: true,
 })
 
 jest.mock('src/redux/middleware/preventLoops/index')
 jest.mock('src/embed/webWidget/webWidgetStyles')
 jest.mock('src/embed/sharedStyles')
-jest.mock('globalCSS')
 jest.mock('@zendesk/client-i18n-tools')
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WWI18N'

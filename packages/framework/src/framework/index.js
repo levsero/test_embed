@@ -1,11 +1,11 @@
-import { beacon } from 'service/beacon'
-import tracker from 'service/tracker'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import errorTracker from 'src/framework/services/errorTracker'
 import publicApi from 'src/framework/services/publicApi'
+import { beacon } from 'src/service/beacon'
 import { identity } from 'src/service/identity'
-import { isBlacklisted } from 'utility/devices'
-import { setReferrerMetas, win, document as doc } from 'utility/globals'
+import tracker from 'src/service/tracker'
+import { isBlacklisted } from 'src/util/devices'
+import { setReferrerMetas, win, document as doc } from 'src/util/globals'
 import './polyfills'
 
 const setupIframe = (iframe, doc) => {

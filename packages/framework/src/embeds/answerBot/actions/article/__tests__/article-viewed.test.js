@@ -1,11 +1,11 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
 import * as actions from '../article-viewed'
 
-jest.mock('service/transport')
+jest.mock('src/service/transport')
 
 const mockStore = configureMockStore([thunk])
 

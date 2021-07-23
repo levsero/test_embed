@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Item, Menu, Select } from '@zendeskgarden/react-dropdowns'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const StyledMenu = styled(Menu)`
   min-width: ${(props) => props.width}px;

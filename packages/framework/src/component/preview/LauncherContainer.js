@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'constants/launcher'
-import { launcherStyles } from 'embeds/webWidget/components/Launcher/styles'
 import Frame from 'src/component/frame/Frame'
-import { generateUserLauncherCSS } from 'utility/color/styles'
+import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'src/constants/launcher'
+import { launcherStyles } from 'src/embeds/webWidget/components/Launcher/styles'
+import { generateUserLauncherCSS } from 'src/util/color/styles'
 import { LauncherPreview } from './LauncherPreview'
 
 export class LauncherContainer extends Component {
@@ -41,7 +41,7 @@ export class LauncherContainer extends Component {
           if (el) this.frame = el
         }}
         rawCSS={`
-          ${require('globalCSS')} ${launcherStyles}
+          ${require('src/styles/globals.scss')} ${launcherStyles}
         `}
         generateUserCSS={generateUserLauncherCSS}
         name={'launcher'}

@@ -2,8 +2,8 @@ import t from '@zendesk/client-i18n-tools'
 import errorTracker from 'src/framework/services/errorTracker'
 import listeners from 'src/framework/services/i18n/listeners'
 import parseLocale from 'src/framework/services/i18n/parseLocale'
-import zELocaleIdMap from 'translation/ze_localeIdMap'
-import { navigator } from 'utility/globals'
+import zELocaleIdMap from 'src/translation/ze_localeIdMap'
+import { navigator } from 'src/util/globals'
 import fetchLocale from './fetchLocale'
 
 let currentLocale

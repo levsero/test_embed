@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Widget, Main, Footer } from 'components/Widget'
-import ChatHeader from 'embeds/chat/components/ChatHeader'
-import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
-import FeedbackForm from 'embeds/chat/components/FeedbackForm'
+import { Widget, Main, Footer } from 'src/components/Widget'
+import ChatHeader from 'src/embeds/chat/components/ChatHeader'
+import ChatWidgetHeader from 'src/embeds/chat/components/ChatWidgetHeader'
+import FeedbackForm from 'src/embeds/chat/components/FeedbackForm'
 import useTranslate from 'src/hooks/useTranslate'
 import {
   sendChatRating,

@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { http, socketio } from 'service/transport'
 import errorTracker from 'src/framework/services/errorTracker'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
 import {
@@ -14,8 +13,9 @@ import {
   REQUESTS_BEFORE_BACKOFF,
 } from 'src/redux/modules/talk/constants'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
-import { parseUrl } from 'utility/utils'
-import wait from 'utility/wait'
+import { http, socketio } from 'src/service/transport'
+import { parseUrl } from 'src/util/utils'
+import wait from 'src/util/wait'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT,

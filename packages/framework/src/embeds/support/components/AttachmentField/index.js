@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import { useRef, useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
-import { useOnDrop } from 'components/FileDropProvider'
-import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
+import { useOnDrop } from 'src/components/FileDropProvider'
 import { TEST_IDS } from 'src/constants/shared'
 import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
 import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
@@ -14,6 +13,7 @@ import {
   getAttachmentTitle,
   getAttachmentLimitExceeded,
 } from 'src/embeds/support/selectors'
+import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
 import { onNextTick } from 'src/util/utils'
 import { Container, StyledLabel, StyledMessage } from './styles'
 
