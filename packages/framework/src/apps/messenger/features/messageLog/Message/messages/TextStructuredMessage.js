@@ -31,7 +31,7 @@ const TextStructuredMessage = ({
 }) => {
   const dispatch = useDispatch()
   const isPrimaryParticipant = role === 'appUser'
-  const replies = extractReplies(actions, isLastInLog)
+  const replies = extractReplies(actions)
   const messageStatus = status ?? MESSAGE_STATUS.sent
 
   return (

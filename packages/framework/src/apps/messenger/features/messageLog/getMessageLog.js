@@ -128,7 +128,7 @@ const getMessageLog = createSelector(
   getFormsState,
   getUserTyping,
   (messages, formsState, userTyping) => {
-    const updatedFormResponses = retrieveFormDataForFormResponse(messages, formsState)
+    const updatedFormResponses = retrieveFormDataForFormResponse(messages)
     const withoutSubmittedForms = removeSubmittedForms(updatedFormResponses, formsState)
 
     const logWithTimestamps = insertTimestampsInLog(withoutSubmittedForms)

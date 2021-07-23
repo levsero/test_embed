@@ -1,8 +1,6 @@
 import generateColor from 'color'
 import { zdColorGrey500, zdColorGrey800 } from '@zendeskgarden/css-variables/dist/index'
 
-let instance = null
-
 export class ColorMixer {
   static highlightBy = { light: 0.1, dark: 0.15 }
   static yiqValues = { r: 299, g: 587, b: 114 }
@@ -14,8 +12,6 @@ export class ColorMixer {
   static defaultLightYIQ = 190
 
   constructor(baseColor, options = {}) {
-    if (this._isSameColorScheme(baseColor, options)) return instance
-
     this.accents = {}
     this.options = options
     this.white = generateColor('#FFF')
@@ -26,7 +22,6 @@ export class ColorMixer {
     this.buttonColor = this._buttonColor(this.baseColor)
     this.iconColor = this._iconColor(this.baseColor)
     this.listColor = this._listColor(this.baseColor)
-    instance = this
   }
 
   getBaseColor = () => {
@@ -137,9 +132,5 @@ export class ColorMixer {
     const yiq = (rgb[0] * values.r + rgb[1] * values.g + rgb[2] * values.b) / 1000
 
     return yiq > threshold
-  }
-
-  _isSameColorScheme = (color, options) => {
-    instance && instance.getBaseColor() === color && instance.options === options
   }
 }

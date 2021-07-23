@@ -15,7 +15,7 @@ const insertTimestampsInLog = (log) => {
   const timestampedLog = []
   log.forEach((message) => {
     if (message.received - previousTimestamp > fifteenMinutes) {
-      timestampedLog.push(createTimestamp(message, previousTimestamp))
+      timestampedLog.push(createTimestamp(message))
     }
     previousTimestamp = message.received
     timestampedLog.push(message)

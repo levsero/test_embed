@@ -348,13 +348,16 @@ export function sendLastChatRatingInfo(lastChatRatingInfo = {}) {
 }
 
 const loadAudio = () => {
-  try {
-    import(
-      /* webpackChunkName: 'chat-incoming-message-notification' */ 'src/asset/media/chat-incoming-message-notification.mp3'
-    ).then((thing) => {
-      audio.load('incoming_message', thing.default)
+  import(
+    /* webpackChunkName: 'chat-incoming-message-notification' */ 'src/asset/media/chat-incoming-message-notification.mp3'
+  )
+    .then((result) => {
+      audio.load('incoming_message', result.default)
     })
-  } catch (_) {}
+    .catch(() => {
+      // ignore error, the chat message notification sound won't be able to play
+      // but the UI will still function as normal
+    })
 }
 
 export function getAccountSettings() {

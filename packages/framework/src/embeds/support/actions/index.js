@@ -126,7 +126,7 @@ export const uploadAttachment = (file, id) => (dispatch, getState) => {
   const errorMessage = fileOversize ? ATTACHMENT_ERRORS.TOO_LARGE : null
   const fileType = file.type || 'application/octet-stream'
   const onUploadComplete = (response) => dispatch(uploadAttachmentSuccess(id, response))
-  const onUploadFailure = (error) => dispatch(uploadAttachmentFailure(id, error))
+  const onUploadFailure = () => dispatch(uploadAttachmentFailure(id))
   const onUploadUpdate = (progress) => dispatch(uploadAttachmentUpdate(id, progress))
   const attachment = {
     id,
