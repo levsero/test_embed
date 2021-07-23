@@ -24,9 +24,17 @@
 • Deprecated - for soon-to-be removed features.
 • Removed - for now removed features.
 • Fixed - for any bug fixes.
-• Security - in case of vulnerabilities -->
+• Security - in case of vulnerabilities
 
-- Fixed - a very bad bug
+E.g.
+- Fixed a bug where the launcher was cropped by 1px in Firefox
+
+See https://zendesk.atlassian.net/wiki/spaces/WEB/pages/1082363857/Changelog+Duty for more information
+-->
+
+#### Web Widget
+
+#### Web Widget Classic
 
 ### Risks
 
