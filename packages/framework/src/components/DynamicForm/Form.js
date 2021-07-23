@@ -25,7 +25,7 @@ const Form = ({
   errorMessageKey,
   isPreview,
   footer: FooterComponent,
-  controls,
+  controls = null,
   extraFieldOptions,
 }) => {
   const translate = useTranslate()
@@ -71,7 +71,7 @@ const Form = ({
             </Alert>
           )}
         </div>
-        {controls && controls}
+        {controls}
       </Main>
       {FooterComponent && (
         <FooterComponent isSubmitting={isSubmitting} formValues={values} fields={fields} />

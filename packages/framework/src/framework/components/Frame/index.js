@@ -46,7 +46,7 @@ const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props
     const currentFrame = frame.current
 
     currentFrame.addEventListener('load', onLoad)
-    return () => currentFrame.removeEventListener('load', onLoad())
+    return () => currentFrame.removeEventListener('load', onLoad)
   }, [frame])
 
   useEffect(() => {

@@ -9,7 +9,7 @@ const audio = {
     sounds[key] = new Audio(path)
   },
   play(key) {
-    sounds[key].play()
+    sounds[key]?.play()
   },
 }
 

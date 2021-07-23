@@ -33,12 +33,12 @@ const isFeatureEnabled = (stateOrConfig, name) => {
   if (inDebugMode()) {
     const value = localStorage.getItem(getFullStorageName(name))
 
-    if (value === true || value === 'true') {
+    if (value === 'true') {
       logFeatureOverrideUsage(name, value)
       return true
     }
 
-    if (value === false || value === 'false') {
+    if (value === 'false') {
       logFeatureOverrideUsage(name, value)
       return false
     }
