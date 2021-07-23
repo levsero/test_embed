@@ -34,7 +34,7 @@ See https://zendesk.atlassian.net/wiki/spaces/WEB/pages/1082363857/Changelog+Dut
 
 #### Web Widget
 
-#### Web Widget Classic
+#### Web Widget (Classic)
 
 ### Risks
 
