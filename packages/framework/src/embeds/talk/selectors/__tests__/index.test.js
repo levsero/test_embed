@@ -4,8 +4,8 @@ import {
   PHONE_ONLY,
   CALLBACK_ONLY,
   CALLBACK_AND_PHONE,
-} from 'src/redux/modules/talk/talk-capability-types'
-import { getOfflineTitle, getTalkTitleKey, getCapability } from '../selectors'
+} from 'src/embeds/talk/talk-capability-types'
+import { getOfflineTitle, getTalkTitleKey, getCapability, getPhoneNumber } from '../'
 
 describe('talk selectors', () => {
   describe('getCapability returns the capability', () => {
@@ -74,5 +74,15 @@ describe('talk selectors', () => {
         expect(result).toEqual(expectedValue)
       }
     )
+  })
+
+  test('getPhoneNumber', () => {
+    const selector = getPhoneNumber.resultFunc
+    const config = {
+      averageWaitTime: '5',
+      phoneNumber: '01189998819991197253',
+    }
+
+    expect(selector(config)).toEqual(config.phoneNumber)
   })
 })

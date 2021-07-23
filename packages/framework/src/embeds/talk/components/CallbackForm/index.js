@@ -21,9 +21,9 @@ import { submitTalkCallbackForm, updateTalkCallbackForm } from 'src/redux/module
 import {
   getAverageWaitTimeString,
   getCallback,
-  getEmbeddableConfig,
+  getTalkEmbeddableConfig,
   getFormState,
-} from 'src/redux/modules/talk/talk-selectors'
+} from 'src/embeds/talk/selectors'
 import { SubmitButton, Form, Header, FormDivider } from './styles'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => {
     nameLabelText: getTalkNameLabel(state),
     nickname: getTalkNickname(state),
     serviceUrl: getTalkServiceUrl(state),
-    supportedCountries: getEmbeddableConfig(state).supportedCountries,
+    supportedCountries: getTalkEmbeddableConfig(state).supportedCountries,
   }
 }
 

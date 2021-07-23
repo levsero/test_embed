@@ -16,7 +16,7 @@ import {
   PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
-import { PHONE_ONLY, CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { PHONE_ONLY, CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
 import { GA } from 'src/service/analytics/googleAnalytics'
 import * as callbacks from 'src/service/api/callbacks'
 import { trackAnalytics } from '../analytics'

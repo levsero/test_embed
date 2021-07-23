@@ -4,7 +4,7 @@ import {
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
   CAPABILITY_TYPE_CODES,
-} from '../talk-capability-types'
+} from 'src/embeds/talk/talk-capability-types'
 
 test('CALLBACK_ONLY', () => {
   expect(CALLBACK_ONLY).toEqual('widget/talk/CALLBACK_ONLY')

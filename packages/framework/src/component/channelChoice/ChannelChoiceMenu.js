@@ -12,7 +12,7 @@ import {
   getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel,
 } from 'src/redux/modules/selectors'
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
 import { locals as styles } from './ChannelChoiceMenu.scss'
 
 const mapStateToProps = (state) => ({

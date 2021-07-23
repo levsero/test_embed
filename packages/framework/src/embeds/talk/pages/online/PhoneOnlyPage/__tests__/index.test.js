@@ -3,7 +3,7 @@ import snapshotDiff from 'snapshot-diff'
 import { render } from 'src/util/testHelpers'
 import { Component as PhoneOnlyPage } from './../'
 
-jest.mock('src/redux/modules/talk/talk-selectors')
+jest.mock('src/embeds/talk/selectors')
 jest.mock('src/util/devices')
 
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])

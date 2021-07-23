@@ -1,6 +1,6 @@
 import { render, fireEvent } from '@testing-library/react'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
 import { Component as ChannelChoiceMenu } from '../ChannelChoiceMenu'
 
 beforeEach(() => {

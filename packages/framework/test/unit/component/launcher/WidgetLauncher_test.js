@@ -56,9 +56,6 @@ describe('WidgetLauncher component', () => {
           get: () => mockChatSuppressedValue,
         },
       },
-      'src/redux/modules/talk/talk-selectors': {
-        isCallbackEnabled: noop,
-      },
       'src/redux/modules/chat/chat-selectors': {
         getNotification: noop,
       },
@@ -83,6 +80,7 @@ describe('WidgetLauncher component', () => {
       },
       'src/embeds/talk/selectors': {
         getTalkTitleKey: noop,
+        isCallbackEnabled: noop,
       },
       'src/embeds/launcher/settings/selectors': {
         getLauncherChatLabel: noop,

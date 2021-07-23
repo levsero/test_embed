@@ -7,10 +7,7 @@ import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import useGetTitle from 'src/embeds/talk/hooks/useGetTitle'
 import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
-import {
-  getAverageWaitTimeString,
-  getEmbeddableConfig,
-} from 'src/redux/modules/talk/talk-selectors'
+import { getAverageWaitTimeString, getTalkEmbeddableConfig } from 'src/embeds/talk/selectors'
 import { Container, TalkIcon, Message, PhoneNumberContainer } from './styles'
 
 const PhoneOnlyPage = ({ callUsMessage, averageWaitTime, phoneNumber, formattedPhoneNumber }) => {
@@ -45,8 +42,8 @@ const mapStateToProps = (state) => {
   return {
     callUsMessage: i18n.t('embeddable_framework.talk.phoneOnly.new_message'),
     averageWaitTime: getAverageWaitTimeString(state),
-    phoneNumber: getEmbeddableConfig(state).phoneNumber,
-    formattedPhoneNumber: getFormattedPhoneNumber(getEmbeddableConfig(state).phoneNumber),
+    phoneNumber: getTalkEmbeddableConfig(state).phoneNumber,
+    formattedPhoneNumber: getFormattedPhoneNumber(getTalkEmbeddableConfig(state).phoneNumber),
   }
 }
 

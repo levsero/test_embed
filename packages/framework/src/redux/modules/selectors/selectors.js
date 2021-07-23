@@ -106,12 +106,12 @@ import {
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
   getAgentAvailability,
-  getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
+  getTalkEmbeddableConfigConnected,
   isCallbackEnabled,
   getPhoneNumber,
   getDeferredStatusOnline,
   getIsEmbeddedVoiceEnabled,
-} from '../talk/talk-selectors'
+} from 'src/embeds/talk/selectors'
 
 /*
  * Terms:

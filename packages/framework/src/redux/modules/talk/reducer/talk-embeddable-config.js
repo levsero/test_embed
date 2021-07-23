@@ -10,7 +10,7 @@ import {
   PHONE_ONLY,
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
-} from '../talk-capability-types'
+} from 'src/embeds/talk/talk-capability-types'
 
 const capabilityMap = {
   0: CALLBACK_ONLY,
