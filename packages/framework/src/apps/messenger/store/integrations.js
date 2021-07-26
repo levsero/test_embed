@@ -17,7 +17,11 @@ export const fetchLinkRequest = createAsyncThunk(
     const integration = selectors.selectById(getState(), channelId)
     const response = await fetchLinkRequestSunco(integration._id)
 
-    return response?.body?.linkRequests[0] || {}
+    if (Array.isArray(response.body.linkRequests) && response.body.linkRequests.length === 1) {
+      return response.body.linkRequests[0]
+    }
+
+    throw new Error(`Failed to fetch link request for integration ${channelId}`)
   }
 )
 
