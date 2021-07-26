@@ -2,16 +2,8 @@ import styled from 'styled-components'
 import { rem } from 'polished'
 import { Button, Anchor } from '@zendeskgarden/react-buttons'
 
-const Header = styled.div`
-  position: fixed;
-  left: ${(props) => props.theme.messenger.space.sm};
-  top: ${(props) => props.theme.messenger.space.xs};
-`
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
-`
-
-const Body = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
@@ -101,8 +93,6 @@ const ChannelPillButton = styled(Button)`
 
 export {
   Container,
-  Body,
-  Header,
   Title,
   Subtitle,
   ChannelIcon,

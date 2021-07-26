@@ -6,7 +6,6 @@ const renderChannelLinkWithQrCode = (props = {}) => {
   const defaultProps = {
     channelId: 'messenger',
     url: 'www.awesomeurl.com',
-    handleBackButtonClick: () => {},
   }
 
   return render(<ChannelLinkWithQrCode {...defaultProps} {...props} />)
@@ -16,7 +15,6 @@ const renderChannelLinkWithButton = (props = {}) => {
   const defaultProps = {
     channelId: 'messenger',
     url: 'www.awesomeurl.com',
-    handleBackButtonClick: () => {},
   }
 
   return render(<ChannelLinkWithButton {...defaultProps} {...props} />)

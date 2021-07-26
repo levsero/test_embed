@@ -2,12 +2,16 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
-import { ChannelLinkWithQrCode, ChannelLinkWithButton } from '@zendesk/conversation-components'
+import {
+  BackButton,
+  ChannelLinkWithQrCode,
+  ChannelLinkWithButton,
+} from '@zendesk/conversation-components'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 
 import { fetchLinkRequest, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
-import { Container } from './styles'
+import { Container, Header } from './styles'
 
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
@@ -28,12 +32,11 @@ const ChannelPage = forwardRef((_props, ref) => {
     return <div>Error fetching link request</div>
   }
 
-  const handleBackButtonClick = () => {
-    history.goBack()
-  }
-
   return (
     <Container ref={ref}>
+      <Header>
+        <BackButton onClick={() => history.goBack()} ariaLabel={'Back to conversation'} />
+      </Header>
       {integration?.hasFetchedLinkRequest && (
         <>
           {!isFullScreen && (
@@ -41,16 +44,11 @@ const ChannelPage = forwardRef((_props, ref) => {
               channelId={channelId}
               url={integration.linkRequest.url}
               qrCode={integration.linkRequest.qrCode}
-              handleBackButtonClick={handleBackButtonClick}
             />
           )}
 
           {isFullScreen && (
-            <ChannelLinkWithButton
-              channelId={channelId}
-              url={integration.linkRequest.url}
-              handleBackButtonClick={handleBackButtonClick}
-            />
+            <ChannelLinkWithButton channelId={channelId} url={integration.linkRequest.url} />
           )}
         </>
       )}

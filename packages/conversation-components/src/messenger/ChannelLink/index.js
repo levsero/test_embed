@@ -3,16 +3,13 @@ import QRCode from 'qrcode.react'
 import WhatsAppIcon from '../MessengerHeader/Menu/WhatsAppIcon'
 import MessengerIcon from '../MessengerHeader/Menu/MessengerIcon'
 import InstagramIcon from '../MessengerHeader/Menu/InstagramIcon'
-import BackButton from './BackButton'
 // import useLabels from 'src/hooks/useLabels'
 
 import {
   Container,
-  Body,
   Title,
   Subtitle,
   ChannelIcon,
-  Header,
   Content,
   Instructions,
   QRCodeWrapper,
@@ -65,7 +62,7 @@ export const channelOptions = {
   },
 }
 
-export const ChannelLinkWithQrCode = ({ channelId, url, qrCode, handleBackButtonClick }) => {
+export const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
   const { title, subtitle, icon: ChannelLogo, instructions, button, qrCodeAlt } = channelOptions[
     channelId
   ]
@@ -73,68 +70,50 @@ export const ChannelLinkWithQrCode = ({ channelId, url, qrCode, handleBackButton
 
   return (
     <Container>
-      <Header>
-        <BackButton
-          onClick={handleBackButtonClick}
-          // ariaLabel={labels.channelLinkingMenuAriaLabel}
-          ariaLabel={'Back to conversation'}
-        />
-      </Header>
-      <Body>
-        <ChannelIcon>
-          <ChannelLogo />
-        </ChannelIcon>
-        <Title>{title}</Title>
-        <Subtitle>{subtitle}</Subtitle>
-        <Content>
-          <Instructions>{instructions.desktop}</Instructions>
-          <QRCodeWrapper>
-            {qrCode ? (
-              <img src={qrCode} alt={qrCodeAlt} />
-            ) : (
-              <QRCode
-                data-testid="generatedQRCode"
-                value={url}
-                renderAs="svg"
-                aria-labelledby={qrCodeAlt}
-              />
-            )}
-          </QRCodeWrapper>
-          <ChannelLinkButton href={url} target="_blank">
-            {button.desktop}
-          </ChannelLinkButton>
-        </Content>
-      </Body>
+      <ChannelIcon>
+        <ChannelLogo />
+      </ChannelIcon>
+      <Title>{title}</Title>
+      <Subtitle>{subtitle}</Subtitle>
+      <Content>
+        <Instructions>{instructions.desktop}</Instructions>
+        <QRCodeWrapper>
+          {qrCode ? (
+            <img src={qrCode} alt={qrCodeAlt} />
+          ) : (
+            <QRCode
+              data-testid="generatedQRCode"
+              value={url}
+              renderAs="svg"
+              aria-labelledby={qrCodeAlt}
+            />
+          )}
+        </QRCodeWrapper>
+        <ChannelLinkButton href={url} target="_blank">
+          {button.desktop}
+        </ChannelLinkButton>
+      </Content>
     </Container>
   )
 }
 
-export const ChannelLinkWithButton = ({ channelId, url, handleBackButtonClick }) => {
+export const ChannelLinkWithButton = ({ channelId, url }) => {
   const { title, subtitle, icon: ChannelLogo, instructions, button } = channelOptions[channelId]
   // const labels = useLabels().messengerHeader
 
   return (
     <Container>
-      <Header>
-        <BackButton
-          onClick={handleBackButtonClick}
-          // ariaLabel={labels.channelLinkingMenuAriaLabel}
-          ariaLabel={'Back to conversation'}
-        />
-      </Header>
-      <Body>
-        <ChannelIcon>
-          <ChannelLogo />
-        </ChannelIcon>
-        <Title>{title}</Title>
-        <Subtitle>{subtitle}</Subtitle>
-        <Content>
-          <Instructions>{instructions.mobile}</Instructions>
-          <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
-            {button.mobile}
-          </ChannelPillButton>
-        </Content>
-      </Body>
+      <ChannelIcon>
+        <ChannelLogo />
+      </ChannelIcon>
+      <Title>{title}</Title>
+      <Subtitle>{subtitle}</Subtitle>
+      <Content>
+        <Instructions>{instructions.mobile}</Instructions>
+        <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
+          {button.mobile}
+        </ChannelPillButton>
+      </Content>
     </Container>
   )
 }
@@ -143,11 +122,9 @@ ChannelLinkWithQrCode.propTypes = {
   channelId: PropTypes.string,
   url: PropTypes.string.isRequired,
   qrCode: PropTypes.string,
-  handleBackButtonClick: PropTypes.func,
 }
 
 ChannelLinkWithButton.propTypes = {
   channelId: PropTypes.string,
   url: PropTypes.string.isRequired,
-  handleBackButtonClick: PropTypes.func,
 }
