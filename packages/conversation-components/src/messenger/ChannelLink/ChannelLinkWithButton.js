@@ -24,7 +24,13 @@ const ChannelLinkWithButton = ({ channelId, url }) => {
       <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
         <Instructions>{labels.instructions.mobile}</Instructions>
-        <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
+        <ChannelPillButton
+          isPrimary={true}
+          isPill={true}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {labels.button.mobile}
         </ChannelPillButton>
       </Content>

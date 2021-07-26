@@ -38,7 +38,7 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
             />
           )}
         </QRCodeWrapper>
-        <ChannelLinkButton href={url} target="_blank">
+        <ChannelLinkButton href={url} target="_blank" rel="noopener noreferrer">
           {labels.button.desktop}
         </ChannelLinkButton>
       </Content>
