@@ -1,6 +1,5 @@
 import render from 'src/utils/test/render'
-
-import { ChannelLinkWithQrCode, ChannelLinkWithButton } from '../'
+import ChannelLinkWithQrCode from '../ChannelLinkWithQrCode'
 
 const renderChannelLinkWithQrCode = (props = {}) => {
   const defaultProps = {
@@ -9,15 +8,6 @@ const renderChannelLinkWithQrCode = (props = {}) => {
   }
 
   return render(<ChannelLinkWithQrCode {...defaultProps} {...props} />)
-}
-
-const renderChannelLinkWithButton = (props = {}) => {
-  const defaultProps = {
-    channelId: 'messenger',
-    url: 'www.awesomeurl.com',
-  }
-
-  return render(<ChannelLinkWithButton {...defaultProps} {...props} />)
 }
 
 describe('<ChannelLinkWithQrCode>', () => {
@@ -41,13 +31,5 @@ describe('<ChannelLinkWithQrCode>', () => {
     const { getByText } = renderChannelLinkWithQrCode()
 
     expect(getByText('Open Messenger on this device')).toBeInTheDocument()
-  })
-})
-
-describe('<ChannelLinkWithButton>', () => {
-  it('renders a button with channel link url', () => {
-    const { getByText } = renderChannelLinkWithButton()
-
-    expect(getByText('Open Messenger')).toBeInTheDocument()
   })
 })

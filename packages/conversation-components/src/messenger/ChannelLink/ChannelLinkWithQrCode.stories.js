@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { ChannelLinkWithQrCode } from '.'
 import {
   MessengerContainerDecorator,
   ChannelLinkContainerDecorator,
 } from '../../../.storybook/decorators'
+import ChannelLinkWithQrCode from './ChannelLinkWithQrCode'
 
 export default {
   title: 'Messenger/ChannelLink',

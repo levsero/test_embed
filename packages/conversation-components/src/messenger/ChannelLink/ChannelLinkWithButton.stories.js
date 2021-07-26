@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { ChannelLinkWithButton } from '.'
 import {
   MessengerContainerDecorator,
   ChannelLinkContainerDecorator,
 } from '../../../.storybook/decorators'
+import ChannelLinkWithButton from './ChannelLinkWithButton'
 
 export default {
   title: 'Messenger/ChannelLink',
