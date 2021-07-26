@@ -37,11 +37,11 @@ import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import {
-  getEmbeddableConfig,
+  getTalkEmbeddableConfig,
   getAgentAvailability,
   getFormState,
   getAverageWaitTime,
-} from 'src/redux/modules/talk/talk-selectors'
+} from 'src/embeds/talk/selectors'
 import { beacon } from 'src/service/beacon'
 import hcStats from 'src/service/hcStats'
 
@@ -49,7 +49,7 @@ let talkOpenedBlipSent = false
 let chatOpenedBlipSent = false
 
 const createTalkBlipData = (state, phone) => {
-  const { nickname, supportedCountries } = getEmbeddableConfig(state)
+  const { nickname, supportedCountries } = getTalkEmbeddableConfig(state)
 
   return {
     supportedCountries: supportedCountries,
@@ -92,7 +92,7 @@ const sendTalkCallbackRequestBlip = (state) => {
 }
 
 const sendTalkOpenedBlip = (state) => {
-  const value = createTalkBlipData(state, getEmbeddableConfig(state).phoneNumber)
+  const value = createTalkBlipData(state, getTalkEmbeddableConfig(state).phoneNumber)
 
   beacon.trackUserAction('talk', 'opened', {
     label: 'phoneNumber',

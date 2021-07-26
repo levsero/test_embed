@@ -12,7 +12,7 @@ import {
   getAgentAvailability,
   getSocketIoVendor,
   getDeferredStatusOnline,
-} from 'src/redux/modules/talk/talk-selectors'
+} from 'src/embeds/talk/selectors'
 import { CONTACT_OPTIONS } from './constants'
 import SuccessNotificationPage from './pages/SuccessNotificationPage'
 import OfflinePage from './pages/offline/OfflinePage'

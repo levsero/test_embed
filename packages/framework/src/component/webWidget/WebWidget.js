@@ -41,7 +41,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { getChatNotification } from 'src/redux/modules/selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import history from 'src/service/history'
 import { isMobileBrowser } from 'src/util/devices'
 import { isPopout } from 'src/util/globals'

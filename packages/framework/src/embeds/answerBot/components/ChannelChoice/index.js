@@ -16,8 +16,8 @@ import {
   getContactOptionsChatLabelOnline,
   getContactOptionsContactFormLabel,
 } from 'src/redux/modules/selectors'
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
+import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import { triggerOnEnter } from 'src/util/keyboard'
 import { Item, Label, ChannelIcon } from './styles'
 

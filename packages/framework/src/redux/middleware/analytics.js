@@ -17,7 +17,7 @@ import {
 import supportRoutes from 'src/embeds/support/routes'
 import { getForm } from 'src/embeds/support/selectors'
 import { CAPABILTY_NAMES } from 'src/embeds/talk/constants'
-import { getCapability } from 'src/embeds/talk/selectors/selectors'
+import { getCapability } from 'src/embeds/talk/selectors'
 import { UPDATE_WIDGET_SHOWN, UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
 import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import {

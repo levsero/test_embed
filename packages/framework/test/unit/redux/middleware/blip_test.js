@@ -29,8 +29,8 @@ describe('blip middleware', () => {
       'src/apps/webWidget/services/i18n': {
         i18n: i18nSpy,
       },
-      'src/redux/modules/talk/talk-selectors': {
-        getEmbeddableConfig: _.identity,
+      'src/embeds/talk/selectors': {
+        getTalkEmbeddableConfig: _.identity,
         getAgentAvailability: (prevState) => prevState.agentAvailability,
         getFormState: _.identity,
         getAverageWaitTime: (prevState) => prevState.averageWaitTime,

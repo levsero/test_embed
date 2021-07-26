@@ -21,7 +21,7 @@ import {
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import { isSafari } from 'src/util/devices'
 import { onNextTick } from 'src/util/utils'
 import { locals as styles } from './WidgetLauncher.scss'

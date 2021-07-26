@@ -3,8 +3,8 @@ import {
   CALLBACK_ONLY,
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
-} from '../talk-capability-types'
-import * as selectors from '../talk-selectors'
+} from 'src/embeds/talk/talk-capability-types'
+import * as selectors from 'src/embeds/talk/selectors'
 
 const embeddableConfig = (state) => ({
   talk: {
@@ -16,12 +16,12 @@ const talkConfig = (state) => ({
   talk: state,
 })
 
-test('getEmbeddableConfig returns the embeddableConfig object', () => {
+test('getTalkEmbeddableConfig returns the embeddableConfig object', () => {
   const state = {
     a: 123,
   }
 
-  expect(selectors.getEmbeddableConfig(embeddableConfig(state))).toEqual(state)
+  expect(selectors.getTalkEmbeddableConfig(embeddableConfig(state))).toEqual(state)
 })
 
 test('getEmbeddableConfigEnabled returns if config is enabled', () => {
@@ -32,12 +32,12 @@ test('getEmbeddableConfigEnabled returns if config is enabled', () => {
   expect(selectors.getEmbeddableConfigEnabled(embeddableConfig(state))).toEqual(true)
 })
 
-test('getEmbeddableConfigConnected returns connected', () => {
+test('getTalkEmbeddableConfigConnected returns connected', () => {
   const state = {
     connected: true,
   }
 
-  expect(selectors.getEmbeddableConfigConnected(embeddableConfig(state))).toEqual(true)
+  expect(selectors.getTalkEmbeddableConfigConnected(embeddableConfig(state))).toEqual(true)
 })
 
 test('getAgentAvailability returns the availability', () => {

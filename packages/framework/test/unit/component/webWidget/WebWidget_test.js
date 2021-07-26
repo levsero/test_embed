@@ -110,7 +110,7 @@ describe('WebWidget component', () => {
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting',
       },
-      'src/redux/modules/talk/talk-selectors': {
+      'src/embeds/talk/selectors': {
         getTalkAvailable: noop,
       },
       'src/embeds/helpCenter/selectors': {

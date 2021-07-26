@@ -28,7 +28,7 @@ import {
   TALK_VENDOR_LOADED,
   RECEIVED_DEFERRED_TALK_STATUS,
 } from './talk-action-types'
-import { getFormState, getIsPollingTalk } from './talk-selectors'
+import { getFormState, getIsPollingTalk } from 'src/embeds/talk/selectors'
 
 export function updateTalkEmbeddableConfig(config) {
   return {
