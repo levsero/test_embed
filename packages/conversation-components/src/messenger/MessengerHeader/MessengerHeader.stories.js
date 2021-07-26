@@ -27,9 +27,9 @@ AllFields.args = {
   showCloseButton: true,
   isMenuOpen: true,
   channels: {
-    messenger: 'linked',
-    instagram: 'not linked',
-    whatsapp: 'linked',
+    messenger: true,
+    instagram: false,
+    whatsapp: undefined,
   },
 }
 

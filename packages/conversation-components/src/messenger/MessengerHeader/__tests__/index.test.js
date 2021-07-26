@@ -31,7 +31,7 @@ describe('MessengerHeader', () => {
     const { getByLabelText } = renderComponent({
       menu: {
         channels: {
-          messenger: 'linked',
+          messenger: true,
         },
       },
     })
@@ -46,7 +46,7 @@ describe('MessengerHeader', () => {
         isOpen: true,
         onChannelSelect: onChannelSelect,
         channels: {
-          messenger: 'linked',
+          messenger: true,
         },
       },
     })

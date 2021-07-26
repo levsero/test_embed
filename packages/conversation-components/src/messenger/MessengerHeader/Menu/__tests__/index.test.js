@@ -15,8 +15,8 @@ describe('Menu', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
       channels: {
-        whatsapp: 'linked',
-        instagram: 'linked',
+        whatsapp: true,
+        instagram: true,
       },
     })
 
@@ -29,9 +29,9 @@ describe('Menu', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
       channels: {
-        whatsapp: 'linked',
-        messenger: 'linked',
-        instagram: 'linked',
+        whatsapp: true,
+        messenger: true,
+        instagram: true,
       },
     })
 
@@ -44,7 +44,7 @@ describe('Menu', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
       channels: {
-        whatsapp: 'linked',
+        whatsapp: true,
       },
     })
 
@@ -55,7 +55,7 @@ describe('Menu', () => {
     const { queryByText } = renderComponent({
       isOpen: false,
       channels: {
-        whatsapp: 'linked',
+        whatsapp: true,
       },
     })
 

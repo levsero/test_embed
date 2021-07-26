@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { MessengerHeader } from '@zendesk/conversation-components'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
-import { getHeaderValues } from './store'
-import { getIsFullScreen } from '../responsiveDesign/store'
 import { getAllIntegrationsLinkStatus } from 'src/apps/messenger/store/integrations'
-import { useHistory } from 'react-router-dom'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
+import { getIsFullScreen } from '../responsiveDesign/store'
+import { getHeaderValues } from './store'
 
 const Header = () => {
   const history = useHistory()

@@ -28,11 +28,6 @@ const channelOptions = [
   },
 ]
 
-const validLinkOptions = {
-  linked: true,
-  'not linked': true,
-}
-
 const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
   const labels = useLabels().messengerHeader
   const {
@@ -40,7 +35,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
   } = useContext(ThemeContext)
 
   const channelsToDisplay = channelOptions.filter(
-    (channel) => validLinkOptions[channels?.[channel.key]]
+    (channel) => channels?.[channel.key] !== undefined
   )
 
   if (channelsToDisplay.length === 0) {
@@ -84,7 +79,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
 }
 
 Menu.propTypes = {
-  channels: PropTypes.objectOf(PropTypes.oneOf(Object.keys(validLinkOptions))),
+  channels: PropTypes.objectOf(PropTypes.bool),
   onChannelSelect: PropTypes.func,
   isOpen: PropTypes.bool,
   onStateChange: PropTypes.func,

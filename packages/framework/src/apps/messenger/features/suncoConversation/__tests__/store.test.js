@@ -53,14 +53,14 @@ describe('suncoConversation Store', () => {
         payload: [{ pageId: '12345678', appId: '23456789', _id: '0c19f2c2c28', type: 'messenger' }],
       })
 
-      expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe('not linked')
+      expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe(false)
 
       store.dispatch(startNewConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link', appUser: {}, client: { platform: 'messenger' } })
 
-      expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe('linked')
+      expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe(true)
     })
   })
 })
