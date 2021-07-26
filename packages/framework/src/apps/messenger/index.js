@@ -16,6 +16,7 @@ import { store as persistence } from 'src/framework/services/persistence'
 import publicApi from 'src/framework/services/publicApi'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import createMessengerApi from './public-api'
+import { MemoryRouter } from 'react-router-dom'
 
 const init = async ({ config }) => {
   if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
@@ -74,7 +75,9 @@ const run = async ({ config, embeddableData }) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
     </Provider>,
     element,
     messengerReadyCallback

@@ -4,6 +4,7 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { widgetOpened, getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Header from '../'
+import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
 
 const closeButtonAriaLabel = 'Close'
 
@@ -20,6 +21,19 @@ describe('Header', () => {
 
     return render(<Header />, { store })
   }
+
+  it('navigates to the channel page when a channel is selected', () => {
+    const { getByLabelText, getByText, history, store } = renderComponent()
+    store.dispatch({
+      type: fetchIntegrations.fulfilled.toString(),
+      payload: [{ pageId: '12345678', appId: '23456789', _id: '0c19f2c2c28', type: 'messenger' }],
+    })
+
+    getByLabelText('Channel linking menu option').click()
+    expect(getByText('Continue on Messenger')).toBeInTheDocument()
+    getByText('Continue on Messenger').click()
+    expect(history.location.pathname).toEqual('/channelPage/messenger')
+  })
 
   it('renders company title', () => {
     const { getByText } = renderComponent()

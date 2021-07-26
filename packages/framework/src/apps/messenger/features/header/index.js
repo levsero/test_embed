@@ -2,17 +2,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerHeader } from '@zendesk/conversation-components'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
-import {
-  getAllIntegrationsLinkStatus,
-  linkIntegration,
-  unlinkIntegration,
-} from 'src/apps/messenger/store/integrations'
-import { widgetClosed } from 'src/apps/messenger/store/visibility'
-import '../../store/integrations'
-import { getIsFullScreen } from '../responsiveDesign/store'
 import { getHeaderValues } from './store'
+import { getIsFullScreen } from '../responsiveDesign/store'
+import { getAllIntegrationsLinkStatus } from 'src/apps/messenger/store/integrations'
+import { useHistory } from 'react-router-dom'
+import { widgetClosed } from 'src/apps/messenger/store/visibility'
 
 const Header = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const { avatar, name, description } = useSelector(getHeaderValues)
   const isLauncherVisible = useSelector(getIsLauncherVisible)
@@ -20,12 +17,8 @@ const Header = () => {
   const integrationLinks = useSelector(getAllIntegrationsLinkStatus)
 
   const onChannelSelect = (channel) => {
-    if (integrationLinks[channel] === 'not linked') {
-      dispatch(linkIntegration(channel))
-    } else {
-      dispatch(unlinkIntegration(channel))
-    }
-    console.log(channel)
+    const route = `/channelPage/${channel}`
+    history.push(route)
   }
 
   return (

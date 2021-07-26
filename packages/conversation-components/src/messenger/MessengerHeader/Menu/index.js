@@ -34,10 +34,10 @@ const validLinkOptions = {
 }
 
 const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
+  const labels = useLabels().messengerHeader
   const {
     messenger: { currentFrame },
   } = useContext(ThemeContext)
-  const labels = useLabels().messengerHeader
 
   const channelsToDisplay = channelOptions.filter(
     (channel) => validLinkOptions[channels?.[channel.key]]
@@ -52,13 +52,15 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
       <Dropdown
         isOpen={isOpen}
         onStateChange={onStateChange}
-        onSelect={onChannelSelect}
+        onSelect={(selected) => {
+          onChannelSelect(selected)
+        }}
         downshiftProps={{
           environment: currentFrame?.window,
         }}
       >
         <Trigger>
-          <IconButton isPill={true}>
+          <IconButton isPill={true} aria-label={labels.channelLinkingMenuAriaLabel}>
             <MenuIcon />
           </IconButton>
         </Trigger>

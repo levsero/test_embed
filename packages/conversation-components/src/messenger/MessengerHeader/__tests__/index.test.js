@@ -11,6 +11,11 @@ describe('MessengerHeader', () => {
     close: {
       onClick: jest.fn(),
     },
+    menu: {
+      channels: {},
+      onChannelSelect: jest.fn(),
+      isOpen: false,
+    },
   }
 
   const renderComponent = (props = {}) =>
@@ -18,8 +23,37 @@ describe('MessengerHeader', () => {
       <MessengerHeader>
         <MessengerHeader.Content {...defaultProps.content} {...(props.content || {})} />
         <MessengerHeader.Close {...defaultProps.close} {...(props.close || {})} />
+        <MessengerHeader.Menu {...defaultProps.menu} {...(props.menu || {})} />
       </MessengerHeader>
     )
+
+  it('renders channel linking menu button', () => {
+    const { getByLabelText } = renderComponent({
+      menu: {
+        channels: {
+          messenger: 'linked',
+        },
+      },
+    })
+
+    expect(getByLabelText('Channel linking menu option')).toBeInTheDocument()
+  })
+
+  it('calls the onChannelSelect function when the channel is selected', () => {
+    const onChannelSelect = jest.fn()
+    const { getByText } = renderComponent({
+      menu: {
+        isOpen: true,
+        onChannelSelect: onChannelSelect,
+        channels: {
+          messenger: 'linked',
+        },
+      },
+    })
+
+    getByText('Continue on Messenger').click()
+    expect(onChannelSelect).toHaveBeenCalledWith('messenger')
+  })
 
   it('renders the title and description', () => {
     const { getByText } = renderComponent({
