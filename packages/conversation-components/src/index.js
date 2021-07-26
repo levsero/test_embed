@@ -36,8 +36,8 @@ import MessengerBody from './messenger/MessengerBody'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
 import MessengerHeader from './messenger/MessengerHeader'
+import FBMessengerIcon from './messenger/MessengerHeader/Menu/FBMessengerIcon'
 import InstagramIcon from './messenger/MessengerHeader/Menu/InstagramIcon'
-import MessengerIcon from './messenger/MessengerHeader/Menu/MessengerIcon'
 import WhatsAppIcon from './messenger/MessengerHeader/Menu/WhatsAppIcon'
 
 export {
@@ -60,7 +60,7 @@ export {
   MessengerContainer,
   MessengerFooter,
   MessengerHeader,
-  MessengerIcon,
+  FBMessengerIcon,
   WhatsAppIcon,
   InstagramIcon,
   OtherParticipantReceipt,

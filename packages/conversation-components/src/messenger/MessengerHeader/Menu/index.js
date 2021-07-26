@@ -5,8 +5,8 @@ import { Trigger } from '@zendeskgarden/react-dropdowns'
 import { Dropdown } from 'src/Dropdown'
 import useLabels from 'src/hooks/useLabels'
 import { HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
+import FBMessengerIcon from './FBMessengerIcon'
 import InstagramIcon from './InstagramIcon'
-import MessengerIcon from './MessengerIcon'
 import WhatsAppIcon from './WhatsAppIcon'
 import { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon } from './styles'
 
@@ -19,7 +19,7 @@ const channelOptions = [
   {
     key: 'messenger',
     name: 'Messenger',
-    icon: MessengerIcon,
+    icon: FBMessengerIcon,
   },
   {
     key: 'instagram',
