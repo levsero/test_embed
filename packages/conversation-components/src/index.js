@@ -19,24 +19,25 @@ import {
   MESSAGE_STATUS,
   FRAME_ANIMATION_DURATION,
 } from './constants'
-import BackButton from './messenger/ChannelLink/BackButton'
 import CarouselMessage from './messages/CarouselMessage'
-import { ChannelLinkWithQrCode, ChannelLinkWithButton } from './messenger/ChannelLink'
 import FileMessage from './messages/FileMessage'
 import FormMessage from './messages/FormMessage'
 import FormResponseMessage from './messages/FormResponseMessage'
 import ImageMessage from './messages/ImageMessage'
 import TextMessage from './messages/TextMessage'
+import { ChannelLinkWithQrCode, ChannelLinkWithButton } from './messenger/ChannelLink'
+import BackButton from './messenger/ChannelLink/BackButton'
+import ChannelLinkContainer from './messenger/ChannelLinkContainer'
 import SquareLauncher from './messenger/Launcher/SquareLauncher'
 import LauncherLabel from './messenger/LauncherLabel'
 import MessageLogList from './messenger/MessageLogList'
 import MessengerBody from './messenger/MessengerBody'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
+import MessengerHeader from './messenger/MessengerHeader'
+import InstagramIcon from './messenger/MessengerHeader/Menu/InstagramIcon'
 import MessengerIcon from './messenger/MessengerHeader/Menu/MessengerIcon'
 import WhatsAppIcon from './messenger/MessengerHeader/Menu/WhatsAppIcon'
-import InstagramIcon from './messenger/MessengerHeader/Menu/InstagramIcon'
-import MessengerHeader from './messenger/MessengerHeader'
 
 export {
   Animated,
@@ -44,6 +45,7 @@ export {
   BackButton,
   Banner,
   CarouselMessage,
+  ChannelLinkContainer,
   ChannelLinkWithQrCode,
   ChannelLinkWithButton,
   FileMessage,

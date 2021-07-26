@@ -1,17 +1,16 @@
 import { useEffect } from 'react'
+import { forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import { forwardRef } from 'react'
 import {
+  ChannelLinkContainer,
   BackButton,
   ChannelLinkWithQrCode,
   ChannelLinkWithButton,
 } from '@zendesk/conversation-components'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
-
 import { fetchLinkRequest, selectIntegrationById } from 'src/apps/messenger/store/integrations'
-
-import { Container, Header } from './styles'
+import { Header } from './styles'
 
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
@@ -33,7 +32,7 @@ const ChannelPage = forwardRef((_props, ref) => {
   }
 
   return (
-    <Container ref={ref}>
+    <ChannelLinkContainer ref={ref}>
       <Header>
         <BackButton onClick={() => history.goBack()} ariaLabel={'Back to conversation'} />
       </Header>
@@ -52,7 +51,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           )}
         </>
       )}
-    </Container>
+    </ChannelLinkContainer>
   )
 })
 

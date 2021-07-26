@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import { ChannelLinkWithQrCode } from '.'
-import { MessengerContainerDecorator } from '../../../.storybook/decorators'
+import {
+  MessengerContainerDecorator,
+  ChannelLinkContainerDecorator,
+} from '../../../.storybook/decorators'
 
 export default {
   title: 'Messenger/ChannelLink',
   component: ChannelLinkWithQrCode,
-  decorators: [MessengerContainerDecorator],
+  decorators: [ChannelLinkContainerDecorator, MessengerContainerDecorator],
 }
 
 const Template = (args) => <ChannelLinkWithQrCode {...args} />
