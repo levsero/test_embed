@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
-import WhatsAppIcon from '../MessengerHeader/Menu/WhatsAppIcon'
-import MessengerIcon from '../MessengerHeader/Menu/MessengerIcon'
+import useLabels from 'src/hooks/useLabels'
 import InstagramIcon from '../MessengerHeader/Menu/InstagramIcon'
-// import useLabels from 'src/hooks/useLabels'
-
+import MessengerIcon from '../MessengerHeader/Menu/MessengerIcon'
+import WhatsAppIcon from '../MessengerHeader/Menu/WhatsAppIcon'
 import {
   Container,
   Title,
@@ -17,80 +16,39 @@ import {
   ChannelPillButton,
 } from './styles'
 
-export const channelOptions = {
-  whatsapp: {
-    icon: WhatsAppIcon,
-    title: 'Continue on WhatsApp',
-    subtitle: 'Take the conversation to your WhatsApp account. You can return anytime.',
-    instructions: {
-      desktop: 'Scan the QR code and then send the message that appears in your WhatsApp.',
-      mobile: 'Open WhatsApp and send a short message to connect your account.',
-    },
-    qrCodeAlt: 'QR code to open WhatsApp on this device',
-    button: {
-      desktop: 'Open WhatsApp on this device',
-      mobile: 'Open WhatsApp',
-    },
-  },
-  messenger: {
-    icon: MessengerIcon,
-    title: 'Continue on Messenger',
-    subtitle: 'Take the conversation to your Messenger account. You can return anytime.',
-    instructions: {
-      desktop: 'Scan the QR code and then send the message that appears in your Messenger.',
-      mobile: 'Open Messenger and send a short message to connect your account.',
-    },
-    qrCodeAlt: 'QR code to open Messenger on this device',
-    button: {
-      desktop: 'Open Messenger on this device',
-      mobile: 'Open Messenger',
-    },
-  },
-  instagram: {
-    icon: InstagramIcon,
-    title: 'Continue on Instagram',
-    subtitle: 'Take the conversation to your Instagram account. You can return anytime.',
-    instructions: {
-      desktop: 'Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.',
-      mobile: 'Follow @[Instagram handle] to send a DM.',
-    },
-    qrCodeAlt: 'QR code to open Instagram on this device',
-    button: {
-      desktop: 'Open Instagram on this device',
-      mobile: 'Open Instagram',
-    },
-  },
+export const icons = {
+  whatsapp: WhatsAppIcon,
+  messenger: MessengerIcon,
+  instagram: InstagramIcon,
 }
 
 export const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
-  const { title, subtitle, icon: ChannelLogo, instructions, button, qrCodeAlt } = channelOptions[
-    channelId
-  ]
-  // const labels = useLabels().messengerHeader
+  const labels = useLabels().channelLink[channelId]
+  const ChannelLogo = icons[channelId]
 
   return (
     <Container>
       <ChannelIcon>
         <ChannelLogo />
       </ChannelIcon>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
+      <Title>{labels.title}</Title>
+      <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
-        <Instructions>{instructions.desktop}</Instructions>
+        <Instructions>{labels.instructions.desktop}</Instructions>
         <QRCodeWrapper>
           {qrCode ? (
-            <img src={qrCode} alt={qrCodeAlt} />
+            <img src={qrCode} alt={labels.qrCodeAlt} />
           ) : (
             <QRCode
               data-testid="generatedQRCode"
               value={url}
               renderAs="svg"
-              aria-labelledby={qrCodeAlt}
+              aria-labelledby={labels.qrCodeAlt}
             />
           )}
         </QRCodeWrapper>
         <ChannelLinkButton href={url} target="_blank">
-          {button.desktop}
+          {labels.button.desktop}
         </ChannelLinkButton>
       </Content>
     </Container>
@@ -98,20 +56,20 @@ export const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
 }
 
 export const ChannelLinkWithButton = ({ channelId, url }) => {
-  const { title, subtitle, icon: ChannelLogo, instructions, button } = channelOptions[channelId]
-  // const labels = useLabels().messengerHeader
+  const labels = useLabels().channelLink[channelId]
+  const ChannelLogo = icons[channelId]
 
   return (
     <Container>
       <ChannelIcon>
         <ChannelLogo />
       </ChannelIcon>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
+      <Title>{labels.title}</Title>
+      <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
-        <Instructions>{instructions.mobile}</Instructions>
+        <Instructions>{labels.instructions.mobile}</Instructions>
         <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
-          {button.mobile}
+          {labels.button.mobile}
         </ChannelPillButton>
       </Content>
     </Container>
