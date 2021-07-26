@@ -8,6 +8,7 @@ import {
   ChannelLinkWithQrCode,
   ChannelLinkWithButton,
 } from '@zendesk/conversation-components'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { fetchLinkRequest, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 import { Header } from './styles'
@@ -16,6 +17,7 @@ const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
+  const translate = useTranslate()
   const integration = useSelector((state) => selectIntegrationById(state, channelId))
   const isFullScreen = useSelector(getIsFullScreen)
 
@@ -34,7 +36,10 @@ const ChannelPage = forwardRef((_props, ref) => {
   return (
     <ChannelLinkContainer ref={ref}>
       <Header>
-        <BackButton onClick={() => history.goBack()} ariaLabel={'Back to conversation'} />
+        <BackButton
+          onClick={() => history.goBack()}
+          ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
+        />
       </Header>
       {integration?.hasFetchedLinkRequest && (
         <>

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { IconButton } from '@zendeskgarden/react-buttons'
 import ChevronIcon from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg'
 
