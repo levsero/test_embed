@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import MessageBubbleChoices from '../index'
 
 test('renders the leading message', () => {

@@ -212,11 +212,9 @@ Where your index.js file looks like this
 
 ```jsx
 import styled from 'styled-components'
-
 const FunkyButton = styled.button`
   background-color: orange;
 `
-
 export default FunkyButton
 ```
 

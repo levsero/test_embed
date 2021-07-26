@@ -1,26 +1,26 @@
-import ReactDOM from 'react-dom'
 import _ from 'lodash'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
-
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import PreviewContainer from 'src/component/preview/PreviewContainer'
+import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
+import { SDK_ACTION_TYPE_PREFIX } from 'src/constants/chat'
+import { CHAT, CHAT_BADGE } from 'src/constants/preview'
+import { DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
+import createStore from 'src/redux/createStore'
+import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat'
-import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import {
   UPDATE_PREVIEWER_SCREEN,
   UPDATE_PREVIEWER_SETTINGS,
   PREVIEWER_LOADED,
 } from 'src/redux/modules/chat/chat-action-types'
-import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat'
-import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
+import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
+import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
+import { choosePreview } from 'src/redux/modules/preview/preview-actions'
 import { updateSettings as updateColor } from 'src/redux/modules/settings'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
-import { choosePreview } from 'src/redux/modules/preview/preview-actions'
-import { CHAT, CHAT_BADGE } from 'src/constants/preview'
-import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
-import PreviewContainer from 'src/component/preview/PreviewContainer'
-import { DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
-import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
+
 const FRAME_WIDTH = WIDGET_WIDTH
 const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT
 const BOX_SHADOW_SIZE = 6

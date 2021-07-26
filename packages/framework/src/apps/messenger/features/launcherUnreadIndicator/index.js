@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux'
-
 import { getUnreadCount } from 'src/apps/messenger/store/unreadIndicator'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
-
-import UnreadIndicatorFrame from './components/UnreadIndicatorFrame'
 import UnreadIndicator from './components/UnreadIndicator'
+import UnreadIndicatorFrame from './components/UnreadIndicatorFrame'
 
 const LauncherUnreadIndicator = () => {
   const unreadCount = useSelector(getUnreadCount)

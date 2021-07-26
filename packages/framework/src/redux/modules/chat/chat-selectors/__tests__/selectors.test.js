@@ -1,10 +1,10 @@
-import * as selectors from '../selectors'
+import _ from 'lodash'
 import testState from 'src/fixtures/chat-selectors-test-state'
+import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
+import * as selectors from '../selectors'
 import { getHasBackfillCompleted } from '../selectors'
 import { getIsEndChatModalVisible } from '../selectors'
 import { getChatOnline } from '../selectors'
-import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
-import _ from 'lodash'
 
 test('getChats', () => {
   const result = selectors.getChats(testState)

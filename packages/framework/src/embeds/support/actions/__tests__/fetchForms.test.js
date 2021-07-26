@@ -1,16 +1,17 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as actions from '../fetchForms'
+import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
+import { http } from 'src/service/transport'
 import * as types from '../action-types'
-import { http } from 'service/transport'
-import { fetchTicketForms } from '../fetchForms'
 import {
   TICKET_FORMS_REQUEST_SENT,
   TICKET_FORMS_REQUEST_SUCCESS,
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORM_UPDATE,
 } from '../action-types'
-import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
+import * as actions from '../fetchForms'
+import { fetchTicketForms } from '../fetchForms'
+
 jest.mock('src/apps/webWidget/services/i18n')
 
 describe('fetchTicketForms', () => {

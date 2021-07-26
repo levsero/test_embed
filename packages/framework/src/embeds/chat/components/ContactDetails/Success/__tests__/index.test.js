@@ -1,6 +1,5 @@
-import { render } from 'src/util/testHelpers'
-
 import Success from 'src/embeds/chat/components/ContactDetails/Success'
+import { render } from 'src/util/testHelpers'
 
 const renderComponent = () => {
   return render(<Success />)

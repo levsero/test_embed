@@ -1,8 +1,7 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { locals as styles } from './Container.scss'
+import { Component } from 'react'
 import { TEST_IDS } from 'src/constants/shared'
+import { locals as styles } from './Container.scss'
 
 export class Container extends Component {
   static propTypes = {

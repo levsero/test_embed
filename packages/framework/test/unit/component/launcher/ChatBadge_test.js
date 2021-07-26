@@ -24,7 +24,7 @@ describe('ChatBadge component', () => {
     TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
-      'component/Icon': {
+      'src/component/Icon': {
         Icon,
       },
       './ChatBadge.scss': {
@@ -52,11 +52,11 @@ describe('ChatBadge component', () => {
       '@zendeskgarden/react-forms': {
         Input: noopReactComponent(),
       },
-      'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
+      'src/embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent(),
       },
       '@zendeskgarden/svg-icons/src/16/dash-fill.svg': noopReactComponent(),
-      'icons/widget-icon_sendChat.svg': noopReactComponent(),
+      'src/asset/icons/widget-icon_sendChat.svg': noopReactComponent(),
       'src/redux/modules/selectors': {
         getChatOnline: noop,
       },
@@ -67,10 +67,10 @@ describe('ChatBadge component', () => {
       'src/redux/modules/base/': {
         launcherClicked: noop,
       },
-      'utility/keyboard': {
+      'src/util/keyboard': {
         triggerOnEnter: noop,
       },
-      'constants/shared': {
+      'src/constants/shared': {
         ICONS,
         TEST_IDS,
       },

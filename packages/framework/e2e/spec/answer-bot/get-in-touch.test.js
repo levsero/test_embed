@@ -1,11 +1,11 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import {
   search,
   waitForAnswerBot,
   mockInteractionEndpoint,
   waitForGetInTouchButton,
 } from 'e2e/helpers/answer-bot-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 test('does not display get in touch button when there are no channels available', async () => {
   await loadWidget('answerBot')

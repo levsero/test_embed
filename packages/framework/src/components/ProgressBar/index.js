@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
-
 import { TEST_IDS } from 'src/constants/shared'
-
 import { Container, Progress } from './styles'
 
 const ProgressBar = ({ percentLoaded = 0, fakeProgress = false }) => {

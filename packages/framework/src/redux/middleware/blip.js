@@ -1,9 +1,18 @@
-import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 import {
-  UPDATE_ACTIVE_EMBED,
-  UPDATE_WIDGET_SHOWN,
-  LAUNCHER_CLICKED,
-} from 'src/redux/modules/base/base-action-types'
+  CONTEXTUAL_ARTICLE_SHOWN,
+  ARTICLE_SHOWN,
+  SCREEN_CHANGED,
+} from 'src/embeds/answerBot/actions/root/action-types'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
+import {
+  getCurrentArticleID,
+  getCurrentQuery,
+  getCurrentDeflection,
+  getCurrentScreen,
+} from 'src/embeds/answerBot/selectors/root'
+import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
 import {
   ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
@@ -11,40 +20,30 @@ import {
   SEARCH_REQUEST_FAILURE,
 } from 'src/embeds/helpCenter/actions/action-types'
 import {
-  CONTEXTUAL_ARTICLE_SHOWN,
-  ARTICLE_SHOWN,
-  SCREEN_CHANGED,
-} from 'src/embeds/answerBot/actions/root/action-types'
-import { beacon } from 'service/beacon'
+  getTotalUserSearches,
+  getResultsCount,
+  getSearchTerm,
+  getCurrentActiveArticle,
+  getHasContextuallySearched,
+} from 'src/embeds/helpCenter/selectors'
+import {
+  UPDATE_ACTIVE_EMBED,
+  UPDATE_WIDGET_SHOWN,
+  LAUNCHER_CLICKED,
+} from 'src/redux/modules/base/base-action-types'
+import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
+import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
+import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
+import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
+import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import {
   getEmbeddableConfig,
   getAgentAvailability,
   getFormState,
   getAverageWaitTime,
 } from 'src/redux/modules/talk/talk-selectors'
-import {
-  getTotalUserSearches,
-  getResultsCount,
-  getSearchTerm,
-  getCurrentActiveArticle,
-  getHasContextuallySearched,
-} from 'embeds/helpCenter/selectors'
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
-import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
-import {
-  getCurrentArticleID,
-  getCurrentQuery,
-  getCurrentDeflection,
-  getCurrentScreen,
-} from 'src/embeds/answerBot/selectors/root'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import hcStats from 'service/hcStats'
-
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
-import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
-import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
-import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
+import { beacon } from 'src/service/beacon'
+import hcStats from 'src/service/hcStats'
 
 let talkOpenedBlipSent = false
 let chatOpenedBlipSent = false

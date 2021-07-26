@@ -3,9 +3,8 @@ import { connect } from 'react-redux'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { getPhoneNumber } from 'src/embeds/talk/selectors'
-
+import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
 import { DisplayLabel } from './styles'
-import getFormattedPhoneNumber from 'embeds/talk/utils/getFormattedPhoneNumber'
 
 const CallbackPhone = ({ phoneNumber, formattedPhoneNumber, phoneLabel }) => {
   if (phoneNumber && formattedPhoneNumber) {

@@ -1,11 +1,11 @@
 import { useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import tabbable from 'tabbable'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { useSelector } from 'react-redux'
-import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
-import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store/visibility'
-import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store/visibility'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 
 const firstNodes = (elementsByContainer) => elementsByContainer.map((container) => container[0])
 

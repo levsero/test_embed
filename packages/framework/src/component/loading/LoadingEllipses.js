@@ -1,9 +1,7 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { isDevice } from 'utility/devices'
+import { Component } from 'react'
 import { TEST_IDS } from 'src/constants/shared'
-
+import { isDevice } from 'src/util/devices'
 import { locals as styles } from './LoadingEllipses.scss'
 
 export class LoadingEllipses extends Component {

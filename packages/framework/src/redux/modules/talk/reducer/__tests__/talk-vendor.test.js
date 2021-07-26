@@ -1,6 +1,6 @@
-import vendor from '../talk-vendor'
 import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import vendor from '../talk-vendor'
 
 const initialState = {
   io: null,

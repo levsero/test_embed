@@ -1,9 +1,10 @@
-import { lazy, Suspense } from 'react'
 import PropTypes from 'prop-types'
+import { lazy, Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import { getFrameVisible } from 'src/redux/modules/selectors'
-import Launcher from 'embeds/webWidget/components/Launcher'
+import Launcher from 'src/embeds/webWidget/components/Launcher'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
+import { getFrameVisible } from 'src/redux/modules/selectors'
+
 const Embeds = lazy(() =>
   import(/* webpackChunkName: 'lazy/embeds' */ 'src/embeds/webWidget/components/Embeds')
 )

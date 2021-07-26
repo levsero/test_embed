@@ -1,10 +1,10 @@
-import formatRequestData from '../requestFormatter'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import * as globals from 'utility/globals'
-import routes from 'embeds/support/routes'
+import routes from 'src/embeds/support/routes'
+import * as globals from 'src/util/globals'
+import formatRequestData from '../requestFormatter'
 
 jest.mock('src/apps/webWidget/services/i18n')
-jest.mock('utility/globals')
+jest.mock('src/util/globals')
 
 const mockTicketField = {
   id: '22660514',

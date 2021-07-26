@@ -1,9 +1,9 @@
-import { find } from 'styled-components/test-utils'
 import { fireEvent } from '@testing-library/react'
+import { find } from 'styled-components/test-utils'
+import { TEST_IDS } from 'src/constants/shared'
+import { SocialLoginContainer } from 'src/embeds/chat/components/SocialLogin/styles'
 import { render } from 'src/util/testHelpers'
-import { TEST_IDS } from 'constants/shared'
 import SocialLogin from '../'
-import { SocialLoginContainer } from 'embeds/chat/components/SocialLogin/styles'
 
 describe('SocialLogin', () => {
   const defaultProps = {

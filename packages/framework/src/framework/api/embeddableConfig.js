@@ -1,4 +1,4 @@
-import { send } from 'service/transport/http-base'
+import { send } from 'src/service/transport/http-base'
 
 const fetchEmbeddableConfig = async () => {
   // attempt to use the config that was preloaded

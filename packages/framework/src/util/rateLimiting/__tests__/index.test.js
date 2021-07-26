@@ -1,8 +1,9 @@
+import { beacon } from 'src/service/beacon'
 import rateLimiting from '../'
 import * as helpers from '../helpers'
+
 jest.mock('../helpers')
-jest.mock('service/beacon')
-import { beacon } from 'service/beacon'
+jest.mock('src/service/beacon')
 
 describe('rateLimiting', () => {
   let apiCall, errorCallback

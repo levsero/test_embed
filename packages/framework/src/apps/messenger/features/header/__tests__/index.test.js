@@ -1,8 +1,8 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import createStore from 'src/apps/messenger/store'
-import { widgetOpened, getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import createStore from 'src/apps/messenger/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { widgetOpened, getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { render } from 'src/apps/messenger/utils/testHelpers'
 import Header from '../'
 import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
 

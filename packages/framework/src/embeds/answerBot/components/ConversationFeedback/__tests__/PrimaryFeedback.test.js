@@ -1,9 +1,8 @@
-import _ from 'lodash'
 import { fireEvent } from '@testing-library/react'
-import { render } from 'src/util/testHelpers'
+import _ from 'lodash'
 import * as botActions from 'src/embeds/answerBot/actions/root/bot'
 import * as sessionActions from 'src/embeds/answerBot/actions/sessions/session-resolved'
-
+import { render } from 'src/util/testHelpers'
 import PrimaryFeedback from '../PrimaryFeedback'
 
 const renderComponent = (props = {}) => {

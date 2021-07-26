@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
-
-import { Button, Title } from './styles'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 import useTranslate from 'src/hooks/useTranslate'
-import Schedule from './Schedule'
-
 import DepartmentDropdown from './DepartmentDropdown'
+import Schedule from './Schedule'
+import { Button, Title } from './styles'
 
 const OperatingHours = ({ operatingHours, handleOfflineFormBack, locale }) => {
   const getDefaultDepartment = () => {

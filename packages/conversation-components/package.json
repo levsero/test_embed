@@ -16,7 +16,8 @@
     "build": "NODE_ENV=production rm -rf dist && mkdir dist && babel ./src --out-dir ./dist --copy-files",
     "watch": "npm run build -- --watch",
     "storybook": "start-storybook -p 6006",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "jest --ci"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

@@ -1,16 +1,14 @@
+import classNames from 'classnames'
+import _ from 'lodash'
+import PropTypes from 'prop-types'
 import { Children, cloneElement, Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import classNames from 'classnames'
-import _ from 'lodash'
-
-import { locals as styles } from './SliderContainer.scss'
-
-import { Icon } from 'component/Icon'
+import { Icon } from 'src/component/Icon'
 import { getSliderVendor } from 'src/redux/modules/chat/chat-selectors'
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
+import { locals as styles } from './SliderContainer.scss'
 
 const mapStateToProps = (state) => {
   return {

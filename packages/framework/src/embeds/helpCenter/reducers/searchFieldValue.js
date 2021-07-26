@@ -1,4 +1,4 @@
-import { SEARCH_FIELD_CHANGED } from 'embeds/helpCenter/actions/action-types'
+import { SEARCH_FIELD_CHANGED } from 'src/embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 
 const initialState = ''

@@ -1,5 +1,5 @@
+import { win } from 'src/util/globals'
 import { store } from '../'
-import { win } from 'utility/globals'
 
 describe('localStorage', () => {
   beforeEach(() => {

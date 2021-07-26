@@ -2,7 +2,6 @@ import {
   QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_FULFILLED,
 } from 'src/embeds/answerBot/actions/conversation/action-types'
-
 import {
   BOT_MESSAGE,
   BOT_CHANNEL_CHOICE,

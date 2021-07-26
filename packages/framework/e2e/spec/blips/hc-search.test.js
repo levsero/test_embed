@@ -1,9 +1,9 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import launcher from 'e2e/helpers/launcher'
-import widget from 'e2e/helpers/widget'
 import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries, wait } from 'pptr-testing-library'
 
 export const assertHCSearchPayload = (url) => {
   const payload = getBlipPayload(url)

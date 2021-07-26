@@ -1,5 +1,5 @@
+import { beacon } from 'src/service/beacon'
 import { isRateLimited } from './helpers'
-import { beacon } from 'service/beacon'
 
 export default (apiCall, payload, name, _errorCallback) => {
   const timestamp = Date.now()

@@ -1,11 +1,9 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import Linkify from 'react-linkify'
-
-import { MessageOptions } from 'component/shared/MessageOptions'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { MessageOptions } from 'src/component/shared/MessageOptions'
 import { TEST_IDS } from 'src/constants/shared'
-
 import { locals as styles } from './MessageBubble.scss'
 
 export class MessageBubble extends Component {

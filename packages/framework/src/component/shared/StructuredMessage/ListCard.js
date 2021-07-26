@@ -1,12 +1,10 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
-import { Card } from './pure/Card'
-import { ButtonList } from './pure/ButtonList'
-import { Panel } from './pure/Panel'
-
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { locals as styles } from './ListCard.scss'
+import { ButtonList } from './pure/ButtonList'
+import { Card } from './pure/Card'
+import { Panel } from './pure/Panel'
 
 export const ItemPropType = PropTypes.shape({
   heading: PropTypes.string.isRequired,

@@ -1,17 +1,15 @@
 import _ from 'lodash'
-import * as globals from 'utility/globals'
-import * as devices from 'utility/devices'
-import { testTranslationStringSelector } from 'src/util/testHelpers'
-
-import * as selectors from 'src/redux/modules/selectors/selectors'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
-import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
-
 // Cannot mock base-selectors due to reimports.
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
+import { LAUNCHER } from 'src/constants/shared'
 import { getModifiedState } from 'src/fixtures/selectors-test-state'
-import { LAUNCHER } from 'constants/shared'
-import { CONNECTION_STATUSES } from 'constants/chat'
+import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as selectors from 'src/redux/modules/selectors/selectors'
+import * as devices from 'src/util/devices'
+import * as globals from 'src/util/globals'
+import { testTranslationStringSelector } from 'src/util/testHelpers'
 
 const stateBaseSettings = (settings = {}) => {
   const defaultSettings = {

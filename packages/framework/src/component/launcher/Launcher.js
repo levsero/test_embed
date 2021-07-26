@@ -1,12 +1,10 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-
 import ChatBadge from 'src/component/launcher/ChatBadge'
 import WidgetLauncher from 'src/component/launcher/WidgetLauncher'
-import { getShowChatBadgeLauncher, getHideZendeskLogo } from 'src/redux/modules/selectors'
-
 import { launcherClicked } from 'src/redux/modules/base'
+import { getShowChatBadgeLauncher, getHideZendeskLogo } from 'src/redux/modules/selectors'
 
 const mapStateToProps = (state) => {
   return {

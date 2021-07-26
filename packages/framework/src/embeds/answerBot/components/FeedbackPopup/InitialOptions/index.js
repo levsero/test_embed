@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
-
-import useTranslate from 'src/hooks/useTranslate'
-
-import PillButton from 'src/embeds/answerBot/components/PillButton'
 import { ButtonGroup } from 'src/component/button/ButtonGroup'
+import PillButton from 'src/embeds/answerBot/components/PillButton'
+import useTranslate from 'src/hooks/useTranslate'
 
 const InitialOptions = ({ onYesClick, onNoClick }) => {
   const translate = useTranslate()

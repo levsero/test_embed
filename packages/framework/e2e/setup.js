@@ -1,8 +1,8 @@
+import { toMatchImageSnapshot } from 'jest-image-snapshot'
+import { headless } from './env'
 import toAppearInOrder from './extensions/to-appear-in-order'
 import toHaveFocus from './extensions/to-have-focus'
 import { toBeVisible, toBeHidden } from './extensions/visibility'
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
-import { headless } from './env'
 
 const TIMEOUT = !headless ? 60000 * 10 : 30000
 

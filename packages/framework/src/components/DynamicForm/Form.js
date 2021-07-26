@@ -1,17 +1,17 @@
-import { useCallback } from 'react'
-import PropTypes from 'prop-types'
-import { TEST_IDS } from 'constants/shared'
-import { Main } from 'components/Widget'
-import useTranslate from 'src/hooks/useTranslate'
-import { Field, useForm, useFormState } from 'react-final-form'
-import { convertFieldValue } from 'embeds/support/utils/fieldConversion'
-import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { FORM_ERROR } from 'final-form'
+import PropTypes from 'prop-types'
+import { useCallback } from 'react'
+import { Field, useForm, useFormState } from 'react-final-form'
+import FormField from 'src/components/DynamicForm/FormField'
+import useFormBackup from 'src/components/DynamicForm/hooks/useFormBackup'
+import { Main } from 'src/components/Widget'
+import { TEST_IDS } from 'src/constants/shared'
 import { Title } from 'src/embeds/support/components/Notifications'
+import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
+import { convertFieldValue } from 'src/embeds/support/utils/fieldConversion'
+import useOnClear from 'src/embeds/webWidget/hooks/useOnClear'
+import useTranslate from 'src/hooks/useTranslate'
 import { Fields, FormContainer, Alert } from './styles'
-import useFormBackup from 'components/DynamicForm/hooks/useFormBackup'
-import FormField from 'components/DynamicForm/FormField'
-import useOnClear from 'embeds/webWidget/hooks/useOnClear'
 
 const Form = ({
   isSubmitting,
@@ -25,7 +25,7 @@ const Form = ({
   errorMessageKey,
   isPreview,
   footer: FooterComponent,
-  controls,
+  controls = null,
   extraFieldOptions,
 }) => {
   const translate = useTranslate()
@@ -71,7 +71,7 @@ const Form = ({
             </Alert>
           )}
         </div>
-        {controls && controls}
+        {controls}
       </Main>
       {FooterComponent && (
         <FooterComponent isSubmitting={isSubmitting} formValues={values} fields={fields} />

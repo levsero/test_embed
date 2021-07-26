@@ -1,5 +1,5 @@
-import reducer from '../current-contextual-article'
 import * as actionTypes from 'src/embeds/answerBot/actions/root/action-types'
+import reducer from '../current-contextual-article'
 
 test('initial state is null', () => {
   expect(reducer(undefined, { type: '' })).toBeNull()

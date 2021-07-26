@@ -1,6 +1,5 @@
 import _ from 'lodash'
-
-import { CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from 'embeds/helpCenter/actions/action-types'
+import { CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from 'src/embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 // The reducer must have at most 1 non-falsy value.

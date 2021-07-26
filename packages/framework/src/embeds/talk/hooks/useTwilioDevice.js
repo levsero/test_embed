@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux'
-import { Device } from 'twilio-client'
-import logger from 'src/util/logger'
-import { getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
-import { getZendeskHost } from 'utility/globals'
 import superagent from 'superagent'
-import { getRecordingConsent } from 'embeds/talk/selectors'
+import { Device } from 'twilio-client'
+import { getRecordingConsent } from 'src/embeds/talk/selectors'
+import { getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
+import { getZendeskHost } from 'src/util/globals'
+import logger from 'src/util/logger'
 
 export const microphoneErrorCode = 31208
 let device, connection

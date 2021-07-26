@@ -1,6 +1,6 @@
-import allFormsRequested from '../allFormsRequested'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import allFormsRequested from '../allFormsRequested'
 
 const initialState = false
 

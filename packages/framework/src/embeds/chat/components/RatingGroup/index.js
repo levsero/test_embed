@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { TEST_IDS } from 'src/constants/shared'
 import ThumbsDownIcon from '@zendeskgarden/svg-icons/src/16/thumbs-down-stroke.svg'
 import ThumbsUpIcon from '@zendeskgarden/svg-icons/src/16/thumbs-up-stroke.svg'
+import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 import { Container, RatingButton } from './styles'
 

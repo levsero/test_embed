@@ -1,8 +1,8 @@
-import loadWidget from 'e2e/helpers/widget-page'
+import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 import { wait } from 'pptr-testing-library'
-import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 const getPosition = async (selector) => {
   return await page.evaluate((iframe) => {

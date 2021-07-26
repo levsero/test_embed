@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react'
-import { find } from 'styled-components/test-utils'
 import { Provider } from 'react-redux'
-import { Component as Footer } from '../'
-import FooterView, { padding, shadow } from 'components/Widget/Footer/FooterView'
-import { Container } from '../styles'
-import { TEST_IDS } from 'constants/shared'
+import { find } from 'styled-components/test-utils'
+import FooterView, { padding, shadow } from 'src/components/Widget/Footer/FooterView'
+import { TEST_IDS } from 'src/constants/shared'
 import createStore from 'src/redux/createStore'
+import { Component as Footer } from '../'
+import { Container } from '../styles'
 
 describe('Footer', () => {
   const defaultProps = {

@@ -1,3 +1,38 @@
+import _ from 'lodash'
+import {
+  API_GET_IS_CHATTING_NAME,
+  API_GET_DEPARTMENTS_ALL_NAME,
+  API_GET_DEPARTMENTS_DEPARTMENT_NAME,
+  API_GET_DISPLAY_NAME,
+  API_ON_CHAT_CONNECTED_NAME,
+  API_ON_CHAT_END_NAME,
+  API_ON_CHAT_START_NAME,
+  API_ON_CHAT_DEPARTMENT_STATUS,
+  API_ON_CHAT_UNREAD_MESSAGES_NAME,
+  API_ON_CHAT_STATUS_NAME,
+  API_ON_CHAT_POPOUT,
+  API_ON_OPEN_NAME,
+  API_ON_CLOSE_NAME,
+} from 'src/constants/api'
+import {
+  CHAT_CONNECTED_EVENT,
+  CHAT_DEPARTMENT_STATUS_EVENT,
+  CHAT_ENDED_EVENT,
+  CHAT_POPOUT_EVENT,
+  CHAT_STARTED_EVENT,
+  CHAT_STATUS_EVENT,
+  CHAT_UNREAD_MESSAGES_EVENT,
+  USER_EVENT,
+  WIDGET_CLOSED_EVENT,
+  WIDGET_OPENED_EVENT,
+} from 'src/constants/event'
+import { apiResetWidget } from 'src/redux/modules/base'
+import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
+import {
+  getChatStatus,
+  getHasBackfillCompleted,
+  getNotificationCount,
+} from 'src/redux/modules/chat/chat-selectors'
 import {
   endChatApi,
   openApi,
@@ -23,44 +58,9 @@ import {
   addTagsApi,
   removeTagsApi,
   reauthenticateApi,
-} from 'service/api/apis'
-import {
-  API_GET_IS_CHATTING_NAME,
-  API_GET_DEPARTMENTS_ALL_NAME,
-  API_GET_DEPARTMENTS_DEPARTMENT_NAME,
-  API_GET_DISPLAY_NAME,
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_END_NAME,
-  API_ON_CHAT_START_NAME,
-  API_ON_CHAT_DEPARTMENT_STATUS,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME,
-  API_ON_CHAT_STATUS_NAME,
-  API_ON_CHAT_POPOUT,
-  API_ON_OPEN_NAME,
-  API_ON_CLOSE_NAME,
-} from 'constants/api'
-import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
-import { apiResetWidget } from 'src/redux/modules/base'
-import _ from 'lodash'
-import tracker from 'service/tracker'
-import * as callbacks from 'service/api/callbacks'
-import {
-  CHAT_CONNECTED_EVENT,
-  CHAT_DEPARTMENT_STATUS_EVENT,
-  CHAT_ENDED_EVENT,
-  CHAT_POPOUT_EVENT,
-  CHAT_STARTED_EVENT,
-  CHAT_STATUS_EVENT,
-  CHAT_UNREAD_MESSAGES_EVENT,
-  USER_EVENT,
-  WIDGET_CLOSED_EVENT,
-  WIDGET_OPENED_EVENT,
-} from 'constants/event'
-import {
-  getChatStatus,
-  getHasBackfillCompleted,
-  getNotificationCount,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/service/api/apis'
+import * as callbacks from 'src/service/api/callbacks'
+import tracker from 'src/service/tracker'
 
 export const getApiObj = () => {
   return {

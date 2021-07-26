@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
+import { useEffect, useRef, useState, useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
+import { Dropdown, Select, Item, Label, Menu } from 'src/Dropdown'
 import Message from 'src/messages/FormMessage/FormField/Message'
 import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
 import { Container } from './styles'
-import { Dropdown, Select, Item, Label, Menu } from 'src/Dropdown'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
   const {

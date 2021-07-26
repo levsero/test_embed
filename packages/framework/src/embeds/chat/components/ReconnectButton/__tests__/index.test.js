@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react'
+import ReconnectButton from 'src/embeds/chat/components/ReconnectButton'
 import { render } from 'src/util/testHelpers'
-import ReconnectButton from 'embeds/chat/components/ReconnectButton'
 
 describe('ReconnectButton', () => {
   const defaultProps = {

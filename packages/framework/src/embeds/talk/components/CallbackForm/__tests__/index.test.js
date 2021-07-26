@@ -1,7 +1,7 @@
-import { render } from 'utility/testHelpers'
-import { Component as CallbackForm } from '../'
 import { TEST_IDS } from 'src/constants/shared'
 import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
+import { render } from 'src/util/testHelpers'
+import { Component as CallbackForm } from '../'
 
 jest.mock('src/embeds/talk/utils/getFormattedPhoneNumber')
 

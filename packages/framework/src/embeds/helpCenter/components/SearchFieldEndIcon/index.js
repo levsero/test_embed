@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
 import ClearInputIcon from '@zendeskgarden/svg-icons/src/16/x-stroke.svg'
-
 import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
+import { triggerOnEnter } from 'src/util/keyboard'
 import { LoadingDots, ClearInputButton } from './styles'
-import { triggerOnEnter } from 'utility/keyboard'
 
 const SearchFieldEndIcon = ({ isLoading, onClick, isVisible }) => {
   const translate = useTranslate()

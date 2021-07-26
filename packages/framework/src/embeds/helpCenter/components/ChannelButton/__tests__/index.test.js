@@ -1,6 +1,5 @@
-import { Component as ChannelButton } from 'src/embeds/helpCenter/components/ChannelButton'
-
 import { render, fireEvent } from '@testing-library/react'
+import { Component as ChannelButton } from 'src/embeds/helpCenter/components/ChannelButton'
 
 const onClickMock = jest.fn()
 

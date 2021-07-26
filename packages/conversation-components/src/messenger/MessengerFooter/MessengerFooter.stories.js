@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
-import MessengerFooter from './'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
+import MessengerFooter from './'
 
 export default {
   title: 'Messenger/MessengerFooter',

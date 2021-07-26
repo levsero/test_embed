@@ -1,9 +1,8 @@
 import { getByTestId } from '@testing-library/react'
-
-import { render } from 'src/util/testHelpers'
 import { Component } from 'src/component/chat/prechat/PrechatScreen'
-import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import { TEST_IDS } from 'src/constants/shared'
+import * as screens from 'src/redux/modules/chat/chat-screen-types'
+import { render } from 'src/util/testHelpers'
 
 const updateChatScreenSpy = jest.fn()
 

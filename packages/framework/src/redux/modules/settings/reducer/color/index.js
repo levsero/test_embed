@@ -1,7 +1,6 @@
 import _ from 'lodash'
-
-import { UPDATE_SETTINGS } from '../../settings-action-types'
 import { validatedColor } from 'src/util/color/validate'
+import { UPDATE_SETTINGS } from '../../settings-action-types'
 
 const initialState = {
   launcher: '',

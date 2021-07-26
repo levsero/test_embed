@@ -1,6 +1,6 @@
-import { testReducer } from 'utility/testHelpers'
-import chatVisitor from '../chatVisitor'
 import { SDK_VISITOR_UPDATE } from 'src/redux/modules/chat/chat-action-types'
+import { testReducer } from 'src/util/testHelpers'
+import chatVisitor from '../chatVisitor'
 
 const initialState = {
   values: {},

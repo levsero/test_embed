@@ -1,26 +1,25 @@
 import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
-import * as actions from '..'
-import * as actionTypes from '../action-types'
-import attachmentSender from 'src/embeds/support/utils/attachment-sender'
-import * as supportSelectors from 'src/embeds/support/selectors'
-import { http } from 'service/transport'
-import formatRequestData from 'src/embeds/support/utils/requestFormatter'
-import { queuesReset } from 'utility/rateLimiting/helpers'
-import { formPrefilled } from '..'
-import { FORM_PREFILLED } from '../action-types'
-import history from 'service/history'
-import routes from 'embeds/support/routes'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import routes from 'src/embeds/support/routes'
+import * as supportSelectors from 'src/embeds/support/selectors'
+import attachmentSender from 'src/embeds/support/utils/attachment-sender'
+import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { clearFormState } from 'src/redux/modules/form/actions'
+import history from 'src/service/history'
+import { http } from 'src/service/transport'
+import { queuesReset } from 'src/util/rateLimiting/helpers'
+import * as actions from '..'
+import { formPrefilled } from '..'
+import * as actionTypes from '../action-types'
+import { FORM_PREFILLED } from '../action-types'
 
-jest.mock('service/transport')
+jest.mock('src/service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
-jest.mock('service/history')
-jest.mock('embeds/webWidget/selectors/feature-flags')
+jest.mock('src/service/history')
+jest.mock('src/embeds/webWidget/selectors/feature-flags')
 jest.mock('src/embeds/support/utils/track-ticket-submitted')
 
 const mockFileBlob2 = {

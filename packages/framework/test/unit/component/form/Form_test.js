@@ -17,7 +17,7 @@ describe('Form component', () => {
     initMockRegistry({
       React: React,
       '@zendeskgarden/react-buttons': { Button: MockButton },
-      'component/button/ButtonGroup': {
+      'src/component/button/ButtonGroup': {
         ButtonGroup: class extends Component {
           render() {
             return <div>{this.props.children}</div>

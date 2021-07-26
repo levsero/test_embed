@@ -1,5 +1,3 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import {
   search,
   waitForAnswerBot,
@@ -8,6 +6,8 @@ import {
   mockResolutionEndpoint,
   mockRejectionEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 const resolutionEndpoint = jest.fn(),
   rejectionEndpoint = jest.fn()

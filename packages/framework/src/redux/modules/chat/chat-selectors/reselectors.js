@@ -1,15 +1,15 @@
 import _ from 'lodash'
-import { createSelector } from 'reselect'
 import createCachedSelector from 're-reselect'
+import { createSelector } from 'reselect'
 import {
   AGENT_BOT,
   CHAT_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
   WHITELISTED_SOCIAL_LOGINS,
   CONNECTION_STATUSES,
-} from 'constants/chat'
-
-import { isPopout } from 'utility/globals'
+} from 'src/constants/chat'
+import { isDefaultNickname } from 'src/util/chat'
+import { isPopout } from 'src/util/globals'
 import {
   getIsAuthenticated,
   getChatAccountSettingsPrechatForm,
@@ -33,7 +33,7 @@ import {
   getChatOnline,
   isAgent,
 } from './selectors'
-import { isDefaultNickname } from 'utility/chat'
+
 export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],
   (accountSettingsPrechatForm) => {

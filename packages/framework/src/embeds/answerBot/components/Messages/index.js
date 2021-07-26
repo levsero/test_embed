@@ -1,15 +1,13 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
-
-import Text from 'src/embeds/answerBot/components/Text'
-import SearchResults from 'src/embeds/answerBot/components/SearchResults'
-import ContextualSearchResults from 'src/embeds/answerBot/components/ContextualSearchResults'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import BotTyping from 'src/embeds/answerBot/components/BotTyping'
 import ChannelChoice from 'src/embeds/answerBot/components/ChannelChoice'
+import ContextualSearchResults from 'src/embeds/answerBot/components/ContextualSearchResults'
 import PrimaryFeedback from 'src/embeds/answerBot/components/ConversationFeedback/PrimaryFeedback'
 import SecondaryFeedback from 'src/embeds/answerBot/components/ConversationFeedback/SecondaryFeedback'
-import BotTyping from 'src/embeds/answerBot/components/BotTyping'
-
+import SearchResults from 'src/embeds/answerBot/components/SearchResults'
+import Text from 'src/embeds/answerBot/components/Text'
 import { Container, SlideAppear, Message } from './styles'
 
 export default class Messages extends Component {

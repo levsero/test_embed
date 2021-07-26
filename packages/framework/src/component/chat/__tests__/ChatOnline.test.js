@@ -1,6 +1,6 @@
+import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { render } from 'src/util/testHelpers'
 import { Component } from '../ChatOnline'
-import { CONNECTION_STATUSES } from 'constants/chat'
 
 const renderComponent = (props) => {
   const mergedProps = {

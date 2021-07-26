@@ -27,3 +27,4 @@ example/*
 webdrivercss/
 **/*.csv
 docker-chromium
+**/coverage/**

@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { createSelector } from 'reselect'
 import createCachedSelector from 're-reselect'
+import { createSelector } from 'reselect'
 
 const getHistory = (state) => state.chat.chatHistory.chats
 

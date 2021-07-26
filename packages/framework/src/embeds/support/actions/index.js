@@ -1,22 +1,21 @@
 import _ from 'lodash'
-
-import * as actionTypes from './action-types'
-import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { FORM_PREFILLED } from 'src/embeds/support/actions/action-types'
+import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import routes from 'src/embeds/support/routes'
 import {
   getMaxFileSize,
   getMaxFileCount,
   getAttachmentsForForm,
 } from 'src/embeds/support/selectors'
+import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
-import { http } from 'service/transport'
-import withRateLimiting from 'utility/rateLimiting'
-import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
-import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
-import history from 'service/history'
-import routes from 'embeds/support/routes'
-import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
+import trackTicketSubmitted from 'src/embeds/support/utils/track-ticket-submitted'
 import { clearFormState } from 'src/redux/modules/form/actions'
+import history from 'src/service/history'
+import { http } from 'src/service/transport'
+import withRateLimiting from 'src/util/rateLimiting'
+import * as actionTypes from './action-types'
 
 let attachmentUploaders = {}
 
@@ -127,7 +126,7 @@ export const uploadAttachment = (file, id) => (dispatch, getState) => {
   const errorMessage = fileOversize ? ATTACHMENT_ERRORS.TOO_LARGE : null
   const fileType = file.type || 'application/octet-stream'
   const onUploadComplete = (response) => dispatch(uploadAttachmentSuccess(id, response))
-  const onUploadFailure = (error) => dispatch(uploadAttachmentFailure(id, error))
+  const onUploadFailure = () => dispatch(uploadAttachmentFailure(id))
   const onUploadUpdate = (progress) => dispatch(uploadAttachmentUpdate(id, progress))
   const attachment = {
     id,

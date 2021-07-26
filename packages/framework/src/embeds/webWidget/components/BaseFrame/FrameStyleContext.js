@@ -1,5 +1,5 @@
-import { createContext, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { createContext, useState, useContext, useEffect } from 'react'
 
 const FrameStyleContext = createContext({
   style: {},

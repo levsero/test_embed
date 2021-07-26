@@ -1,15 +1,13 @@
 import { useDispatch } from 'react-redux'
-
-import useTranslate from 'src/hooks/useTranslate'
-import { ButtonGroup } from 'component/button/ButtonGroup'
-import PillButton from 'src/embeds/answerBot/components/PillButton'
-import { sessionResolved } from 'src/embeds/answerBot/actions/sessions'
+import { ButtonGroup } from 'src/component/button/ButtonGroup'
 import {
   botFeedback,
   botFeedbackMessage,
   botUserMessage,
 } from 'src/embeds/answerBot/actions/root/bot'
-
+import { sessionResolved } from 'src/embeds/answerBot/actions/sessions'
+import PillButton from 'src/embeds/answerBot/components/PillButton'
+import useTranslate from 'src/hooks/useTranslate'
 import { Container } from './styles'
 
 const PrimaryFeedback = () => {

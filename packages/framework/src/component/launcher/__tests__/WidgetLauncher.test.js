@@ -1,8 +1,7 @@
 import { render } from '@testing-library/react'
 import _ from 'lodash'
-
-import connectedLauncher from '../WidgetLauncher'
 import { TEST_IDS } from 'src/constants/shared'
+import connectedLauncher from '../WidgetLauncher'
 
 const WidgetLauncher = connectedLauncher.WrappedComponent
 const noop = () => {}

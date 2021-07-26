@@ -1,10 +1,9 @@
 import { fireEvent } from '@testing-library/react'
-import { render } from 'src/util/testHelpers'
-
-import SearchResults from '../'
+import * as articleActions from 'src/embeds/answerBot/actions/article/article-viewed'
 import * as articleshownAction from 'src/embeds/answerBot/actions/root/article-shown'
 import * as screenChangedAction from 'src/embeds/answerBot/actions/root/screen-changed'
-import * as articleActions from 'src/embeds/answerBot/actions/article/article-viewed'
+import { render } from 'src/util/testHelpers'
+import SearchResults from '../'
 
 const sessionID = 1234
 

@@ -1,13 +1,13 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import {
   mockTicketFormsEndpoint,
   createField,
   createForm,
   waitForContactForm,
 } from 'e2e/helpers/support-embed'
-import { queries, wait } from 'pptr-testing-library'
 import { DEFAULT_CORS_HEADERS, assertInputValue } from 'e2e/helpers/utils'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries, wait } from 'pptr-testing-library'
 
 const setup = async () => {
   const description = createField({ id: 1, title_in_portal: 'Description', type: 'description' })

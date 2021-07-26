@@ -1,7 +1,6 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import PureCarousel from 'embeds/chat/components/Carousel'
+import { Component } from 'react'
+import PureCarousel from 'src/embeds/chat/components/Carousel'
 import StructuredMessage from './StructuredMessage'
 
 export default class Carousel extends Component {

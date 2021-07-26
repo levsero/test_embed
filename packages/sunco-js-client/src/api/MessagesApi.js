@@ -1,6 +1,6 @@
-import BaseApi from './BaseApi'
 import { getClientInfo, getSessionId } from '../utils/device'
 import storage from '../utils/storage'
+import BaseApi from './BaseApi'
 
 class MessagesApi extends BaseApi {
   list(appUserId, conversationId, params = {}) {

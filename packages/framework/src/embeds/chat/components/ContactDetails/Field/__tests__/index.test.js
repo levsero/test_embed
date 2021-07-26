@@ -1,6 +1,5 @@
-import { render } from 'src/util/testHelpers'
 import { Form } from 'react-final-form'
-
+import { render } from 'src/util/testHelpers'
 import ContactDetailField from '../'
 
 const renderComponent = (props = {}) => {

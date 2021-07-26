@@ -1,5 +1,5 @@
+import * as globals from 'src/util/globals'
 import { isOnHelpCenterPage, isOnHostMappedDomain, getDecodedJWTBody } from '../pages'
-import * as globals from 'utility/globals'
 
 globals.win = {
   HelpCenter: {},

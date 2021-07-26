@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
+import { useEffect, useState } from 'react'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
-import { getGardenOverrides } from 'component/frame/gardenOverrides'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { WidgetThemeProvider } from 'components/Widget'
-import HTMLManager from 'embeds/webWidget/components/BaseFrame/HTMLManager'
+import { getGardenOverrides } from 'src/component/frame/gardenOverrides'
+import { WidgetThemeProvider } from 'src/components/Widget'
+import { FONT_SIZE } from 'src/constants/shared'
 import {
   FrameStyleConsumer,
   FrameStyleProvider,
   useFrameStyle,
-} from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
-import { getZoomSizingRatio } from 'utility/devices'
-import { FONT_SIZE } from 'constants/shared'
+} from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
+import HTMLManager from 'src/embeds/webWidget/components/BaseFrame/HTMLManager'
+import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
+import { getZoomSizingRatio } from 'src/util/devices'
 
 const getBaseFontSize = () => FONT_SIZE * getZoomSizingRatio().toFixed(2) + 'px'
 

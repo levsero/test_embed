@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import { logAndTrackApiError } from 'service/api/errorHandlers'
-import tracker from 'service/tracker'
-import ZEApiError from './ZEApiError'
+import { logAndTrackApiError } from 'src/service/api/errorHandlers'
+import tracker from 'src/service/tracker'
 import LegacyZEApiError from './LegacyZEApiError'
+import ZEApiError from './ZEApiError'
 
 const baseProperties = {
   version: __EMBEDDABLE_VERSION__,

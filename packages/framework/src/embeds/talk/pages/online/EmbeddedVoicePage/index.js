@@ -1,22 +1,7 @@
 import { useRef } from 'react'
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-
-import useTranslate from 'src/hooks/useTranslate'
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import routes from 'src/embeds/talk/routes'
-import MicrophonePermissions from './MicrophonePermissions'
-import ConsentToRecord from './ConsentToRecord'
-import CallInProgress from './CallInProgress'
-import NetworkError from './NetworkError'
-import MicrophonePermissionsDeniedPage from './MicrophonePermissionsDeniedPage'
-import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
-import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
-import {
-  getUserRecordingConsentRequirement,
-  getIsCallInProgress,
-  getHasLastCallFailed,
-} from 'embeds/talk/selectors'
 import {
   unmuteMicrophone,
   callStarted,
@@ -24,6 +9,20 @@ import {
   callFailed,
   resetCallFailed,
 } from 'src/embeds/talk/actions'
+import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
+import routes from 'src/embeds/talk/routes'
+import {
+  getUserRecordingConsentRequirement,
+  getIsCallInProgress,
+  getHasLastCallFailed,
+} from 'src/embeds/talk/selectors'
+import useTranslate from 'src/hooks/useTranslate'
+import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
+import CallInProgress from './CallInProgress'
+import ConsentToRecord from './ConsentToRecord'
+import MicrophonePermissions from './MicrophonePermissions'
+import MicrophonePermissionsDeniedPage from './MicrophonePermissionsDeniedPage'
+import NetworkError from './NetworkError'
 
 const EmbeddedVoicePage = () => {
   const dispatch = useDispatch()

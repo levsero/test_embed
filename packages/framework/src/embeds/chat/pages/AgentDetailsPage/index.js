@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import AgentList from 'src/embeds/chat/components/AgentList'
 import { Button } from '@zendeskgarden/react-buttons'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
+import AgentList from 'src/embeds/chat/components/AgentList'
+import useTranslate from 'src/hooks/useTranslate'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { Widget, Header, Main, Footer } from 'components/Widget'
-import useTranslate from 'src/hooks/useTranslate'
 
 const AgentDetailsPage = ({ updateChatScreen }) => {
   const translate = useTranslate()

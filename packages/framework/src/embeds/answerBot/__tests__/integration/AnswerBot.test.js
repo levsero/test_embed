@@ -1,16 +1,13 @@
-import { fireEvent } from '@testing-library/react'
-
-import { render } from 'src/util/testHelpers'
-import { http } from 'service/transport'
-import { screenChanged } from 'src/embeds/answerBot/actions/root'
-
-import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
-
-import AnswerBot from '../../index'
 import { waitFor } from '@testing-library/dom'
+import { fireEvent } from '@testing-library/react'
+import { screenChanged } from 'src/embeds/answerBot/actions/root'
+import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import { updateWidgetShown } from 'src/redux/modules/base'
+import { http } from 'src/service/transport'
+import { render } from 'src/util/testHelpers'
+import AnswerBot from '../../index'
 
-jest.mock('service/transport')
+jest.mock('src/service/transport')
 
 jest.useFakeTimers()
 Date.now = jest.fn(() => 1559097574000)

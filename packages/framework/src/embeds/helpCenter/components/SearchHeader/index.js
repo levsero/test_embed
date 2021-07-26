@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import { Container } from './styles'
-import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
+import { Header, HeaderRow } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
-import { Header, HeaderRow } from 'components/Widget'
+import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
+import { Container } from './styles'
 
 const SearchHeader = ({ title, inputRef }) => {
   return (

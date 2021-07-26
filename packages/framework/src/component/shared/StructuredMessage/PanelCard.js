@@ -1,8 +1,7 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { Card } from './pure/Card'
+import { Component } from 'react'
 import { ButtonList } from './pure/ButtonList'
+import { Card } from './pure/Card'
 import { Panel, PanelPropType } from './pure/Panel'
 
 export class PanelCard extends Component {

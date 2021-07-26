@@ -1,13 +1,13 @@
+import { queries } from 'pptr-testing-library'
 import {
   clickStartChat,
   loadWidgetWithChatOnline,
   waitForChatToBeReady,
 } from '../../helpers/chat-embed'
-import { queries } from 'pptr-testing-library'
-import widget from '../../helpers/widget'
-import { allowsInputTextEditing } from '../shared-examples'
 import { assertInputValue, clearInputField } from '../../helpers/utils'
+import widget from '../../helpers/widget'
 import zChat from '../../helpers/zChat'
+import { allowsInputTextEditing } from '../shared-examples'
 
 const populateField = async (fieldLabel, value) => {
   const element = await queries.queryByLabelText(await widget.getDocument(), fieldLabel)

@@ -1,14 +1,12 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import _ from 'lodash'
-
-import { dateTime } from 'utility/formatters'
-import { locals as styles } from './HistoryLog.scss'
-
-import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHistoryGroup'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { connect } from 'react-redux'
+import HistoryChatGroup from 'src/component/chat/chatting/log/messages/ConnectedHistoryGroup'
 import HistoryEventMessage from 'src/embeds/chat/components/EventMessage'
 import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors'
+import { dateTime } from 'src/util/formatters'
+import { locals as styles } from './HistoryLog.scss'
 
 const mapStateToProps = (state) => {
   return {

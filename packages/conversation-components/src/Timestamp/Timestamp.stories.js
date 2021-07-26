@@ -1,5 +1,5 @@
-import Timestamp from './'
 import { MessengerContainerDecorator, MessageLogListDecorator } from '../../.storybook/decorators'
+import Timestamp from './'
 
 export default {
   title: 'Components/Timestamp',

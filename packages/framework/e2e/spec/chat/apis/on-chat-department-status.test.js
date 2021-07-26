@@ -1,5 +1,5 @@
-import zChat from 'e2e/helpers/zChat'
 import { openChattingScreenAndEvaluate } from 'e2e/helpers/chat-embed'
+import zChat from 'e2e/helpers/zChat'
 
 test('on chat:departmentStatus calls a function when department status changes', async () => {
   let result

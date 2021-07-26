@@ -1,24 +1,21 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { Widget, Header, Main } from 'src/components/Widget'
+import { conversationScrollChanged } from 'src/embeds/answerBot/actions/conversation'
 import AnswerBotContainer from 'src/embeds/answerBot/components/AnswerBotContainer'
-import ArticlePage from 'src/embeds/answerBot/pages/ArticlePage'
 import ConversationFooter from 'src/embeds/answerBot/components/ConversationFooter'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
+import ArticlePage from 'src/embeds/answerBot/pages/ArticlePage'
 import ConversationPage from 'src/embeds/answerBot/pages/ConversationPage'
-
-import { onNextTick } from 'src/util/utils'
-
-import { updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLastScroll } from 'src/embeds/answerBot/selectors/conversation'
 import { getCurrentScreen } from 'src/embeds/answerBot/selectors/root'
-import { conversationScrollChanged } from 'src/embeds/answerBot/actions/conversation'
+import { updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors'
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
-import { Widget, Header, Main } from 'components/Widget'
+import { isMobileBrowser } from 'src/util/devices'
+import { onNextTick } from 'src/util/utils'
 
 const SCROLL_TO_BOTTOM_INDICATOR = -1
 

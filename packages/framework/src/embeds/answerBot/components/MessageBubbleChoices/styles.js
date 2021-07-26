@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { zdColorGrey100, zdColorGrey200, zdColorGrey800 } from '@zendeskgarden/css-variables'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const maxWidth = (props) => {
   switch (props.size) {

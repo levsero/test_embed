@@ -5,7 +5,7 @@ describe('settings reducer', () => {
     mockery.enable()
 
     initMockRegistry({
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           get: noop,
         },

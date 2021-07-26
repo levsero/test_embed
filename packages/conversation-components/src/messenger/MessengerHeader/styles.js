@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { rem, rgba } from 'polished'
+import styled from 'styled-components'
 import { Avatar as GardenAvatar } from '@zendeskgarden/react-avatars'
 import { IconButton as GardenIconButton } from '@zendeskgarden/react-buttons'
 import CloseSVG from '@zendeskgarden/svg-icons/src/16/x-fill.svg'

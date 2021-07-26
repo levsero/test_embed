@@ -1,17 +1,17 @@
-import { beacon } from '../beacon'
-import { store } from 'src/framework/services/persistence'
-import * as http from 'service/transport/http-base'
 import i18n from 'src/framework/services/i18n'
-import * as pages from 'utility/pages'
-import * as globals from 'utility/globals'
-import { appendMetaTag } from 'utility/devices'
+import { store } from 'src/framework/services/persistence'
+import * as http from 'src/service/transport/http-base'
+import { appendMetaTag } from 'src/util/devices'
+import * as globals from 'src/util/globals'
+import * as pages from 'src/util/pages'
+import { beacon } from '../beacon'
 
 globals.navigator = {
   userAgent: 'myuseragent',
   language: 'th',
 }
 
-jest.mock('service/transport/http-base')
+jest.mock('src/service/transport/http-base')
 
 let dateNowMock
 

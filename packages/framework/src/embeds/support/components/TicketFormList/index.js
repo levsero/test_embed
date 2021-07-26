@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { TEST_IDS } from 'src/constants/shared'
 import TicketFormOption from 'src/embeds/support/components/TicketFormOption'
 

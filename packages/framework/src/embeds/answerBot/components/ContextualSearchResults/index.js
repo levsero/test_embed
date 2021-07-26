@@ -1,14 +1,11 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-
-import Results from 'src/embeds/answerBot/components/Results'
-
+import { bindActionCreators } from 'redux'
 import { screenChanged, contextualArticleShown } from 'src/embeds/answerBot/actions/root'
-import { getSearchedArticles } from 'embeds/helpCenter/selectors'
-
+import Results from 'src/embeds/answerBot/components/Results'
 import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
+import { getSearchedArticles } from 'src/embeds/helpCenter/selectors'
 
 class ContextualSearchResults extends Component {
   static propTypes = {

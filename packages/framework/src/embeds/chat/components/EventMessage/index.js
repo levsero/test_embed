@@ -1,13 +1,11 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-
-import { DISCONNECTION_REASONS } from 'constants/chat'
-import useTranslate from 'src/hooks/useTranslate'
-import { TEST_IDS } from 'src/constants/shared'
-import { Message } from './styles'
-
 import { connect } from 'react-redux'
+import { DISCONNECTION_REASONS } from 'src/constants/chat'
+import { TEST_IDS } from 'src/constants/shared'
 import { getHistoryEventMessage, getEventMessage } from 'src/embeds/chat/selectors'
+import useTranslate from 'src/hooks/useTranslate'
+import { Message } from './styles'
 
 const getEventText = (event, translate) => {
   const isAgent = event.nick && event.nick.indexOf('agent:') > -1 ? true : false

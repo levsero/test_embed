@@ -1,9 +1,9 @@
+import { parseUrl } from 'src/util/utils'
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
   talkAverageWaitTimeEventToAction,
 } from './events'
-import { parseUrl } from 'utility/utils'
 
 const TALK_SERVICE_PATH = '/talk_embeddables_service/socket.io'
 

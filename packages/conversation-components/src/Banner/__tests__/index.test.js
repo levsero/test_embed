@@ -1,6 +1,6 @@
-import render from '../../utils/test/render'
 import Banner from '../'
 import { BANNER_STATUS } from '../../constants'
+import render from '../../utils/test/render'
 
 describe('Banner', () => {
   it('renders', () => {

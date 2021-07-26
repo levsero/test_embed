@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
-
-import { TEST_IDS } from 'src/constants/shared'
-import ChatMenu from 'embeds/chat/components/ChatMenu'
 import ZendeskLogo from 'src/components/ZendeskLogo'
+import { TEST_IDS } from 'src/constants/shared'
+import ChatMenu from 'src/embeds/chat/components/ChatMenu'
 import AttachmentOption from 'src/embeds/chat/components/ChattingFooter/AttachmentOption'
 import EndChatOption from 'src/embeds/chat/components/ChattingFooter/EndChatOption'
-
 import { BottomRow, Footer, IconContainer } from './styles'
 
 const ChattingFooterDesktop = ({

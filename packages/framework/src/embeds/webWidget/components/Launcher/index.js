@@ -1,20 +1,20 @@
-import { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices'
-import WidgetLauncher from 'component/launcher/Launcher'
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getColor, getFrameVisible, getHideZendeskLogo } from 'src/redux/modules/selectors'
-import { generateUserLauncherCSS } from 'utility/color/styles'
-import { FONT_SIZE } from 'constants/shared'
-import BaseFrame from 'embeds/webWidget/components/BaseFrame'
-import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
-import FrameTransition from 'embeds/webWidget/components/BaseFrame/FrameTransition'
-import { renewToken } from 'src/redux/modules/base'
+import WidgetLauncher from 'src/component/launcher/Launcher'
+import { FONT_SIZE } from 'src/constants/shared'
+import BaseFrame from 'src/embeds/webWidget/components/BaseFrame'
+import FrameTransition from 'src/embeds/webWidget/components/BaseFrame/FrameTransition'
 import useTranslate from 'src/hooks/useTranslate'
+import { renewToken } from 'src/redux/modules/base'
+import { getColor, getFrameVisible, getHideZendeskLogo } from 'src/redux/modules/selectors'
+import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
+import { generateUserLauncherCSS } from 'src/util/color/styles'
+import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
 import { launcherStyles } from './styles'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
-const launcherCSS = `${require('globalCSS')} ${launcherStyles}`
+const launcherCSS = `${require('src/styles/globals.scss')} ${launcherStyles}`
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
 
 const baseLauncherStyle = {

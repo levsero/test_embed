@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
-import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { withTheme } from 'styled-components'
-
-import useTranslate from 'src/hooks/useTranslate'
-import FooterIconButton from 'embeds/chat/components/FooterIconButton'
+import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { Dropzone } from 'src/component/chat/attachment/Dropzone'
-import { TEST_IDS } from 'constants/shared'
-
+import { TEST_IDS } from 'src/constants/shared'
+import FooterIconButton from 'src/embeds/chat/components/FooterIconButton'
+import useTranslate from 'src/hooks/useTranslate'
 import { Icon } from './styles'
 
 const AttachmentOption = ({

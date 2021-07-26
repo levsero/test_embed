@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Field, MediaInput } from '@zendeskgarden/react-forms'
-
 import { TEST_IDS } from 'src/constants/shared'
-import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
-import { getSearchLoading, getSearchFieldValue } from 'embeds/helpCenter/selectors'
 import SearchFieldEndIcon from 'src/embeds/helpCenter/components/SearchFieldEndIcon'
-
+import { getSearchLoading, getSearchFieldValue } from 'src/embeds/helpCenter/selectors'
+import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
 import { SearchIcon } from './styles'
 
 const handleSearchFieldCleared = (onChange, inputRef) => () => {

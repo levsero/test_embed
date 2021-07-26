@@ -1,24 +1,28 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { connect } from 'react-redux'
 import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
-import { getLoginSettings, getIsChatting } from 'src/redux/modules/chat/chat-selectors'
-
+import { HeaderItem } from 'src/components/Widget'
+import { TEST_IDS } from 'src/constants/shared'
+import { handleSoundIconClick, updateMenuVisibility } from 'src/embeds/chat/actions/actions'
+import FooterIconButton from 'src/embeds/chat/components/FooterIconButton'
+import { getMenuVisible, getUserSoundSettings } from 'src/embeds/chat/selectors'
+import { useCurrentFrame } from 'src/framework/components/Frame'
+import useTranslate from 'src/hooks/useTranslate'
 import {
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
   updateEndChatModalVisibility,
 } from 'src/redux/modules/chat'
-
-import { isMobileBrowser } from 'utility/devices'
-import useTranslate from 'src/hooks/useTranslate'
+import { getLoginSettings, getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import {
   getChannelAvailable,
   getChatEmailTranscriptEnabled,
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
-import { TEST_IDS } from 'constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
+import { onNextTick } from 'src/util/utils'
 import {
   SoundOffIcon,
   SoundOnIcon,
@@ -28,12 +32,6 @@ import {
   Container,
   EllipsisIcon,
 } from './styles'
-import FooterIconButton from 'embeds/chat/components/FooterIconButton'
-import { onNextTick } from 'utility/utils'
-import { HeaderItem } from 'components/Widget'
-import { useCurrentFrame } from 'src/framework/components/Frame'
-import { getMenuVisible, getUserSoundSettings } from 'embeds/chat/selectors'
-import { handleSoundIconClick, updateMenuVisibility } from 'embeds/chat/actions/actions'
 
 const ChatMenu = ({
   isOpen,

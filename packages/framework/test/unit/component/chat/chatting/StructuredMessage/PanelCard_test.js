@@ -17,14 +17,14 @@ describe('PanelCard Component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'component/shared/StructuredMessage/PanelCard': {
+      'src/component/shared/StructuredMessage/PanelCard': {
         PanelCard: PurePanelCard,
       },
       './Button': {
         Button,
         ButtonSchemaPropType,
       },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
       },
       './PanelCard.scss': {

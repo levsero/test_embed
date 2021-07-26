@@ -1,6 +1,5 @@
-import { base64UrlDecode, sha1 } from 'utility/utils'
-
 import _ from 'lodash'
+import { base64UrlDecode, sha1 } from 'src/util/utils'
 
 function isTokenValid(token) {
   if (token && token.expiry) {

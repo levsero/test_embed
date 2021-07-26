@@ -1,9 +1,7 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { Icon } from 'component/Icon'
+import { Component } from 'react'
+import { Icon } from 'src/component/Icon'
 import { TEST_IDS } from 'src/constants/shared'
-
 import { locals as styles } from './ButtonIcon.scss'
 
 export class ButtonIcon extends Component {

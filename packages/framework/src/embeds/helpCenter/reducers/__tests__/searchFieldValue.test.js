@@ -1,7 +1,7 @@
-import searchFieldValue from '../searchFieldValue'
-import * as actionTypes from 'embeds/helpCenter/actions/action-types'
+import * as actionTypes from 'src/embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import searchFieldValue from '../searchFieldValue'
 
 testReducer(searchFieldValue, [
   {

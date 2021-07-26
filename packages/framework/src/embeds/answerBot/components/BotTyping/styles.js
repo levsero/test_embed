@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { zdColorGrey600, zdColorGrey100 } from '@zendeskgarden/css-variables'
+import { LoadingEllipses } from 'src/component/loading/LoadingEllipses'
 
 const Container = styled.div`
   ${(props) => {

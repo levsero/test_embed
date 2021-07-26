@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
 import { Route, Switch, Redirect } from 'react-router-dom'
-
 import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
-import SearchPromptPage from 'embeds/helpCenter/pages/SearchPromptPage'
-import ArticlePage from 'embeds/helpCenter/pages/ArticlePage'
-import SearchPage from 'embeds/helpCenter/pages/SearchPage'
+import ArticlePage from 'src/embeds/helpCenter/pages/ArticlePage'
+import SearchPage from 'src/embeds/helpCenter/pages/SearchPage'
+import SearchPromptPage from 'src/embeds/helpCenter/pages/SearchPromptPage'
 import routes from './routes'
 
 const HelpCenter = () => (

@@ -1,5 +1,5 @@
-import reducer from '../suppress'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../suppress'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

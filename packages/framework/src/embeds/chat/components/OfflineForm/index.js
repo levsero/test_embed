@@ -1,18 +1,20 @@
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
-
-import useTranslate from 'src/hooks/useTranslate'
-import DynamicForm from 'components/DynamicForm'
-import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
-import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
-import SocialLogin from 'embeds/chat/components/SocialLogin'
+import ChatMessagingChannels from 'src/component/chat/ChatMessagingChannels'
+import DynamicForm from 'src/components/DynamicForm'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
+import { Footer } from 'src/components/Widget'
+import { submitOfflineForm } from 'src/embeds/chat/actions/offline-form'
+import AuthenticatedProfile from 'src/embeds/chat/components/AuthenticatedProfile'
+import OfflineFormControls from 'src/embeds/chat/components/OfflineForm/OfflineFormControls'
 import OfflineGreeting from 'src/embeds/chat/components/OfflineForm/OfflineGreeting'
 import OperatingHours from 'src/embeds/chat/components/OfflineForm/OperatingHours'
-import ChatMessagingChannels from 'component/chat/ChatMessagingChannels'
+import SocialLogin from 'src/embeds/chat/components/SocialLogin'
+import ViewHistoryButton from 'src/embeds/chat/components/ViewHistoryButton'
 import { getFields } from 'src/embeds/chat/selectors/offline-form'
-import { submitOfflineForm } from 'src/embeds/chat/actions/offline-form'
-import { Footer } from 'src/components/Widget'
+import useTranslate from 'src/hooks/useTranslate'
+import { handleOperatingHoursClick, initiateSocialLogout } from 'src/redux/modules/chat'
 import {
   getAuthUrls,
   getChatVisitor,
@@ -21,11 +23,8 @@ import {
   getReadOnlyState,
   getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
-import { handleOperatingHoursClick, initiateSocialLogout } from 'src/redux/modules/chat'
 import { getOfflineFormSettings } from 'src/redux/modules/selectors'
-import OfflineFormControls from 'src/embeds/chat/components/OfflineForm/OfflineFormControls'
 import validate from './validate'
-import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
 const OfflineForm = ({
   authUrls,

@@ -1,6 +1,6 @@
+import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
 import contactFormFields from '../contactFormFields'
-import { TICKET_FIELDS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
 
 const initialState = []
 

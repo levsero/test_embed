@@ -1,22 +1,28 @@
 import _ from 'lodash'
-
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
-import { http } from 'service/transport'
-import { location } from 'utility/globals'
-import {
-  getAuthToken,
-  getHasWidgetShown,
-  getIsAuthenticationPending,
-} from 'src/redux/modules/base/base-selectors'
+import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import {
   getLastSearchTimestamp,
   getContextualHelpRequestNeeded,
   getSearchQuery,
   getTokensRevokedAt,
-} from 'embeds/helpCenter/selectors'
+} from 'src/embeds/helpCenter/selectors'
+import { updateQueue, authenticate, expireToken } from 'src/redux/modules/base'
+import {
+  getAuthToken,
+  getHasWidgetShown,
+  getIsAuthenticationPending,
+} from 'src/redux/modules/base/base-selectors'
 import { getHasPassedAuth } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
+import {
+  getSettingsHelpCenterFilter,
+  getSettingsHelpCenterLocaleFallbacks,
+} from 'src/redux/modules/settings/settings-selectors'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
+import { location } from 'src/util/globals'
+import { isOnHostMappedDomain } from 'src/util/pages'
 import {
   SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,
@@ -34,13 +40,6 @@ import {
   SEARCH_FIELD_CHANGED,
   CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
 } from './action-types'
-import { updateQueue, authenticate, expireToken } from 'src/redux/modules/base'
-import { isOnHostMappedDomain } from 'utility/pages'
-import {
-  getSettingsHelpCenterFilter,
-  getSettingsHelpCenterLocaleFallbacks,
-} from 'src/redux/modules/settings/settings-selectors'
-import { settings } from 'service/settings'
 
 const sendQuery = async (path, query, doneFn, failFn, filter, responseType) => {
   const token = getAuthToken()

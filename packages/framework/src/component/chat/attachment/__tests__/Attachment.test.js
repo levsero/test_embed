@@ -1,6 +1,5 @@
 import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-
 import { Attachment } from '../Attachment'
 
 const file = {

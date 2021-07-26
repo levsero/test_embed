@@ -1,5 +1,5 @@
+import GreetingMessage from 'src/embeds/chat/components/PrechatForm/GreetingMessage'
 import { render } from 'src/util/testHelpers'
-import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
 
 describe('GreetingMessage', () => {
   const defaultProps = {

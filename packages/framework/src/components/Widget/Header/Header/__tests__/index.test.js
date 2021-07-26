@@ -1,8 +1,8 @@
-import { render } from 'src/util/testHelpers'
 import { find } from 'styled-components/test-utils'
-import HeaderView from 'components/Widget/Header/HeaderView'
-import Title from 'components/Widget/Header/Title'
+import HeaderView from 'src/components/Widget/Header/HeaderView'
+import Title from 'src/components/Widget/Header/Title'
 import * as selectors from 'src/redux/modules/selectors/selectors'
+import { render } from 'src/util/testHelpers'
 import Header from '../'
 
 describe('Header', () => {

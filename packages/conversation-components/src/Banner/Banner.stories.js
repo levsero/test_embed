@@ -1,5 +1,5 @@
-import { BANNER_STATUS } from '../constants'
 import { MessengerContainerDecorator } from '../../.storybook/decorators'
+import { BANNER_STATUS } from '../constants'
 import Banner from './'
 
 export default {

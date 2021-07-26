@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { forwardRef } from 'react'
 import { Container, Log } from './styles'
 
 const MessageLogList = forwardRef(({ children, onScroll = (_event) => {} }, ref) => {

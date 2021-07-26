@@ -1,10 +1,10 @@
-import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
 import userEvent from '@testing-library/user-event'
 import * as suncoApi from 'src/apps/messenger/api/sunco'
 import * as conversationStore from 'src/apps/messenger/features/suncoConversation/store'
+import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
+import { render } from 'src/apps/messenger/utils/testHelpers'
 
 jest.mock('src/apps/messenger/api/sunco')
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({

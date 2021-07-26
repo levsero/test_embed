@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import ErrorNotification from '../'
 
 test('renders the component', () => {

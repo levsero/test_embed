@@ -1,3 +1,4 @@
+import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import {
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_REQUEST_FAILURE,
@@ -5,7 +6,6 @@ import {
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
   OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
 } from '../chat-action-types'
-import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 
 const initialState = {
   screen: OFFLINE_FORM_SCREENS.MAIN,

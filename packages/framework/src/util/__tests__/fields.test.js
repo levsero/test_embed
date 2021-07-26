@@ -1,12 +1,12 @@
+import snapshotDiff from 'snapshot-diff'
+import { EMAIL_PATTERN } from 'src/constants/shared'
+import { noopReactComponent } from 'src/util/testHelpers'
 import {
   getStyledLabelText,
   shouldRenderErrorMessage,
   renderLabel,
   updateConditionalVisibility,
 } from '../fields'
-import { EMAIL_PATTERN } from 'constants/shared'
-import { noopReactComponent } from 'utility/testHelpers'
-import snapshotDiff from 'snapshot-diff'
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?'

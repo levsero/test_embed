@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
-import Frame from 'src/framework/components/Frame'
-import ThemeProvider from 'src/apps/messenger/features/themeProvider'
-import FrameAnimation from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
-import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { scrollLockHostPage } from 'utility/scrollHacks'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import ThemeProvider from 'src/apps/messenger/features/themeProvider'
+import FrameAnimation from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import Frame from 'src/framework/components/Frame'
+import { scrollLockHostPage } from 'src/util/scrollHacks'
 
 const MessengerFrame = ({ children }) => {
   const translate = useTranslate()

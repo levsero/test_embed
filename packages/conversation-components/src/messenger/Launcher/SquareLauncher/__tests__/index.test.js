@@ -1,9 +1,8 @@
-import userEvent from '@testing-library/user-event'
 import { screen } from '@testing-library/dom'
-import render from 'src/utils/test/render'
+import userEvent from '@testing-library/user-event'
 import { find } from 'styled-components/test-utils'
+import render from 'src/utils/test/render'
 import { MessengerIcon, CloseIcon } from '../LauncherIcon/styles'
-
 import SquareLauncher from '../index'
 
 const renderComponent = (props = {}) => {

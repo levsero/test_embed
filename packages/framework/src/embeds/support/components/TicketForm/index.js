@@ -1,12 +1,13 @@
-import { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
-import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import getFields from 'embeds/support/utils/getFields'
-import { Footer } from 'components/Widget'
-import { TicketFormTitle } from 'embeds/support/components/TicketForm/styles'
-import DynamicForm from 'components/DynamicForm'
+import DynamicForm from 'src/components/DynamicForm'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
+import { Footer } from 'src/components/Widget'
+import { formOpened, submitTicket } from 'src/embeds/support/actions'
+import TicketFormControls from 'src/embeds/support/components/TicketForm/TicketFormControls'
+import { TicketFormTitle } from 'src/embeds/support/components/TicketForm/styles'
+import routes from 'src/embeds/support/routes'
 import {
   getTicketFormTitle,
   getAllAttachments,
@@ -19,12 +20,11 @@ import {
   getIsAnyTicketFormLoading,
   getIsFormLoading,
   getReadOnlyState,
-} from 'embeds/support/selectors'
-import routes from 'embeds/support/routes'
+} from 'src/embeds/support/selectors'
+import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
+import getFields from 'src/embeds/support/utils/getFields'
+import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
 import useTranslate from 'src/hooks/useTranslate'
-import { formOpened, submitTicket } from 'embeds/support/actions'
-import TicketFormControls from 'embeds/support/components/TicketForm/TicketFormControls'
-import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
 const TicketForm = ({
   formId,

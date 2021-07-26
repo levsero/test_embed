@@ -15,10 +15,10 @@ describe('Button Component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'component/shared/StructuredMessage/pure/Button': {
+      'src/component/shared/StructuredMessage/pure/Button': {
         Button: PureButton,
       },
-      'constants/chat': {
+      'src/constants/chat': {
         CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
       },
     })

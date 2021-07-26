@@ -1,5 +1,4 @@
 import { render, fireEvent } from '@testing-library/react'
-
 import InputBox from '../index'
 
 const renderComponent = (props = {}) => {

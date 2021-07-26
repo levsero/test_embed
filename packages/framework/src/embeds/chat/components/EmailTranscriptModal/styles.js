@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Alert } from 'embeds/support/components/Notifications'
 import { Body, Modal } from '@zendeskgarden/react-modals'
-import { isIE } from 'utility/devices'
+import { Alert } from 'src/embeds/support/components/Notifications'
+import { isIE } from 'src/util/devices'
 
 const Form = styled.form`
   ${Alert} {

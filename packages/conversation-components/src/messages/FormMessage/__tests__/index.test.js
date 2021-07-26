@@ -1,6 +1,6 @@
+import { FORM_MESSAGE_STATUS } from 'src/constants'
 import render from 'src/utils/test/render'
 import FormMessage from '../'
-import { FORM_MESSAGE_STATUS } from 'src/constants'
 
 describe('FormMessage', () => {
   const defaultProps = {

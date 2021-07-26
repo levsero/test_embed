@@ -1,7 +1,3 @@
-import { queries } from 'pptr-testing-library'
-
-import widget from 'e2e/helpers/widget'
-import zChat from 'e2e/helpers/zChat'
 import {
   sendMessageFromUser,
   agentJoinsChat,
@@ -10,6 +6,9 @@ import {
   clickToConfirmEndChat,
   openChattingScreen,
 } from 'e2e/helpers/chat-embed'
+import widget from 'e2e/helpers/widget'
+import zChat from 'e2e/helpers/zChat'
+import { queries } from 'pptr-testing-library'
 
 const agentRequestsRating = async () => {
   const detail = {

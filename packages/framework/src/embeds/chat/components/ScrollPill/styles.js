@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'src/constants/shared'
 import { zdColorGrey800 } from '@zendeskgarden/css-variables'
-import ArrowDownIcon from 'icons/widget-icon_arrow-down-stroke.svg'
+import ArrowDownIcon from 'src/asset/icons/widget-icon_arrow-down-stroke.svg'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const StyledArrowDownIcon = styled(ArrowDownIcon)`
   height: ${16 / FONT_SIZE}rem;

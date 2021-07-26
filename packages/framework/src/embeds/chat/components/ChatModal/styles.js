@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorWhite } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
-import { SlideAppear } from 'component/transition/SlideAppear'
-import { isMobileBrowser } from 'utility/devices'
+import { SlideAppear } from 'src/component/transition/SlideAppear'
+import { FONT_SIZE } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
 
 const Backdrop = styled.div`
   background: ${() => (isMobileBrowser() ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0)')};

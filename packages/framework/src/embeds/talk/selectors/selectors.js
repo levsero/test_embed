@@ -1,11 +1,10 @@
 import { createSelector } from 'reselect'
-
-import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { isCallbackEnabled, getEmbeddableConfig } from 'src/redux/modules/talk/talk-selectors'
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
+import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { isCallbackEnabled, getEmbeddableConfig } from 'src/redux/modules/talk/talk-selectors'
 
 export const getEmbeddedVoiceSupported = (_state) =>
   isFeatureEnabled(null, 'embedded_voice_enabled')

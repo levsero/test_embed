@@ -4,6 +4,7 @@ import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messa
 import {
   fetchExistingConversation,
   startNewConversation,
+  messageReceived,
 } from 'src/apps/messenger/features/suncoConversation/store'
 
 const fetchPaginatedMessages = createAsyncThunk(
@@ -48,12 +49,10 @@ const messagesSlice = createSlice({
     errorFetchingHistory: false,
     isFetchingHistory: false,
   }),
-  reducers: {
-    messageReceived(state, action) {
+  extraReducers: {
+    [messageReceived](state, action) {
       messagesAdapter.addOne(state, action.payload.message)
     },
-  },
-  extraReducers: {
     [startNewConversation.fulfilled](state, action) {
       state.hasFetchedConversation = true
       messagesAdapter.addMany(state, action.payload.messages)
@@ -130,7 +129,6 @@ const getHasFetchedConversation = (state) => state.messages.hasFetchedConversati
 const getAllMessages = selectors.selectAll
 const getMessage = selectors.selectById
 
-export const { messageReceived } = messagesSlice.actions
 export {
   getHasPrevious,
   getHasFetchedConversation,

@@ -1,7 +1,6 @@
-import userEvent from '@testing-library/user-event'
 import { screen } from '@testing-library/dom'
+import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
-
 import LauncherLabel from '../'
 
 const renderComponent = (props = {}) => {

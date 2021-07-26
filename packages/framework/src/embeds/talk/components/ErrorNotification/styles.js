@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
 import {
   zdColorRed300,
   zdColorRed500,
@@ -8,6 +7,7 @@ import {
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import ErrorIcon from '@zendeskgarden/svg-icons/src/14/error.svg'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
   margin-bottom: ${15 / FONT_SIZE}rem !important;

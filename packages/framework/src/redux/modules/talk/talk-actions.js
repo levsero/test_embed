@@ -1,9 +1,21 @@
 import _ from 'lodash'
-
 import errorTracker from 'src/framework/services/errorTracker'
-import { http, socketio } from 'service/transport'
-import { parseUrl } from 'utility/utils'
-import wait from 'utility/wait'
+import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
+import {
+  getTalkEnabled,
+  getTalkNickname,
+  getTalkServiceUrl,
+  getDeferredTalkApiUrl,
+} from 'src/redux/modules/selectors'
+import {
+  BASE_TALK_POLL_INTERVAL,
+  MAX_TALK_POLL_INTERVAL,
+  REQUESTS_BEFORE_BACKOFF,
+} from 'src/redux/modules/talk/constants'
+import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
+import { http, socketio } from 'src/service/transport'
+import { parseUrl } from 'src/util/utils'
+import wait from 'src/util/wait'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
@@ -17,19 +29,6 @@ import {
   RECEIVED_DEFERRED_TALK_STATUS,
 } from './talk-action-types'
 import { getFormState, getIsPollingTalk } from './talk-selectors'
-import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
-import {
-  getTalkEnabled,
-  getTalkNickname,
-  getTalkServiceUrl,
-  getDeferredTalkApiUrl,
-} from 'src/redux/modules/selectors'
-import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
-import {
-  BASE_TALK_POLL_INTERVAL,
-  MAX_TALK_POLL_INTERVAL,
-  REQUESTS_BEFORE_BACKOFF,
-} from 'src/redux/modules/talk/constants'
 
 export function updateTalkEmbeddableConfig(config) {
   return {

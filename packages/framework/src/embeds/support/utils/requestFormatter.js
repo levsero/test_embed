@@ -1,11 +1,11 @@
 import _ from 'lodash'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import routes from 'src/embeds/support/routes'
 import {
   getSettingsContactFormTags,
   getSettingsContactFormSubject,
 } from 'src/redux/modules/settings/settings-selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { location, getReferrerPolicy } from 'utility/globals'
-import routes from 'embeds/support/routes'
+import { location, getReferrerPolicy } from 'src/util/globals'
 
 const findOriginalId = (systemFieldName, ticketFields) => {
   const field = _.find(ticketFields, (field) => {

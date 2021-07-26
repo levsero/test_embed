@@ -1,4 +1,4 @@
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import FallbackField from '../'
 
 describe('FallbackField', () => {

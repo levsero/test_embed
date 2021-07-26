@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import NoResults from 'src/embeds/helpCenter/components/Results/NoResults'
 import HasResults from 'src/embeds/helpCenter/components/Results/HasResults'
-import { getSearchedArticles } from 'embeds/helpCenter/selectors'
+import NoResults from 'src/embeds/helpCenter/components/Results/NoResults'
+import { getSearchedArticles } from 'src/embeds/helpCenter/selectors'
 
 const Results = ({ articles }) => (articles.length > 0 ? <HasResults /> : <NoResults />)
 

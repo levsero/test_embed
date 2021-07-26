@@ -1,9 +1,9 @@
-import FormResponseMessage from './'
+import { MESSAGE_STATUS } from 'src'
 import {
   MessageLogListDecorator,
   MessengerContainerDecorator,
 } from '../../../.storybook/decorators'
-import { MESSAGE_STATUS } from 'src'
+import FormResponseMessage from './'
 
 export default {
   title: 'Messages/FormResponseMessage',

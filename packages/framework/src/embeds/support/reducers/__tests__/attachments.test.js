@@ -1,7 +1,7 @@
-import attachments from '../attachments'
 import * as actionTypes from 'src/embeds/support/actions/action-types'
 import { API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import attachments from '../attachments'
 
 const initialState = []
 const upload1 = {

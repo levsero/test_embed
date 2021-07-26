@@ -3,5 +3,7 @@
   "singleQuote": true,
   "jsxBracketSameLine": false,
   "tabWidth": 2,
-  "printWidth": 100
+  "printWidth": 100,
+  "importOrder": ["^@zendeskgarden/(.*)$", "^@zendesk/(.*)$", "^src/", "^[../]", "^[./]"],
+  "experimentalBabelParserPluginsList": ["jsx", "typescript", "classProperties"]
 }

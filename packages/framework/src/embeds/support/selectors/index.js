@@ -1,9 +1,8 @@
 import { createSelector } from 'reselect'
-import {
-  getSettingsContactFormSubject,
-  getSettingsContactFormAttachments,
-  getSettingsContactFormTitle,
-} from 'src/redux/modules/settings/settings-selectors'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import routes from 'src/embeds/support/routes'
+import createKeyID from 'src/embeds/support/utils/createKeyID'
+import { getCheckboxFields, getNonCheckboxFields } from 'src/embeds/support/utils/fieldConversion'
 import {
   getConfigNameFieldEnabled,
   getConfigNameFieldRequired,
@@ -12,10 +11,11 @@ import {
   getFormTitleKey,
   getTicketFormsEnabled,
 } from 'src/redux/modules/base/base-selectors'
-import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import createKeyID from 'embeds/support/utils/createKeyID'
-import routes from 'embeds/support/routes'
+import {
+  getSettingsContactFormSubject,
+  getSettingsContactFormAttachments,
+  getSettingsContactFormTitle,
+} from 'src/redux/modules/settings/settings-selectors'
 
 export const getSupportConfig = (state) => state.support.config
 export const getMaxFileCount = (state) => getSupportConfig(state).maxFileCount

@@ -1,13 +1,13 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import * as launcherStore from 'src/apps/messenger/features/launcher/store'
-import WidgetFrame from '../index'
-import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import {
   frameMarginFromPage,
   launcherSize,
   marginBetweenFrames,
 } from 'src/apps/messenger/constants'
+import * as launcherStore from 'src/apps/messenger/features/launcher/store'
+import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { render } from 'src/apps/messenger/utils/testHelpers'
+import WidgetFrame from '../index'
 
 describe('WidgetFrame', () => {
   const renderComponent = () => render(<WidgetFrame />)

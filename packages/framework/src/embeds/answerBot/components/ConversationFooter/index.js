@@ -1,22 +1,20 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import _ from 'lodash'
-
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import InputBox from 'src/embeds/answerBot/components/InputBox'
-import MobileInputBox from 'src/embeds/answerBot/components/MobileInputBox'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import ZendeskLogo from 'src/components/ZendeskLogo'
 import {
   questionSubmitted,
   questionValueChanged,
   getInTouchClicked,
 } from 'src/embeds/answerBot/actions/conversation'
-import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
-import { getContactButtonVisible, getCurrentMessage } from 'src/embeds/answerBot/selectors/root'
 import { botUserMessage, botChannelChoice } from 'src/embeds/answerBot/actions/root/bot'
-import ZendeskLogo from 'components/ZendeskLogo'
-
+import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
+import InputBox from 'src/embeds/answerBot/components/InputBox'
+import MobileInputBox from 'src/embeds/answerBot/components/MobileInputBox'
+import { getContactButtonVisible, getCurrentMessage } from 'src/embeds/answerBot/selectors/root'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { Footer, LogoContainer, SlideAppear } from './styles'
 
 class ConversationFooter extends Component {

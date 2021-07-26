@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Title from 'components/Widget/Header/Title'
-import HeaderRow from 'components/Widget/Header/HeaderRow'
+import HeaderRow from 'src/components/Widget/Header/HeaderRow'
+import Title from 'src/components/Widget/Header/Title'
 
 const HEADER_ICON_SIZE = 2
 

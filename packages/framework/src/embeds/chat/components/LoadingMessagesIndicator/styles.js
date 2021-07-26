@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import cssVariables from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
   position: absolute;

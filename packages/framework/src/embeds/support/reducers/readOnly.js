@@ -1,5 +1,5 @@
+import createKeyID from 'src/embeds/support/utils/createKeyID'
 import { PREFILL_RECEIVED } from 'src/redux/modules/base/base-action-types'
-import createKeyID from 'embeds/support/utils/createKeyID'
 
 const initialState = {}
 

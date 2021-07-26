@@ -1,15 +1,14 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import sharedPropTypes from 'types/shared'
+import classNames from 'classnames'
 import _ from 'lodash'
-
-import { Icon } from 'component/Icon'
-import ProgressBar from 'src/components/ProgressBar/index'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
 import { Alert, Title, Close } from '@zendeskgarden/react-notifications'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { locals as styles } from './Attachment.scss'
-import classNames from 'classnames'
+import { Icon } from 'src/component/Icon'
+import ProgressBar from 'src/components/ProgressBar/index'
 import { TEST_IDS } from 'src/constants/shared'
+import sharedPropTypes from 'src/types/shared'
+import { locals as styles } from './Attachment.scss'
 
 export class Attachment extends Component {
   static propTypes = {

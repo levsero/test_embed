@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FooterView } from 'components/Widget'
+import { FooterView } from 'src/components/Widget'
 
 const BottomRow = styled.div`
   display: flex;

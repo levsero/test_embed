@@ -1,15 +1,14 @@
-import { useEffect } from 'react'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import _ from 'lodash'
-
-import MessageGroup from 'src/embeds/answerBot/components/MessageGroup'
 import { conversationScreenClosed } from 'src/embeds/answerBot/actions/conversation'
+import MessageGroup from 'src/embeds/answerBot/components/MessageGroup'
 import { getMessageGroupKeys } from 'src/embeds/answerBot/selectors/conversation'
 import { updateBackButtonVisibility } from 'src/redux/modules/base/base-actions'
-import { getSettingsAnswerBotAvatarUrl } from 'src/redux/modules/settings/settings-selectors'
 import { getSettingsAnswerBotAvatarName } from 'src/redux/modules/selectors'
+import { getSettingsAnswerBotAvatarUrl } from 'src/redux/modules/settings/settings-selectors'
 import { Container } from './styles'
 
 const ConversationPage = ({

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import BackIcon from 'icons/widget-icon_back.svg'
 import { zdColorWhite } from '@zendeskgarden/css-variables'
+import BackIcon from 'src/asset/icons/widget-icon_back.svg'
 
 export const StyledBackIcon = styled(BackIcon)`
   fill: ${zdColorWhite};

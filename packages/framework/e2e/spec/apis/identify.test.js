@@ -1,5 +1,5 @@
-import loadWidget from 'e2e/helpers/widget-page'
 import { mockIdentifyEndpoint, assertIdentifyPayload } from 'e2e/helpers/blips'
+import loadWidget from 'e2e/helpers/widget-page'
 
 const user = {
   name: 'Akira Kogane',

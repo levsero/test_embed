@@ -1,14 +1,11 @@
-import PropTypes from 'prop-types'
-
-import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
-
-import { triggerOnEnter } from 'utility/keyboard'
+import PropTypes from 'prop-types'
+import sanitizeHtml from 'sanitize-html'
+import { TEST_IDS } from 'src/constants/shared'
 import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleChoices'
 import Text from 'src/embeds/answerBot/components/Text'
-import { TEST_IDS } from 'src/constants/shared'
 import { MAX_TITLE_LENGTH } from 'src/embeds/answerBot/constants'
-
+import { triggerOnEnter } from 'src/util/keyboard'
 import { Header, Snippet, Title, Container, ArticleIcon } from './styles'
 
 const Results = ({ articles, onArticleClick, leadingMessage }) => {

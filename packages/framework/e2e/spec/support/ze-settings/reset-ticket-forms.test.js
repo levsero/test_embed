@@ -1,7 +1,7 @@
-import { createField, createForm, mockTicketFormsEndpoint } from 'e2e/helpers/support-embed'
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
+import { createField, createForm, mockTicketFormsEndpoint } from 'e2e/helpers/support-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 test('load with with default form, update to show single ticket form then reset back to default form', async () => {
   const description = createField({

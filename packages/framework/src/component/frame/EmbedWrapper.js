@@ -1,16 +1,15 @@
-import { cloneElement, Component } from 'react'
 import PropTypes from 'prop-types'
-import { Router } from 'react-router-dom'
+import { cloneElement, Component } from 'react'
 import { connect } from 'react-redux'
+import { Router } from 'react-router-dom'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
-
-import { WidgetThemeProvider } from 'src/components/Widget'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { getGardenOverrides } from './gardenOverrides'
-import { getColor } from 'src/redux/modules/selectors'
+import FocusJail from 'src/components/FrameFocusJail'
+import { WidgetThemeProvider } from 'src/components/Widget'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
-import FocusJail from 'components/FrameFocusJail'
-import history from 'service/history'
+import { getColor } from 'src/redux/modules/selectors'
+import history from 'src/service/history'
+import { getGardenOverrides } from './gardenOverrides'
 
 class EmbedWrapper extends Component {
   static propTypes = {

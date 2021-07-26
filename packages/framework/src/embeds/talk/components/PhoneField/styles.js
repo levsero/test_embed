@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { FauxInput, Input, Message } from '@zendeskgarden/react-forms'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const StyledFauxInput = styled(FauxInput)`
   padding: 0 !important;

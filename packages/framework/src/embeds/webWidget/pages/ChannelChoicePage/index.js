@@ -1,10 +1,10 @@
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
+import { connect } from 'react-redux'
+import ChannelChoiceMenu from 'src/component/channelChoice/ChannelChoiceMenu'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import ChannelChoiceMenu from 'component/channelChoice/ChannelChoiceMenu'
-import { isMobileBrowser } from 'utility/devices'
 import { TEST_IDS } from 'src/constants/shared'
+import useTranslate from 'src/hooks/useTranslate'
+import { onChannelChoiceNextClick } from 'src/redux/modules/base'
 import {
   getChatAvailable,
   getChatOfflineAvailable,
@@ -12,9 +12,8 @@ import {
   getTalkOnline,
   getSubmitTicketAvailable,
 } from 'src/redux/modules/selectors'
-import { onChannelChoiceNextClick } from 'src/redux/modules/base'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import useTranslate from 'src/hooks/useTranslate'
+import { isMobileBrowser } from 'src/util/devices'
 
 const ChannelChoicePage = ({
   isMobile,

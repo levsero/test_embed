@@ -1,14 +1,12 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import { Field, Label, Checkbox } from '@zendeskgarden/react-forms'
-
-import useTranslate from 'src/hooks/useTranslate'
-import { getRecordingConsent } from 'embeds/talk/selectors'
+import { acceptRecordingConsent, declineRecordingConsent } from 'src/embeds/talk/actions'
 import LoadingButton from 'src/embeds/talk/components/LoadingButton'
-import { acceptRecordingConsent, declineRecordingConsent } from 'embeds/talk/actions'
-import { OPT_IN } from 'embeds/talk/reducers/recording-consent'
-
+import { OPT_IN } from 'src/embeds/talk/reducers/recording-consent'
+import { getRecordingConsent } from 'src/embeds/talk/selectors'
+import useTranslate from 'src/hooks/useTranslate'
 import {
   Container,
   Dot,

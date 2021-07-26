@@ -1,7 +1,5 @@
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
-
-import { TEST_IDS } from 'constants/shared'
-
 import { Component as Controller } from '../'
 
 const renderComponent = (props = {}) => {

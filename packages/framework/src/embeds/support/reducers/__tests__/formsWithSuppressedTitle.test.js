@@ -1,6 +1,6 @@
-import reducer from '../formsWithSuppressedTitle'
-import { testReducer } from 'utility/testHelpers'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { testReducer } from 'src/util/testHelpers'
+import reducer from '../formsWithSuppressedTitle'
 
 const initialState = []
 

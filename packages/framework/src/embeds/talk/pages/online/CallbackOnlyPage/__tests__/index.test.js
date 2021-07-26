@@ -1,10 +1,9 @@
 import * as libphonenumber from 'libphonenumber-js'
-
-import CallbackOnlyPage from '../index'
+import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
 import createStore from 'src/redux/createStore'
 import { handleTalkVendorLoaded, updateTalkCallbackForm } from 'src/redux/modules/talk'
 import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
-import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
+import CallbackOnlyPage from '../index'
 
 jest.mock('src/embeds/talk/utils/getFormattedPhoneNumber')
 

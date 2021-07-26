@@ -1,9 +1,9 @@
-import { queries } from 'pptr-testing-library'
+import { hostWithPort } from 'e2e/env'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
-import loadWidget from './widget-page'
+import { queries } from 'pptr-testing-library'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import widget from './widget'
-import { hostWithPort } from 'e2e/env'
+import loadWidget from './widget-page'
 
 const mockTicketFormsEndpoint = (response) => (request) => {
   if (!request.url().includes('ticket_forms')) {

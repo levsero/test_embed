@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import PhoneStroke from '@zendeskgarden/svg-icons/src/12/phone-stroke.svg'
-import MicrophoneStroke from '@zendeskgarden/svg-icons/src/12/microphone-on-stroke.svg'
-import MicrophoneOffStroke from '@zendeskgarden/svg-icons/src/12/microphone-off-stroke.svg'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import MicrophoneOffStroke from '@zendeskgarden/svg-icons/src/12/microphone-off-stroke.svg'
+import MicrophoneStroke from '@zendeskgarden/svg-icons/src/12/microphone-on-stroke.svg'
+import PhoneStroke from '@zendeskgarden/svg-icons/src/12/phone-stroke.svg'
 
 const Container = styled.div`
   display: flex;

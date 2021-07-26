@@ -1,4 +1,4 @@
-import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
+import { submitPrechatForm } from 'src/embeds/chat/actions/prechat-form'
 import {
   clearDepartment,
   handlePrechatFormSubmit,
@@ -8,9 +8,9 @@ import {
   setVisitorInfo,
   updateChatScreen,
 } from 'src/redux/modules/chat'
-import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
-import { createMockStore } from 'utility/testHelpers'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
+import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
+import { createMockStore } from 'src/util/testHelpers'
 
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/chat/chat-selectors')

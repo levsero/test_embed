@@ -1,8 +1,11 @@
+import _ from 'lodash'
 import {
   EDIT_CONTACT_DETAILS_SCREEN,
   EDIT_CONTACT_DETAILS_LOADING_SCREEN,
   EDIT_CONTACT_DETAILS_ERROR_SCREEN,
-} from 'constants/chat'
+} from 'src/constants/chat'
+import { getDisplayName } from 'src/util/chat'
+import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../base/base-action-types'
 import {
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_PENDING,
@@ -11,9 +14,6 @@ import {
   UPDATE_CHAT_CONTACT_DETAILS_INFO,
   SDK_VISITOR_UPDATE,
 } from '../chat-action-types'
-import { PREFILL_RECEIVED, API_CLEAR_FORM } from '../../base/base-action-types'
-import _ from 'lodash'
-import { getDisplayName } from 'src/util/chat'
 
 const initialState = {
   status: EDIT_CONTACT_DETAILS_SCREEN,

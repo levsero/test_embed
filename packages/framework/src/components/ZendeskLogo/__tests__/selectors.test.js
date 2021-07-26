@@ -1,7 +1,7 @@
-import { getZendeskLogoLink } from '../selectors'
 import createStore from 'src/redux/createStore'
-import { updateEmbeddableConfig } from 'src/redux/modules/base/base-actions'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
+import { updateEmbeddableConfig } from 'src/redux/modules/base/base-actions'
+import { getZendeskLogoLink } from '../selectors'
 
 describe('getZendeskLogoLink', () => {
   it('return chat url if on chat product', () => {

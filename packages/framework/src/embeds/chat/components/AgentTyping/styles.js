@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { Inline } from '@zendeskgarden/react-loaders'
 import { zdColorGrey500, zdColorGrey600 } from '@zendeskgarden/css-variables'
-import { FONT_SIZE } from 'constants/shared'
-import { isMobileBrowser } from 'utility/devices'
+import { Inline } from '@zendeskgarden/react-loaders'
+import { FONT_SIZE } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
 
 const LoadingDots = styled(Inline)`
   color: ${zdColorGrey500} !important;

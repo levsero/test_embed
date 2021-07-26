@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { zdColorGrey200 } from '@zendeskgarden/css-variables'
 import { Button } from '@zendeskgarden/react-buttons'
-import { Form } from 'component/form/Form'
-import { FONT_SIZE } from 'constants/shared'
+import { Form } from 'src/component/form/Form'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const SubmitButton = styled(Button).attrs({
   isPrimary: true,

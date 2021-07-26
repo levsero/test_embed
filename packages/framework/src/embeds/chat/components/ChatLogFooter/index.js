@@ -1,7 +1,7 @@
-import * as React from 'react'
 import PropTypes from 'prop-types'
-import AgentTyping from 'src/embeds/chat/components/AgentTyping'
+import * as React from 'react'
 import ZendeskLogo from 'src/components/ZendeskLogo'
+import AgentTyping from 'src/embeds/chat/components/AgentTyping'
 import { LogoContainer } from './styles'
 
 const ChatLogFooter = React.forwardRef(

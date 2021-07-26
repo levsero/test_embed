@@ -1,10 +1,10 @@
+import { waitFor } from '@testing-library/dom'
+import { TICKET_FORMS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
+import createStore from 'src/redux/createStore'
+import { updateEmbeddableConfig } from 'src/redux/modules/base'
+import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 import { render } from 'src/util/testHelpers'
 import { Component as Support } from '../'
-import createStore from 'src/redux/createStore'
-import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
-import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
-import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import { waitFor } from '@testing-library/dom'
 
 describe('TicketFormPage', () => {
   const renderComponent = (props = {}, options) => {

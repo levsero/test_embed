@@ -1,8 +1,7 @@
 import _ from 'lodash'
-
-import { renderer } from 'service/renderer'
+import { displayArticle } from 'src/embeds/helpCenter/actions'
 import { activateReceived, legacyShowReceived } from 'src/redux/modules/base'
-import { displayArticle } from 'embeds/helpCenter/actions'
+import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import {
   hideApi,
   identifyApi,
@@ -10,9 +9,9 @@ import {
   prefill,
   setHelpCenterSuggestionsApi,
   setLocaleApi,
-} from 'service/api/apis'
-import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
-import tracker from 'service/tracker'
+} from 'src/service/api/apis'
+import { renderer } from 'src/service/renderer'
+import tracker from 'src/service/tracker'
 
 export const getWebWidgetLegacyPublicApi = (reduxStore, embeddableConfig) => {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds)

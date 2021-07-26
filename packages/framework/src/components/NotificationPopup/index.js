@@ -1,8 +1,8 @@
-import { Component } from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
-
-import ChatPopup from './PopupContainer'
+import { Component } from 'react'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import ChatPopup from './PopupContainer'
 import {
   AgentContainerStyle,
   ProactiveContainer,
@@ -10,9 +10,7 @@ import {
   AgentName,
   AgentMessage,
 } from './styles'
-
 import { locals as styles } from './styles.scss'
-import classNames from 'classnames'
 
 export default class NotificationPopup extends Component {
   static propTypes = {

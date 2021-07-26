@@ -1,6 +1,6 @@
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 const getZIndex = async (selector) => {
   return await page.evaluate((iframe) => document.querySelector(iframe).style.zIndex, selector)

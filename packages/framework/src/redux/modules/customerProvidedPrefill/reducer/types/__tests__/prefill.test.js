@@ -1,7 +1,8 @@
-import { testReducer } from 'utility/testHelpers'
 import { handlePrefillReceived } from 'src/redux/modules/base'
-Date.now = jest.fn(() => 1559097574000)
+import { testReducer } from 'src/util/testHelpers'
 import prefill from '../prefill'
+
+Date.now = jest.fn(() => 1559097574000)
 
 const initialState = {
   values: {},

@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-
 import { ButtonGroup } from '../ButtonGroup'
 
 test('renders the expected classes', () => {

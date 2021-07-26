@@ -1,7 +1,7 @@
-import formValues from '../formValues'
-import { testReducer } from 'src/util/testHelpers'
 import { API_CLEAR_FORM, API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { clearFormState, clearAllForms, setFormState } from 'src/redux/modules/form/actions'
+import { testReducer } from 'src/util/testHelpers'
+import formValues from '../formValues'
 
 const initialState = { bob: { fieldOne: 'saget' } }
 

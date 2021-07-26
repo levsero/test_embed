@@ -1,13 +1,13 @@
-import { queries } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
+import { queryAllByText } from 'e2e/helpers/queries'
 import {
   mockTicketFormsEndpoint,
   createField,
   createForm,
   waitForContactForm,
 } from 'e2e/helpers/support-embed'
-import { queryAllByText } from 'e2e/helpers/queries'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries } from 'pptr-testing-library'
 
 describe('support list page', () => {
   describe('when config returns multiple ticket forms', () => {

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
-
+import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 import { renderLabel } from 'src/util/fields'
-import { TEST_IDS } from 'src/constants/shared'
 import {
   ChannelIcon,
   ButtonsContainer,

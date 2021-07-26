@@ -1,7 +1,7 @@
-import embeddableConfig from '../talk-embeddable-config'
 import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
-import { CALLBACK_ONLY, PHONE_ONLY, CALLBACK_AND_PHONE } from '../../talk-capability-types'
 import { testReducer } from 'src/util/testHelpers'
+import { CALLBACK_ONLY, PHONE_ONLY, CALLBACK_AND_PHONE } from '../../talk-capability-types'
+import embeddableConfig from '../talk-embeddable-config'
 
 const initialState = {
   averageWaitTimeSetting: null,

@@ -1,8 +1,8 @@
-import { queries } from 'pptr-testing-library'
+import { hostWithPort } from 'e2e/env'
 import widget from 'e2e/helpers/widget'
 import fs from 'fs'
+import { queries } from 'pptr-testing-library'
 import { allowsInputTextEditing } from '../spec/shared-examples'
-import { hostWithPort } from 'e2e/env'
 
 export const goToTestPage = async () =>
   await page.goto(`http://${hostWithPort}/e2e.html`, {

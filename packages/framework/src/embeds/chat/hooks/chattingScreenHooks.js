@@ -1,16 +1,16 @@
-import { HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { isAgent } from 'utility/chat'
+import { HISTORY_REQUEST_STATUS } from 'src/constants/chat'
+import { SCROLL_BOTTOM_THRESHOLD } from 'src/constants/chat'
+import { markAsRead } from 'src/redux/modules/chat'
+import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
 import {
   getChatsLength,
   getLastMessageAuthor,
   getAgentsTyping,
 } from 'src/redux/modules/chat/chat-selectors'
-import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
-import { markAsRead } from 'src/redux/modules/chat'
-import getScrollBottom from 'utility/get-scroll-bottom'
-import { SCROLL_BOTTOM_THRESHOLD } from 'constants/chat'
+import { isAgent } from 'src/util/chat'
+import getScrollBottom from 'src/util/get-scroll-bottom'
 
 export const useMessagesOnMount = (scrollToBottom) => {
   const dispatch = useDispatch()

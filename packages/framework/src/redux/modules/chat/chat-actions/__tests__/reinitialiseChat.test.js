@@ -1,12 +1,12 @@
-import { reinitialiseChat } from '../reinitialiseChat'
-import { CONNECTION_STATUSES } from 'src/constants/chat'
-import * as callbacks from 'src/service/api/zopimApi/callbacks'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as zChat from 'chat-web-sdk'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types'
 import * as actions from 'src/redux/modules/chat/chat-actions/actions'
-import { settings } from 'service/settings'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as callbacks from 'src/service/api/zopimApi/callbacks'
+import { settings } from 'src/service/settings'
+import { reinitialiseChat } from '../reinitialiseChat'
 
 jest.mock('chat-web-sdk')
 

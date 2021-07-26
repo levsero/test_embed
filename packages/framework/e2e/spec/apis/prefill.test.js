@@ -1,8 +1,8 @@
-import { wait, queries } from 'pptr-testing-library'
-import widget from 'e2e/helpers/widget'
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { assertInputValue } from 'e2e/helpers/utils'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { wait, queries } from 'pptr-testing-library'
 
 const buildWidget = () => {
   return loadWidget().withPresets('contactForm')

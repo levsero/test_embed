@@ -1,8 +1,8 @@
 import { waitFor } from '@testing-library/dom'
-import { render } from 'src/apps/messenger/utils/testHelpers'
 import MessageLog from 'src/apps/messenger/features/messageLog'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
-import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
+import { activityReceived } from 'src/apps/messenger/features/suncoConversation/store'
+import { render } from 'src/apps/messenger/utils/testHelpers'
 
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),

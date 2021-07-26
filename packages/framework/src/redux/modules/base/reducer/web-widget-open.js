@@ -1,3 +1,9 @@
+import { isPopout } from 'src/util/globals'
+import {
+  CHAT_WINDOW_OPEN_ON_NAVIGATE,
+  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
+  CHAT_BANNED,
+} from '../../chat/chat-action-types'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,
@@ -12,12 +18,6 @@ import {
   SHOW_WIDGET,
   ESCAPE_KEY_PRESSED,
 } from '../base-action-types'
-import {
-  CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED,
-} from '../../chat/chat-action-types'
-import { isPopout } from 'utility/globals'
 
 const initialState = isPopout()
 

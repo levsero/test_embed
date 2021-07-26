@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
-
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { Icon } from 'src/component/Icon'
+import { ICONS } from 'src/constants/shared'
 import InputBox from 'src/embeds/answerBot/components/InputBox'
 import { Container, InputBoxContainer, FooterIconButton } from './styles'
-
-import { Icon } from 'component/Icon'
-import { ICONS } from 'constants/shared'
 
 const renderSend = (handleSendInputValue) => {
   return (

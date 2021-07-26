@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
+import {
+  messageReceived,
+  activityReceived,
+} from 'src/apps/messenger/features/suncoConversation/store'
 
 const typingIndicatorsSlice = createSlice({
   name: 'typingIndicators',
   initialState: {
     typingUser: null,
   },
-  reducers: {
-    activityReceived: (state, action) => {
+  extraReducers: {
+    [activityReceived]: (state, action) => {
       const {
         payload: {
           activity: {
@@ -31,8 +34,6 @@ const typingIndicatorsSlice = createSlice({
         }
       }
     },
-  },
-  extraReducers: {
     [messageReceived](state, _action) {
       state.typingUser = null
     },
@@ -41,7 +42,6 @@ const typingIndicatorsSlice = createSlice({
 
 const getUserTyping = (state) => state.typingIndicators.typingUser
 
-export const { activityReceived } = typingIndicatorsSlice.actions
 export { getUserTyping }
 
 export default typingIndicatorsSlice.reducer

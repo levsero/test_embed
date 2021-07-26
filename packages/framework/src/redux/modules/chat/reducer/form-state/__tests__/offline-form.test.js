@@ -1,6 +1,6 @@
-import offlineForm from '../offline-form'
-import * as actions from 'src/redux/modules/chat/chat-action-types'
 import * as baseActions from 'src/redux/modules/base/base-action-types'
+import * as actions from 'src/redux/modules/chat/chat-action-types'
+import offlineForm from '../offline-form'
 
 describe('offlineForm', () => {
   const initialState = offlineForm(undefined, { type: '' })

@@ -1,9 +1,9 @@
-import { queries } from 'pptr-testing-library'
+import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import launcher from 'e2e/helpers/launcher'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
-import launcher from 'e2e/helpers/launcher'
-import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
-import { waitForContactForm } from 'e2e/helpers/support-embed'
+import { queries } from 'pptr-testing-library'
 
 describe('message button', () => {
   const assertContactForm = async (doc) => {

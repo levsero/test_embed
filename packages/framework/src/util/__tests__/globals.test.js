@@ -1,5 +1,5 @@
-let globals = require('utility/globals')
-let devices = require('utility/devices')
+let globals = require('src/util/globals')
+let devices = require('src/util/devices')
 
 test('getZendeskHost returns document.zendeskHost', () => {
   let result

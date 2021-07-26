@@ -1,11 +1,10 @@
-import { getOfflineFormFields } from 'src/redux/modules/selectors'
+import { getFields } from 'src/embeds/chat/selectors/offline-form'
 import {
   getIsAuthenticated,
   getLoginSettings,
   getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
-
-import { getFields } from 'src/embeds/chat/selectors/offline-form'
+import { getOfflineFormFields } from 'src/redux/modules/selectors'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/chat/chat-selectors')

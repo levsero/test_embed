@@ -1,9 +1,9 @@
-import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page'
+import searchResults from 'e2e/fixtures/responses/search-results-with-empty-article.json'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import searchResults from 'e2e/fixtures/responses/search-results-with-empty-article.json'
+import loadWidget from 'e2e/helpers/widget-page'
+import { queries, wait } from 'pptr-testing-library'
 import { TEST_IDS } from 'src/constants/shared'
 
 const notInSearchResultsScreen = async (doc) => {

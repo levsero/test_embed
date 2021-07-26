@@ -1,18 +1,25 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ChatMenu from 'embeds/chat/components/ChatMenu'
-import { useOnBack } from 'component/webWidget/OnBackProvider'
-import { HeaderView, Title, CloseButton, TitleRow, BackButton, HeaderItem } from 'components/Widget'
-import { isMobileBrowser } from 'utility/devices'
-import { getChatTitle, getIsPopoutButtonVisible } from 'src/redux/modules/selectors'
-import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
-import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
-import { createChatPopoutWindow } from 'utility/chat'
-import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { handlePopoutCreated } from 'src/redux/modules/base'
-import { PopoutIcon } from './styles'
+import { useOnBack } from 'src/component/webWidget/OnBackProvider'
+import {
+  HeaderView,
+  Title,
+  CloseButton,
+  TitleRow,
+  BackButton,
+  HeaderItem,
+} from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
+import ChatMenu from 'src/embeds/chat/components/ChatMenu'
+import { handlePopoutCreated } from 'src/redux/modules/base'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
+import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
+import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
+import { getChatTitle, getIsPopoutButtonVisible } from 'src/redux/modules/selectors'
+import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
+import { createChatPopoutWindow } from 'src/util/chat'
+import { isMobileBrowser } from 'src/util/devices'
+import { PopoutIcon } from './styles'
 
 const ChatWidgetHeader = ({
   title,

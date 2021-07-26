@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types'
-import { Header, Widget } from 'components/Widget'
-import { getChatTitle, getOfflineFormSettings } from 'src/redux/modules/selectors'
 import { connect, useSelector } from 'react-redux'
-import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
-import validate from './validate'
-import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
-import { getVisiblePrechatFields, getPrechatGreeting } from 'embeds/chat/selectors/prechat-form'
+import DynamicForm from 'src/components/DynamicForm'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
+import { Header, Widget } from 'src/components/Widget'
+import { Footer } from 'src/components/Widget'
+import { submitPrechatForm } from 'src/embeds/chat/actions/prechat-form'
+import AuthenticatedProfile from 'src/embeds/chat/components/AuthenticatedProfile'
+import GreetingMessage from 'src/embeds/chat/components/PrechatForm/GreetingMessage'
+import PrechatFormControls from 'src/embeds/chat/components/PrechatForm/PrechatFormControls'
+import SocialLogin from 'src/embeds/chat/components/SocialLogin'
+import ViewHistoryButton from 'src/embeds/chat/components/ViewHistoryButton'
+import { getVisiblePrechatFields, getPrechatGreeting } from 'src/embeds/chat/selectors/prechat-form'
+import { getReadOnlyState } from 'src/embeds/support/selectors'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import useTranslate from 'src/hooks/useTranslate'
+import { initiateSocialLogout } from 'src/redux/modules/chat'
 import {
   getAuthUrls,
   getChatVisitor,
@@ -14,18 +23,9 @@ import {
   getSocialLogin,
   getPreChatFormState,
 } from 'src/redux/modules/chat/chat-selectors'
-import DynamicForm from 'components/DynamicForm'
-import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
-import { initiateSocialLogout } from 'src/redux/modules/chat'
-import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
-import SocialLogin from 'embeds/chat/components/SocialLogin'
-import PrechatFormControls from 'embeds/chat/components/PrechatForm/PrechatFormControls'
-import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
-import { getReadOnlyState } from 'embeds/support/selectors'
-import useTranslate from 'src/hooks/useTranslate'
-import SubmitButton from 'src/components/DynamicForm/SubmitButton'
-import { Footer } from 'src/components/Widget'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import { getChatTitle, getOfflineFormSettings } from 'src/redux/modules/selectors'
+import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
+import validate from './validate'
 
 const PrechatForm = ({
   title,

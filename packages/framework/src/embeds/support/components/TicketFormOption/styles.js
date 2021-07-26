@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-
-import { FONT_SIZE } from 'constants/shared'
 import { zdColorGrey200, zdColorGrey100 } from '@zendeskgarden/css-variables'
-import { isMobileBrowser } from 'utility/devices'
+import { FONT_SIZE } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
 
 const mobileStyles = `
   font-size: ${15 / FONT_SIZE}rem;

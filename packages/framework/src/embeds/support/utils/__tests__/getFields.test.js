@@ -1,5 +1,5 @@
+import createKeyID from 'src/embeds/support/utils/createKeyID'
 import getFields from '../getFields'
-import createKeyID from 'embeds/support/utils/createKeyID'
 
 describe('getFields', () => {
   let currentId = 0

@@ -1,10 +1,10 @@
 import { fireEvent } from '@testing-library/react'
-import { render } from 'utility/testHelpers'
 import WebWidget from 'src/component/webWidget/WebWidget'
-import { setStatusForcefully, chatConnected } from 'src/redux/modules/chat/chat-actions'
 import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
+import { setStatusForcefully, chatConnected } from 'src/redux/modules/chat/chat-actions'
 import { updateSettings } from 'src/redux/modules/settings'
 import * as devices from 'src/util/devices'
+import { render } from 'src/util/testHelpers'
 
 jest.mock('src/service/transport/http')
 

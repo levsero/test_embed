@@ -1,8 +1,8 @@
-import InputBox from '../'
 import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
-import { render } from 'utility/testHelpers'
-import { keyCodes } from 'utility/keyboard'
+import { keyCodes } from 'src/util/keyboard'
+import { render } from 'src/util/testHelpers'
+import InputBox from '../'
 
 const renderComponent = (inProps) => {
   const props = {

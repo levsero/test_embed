@@ -1,7 +1,7 @@
-import { buildUrl } from '../utils/path'
-import { getClientId } from '../utils/device'
-import { VENDOR_ID, VERSION } from '../utils/constants'
 import Request from '../http/Request'
+import { VENDOR_ID, VERSION } from '../utils/constants'
+import { getClientId } from '../utils/device'
+import { buildUrl } from '../utils/path'
 
 class BaseApi {
   constructor(options) {

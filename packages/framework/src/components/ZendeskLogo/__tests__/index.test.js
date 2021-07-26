@@ -1,5 +1,5 @@
-import ZendeskLogo from '..'
 import { render } from 'src/util/testHelpers'
+import ZendeskLogo from '..'
 
 test('renders logo', () => {
   const { container } = render(<ZendeskLogo />)

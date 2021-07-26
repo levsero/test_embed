@@ -1,9 +1,8 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { Icon } from 'src/component/Icon'
 import { locals as styles } from './Avatar.scss'
-
-import { Icon } from 'component/Icon'
 
 export class Avatar extends Component {
   static propTypes = {

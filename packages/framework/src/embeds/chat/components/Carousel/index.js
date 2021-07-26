@@ -1,10 +1,8 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import Slider from 'src/embeds/chat/components/SliderContainer'
 import { locals as styles } from './Carousel.scss'
-
-import Slider from 'embeds/chat/components/SliderContainer'
 
 export default class Carousel extends Component {
   static propTypes = {

@@ -1,9 +1,9 @@
+import * as suncoApi from 'src/apps/messenger/api/sunco'
 import createStore from 'src/apps/messenger/store'
+import * as cookies from 'src/apps/messenger/store/cookies'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import i18n from 'src/framework/services/i18n'
-import * as suncoApi from 'src/apps/messenger/api/sunco'
 import api from '../'
-import * as cookies from 'src/apps/messenger/store/cookies'
 
 describe('open', () => {
   it('opens the widget', () => {

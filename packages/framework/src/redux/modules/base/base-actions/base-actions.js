@@ -1,5 +1,8 @@
-import * as actions from './../base-action-types'
-import { settings } from 'service/settings'
+import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'src/constants/event'
+import { contextualSearch } from 'src/embeds/helpCenter/actions'
+import { getHasContextuallySearched } from 'src/embeds/helpCenter/selectors'
+import { clearAttachments } from 'src/embeds/support/actions'
+import { store } from 'src/framework/services/persistence'
 import {
   getOAuth,
   getBaseIsAuthenticated,
@@ -7,23 +10,20 @@ import {
   getWebWidgetOpen,
   getWidgetAlreadyHidden,
 } from 'src/redux/modules/base/base-selectors'
-import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
-import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
-import { contextualSearch } from 'embeds/helpCenter/actions'
 import {
   extractTokenId,
   isTokenRenewable,
   isTokenExpired,
 } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
-import { nameValid, emailValid, phoneValid } from 'src/util/utils'
-import { store } from 'src/framework/services/persistence'
-import { http } from 'service/transport'
-import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { focusLauncher } from 'utility/globals'
-import { clearAttachments } from 'src/embeds/support/actions'
-import * as callbacks from 'service/api/callbacks'
+import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
+import { focusLauncher } from 'src/util/globals'
+import { nameValid, emailValid, phoneValid } from 'src/util/utils'
+import * as actions from './../base-action-types'
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {
   store.set('zE_oauth', {

@@ -1,6 +1,6 @@
-import { testReducer } from 'utility/testHelpers'
-import endChatModalVisible from 'src/redux/modules/chat/reducer/chat-end-chat-modal-visible'
 import { UPDATE_END_CHAT_MODAL_VISIBILITY } from 'src/redux/modules/chat/chat-action-types'
+import endChatModalVisible from 'src/redux/modules/chat/reducer/chat-end-chat-modal-visible'
+import { testReducer } from 'src/util/testHelpers'
 
 testReducer(endChatModalVisible, [
   {

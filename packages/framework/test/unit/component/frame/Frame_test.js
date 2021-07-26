@@ -81,11 +81,12 @@ describe('Frame', () => {
       './Frame.scss': {
         locals: {},
       },
-      'utility/utils': {
+      'src/util/utils': {
         cssTimeToMs: () => 300,
+        onNextTick: (cb) => setTimeout(cb, 0),
       },
-      'utility/color/styles': {},
-      'utility/devices': {
+      'src/util/color/styles': {},
+      'src/util/devices': {
         getZoomSizingRatio: () => {
           return mockZoomSizingRatioValue
         },
@@ -100,12 +101,12 @@ describe('Frame', () => {
           getLocale: () => mockLocaleValue,
         },
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           get: (name) => _.get(mockSettingsValue, name, null),
         },
       },
-      'component/frame/EmbedWrapper': MockEmbedWrapper,
+      'src/component/frame/EmbedWrapper': MockEmbedWrapper,
       'src/framework/components/Frame': requireUncached(
         buildSrcPath('framework/components/Frame/index.js')
       ),
@@ -113,7 +114,7 @@ describe('Frame', () => {
       'src/redux/modules/base/base-actions': {
         widgetShowAnimationComplete: noop,
       },
-      'constants/shared': {
+      'src/constants/shared': {
         FONT_SIZE: 14,
         DEFAULT_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,
@@ -122,7 +123,7 @@ describe('Frame', () => {
         TEST_IDS,
       },
       lodash: _,
-      'component/Icon': {
+      'src/component/Icon': {
         Icon: noop,
       },
       'src/redux/modules/selectors': {
@@ -130,9 +131,6 @@ describe('Frame', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getFrameVisible: () => {},
-      },
-      'src/util/utils': {
-        onNextTick: (cb) => setTimeout(cb, 0),
       },
     }
 

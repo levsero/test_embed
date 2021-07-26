@@ -1,12 +1,10 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import { Icon } from 'component/Icon'
-import { isFirefox, isIE } from 'utility/devices'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { Icon } from 'src/component/Icon'
+import { KeyboardFocusButton } from 'src/component/shared/KeyboardFocusButton'
 import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
-import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
-
+import { isFirefox, isIE } from 'src/util/devices'
 import { locals as styles } from './Panel.scss'
 
 /**

@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import { isMobileBrowser } from 'utility/devices'
-import { FONT_SIZE } from 'constants/shared'
 import { zdColorGrey600, zdColorBlack, zdColorWhite } from '@zendeskgarden/css-variables'
-
 import { Button } from '@zendeskgarden/react-buttons'
-import { SlideAppear } from 'component/transition/SlideAppear'
 import RemoveIcon from '@zendeskgarden/svg-icons/src/14/remove.svg'
+import { SlideAppear } from 'src/component/transition/SlideAppear'
+import { FONT_SIZE } from 'src/constants/shared'
+import { isMobileBrowser } from 'src/util/devices'
 
 export const CtaContainer = styled.div`
   padding-bottom: ${20 / FONT_SIZE}rem !important;

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { Button } from './styles'
 
 const StartCallButton = ({ clickHandler, contents }) => {

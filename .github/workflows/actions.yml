@@ -19,6 +19,7 @@ jobs:
           [
             'lint',
             'test-ci',
+            'test-conversation-components',
             'fossa',
             'audit',
             'validate',
@@ -37,6 +38,10 @@ jobs:
               echo "Starting unit and integration tests"
               download_translations
               yarn workspace @zendesk/embeddable-framework test:ci
+          - task: test-conversation-components
+            run: |
+              echo "Starting unit tests"
+              yarn workspace @zendesk/conversation-components test:ci
           - task: fossa
             run: |
               echo "Starting Fossa open source scan"
@@ -126,6 +131,70 @@ jobs:
             curl localhost:5123/e2e.html
           }
           ${{ matrix.run }}
+      - name: SonarQube scan PR - conversation-components
+        if: matrix.task == 'test-conversation-components' && github.event_name == 'pull_request'
+        run: |
+          sonar-scanner \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.pullrequest.base="${{ github.base_ref }}" \
+          -Dsonar.pullrequest.branch="${{ github.head_ref }}" \
+          -Dsonar.pullrequest.key="${{ github.event.number }}" \
+          -Dsonar.pullrequest.github.repository="zendesk/${{ github.event.repository.name }}" \
+          -Dsonar.scm.revision="${{ github.event.pull_request.head.sha }}" \
+          -Dsonar.projectKey=embeddable_framework:conversation-components \
+          -Dsonar.projectName=embeddable_framework:conversation-components \
+          -Dsonar.sources=packages/conversation-components/src \
+          -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.javascript.lcov.reportPaths=packages/conversation-components/coverage/lcov.info
+      - name: SonarQube scan master - conversation-components
+        if: matrix.task == 'test-conversation-components' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          sonar-scanner -X \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.branch.name=master \
+          -Dsonar.projectKey=embeddable_framework:conversation-components \
+          -Dsonar.projectName=embeddable_framework:conversation-components \
+          -Dsonar.sources=packages/conversation-components/src \
+          -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.javascript.lcov.reportPaths=packages/conversation-components/coverage/lcov.info
+      - name: SonarQube scan PR - framework
+        if: matrix.task == 'test-ci' && github.event_name == 'pull_request'
+        run: |
+          sonar-scanner \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.pullrequest.base="${{ github.base_ref }}" \
+          -Dsonar.pullrequest.branch="${{ github.head_ref }}" \
+          -Dsonar.pullrequest.key="${{ github.event.number }}" \
+          -Dsonar.pullrequest.github.repository="zendesk/${{ github.event.repository.name }}" \
+          -Dsonar.scm.revision="${{ github.event.pull_request.head.sha }}" \
+          -Dsonar.projectKey=embeddable_framework:framework \
+          -Dsonar.projectName=embeddable_framework:framework \
+          -Dsonar.sources=packages/framework/src \
+          -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.javascript.lcov.reportPaths="$(pwd)/packages/framework/coverage/lcov.info"
+      - name: SonarQube scan master - framework
+        if: matrix.task == 'test-ci' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          sonar-scanner -X \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.branch.name=master \
+          -Dsonar.projectKey=embeddable_framework:framework \
+          -Dsonar.projectName=embeddable_framework:framework \
+          -Dsonar.sources=packages/framework/src \
+          -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.javascript.lcov.reportPaths=packages/framework/coverage/lcov.info
   slack:
     name: Slack
     runs-on: [self-hosted, zendesk-stable]

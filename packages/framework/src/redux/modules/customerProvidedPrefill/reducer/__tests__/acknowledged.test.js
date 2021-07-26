@@ -1,6 +1,6 @@
-import { testReducer } from 'utility/testHelpers'
-import acknowledged from '../acknowledged'
 import { updateAcknowledged } from 'src/redux/modules/customerProvidedPrefill/actions'
+import { testReducer } from 'src/util/testHelpers'
+import acknowledged from '../acknowledged'
 
 const initialState = {}
 

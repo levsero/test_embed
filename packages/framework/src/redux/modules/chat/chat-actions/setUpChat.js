@@ -1,26 +1,26 @@
 import _ from 'lodash'
+import { JWT_ERROR } from 'src/constants/chat'
+import { deferChatSetup, beginChatSetup } from 'src/embeds/chat/actions/setup-chat'
 import errorTracker from 'src/framework/services/errorTracker'
 import { store } from 'src/framework/services/persistence'
-import { settings } from 'service/settings'
 import { getChatConfig, getBrandCount, getBrand } from 'src/redux/modules/base/base-selectors'
 import {
   fetchConversationHistory,
   handleChatVendorLoaded,
   chatConnectionError,
 } from 'src/redux/modules/chat'
-import { JWT_ERROR } from 'constants/chat'
+import { chatBanned } from 'src/redux/modules/chat'
 import {
   AUTHENTICATION_STARTED,
   AUTHENTICATION_FAILED,
 } from 'src/redux/modules/chat/chat-action-types'
-import zopimApi from 'service/api/zopimApi'
-import { win, isPopout } from 'utility/globals'
-import { cleanBrandName } from 'utility/chat'
 import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
 import { getChatConnectionSuppressed, getDelayChatConnection } from 'src/redux/modules/selectors'
 import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors'
-import { deferChatSetup, beginChatSetup } from 'embeds/chat/actions/setup-chat'
-import { chatBanned } from 'src/redux/modules/chat'
+import zopimApi from 'src/service/api/zopimApi'
+import { settings } from 'src/service/settings'
+import { cleanBrandName } from 'src/util/chat'
+import { win, isPopout } from 'src/util/globals'
 import loadZChat from './loadZChat'
 
 function makeChatConfig(config) {

@@ -113,24 +113,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      // Framework
-      component: path.join(projectRoot + '/src/component'),
-      components: path.join(projectRoot + '/src/components'),
-      constants: path.join(projectRoot + '/src/constants'),
-      embed: path.join(projectRoot + '/src/embed'),
-      embeds: path.join(projectRoot + '/src/embeds'),
-      errors: path.join(projectRoot + '/src/errors'),
-      mixin: path.join(projectRoot + '/src/component/mixin'),
-      service: path.join(projectRoot + '/src/service'),
       src: path.join(projectRoot + '/src'),
-      utility: path.join(projectRoot + '/src/util'),
-      translation: path.join(projectRoot + '/src/translation'),
-      types: path.join(projectRoot + '/src/types'),
-      vendor: path.join(projectRoot + '/src/vendor'),
-      // CSS Components
-      componentCSS: path.join(projectRoot + '/src/styles/components'),
-      icons: path.join(projectRoot + '/src/asset/icons'),
-      globalCSS: path.join(projectRoot + '/src/styles/globals.scss'),
     },
     fallback: {
       stream: require.resolve('stream-browserify'),

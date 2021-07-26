@@ -1,5 +1,5 @@
+import { TEST_IDS } from 'src/constants/shared'
 import { Container, Loader } from './styles'
-import { TEST_IDS } from 'constants/shared'
 
 const BotTyping = () => (
   <Container data-testid={TEST_IDS.AB_TYPING_INDICATOR}>

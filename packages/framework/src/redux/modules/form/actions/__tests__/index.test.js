@@ -1,9 +1,9 @@
-import { clearFormState, clearAllForms, setFormState } from '../index'
 import {
   CLEARED_FORM_STATE,
   ALL_FORMS_CLEARED,
   SET_FORM_STATE,
 } from 'src/redux/modules/form/action-types'
+import { clearFormState, clearAllForms, setFormState } from '../index'
 
 describe('form actions', () => {
   describe('clearFormState', () => {

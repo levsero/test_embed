@@ -1,9 +1,9 @@
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { ButtonGroup } from 'component/button/ButtonGroup'
+import { connect } from 'react-redux'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { ButtonGroup } from 'src/component/button/ButtonGroup'
 import { onHelpCenterNextClick } from 'src/redux/modules/base'
 import { getHelpCenterButtonLabel, getChatConnectionConnecting } from 'src/redux/modules/selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import { ButtonContainer, StyledButton, Loading } from './styles'
 
 const ChannelButton = ({ buttonLabel, isRTL, onClick, loading }) => {

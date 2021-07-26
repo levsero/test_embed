@@ -1,8 +1,7 @@
-jest.mock('utility/devices')
-
 import { render } from 'src/util/testHelpers'
-
 import SuccessNotificationPage from '../'
+
+jest.mock('src/util/devices')
 
 const defaultProps = {
   title: 'Request sent',

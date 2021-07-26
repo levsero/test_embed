@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
 import { createSelector } from 'reselect'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const chatState = (state) => state.chat
 

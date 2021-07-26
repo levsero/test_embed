@@ -1,6 +1,6 @@
-import MessageError from '../'
 import { fireEvent } from '@testing-library/react'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
+import MessageError from '../'
 
 const renderComponent = (inProps) => {
   const props = {

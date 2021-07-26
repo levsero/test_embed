@@ -49,7 +49,7 @@ describe('resetActiveEmbed middleware', () => {
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
         getAnswerBotAvailable: () => mockAnswerBotAvailable,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive,
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -78,26 +78,26 @@ describe('resetActiveEmbed middleware', () => {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
         TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       },
-      'service/history': history,
-      'embeds/helpCenter/routes': {
+      'src/service/history': history,
+      'src/embeds/helpCenter/routes': {
         home: () => 'helpCenter/home',
       },
-      'embeds/support/routes': {
+      'src/embeds/support/routes': {
         home: () => 'support/home',
       },
-      'utility/globals': {
+      'src/util/globals': {
         isPopout: () => mockIsPopout,
       },
-      'utility/chat': {},
-      'constants/chat': {},
-      'constants/shared': {
+      'src/util/chat': {},
+      'src/constants/chat': {},
+      'src/constants/shared': {
         EMBED_MAP: {
           helpCenterForm: 'helpCenter',
           submitTicketForm: 'contactForm',
         },
         NIL_EMBED,
       },
-      'embeds/chat/actions/action-types': {},
+      'src/embeds/chat/actions/action-types': {},
     })
 
     const path = buildSrcPath('redux/middleware/resetActiveEmbed')

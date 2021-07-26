@@ -1,25 +1,24 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import chatPropTypes from 'types/chat'
 import classNames from 'classnames'
 import _ from 'lodash'
-
-import { Avatar } from 'component/Avatar'
-import { Attachment } from 'component/chat/attachment/Attachment'
-import MessageError from 'src/embeds/chat/components/MessageError'
-import ImageMessage from 'embeds/chat/components/ImageMessage'
-import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { Avatar } from 'src/component/Avatar'
+import { Icon } from 'src/component/Icon'
+import { Attachment } from 'src/component/chat/attachment/Attachment'
+import Carousel from 'src/component/chat/chatting/Carousel'
+import StructuredMessage from 'src/component/chat/chatting/StructuredMessage'
 import {
   ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES,
   CHAT_STRUCTURED_CONTENT_TYPE,
-} from 'constants/chat'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { locals as styles } from './ChatGroup.scss'
-import { Icon } from 'component/Icon'
-import StructuredMessage from 'component/chat/chatting/StructuredMessage'
-import Carousel from 'component/chat/chatting/Carousel'
+} from 'src/constants/chat'
+import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
+import ImageMessage from 'src/embeds/chat/components/ImageMessage'
 import MessageBubble from 'src/embeds/chat/components/MessageBubble'
+import MessageError from 'src/embeds/chat/components/MessageError'
+import chatPropTypes from 'src/types/chat'
+import { locals as styles } from './ChatGroup.scss'
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE)
 

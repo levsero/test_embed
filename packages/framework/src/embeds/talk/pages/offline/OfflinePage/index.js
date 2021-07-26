@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
+import { TEST_IDS } from 'src/constants/shared'
 import { getOfflineTitle } from 'src/embeds/talk/selectors'
 import { Container } from './styles'
-import { TEST_IDS } from 'src/constants/shared'
 
 const OfflinePage = ({ message, title }) => (
   <Widget>

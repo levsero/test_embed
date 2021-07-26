@@ -1,5 +1,5 @@
-import chatDefaultDepartment from '../chat-default-department'
 import * as actions from 'src/redux/modules/chat/chat-action-types'
+import chatDefaultDepartment from '../chat-default-department'
 
 describe('chatDefaultDepartment', () => {
   const initialState = chatDefaultDepartment(undefined, { type: '' })

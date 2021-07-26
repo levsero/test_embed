@@ -1,10 +1,10 @@
 import _ from 'lodash'
+import { settings } from 'src/service/settings'
 import {
   generateUserWidgetCSS,
   generateUserLauncherCSS,
   generateWebWidgetPreviewCSS,
 } from '../styles'
-import { settings } from 'service/settings'
 
 let mockSettingsValue
 

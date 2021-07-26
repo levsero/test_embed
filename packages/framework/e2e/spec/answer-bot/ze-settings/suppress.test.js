@@ -1,7 +1,7 @@
-import loadWidget from 'e2e/helpers/widget-page'
-import widget from 'e2e/helpers/widget'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
+import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
 
 test('shows help center when answer bot is suppressed', async () => {
   await loadWidget()

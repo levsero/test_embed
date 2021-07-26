@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import ButtonPill from 'embeds/chat/components/ButtonPill'
+import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 import useTranslate from 'src/hooks/useTranslate'
 import { Container } from './styles'
 

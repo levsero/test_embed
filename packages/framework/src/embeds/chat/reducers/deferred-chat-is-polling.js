@@ -1,4 +1,4 @@
-import { DEFER_CHAT_SETUP, BEGIN_CHAT_SETUP } from 'embeds/chat/actions/action-types'
+import { DEFER_CHAT_SETUP, BEGIN_CHAT_SETUP } from 'src/embeds/chat/actions/action-types'
 
 const deferredChatIsPolling = (state = false, action) => {
   switch (action.type) {

@@ -1,7 +1,6 @@
 import { fireEvent } from '@testing-library/react'
-
-import { Component as TicketFormsListPage } from '../index'
 import { render } from 'src/util/testHelpers'
+import { Component as TicketFormsListPage } from '../index'
 
 const renderComponent = (
   {

@@ -1,7 +1,60 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import { getZendeskHost } from 'utility/globals'
-
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { CONNECTION_STATUSES } from 'src/constants/chat'
+import {
+  FONT_SIZE,
+  EMBED_MAP,
+  LAUNCHER,
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
+  WIDGET_MARGIN,
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
+  DEFAULT_WIDGET_HEIGHT,
+} from 'src/constants/shared'
+import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
+import {
+  getAnswerBotEnabled as getAnswerBotConfigEnabled,
+  getButtonLabelKey,
+  getFormTitleKey as getHelpCenterFormTitleKey,
+} from 'src/embeds/helpCenter/selectors'
+import {
+  getOfflineFormEnabled,
+  getDelayChatConnectionEnabled,
+} from 'src/redux/modules/selectors/chat-linked-selectors'
+import {
+  getCanShowHelpCenterIntroState,
+  getHelpCenterAvailable,
+  getHelpCenterReady,
+} from 'src/redux/modules/selectors/helpCenter-linked-selectors'
+import { settings } from 'src/service/settings'
+import { isMobileBrowser } from 'src/util/devices'
+import { getZendeskHost } from 'src/util/globals'
+import { isPopout } from 'src/util/globals'
+import {
+  getActiveEmbed,
+  getHelpCenterEmbed,
+  getSubmitTicketEmbed,
+  getTalkEmbed,
+  getChatEmbed,
+  getIPMWidget,
+  getEmbeddableConfig,
+  getHiddenByHideAPI,
+  getConfigColorBase,
+  getConfigColorText,
+  getHiddenByActivateAPI,
+  getBootupTimeout,
+  getWebWidgetOpen,
+  getLauncherVisible as getBaseLauncherVisible,
+  getChatStandalone,
+  getIsChatBadgeMinimized,
+  getConfigAttachmentsEnabled,
+  getLocale,
+  getTalkConfig,
+  getFormTitleKey,
+  getBrand,
+  getBackButtonVisible,
+  getHasWidgetShown,
+} from '../base/base-selectors'
 import {
   getShowOfflineChat,
   getIsChatting,
@@ -19,11 +72,6 @@ import {
   getNotificationCount,
   getShowChatHistory,
 } from '../chat/chat-selectors'
-import {
-  getOfflineFormEnabled,
-  getDelayChatConnectionEnabled,
-} from 'src/redux/modules/selectors/chat-linked-selectors'
-import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
@@ -64,57 +112,6 @@ import {
   getDeferredStatusOnline,
   getIsEmbeddedVoiceEnabled,
 } from '../talk/talk-selectors'
-import {
-  getActiveEmbed,
-  getHelpCenterEmbed,
-  getSubmitTicketEmbed,
-  getTalkEmbed,
-  getChatEmbed,
-  getIPMWidget,
-  getEmbeddableConfig,
-  getHiddenByHideAPI,
-  getConfigColorBase,
-  getConfigColorText,
-  getHiddenByActivateAPI,
-  getBootupTimeout,
-  getWebWidgetOpen,
-  getLauncherVisible as getBaseLauncherVisible,
-  getChatStandalone,
-  getIsChatBadgeMinimized,
-  getConfigAttachmentsEnabled,
-  getLocale,
-  getTalkConfig,
-  getFormTitleKey,
-  getBrand,
-  getBackButtonVisible,
-  getHasWidgetShown,
-} from '../base/base-selectors'
-import {
-  getCanShowHelpCenterIntroState,
-  getHelpCenterAvailable,
-  getHelpCenterReady,
-} from 'src/redux/modules/selectors/helpCenter-linked-selectors'
-import {
-  getAnswerBotEnabled as getAnswerBotConfigEnabled,
-  getButtonLabelKey,
-  getFormTitleKey as getHelpCenterFormTitleKey,
-} from 'src/embeds/helpCenter/selectors'
-
-import { settings } from 'service/settings'
-
-import { isMobileBrowser } from 'utility/devices'
-import {
-  FONT_SIZE,
-  EMBED_MAP,
-  LAUNCHER,
-  DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
-  WIDGET_MARGIN,
-  DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
-  DEFAULT_WIDGET_HEIGHT,
-} from 'constants/shared'
-import { CONNECTION_STATUSES } from 'constants/chat'
-import { isPopout } from 'utility/globals'
-import { i18n } from 'src/apps/webWidget/services/i18n'
 
 /*
  * Terms:

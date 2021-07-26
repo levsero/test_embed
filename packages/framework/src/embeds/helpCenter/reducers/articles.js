@@ -2,7 +2,7 @@ import {
   GET_ARTICLE_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_SUCCESS,
-} from 'embeds/helpCenter/actions/action-types'
+} from 'src/embeds/helpCenter/actions/action-types'
 
 const initialState = {}
 

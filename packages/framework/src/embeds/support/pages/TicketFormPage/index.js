@@ -1,20 +1,20 @@
-import { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { Widget, Header } from 'components/Widget'
+import { useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { FileDropProvider } from 'src/components/FileDropProvider'
+import LoadingPage from 'src/components/LoadingPage'
+import { Widget, Header } from 'src/components/Widget'
+import { dragStarted } from 'src/embeds/support/actions'
+import TicketForm from 'src/embeds/support/components/TicketForm'
+import routes from 'src/embeds/support/routes'
 import {
   getContactFormTitle,
   getFormsToDisplay,
   getCanDisplayForm,
   getIsFormLoading,
   getIsAnyTicketFormLoading,
-} from 'embeds/support/selectors'
-import { dragStarted } from 'src/embeds/support/actions'
-import { connect } from 'react-redux'
-import { FileDropProvider } from 'components/FileDropProvider'
-import routes from 'embeds/support/routes'
-import { useHistory } from 'react-router-dom'
-import LoadingPage from 'components/LoadingPage'
-import TicketForm from 'embeds/support/components/TicketForm'
+} from 'src/embeds/support/selectors'
 
 const TicketFormPage = ({
   formTitle,

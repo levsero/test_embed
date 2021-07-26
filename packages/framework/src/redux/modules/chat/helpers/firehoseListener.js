@@ -1,15 +1,19 @@
-import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'constants/chat'
+import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'src/constants/chat'
+import {
+  CHAT_DEPARTMENT_STATUS_EVENT,
+  CHAT_STATUS_EVENT,
+  CHAT_ENDED_EVENT,
+} from 'src/constants/event'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { chatBanned } from 'src/redux/modules/chat'
-import { getHasBackfillCompleted } from 'src/redux/modules/chat/chat-selectors/selectors'
 import {
   SDK_ACCOUNT_STATUS,
   SDK_DEPARTMENT_UPDATE,
   SDK_CHAT_MEMBER_LEAVE,
 } from 'src/redux/modules/chat/chat-action-types'
-import * as callbacks from 'service/api/callbacks'
-import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT, CHAT_ENDED_EVENT } from 'constants/event'
-import { isVisitor } from 'utility/chat'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import { getHasBackfillCompleted } from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import { isVisitor } from 'src/util/chat'
 
 const fireWidgetChatEvent = (action, getReduxState) => {
   switch (action.type) {

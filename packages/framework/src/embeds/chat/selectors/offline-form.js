@@ -1,10 +1,10 @@
-import { getOfflineFormFields } from 'src/redux/modules/selectors'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getIsAuthenticated,
   getLoginSettings,
   getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import { getOfflineFormFields } from 'src/redux/modules/selectors'
 
 export const getFields = (state) => {
   const { phoneEnabled } = getLoginSettings(state)

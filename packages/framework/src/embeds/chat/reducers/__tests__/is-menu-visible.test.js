@@ -1,11 +1,11 @@
-import { testReducer } from 'utility/testHelpers'
-import reducer from '../is-menu-visible'
+import { updateMenuVisibility } from 'src/embeds/chat/actions/actions'
 import {
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
 } from 'src/redux/modules/chat'
 import { CHAT_FILE_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import { updateMenuVisibility } from 'embeds/chat/actions/actions'
+import { testReducer } from 'src/util/testHelpers'
+import reducer from '../is-menu-visible'
 
 describe('isMenuVisible reducer', () => {
   testReducer(reducer, [

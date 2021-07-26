@@ -1,9 +1,9 @@
+import { waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Footer from '../'
 import { startTyping } from '../typing'
-import { waitFor } from '@testing-library/dom'
 
 jest.mock('src/apps/messenger/api/sunco')
 jest.mock('../typing')

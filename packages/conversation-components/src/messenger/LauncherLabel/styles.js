@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components'
 import CloseSVG from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 import { FRAME_MARGIN_FROM_PAGE } from 'src/constants'
-import TailSVG from './label-tail.svg'
 import dirStyles from 'src/utils/dirStyles'
+import TailSVG from './label-tail.svg'
 
 const LauncherLabelButton = styled.button`
   border: 0;

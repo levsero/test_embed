@@ -1,3 +1,4 @@
+import * as globals from 'src/util/globals'
 import {
   getPageKeywords,
   getPageTitle,
@@ -16,7 +17,6 @@ import {
   appendParams,
   phoneValid,
 } from '../utils'
-import * as globals from 'utility/globals'
 
 jest.useFakeTimers()
 

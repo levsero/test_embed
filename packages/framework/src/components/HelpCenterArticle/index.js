@@ -1,17 +1,15 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import ReactDOM from 'react-dom'
 import sanitizeHtml from 'sanitize-html'
-
-import { Icon } from 'component/Icon'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { parseUrl } from 'utility/utils'
-import { http } from 'service/transport'
-
-import { locals as styles } from './styles.scss'
-import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
+import { Icon } from 'src/component/Icon'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
+import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
+import { http } from 'src/service/transport'
+import { parseUrl } from 'src/util/utils'
+import { locals as styles } from './styles.scss'
 
 const allowedIframeAttribs = [
   'src',

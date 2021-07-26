@@ -1,14 +1,14 @@
+import { TEST_IDS } from 'src/constants/shared'
+import { Component as ChatWidgetHeader } from 'src/embeds/chat/components/ChatWidgetHeader'
+import { createChatPopoutWindow } from 'src/util/chat'
+import { isMobileBrowser } from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
-import { createChatPopoutWindow } from 'utility/chat'
-import { Component as ChatWidgetHeader } from 'embeds/chat/components/ChatWidgetHeader'
-import { isMobileBrowser } from 'utility/devices'
-import { TEST_IDS } from 'constants/shared'
 
-jest.mock('utility/chat', () => ({
+jest.mock('src/util/chat', () => ({
   createChatPopoutWindow: jest.fn(),
 }))
 
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 jest.mock('src/redux/modules/selectors', () => ({
   ...jest.requireActual('src/redux/modules/selectors'),

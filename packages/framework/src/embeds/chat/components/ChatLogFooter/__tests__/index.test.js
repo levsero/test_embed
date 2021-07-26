@@ -1,5 +1,5 @@
-import { render } from 'src/util/testHelpers'
 import { TEST_IDS } from 'src/constants/shared'
+import { render } from 'src/util/testHelpers'
 import ChatLogFooter from '../'
 
 const renderComponent = (inProps) => {

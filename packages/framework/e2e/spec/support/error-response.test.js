@@ -1,7 +1,7 @@
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from 'e2e/helpers/utils'
-import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
-import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
+import loadWidget from 'e2e/helpers/widget-page'
+import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import { queries, wait } from 'pptr-testing-library'
 
 test('displays an error message when the endpoint returns an error', async () => {

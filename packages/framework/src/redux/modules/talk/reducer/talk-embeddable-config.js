@@ -1,5 +1,5 @@
 import _ from 'lodash'
-
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_DISCONNECT_SOCKET_EVENT,
@@ -11,8 +11,6 @@ import {
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
 } from '../talk-capability-types'
-
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 
 const capabilityMap = {
   0: CALLBACK_ONLY,

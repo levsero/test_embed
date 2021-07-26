@@ -1,8 +1,7 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { Button as PureButton } from 'component/shared/StructuredMessage/pure/Button'
-import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'constants/chat'
+import { Component } from 'react'
+import { Button as PureButton } from 'src/component/shared/StructuredMessage/pure/Button'
+import { CHAT_STRUCTURED_MESSAGE_ACTION_TYPE } from 'src/constants/chat'
 
 const { QUICK_REPLY_ACTION, LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
 

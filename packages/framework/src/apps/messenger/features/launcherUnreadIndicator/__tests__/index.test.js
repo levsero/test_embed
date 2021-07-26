@@ -1,8 +1,6 @@
-import { render } from 'src/apps/messenger/utils/testHelpers'
-
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { markAsRead } from 'src/apps/messenger/store/unreadIndicator'
-
+import { render } from 'src/apps/messenger/utils/testHelpers'
 import LauncherUnreadIndicator from '../'
 
 describe('LauncherUnreadIndicator', () => {

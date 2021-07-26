@@ -1,6 +1,5 @@
-import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
-
 import _ from 'lodash'
+import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {
   defaultToChatWidgetLite: false,

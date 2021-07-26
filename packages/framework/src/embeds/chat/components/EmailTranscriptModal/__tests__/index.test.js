@@ -1,11 +1,11 @@
 import { waitFor } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/react'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { render } from 'src/util/testHelpers'
-import EmailTranscriptModal from 'embeds/chat/components/EmailTranscriptModal'
-import * as actions from 'src/redux/modules/chat/chat-action-types'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
+import EmailTranscriptModal from 'src/embeds/chat/components/EmailTranscriptModal'
 import { API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
+import * as actions from 'src/redux/modules/chat/chat-action-types'
+import { render } from 'src/util/testHelpers'
 
 jest.mock('src/embeds/chat/actions/email-transcript')
 

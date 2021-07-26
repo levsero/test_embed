@@ -1,7 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import { store as persistence } from 'src/framework/services/persistence'
-import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { store as persistence } from 'src/framework/services/persistence'
 import { getIsVisibleOnSmallDevices, getLauncherLabelText } from './config'
 
 export const launcherLabelStorageKey = 'launcherLabelRemoved'

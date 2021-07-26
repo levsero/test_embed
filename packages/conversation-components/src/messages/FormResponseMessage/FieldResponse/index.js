@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import TextResponse from './TextResponse'
 import EmailResponse from './EmailResponse'
 import SelectResponse from './SelectResponse'
+import TextResponse from './TextResponse'
 
 const fields = {
   text: TextResponse,

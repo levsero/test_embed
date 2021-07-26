@@ -1,13 +1,13 @@
 import _ from 'lodash'
-import InfiniteLoopError from 'errors/fatal/InfiniteLoopError'
+import InfiniteLoopError from 'src/errors/fatal/InfiniteLoopError'
 import errorTracker from 'src/framework/services/errorTracker'
-import { beacon } from 'service/beacon'
 import {
   SDK_CHAT_MSG,
   CHAT_BOX_CHANGED,
   SDK_HISTORY_CHAT_MSG,
   CHAT_NOTIFICATION_RESET,
 } from 'src/redux/modules/chat/chat-action-types'
+import { beacon } from 'src/service/beacon'
 
 const actionsToSkip = [
   SDK_HISTORY_CHAT_MSG,

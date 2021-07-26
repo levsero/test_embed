@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Form as ReactFinalForm } from 'react-final-form'
-import _ from 'lodash'
-import Form from './Form'
 import { FORM_ERROR } from 'final-form'
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { Form as ReactFinalForm } from 'react-final-form'
 import { useSelector } from 'react-redux'
-import { getFormValues } from 'src/redux/modules/form/selectors'
-import useScrollToFirstError from 'components/DynamicForm/hooks/useScrollToFirstError'
+import useScrollToFirstError from 'src/components/DynamicForm/hooks/useScrollToFirstError'
 import useSafeState from 'src/hooks/useSafeState'
+import { getFormValues } from 'src/redux/modules/form/selectors'
+import Form from './Form'
 
 const DynamicForm = ({
   formId,

@@ -1,7 +1,7 @@
-import { render } from 'src/util/testHelpers'
-import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import { fireEvent } from '@testing-library/react'
-import { TEST_IDS } from 'constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
+import RatingGroup from 'src/embeds/chat/components/RatingGroup'
+import { render } from 'src/util/testHelpers'
 
 describe('RatingGroup', () => {
   const updateRatingFunction = jest.fn()

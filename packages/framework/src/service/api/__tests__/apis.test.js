@@ -1,37 +1,35 @@
+import { wait } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
-import * as apis from '../apis'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import * as constants from 'src/constants/api'
+import * as eventConstants from 'src/constants/event'
+import * as hcActions from 'src/embeds/helpCenter/actions'
+import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
+import createStore from 'src/redux/createStore'
+import { handlePopoutCreated } from 'src/redux/modules/base'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
+import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
-import * as constants from 'constants/api'
-import * as eventConstants from 'constants/event'
+import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions'
 import * as reinitialiseChatActions from 'src/redux/modules/chat/chat-actions/reinitialiseChat'
-import * as settingsActions from 'src/redux/modules/settings/settings-actions'
-import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
-import * as hcActions from 'src/embeds/helpCenter/actions'
-import { handlePopoutCreated } from 'src/redux/modules/base'
-import { wait } from '@testing-library/react'
-
-import { beacon } from 'service/beacon'
-import { identity } from 'service/identity'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
-import * as settingSelectors from 'src/redux/modules/settings/settings-selectors'
+import * as setupChat from 'src/redux/modules/chat/chat-actions/setUpChat'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as settingsActions from 'src/redux/modules/settings/settings-actions'
+import * as settingSelectors from 'src/redux/modules/settings/settings-selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import * as chatCallbacks from 'src/service/api/zopimApi/callbacks'
+import { beacon } from 'src/service/beacon'
+import { identity } from 'src/service/identity'
 import * as chatUtils from 'src/util/chat'
-import * as setupChat from 'src/redux/modules/chat/chat-actions/setUpChat'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import createStore from 'src/redux/createStore'
-import * as callbacks from 'service/api/callbacks'
-import * as chatCallbacks from 'service/api/zopimApi/callbacks'
-import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
-import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
+import * as apis from '../apis'
 
-jest.mock('service/settings')
-jest.mock('service/beacon')
-jest.mock('service/identity')
+jest.mock('src/service/settings')
+jest.mock('src/service/beacon')
+jest.mock('src/service/identity')
 
 const mockStore = configureMockStore([thunk])
 const mockActionValue = Date.now()

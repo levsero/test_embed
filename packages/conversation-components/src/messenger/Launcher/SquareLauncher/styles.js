@@ -1,6 +1,6 @@
+import { rgba } from 'polished'
 import styled from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import { rgba } from 'polished'
 
 const Container = styled.div`
   width: ${(props) => props.size ?? '100%'};

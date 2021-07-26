@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import { PrimaryParticipantBubble, OtherParticipantBubble } from './styles'
 

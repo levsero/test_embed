@@ -1,21 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { getColor, getFrameVisible } from 'src/redux/modules/selectors'
-import FrameTransition from 'embeds/webWidget/components/BaseFrame/FrameTransition'
-import BaseFrame from 'embeds/webWidget/components/BaseFrame'
-import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices'
-import WebWidget from 'component/webWidget/WebWidget'
-import { FONT_SIZE, DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'constants/shared'
-import { generateUserWidgetCSS } from 'utility/color/styles'
-import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
-import FocusJail from 'components/FrameFocusJail'
-import { widgetShowAnimationComplete } from 'src/redux/modules/base'
-import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
+import WebWidget from 'src/component/webWidget/WebWidget'
+import FocusJail from 'src/components/FrameFocusJail'
+import { FONT_SIZE, DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
+import { webWidgetStyles } from 'src/embed/webWidget/webWidgetStyles'
+import BaseFrame from 'src/embeds/webWidget/components/BaseFrame'
+import FrameTransition from 'src/embeds/webWidget/components/BaseFrame/FrameTransition'
 import useTranslate from 'src/hooks/useTranslate'
-import { isPopout } from 'utility/globals'
+import { widgetShowAnimationComplete } from 'src/redux/modules/base'
+import { getColor, getFrameVisible } from 'src/redux/modules/selectors'
+import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
+import { generateUserWidgetCSS } from 'src/util/color/styles'
+import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
+import { isPopout } from 'src/util/globals'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
-const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
+const webWidgetCSS = `${require('src/styles/globals.scss')} ${webWidgetStyles}`
 
 const baseWebWidgetStyle = {
   width: WIDGET_WIDTH + 2 * WIDGET_MARGIN,

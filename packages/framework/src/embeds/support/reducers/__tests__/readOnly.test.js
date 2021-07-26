@@ -1,7 +1,7 @@
-import { testReducer } from 'src/util/testHelpers'
+import createKeyID from 'src/embeds/support/utils/createKeyID'
 import { handlePrefillReceived } from 'src/redux/modules/base'
+import { testReducer } from 'src/util/testHelpers'
 import readOnly from '../readOnly'
-import createKeyID from 'embeds/support/utils/createKeyID'
 
 const initialState = {}
 

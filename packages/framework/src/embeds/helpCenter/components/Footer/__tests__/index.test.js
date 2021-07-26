@@ -1,5 +1,4 @@
-import { render } from 'utility/testHelpers'
-
+import { render } from 'src/util/testHelpers'
 import HelpCenterFooter from '../index'
 
 const renderComponent = (props) => {

@@ -1,10 +1,10 @@
 import { useForm } from 'react-final-form'
+import useConditionalFields from 'src/embeds/support/hooks/useConditionalFields'
+import getFields from 'src/embeds/support/utils/getFields'
 import { render } from 'src/util/testHelpers'
-import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
-import getFields from 'embeds/support/utils/getFields'
 
 jest.mock('react-final-form')
-jest.mock('embeds/support/utils/getFields')
+jest.mock('src/embeds/support/utils/getFields')
 
 describe('useConditionalFields', () => {
   // eslint-disable-next-line react/prop-types

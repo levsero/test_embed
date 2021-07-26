@@ -1,7 +1,7 @@
-import searchTerm from '../searchTerm'
-import * as actionTypes from 'embeds/helpCenter/actions/action-types'
+import * as actionTypes from 'src/embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import searchTerm from '../searchTerm'
 
 const initialState = {
   current: '',

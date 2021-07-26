@@ -1,5 +1,5 @@
-import { themeColor, mainTextColor, colorFor } from './validate'
 import { ColorMixer } from './mixer'
+import { themeColor, mainTextColor, colorFor } from './validate'
 
 function getWidgetColorVariables(color) {
   const mixer = new ColorMixer(themeColor(color && color.base))

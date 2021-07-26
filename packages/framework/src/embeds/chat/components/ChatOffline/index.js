@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import OfflineFormPage from 'src/embeds/chat/pages/OfflineFormPage'
-
-import { getOfflineFormSettings } from 'src/redux/modules/selectors'
-import NoAgentsPage from 'src/embeds/chat/pages/NoAgentsPage'
-import { getOfflineMessage } from 'src/redux/modules/chat/chat-selectors'
 import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
+import NoAgentsPage from 'src/embeds/chat/pages/NoAgentsPage'
+import OfflineFormPage from 'src/embeds/chat/pages/OfflineFormPage'
 import OperatingHoursPage from 'src/embeds/chat/pages/OperatingHoursPage'
+import { getOfflineMessage } from 'src/redux/modules/chat/chat-selectors'
+import { getOfflineFormSettings } from 'src/redux/modules/selectors'
 
 const ChatOffline = ({
   formSettings: { enabled: offlineFormEnabled = false },

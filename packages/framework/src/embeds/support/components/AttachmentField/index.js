@@ -1,23 +1,23 @@
-import { useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import { useRef, useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
-
+import { useOnDrop } from 'src/components/FileDropProvider'
+import { TEST_IDS } from 'src/constants/shared'
+import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
 import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
 import AttachmentLimitError from 'src/embeds/support/components/AttachmentLimitError'
 import AttachmentList from 'src/embeds/support/components/AttachmentList'
-import { TEST_IDS } from 'src/constants/shared'
-import { onNextTick } from 'src/util/utils'
-import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
 import {
   getMaxFileCount,
   getMaxFileSize,
   getAttachmentTitle,
   getAttachmentLimitExceeded,
 } from 'src/embeds/support/selectors'
-const INPUT_ID = 'dropzone-input'
+import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
+import { onNextTick } from 'src/util/utils'
 import { Container, StyledLabel, StyledMessage } from './styles'
-import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import { useOnDrop } from 'components/FileDropProvider'
+
+const INPUT_ID = 'dropzone-input'
 
 const AttachmentField = ({
   displayAttachmentLimitError,

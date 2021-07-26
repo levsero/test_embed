@@ -1,5 +1,4 @@
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
-
 import reducer, {
   fetchIntegrations,
   linkIntegration,

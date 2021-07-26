@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
-
-import hasMore from './has-more'
 import chats from './chats'
+import hasMore from './has-more'
 import log from './log'
 import requestStatus from './request-status'
 

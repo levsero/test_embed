@@ -1,5 +1,5 @@
-import loadWidget from 'e2e/helpers/widget-page'
 import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
+import loadWidget from 'e2e/helpers/widget-page'
 
 export const assertPageViewPayload = (url) => {
   const payload = getBlipPayload(url)

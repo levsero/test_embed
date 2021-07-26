@@ -1,5 +1,5 @@
-import { formatNameString, secondaryText, formatAttachmentSize } from '../attachmentStringFormatter'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { formatNameString, secondaryText, formatAttachmentSize } from '../attachmentStringFormatter'
 
 describe('formatNameString', () => {
   it('handles shorter strings', () => {

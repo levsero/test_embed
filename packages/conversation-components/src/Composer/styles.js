@@ -1,10 +1,9 @@
-import styled, { css } from 'styled-components'
 import { rem, rgba } from 'polished'
-import { Textarea, Field } from '@zendeskgarden/react-forms'
+import styled, { css } from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
-
-import SendIcon from './send-icon.svg'
+import { Textarea, Field } from '@zendeskgarden/react-forms'
 import dirStyles from 'src/utils/dirStyles'
+import SendIcon from './send-icon.svg'
 
 const StyledSendIcon = styled(SendIcon)``
 

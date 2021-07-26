@@ -1,5 +1,6 @@
-import { useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
+import { useMemo, useState, useRef } from 'react'
+import { withTheme } from 'styled-components'
 import {
   Dropdown as GardenDropdown,
   Menu,
@@ -12,10 +13,9 @@ import {
   Message,
 } from '@zendeskgarden/react-dropdowns'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
+import { TEST_IDS } from 'src/constants/shared'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import { TEST_IDS } from 'constants/shared'
 import { DropdownSelect } from './styles'
-import { withTheme } from 'styled-components'
 
 const useDropdownTree = (items = []) => {
   // Use a symbol as the root id so it has no chance of clashing with a customer

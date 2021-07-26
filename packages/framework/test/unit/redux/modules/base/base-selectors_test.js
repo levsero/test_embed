@@ -20,10 +20,10 @@ describe('base selectors', () => {
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: isTokenValidSpy,
       },
-      'utility/pages': {
+      'src/util/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
       },
-      'utility/globals': {
+      'src/util/globals': {
         win: {},
       },
     })

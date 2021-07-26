@@ -1,5 +1,5 @@
-import { useContext } from 'react'
 import PropTypes from 'prop-types'
+import { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { Label, LoadingDots, Button, Loader } from './styles'
 

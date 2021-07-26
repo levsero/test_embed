@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { Transition } from 'react-transition-group'
+import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+import {
+  getIsFullScreen,
+  getIsVerticallySmallScreen,
+} from 'src/apps/messenger/features/responsiveDesign/store'
+import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
+import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 import {
   getFrameStyles,
   getFrameWrapperStyles,
   openAnimationDuration,
 } from 'src/apps/messenger/features/widget/components/WidgetFrame/styles'
-import { useSelector } from 'react-redux'
-import {
-  getIsFullScreen,
-  getIsVerticallySmallScreen,
-} from 'src/apps/messenger/features/responsiveDesign/store'
-import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
-import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
-import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 
 const FrameAnimation = ({ children }) => {
   const isLauncherVisible = useSelector(getIsLauncherVisible)

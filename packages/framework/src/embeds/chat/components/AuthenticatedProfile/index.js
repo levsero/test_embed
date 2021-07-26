@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types'
-
-import { ICONS, TEST_IDS } from 'constants/shared'
-import UserProfileDetails from 'embeds/chat/components/UserProfileDetails'
+import { CHAT_SOCIAL_LOGIN_SCREENS } from 'src/constants/chat'
+import { ICONS, TEST_IDS } from 'src/constants/shared'
+import UserProfileDetails from 'src/embeds/chat/components/UserProfileDetails'
 import useTranslate from 'src/hooks/useTranslate'
-import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
-
 import {
   AuthenticatedProfileContainer,
   LoadingSpinnerIcon,

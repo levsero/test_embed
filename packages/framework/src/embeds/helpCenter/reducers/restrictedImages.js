@@ -1,6 +1,5 @@
 import _ from 'lodash'
-
-import { ADD_RESTRICTED_IMAGE } from 'embeds/helpCenter/actions/action-types'
+import { ADD_RESTRICTED_IMAGE } from 'src/embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {}

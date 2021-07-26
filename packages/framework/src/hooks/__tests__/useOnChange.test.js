@@ -1,7 +1,7 @@
 import { wait } from '@testing-library/react'
-import { render } from 'src/util/testHelpers'
-import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import useOnChange from 'src/hooks/useOnChange'
+import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
+import { render } from 'src/util/testHelpers'
 
 jest.mock('react-final-form')
 

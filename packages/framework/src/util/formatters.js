@@ -1,5 +1,5 @@
-import { i18n } from 'src/apps/webWidget/services/i18n'
 import _ from 'lodash'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const defaultOptions = {
     showToday: false,

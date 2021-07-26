@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Button } from '@zendeskgarden/react-buttons'
 import { zdColorGrey200, zdColorBlue400 } from '@zendeskgarden/css-variables'
+import { Button } from '@zendeskgarden/react-buttons'
 import { Anchor } from '@zendeskgarden/react-buttons'
 
 const Container = styled.div`

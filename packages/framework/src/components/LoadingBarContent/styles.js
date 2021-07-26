@@ -1,6 +1,6 @@
-import { Skeleton } from '@zendeskgarden/react-loaders'
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { Skeleton } from '@zendeskgarden/react-loaders'
+import { FONT_SIZE } from 'src/constants/shared'
 
 export const StyledSkeleton = styled(Skeleton)`
   height: ${12 / FONT_SIZE}rem !important;

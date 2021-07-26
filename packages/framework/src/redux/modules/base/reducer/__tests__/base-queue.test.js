@@ -1,6 +1,6 @@
-import queue from '../base-queue'
-import { UPDATE_QUEUE, REMOVE_FROM_QUEUE } from '../../base-action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { UPDATE_QUEUE, REMOVE_FROM_QUEUE } from '../../base-action-types'
+import queue from '../base-queue'
 
 testReducer(queue, [
   {

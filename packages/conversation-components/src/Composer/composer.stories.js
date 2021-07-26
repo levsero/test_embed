@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
-import Composer from './'
 import { MessengerContainerDecorator } from '../../.storybook/decorators'
+import Composer from './'
 
 export default {
   title: 'Components/Composer',

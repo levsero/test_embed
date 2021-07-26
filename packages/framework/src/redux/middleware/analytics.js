@@ -1,11 +1,25 @@
 import _ from 'lodash'
-import { GA } from 'service/analytics/googleAnalytics'
-import { UPDATE_WIDGET_SHOWN, UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
+import { USER_EVENT } from 'src/constants/event'
+import { GA_CATEGORY } from 'src/constants/shared'
+import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
+import { getArticleForArticleAndSessionsID } from 'src/embeds/answerBot/selectors/root'
 import {
   SEARCH_REQUEST_SUCCESS,
   ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
-} from 'embeds/helpCenter/actions/action-types'
+} from 'src/embeds/helpCenter/actions/action-types'
+import { getSearchTerm } from 'src/embeds/helpCenter/selectors'
+import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/selectors/index'
+import {
+  TICKET_SUBMISSION_REQUEST_SUCCESS,
+  FORM_OPENED,
+} from 'src/embeds/support/actions/action-types'
+import supportRoutes from 'src/embeds/support/routes'
+import { getForm } from 'src/embeds/support/selectors'
+import { CAPABILTY_NAMES } from 'src/embeds/talk/constants'
+import { getCapability } from 'src/embeds/talk/selectors/selectors'
+import { UPDATE_WIDGET_SHOWN, UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
+import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import {
   SDK_CHAT_MEMBER_JOIN,
   OFFLINE_FORM_REQUEST_SUCCESS,
@@ -13,26 +27,12 @@ import {
   SDK_CHAT_COMMENT,
   PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
-import { getArticleForArticleAndSessionsID } from 'src/embeds/answerBot/selectors/root'
-import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
-import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/selectors/index'
-import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import { getDepartments } from 'src/redux/modules/chat/chat-selectors'
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors'
-import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
-import { isAgent } from 'src/util/chat'
-import {
-  TICKET_SUBMISSION_REQUEST_SUCCESS,
-  FORM_OPENED,
-} from 'src/embeds/support/actions/action-types'
-import { CAPABILTY_NAMES } from 'src/embeds/talk/constants'
-import { USER_EVENT } from 'constants/event'
-import { GA_CATEGORY } from 'constants/shared'
-import { getSearchTerm } from 'embeds/helpCenter/selectors'
-import { getCapability } from 'src/embeds/talk/selectors/selectors'
-import { getForm } from 'src/embeds/support/selectors'
-import supportRoutes from 'src/embeds/support/routes'
+import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
+import { GA } from 'src/service/analytics/googleAnalytics'
 import * as callbacks from 'src/service/api/callbacks'
+import { isAgent } from 'src/util/chat'
 
 const loadtime = Date.now()
 const getDepartmentName = (payload, prevState) => {

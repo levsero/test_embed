@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types'
 import { useRef, useEffect, useState, useCallback } from 'react'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { StyleSheetManager } from 'styled-components'
-import PropTypes from 'prop-types'
-import CurrentFrameProvider, { useCurrentFrame, CurrentFrameConsumer } from './CurrentFrameProvider'
 import { smoothScroll } from '../../utils/smoothScroll'
+import CurrentFrameProvider, { useCurrentFrame, CurrentFrameConsumer } from './CurrentFrameProvider'
 
 const useCombinedRefs = (extraRef) => {
   const targetRef = useRef(null)
@@ -46,7 +46,7 @@ const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props
     const currentFrame = frame.current
 
     currentFrame.addEventListener('load', onLoad)
-    return () => currentFrame.removeEventListener('load', onLoad())
+    return () => currentFrame.removeEventListener('load', onLoad)
   }, [frame])
 
   useEffect(() => {

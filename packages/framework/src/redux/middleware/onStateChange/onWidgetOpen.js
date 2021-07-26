@@ -1,10 +1,10 @@
-import { isMobileBrowser } from 'utility/devices'
-import { updateWidgetShown } from 'src/redux/modules/base/base-actions'
-import { getWebWidgetVisibleOpenAndReady } from 'src/redux/modules/selectors'
-import { setScaleLock } from 'utility/devices'
-import { setScrollKiller, setWindowScroll, revertWindowScroll } from 'utility/scrollHacks'
 import { FRAME_ANIMATION_DELAY } from 'src/constants/shared'
+import { updateWidgetShown } from 'src/redux/modules/base/base-actions'
 import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors'
+import { getWebWidgetVisibleOpenAndReady } from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'src/util/devices'
+import { setScaleLock } from 'src/util/devices'
+import { setScrollKiller, setWindowScroll, revertWindowScroll } from 'src/util/scrollHacks'
 
 export default function onWidgetOpen(prevState, nextState, dispatch, getState) {
   if (!getWebWidgetVisibleOpenAndReady(prevState) && getWebWidgetVisibleOpenAndReady(nextState)) {

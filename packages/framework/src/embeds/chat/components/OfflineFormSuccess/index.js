@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
-
-import SuccessNotification from 'components/SuccessNotification'
-import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
+import SuccessIcon from 'src/asset/icons/widget-icon_success_contactForm.svg'
+import SuccessNotification from 'src/components/SuccessNotification'
 import { Main } from 'src/components/Widget'
 import ChatFooter from 'src/embeds/chat/components/Footer'
 import useTranslate from 'src/hooks/useTranslate'

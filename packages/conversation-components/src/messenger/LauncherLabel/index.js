@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
-
 import useLabels from 'src/hooks/useLabels'
-
 import { CloseButton, CloseIcon, Content, Label, Tail, TriangleShadow } from './styles'
 
 const LauncherLabel = ({ onCloseClick, onLabelClick, position, text }) => {

@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import SuccessNotification from 'components/SuccessNotification'
-import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
+import SuccessIcon from 'src/asset/icons/widget-icon_success_contactForm.svg'
+import SuccessNotification from 'src/components/SuccessNotification'
 import { Widget, Header, Main } from 'src/components/Widget'
 import ChatFooter from 'src/embeds/chat/components/Footer'
 import useTranslate from 'src/hooks/useTranslate'
-import { getChatTitle } from 'src/redux/modules/selectors'
 import { updateChatScreen } from 'src/redux/modules/chat'
-
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
+import { getChatTitle } from 'src/redux/modules/selectors'
 
 // This page is only rendered if the end user selects an offline department in the prechat form
 // If the user selects an online department a new chat session will be initiated

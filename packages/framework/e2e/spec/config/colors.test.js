@@ -1,7 +1,7 @@
-import loadWidget from 'e2e/helpers/widget-page'
+import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import loadWidget from 'e2e/helpers/widget-page'
 
 const getBackgroundColor = (selector) =>
   getComputedStyle(document.querySelector(selector)).backgroundColor

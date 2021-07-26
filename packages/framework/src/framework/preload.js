@@ -1,8 +1,8 @@
-import 'core-js/modules/es.promise'
 import 'core-js/modules/es.array.iterator'
 import 'core-js/modules/es.object.assign'
-import fetchLocale from 'src/framework/services/i18n/fetchLocale'
+import 'core-js/modules/es.promise'
 import { prefetchChatStatus } from 'src/embeds/chat/apis/deferred-chat-api'
+import fetchLocale from 'src/framework/services/i18n/fetchLocale'
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 

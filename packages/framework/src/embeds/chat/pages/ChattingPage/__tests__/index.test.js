@@ -1,8 +1,8 @@
 import { fireEvent } from '@testing-library/react'
-
+import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'src/util/testHelpers'
 import { Component as ChattingPage } from '../'
-import { TEST_IDS } from 'src/constants/shared'
+
 jest.mock('src/redux/modules/chat')
 jest.mock('src/embeds/chat/hooks/chattingScreenHooks')
 

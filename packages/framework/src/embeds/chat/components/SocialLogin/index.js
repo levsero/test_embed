@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import { SocialLoginContainer, LoginIconButton, FacebookLoginIcon, GoogleLoginIcon } from './styles'
-import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'src/constants/shared'
+import useTranslate from 'src/hooks/useTranslate'
+import { SocialLoginContainer, LoginIconButton, FacebookLoginIcon, GoogleLoginIcon } from './styles'
 
 const SocialLogin = ({ authUrls = {}, shouldSpace = false }) => {
   const translate = useTranslate()

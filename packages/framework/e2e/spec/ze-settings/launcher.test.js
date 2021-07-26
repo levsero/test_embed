@@ -1,5 +1,5 @@
-import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
+import loadWidget from 'e2e/helpers/widget-page'
 import { TEST_IDS } from 'src/constants/shared'
 
 describe('zESettings.webWidget.launcher.label', () => {

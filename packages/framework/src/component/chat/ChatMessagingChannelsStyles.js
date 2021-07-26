@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import TwitterIcon from 'icons/widget-icon_twitter.svg'
-import MessengerIcon from 'icons/widget-icon_messenger.svg'
+import MessengerIcon from 'src/asset/icons/widget-icon_messenger.svg'
+import TwitterIcon from 'src/asset/icons/widget-icon_twitter.svg'
 
 const Container = styled.div`
   margin-bottom: ${(props) => 15 / props.theme.fontSize}rem;

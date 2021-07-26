@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import { isMobileBrowser } from 'utility/devices'
-import ChatNotificationPopup from 'src/components/NotificationPopup'
 import { connect } from 'react-redux'
-import { chatNotificationDismissed, chatNotificationRespond } from 'src/redux/modules/chat'
-import { isPopout } from 'utility/globals'
+import ChatNotificationPopup from 'src/components/NotificationPopup'
+import { getResultsCount } from 'src/embeds/helpCenter/selectors'
 import { updateActiveEmbed } from 'src/redux/modules/base'
-import { getResultsCount } from 'embeds/helpCenter/selectors'
+import { chatNotificationDismissed, chatNotificationRespond } from 'src/redux/modules/chat'
 import { getChatNotification } from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'src/util/devices'
+import { isPopout } from 'src/util/globals'
 
 const Popup = ({
   updateActiveEmbed,

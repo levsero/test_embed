@@ -1,6 +1,5 @@
-import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-
+import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import reducer from '../rememberConversationHistory'
 
 testReducer(reducer, [

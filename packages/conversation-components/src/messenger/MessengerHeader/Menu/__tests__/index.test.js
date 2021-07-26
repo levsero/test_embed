@@ -1,5 +1,5 @@
-import render from 'src/utils/test/render'
 import Menu from 'src/messenger/MessengerHeader/Menu'
+import render from 'src/utils/test/render'
 
 describe('Menu', () => {
   const defaultProps = {

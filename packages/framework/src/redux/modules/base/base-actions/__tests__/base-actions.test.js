@@ -1,16 +1,15 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
-import * as actions from 'src/redux/modules/base/base-actions'
-import * as actionTypes from 'src/redux/modules/base/base-action-types'
-import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
-import * as selectors from 'src/redux/modules/base/base-selectors'
-import * as callbacks from 'service/api/callbacks'
-import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
+import { WIDGET_CLOSED_EVENT, WIDGET_OPENED_EVENT } from 'src/constants/event'
 import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
-import { WIDGET_CLOSED_EVENT, WIDGET_OPENED_EVENT } from 'constants/event'
+import * as actionTypes from 'src/redux/modules/base/base-action-types'
+import * as actions from 'src/redux/modules/base/base-actions'
+import * as selectors from 'src/redux/modules/base/base-selectors'
+import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
+import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
+import * as callbacks from 'src/service/api/callbacks'
 
-jest.mock('service/api/callbacks')
+jest.mock('src/service/api/callbacks')
 
 const mockState = {
   chat: {

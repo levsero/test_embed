@@ -1,5 +1,5 @@
-import reducer from '../contactForm-settings'
 import * as settingsActionTypes from 'src/redux/modules/settings/settings-action-types'
+import reducer from '../contactForm-settings'
 
 const initialState = () => {
   return reducer(undefined, { type: '' })

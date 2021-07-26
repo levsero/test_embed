@@ -142,16 +142,25 @@ Snapshot Diff:
 +   border-radius: 0;
 + }
 + 
-+ .c10 {
-+   margin-bottom: 0.5rem;
++ .c16 {
++   display: inline-block;
++   max-width: 100%;
 +   float: left;
-+   color: #2f3941;
++   background: #f8f9f9;
++   border-radius: 1.1428571428571428rem;
++   padding: 0.5714285714285714rem 0.8571428571428571rem;
++   margin-left: 2.857142857142857rem;
 + }
 + 
-+ .c11 {
-+   margin-left: 2.857142857142857rem;
-+   background: #f8f9f9;
-+   max-width: 15.642857142857142rem !important;
++ .c17 {
++   margin: 0.2857142857142857rem;
++ }
++ 
++ .c17 div {
++   width: 0.39285714285714285rem;
++   height: 0.39285714285714285rem;
++   background-color: #68737d;
++   margin-right: 0.2857142857142857rem;
 + }
 + 
 + .c3 {
@@ -177,6 +186,18 @@ Snapshot Diff:
 + 
 + .c4:hover {
 +   background-color: #f8f9f9;
++ }
++ 
++ .c10 {
++   margin-bottom: 0.5rem;
++   float: left;
++   color: #2f3941;
++ }
++ 
++ .c11 {
++   margin-left: 2.857142857142857rem;
++   background: #f8f9f9;
++   max-width: 15.642857142857142rem !important;
 + }
 + 
 + .c6 {
@@ -265,27 +286,6 @@ Snapshot Diff:
 +   float: right !important;
 +   display: block;
 +   margin-bottom: 0.5rem !important;
-+ }
-+ 
-+ .c16 {
-+   display: inline-block;
-+   max-width: 100%;
-+   float: left;
-+   background: #f8f9f9;
-+   border-radius: 1.1428571428571428rem;
-+   padding: 0.5714285714285714rem 0.8571428571428571rem;
-+   margin-left: 2.857142857142857rem;
-+ }
-+ 
-+ .c17 {
-+   margin: 0.2857142857142857rem;
-+ }
-+ 
-+ .c17 div {
-+   width: 0.39285714285714285rem;
-+   height: 0.39285714285714285rem;
-+   background-color: #68737d;
-+   margin-right: 0.2857142857142857rem;
 + }
 + 
   .c0 {

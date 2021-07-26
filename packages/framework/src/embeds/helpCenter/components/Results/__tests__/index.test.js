@@ -1,6 +1,5 @@
-import { render } from 'utility/testHelpers'
-import * as selectors from 'embeds/helpCenter/selectors'
-
+import * as selectors from 'src/embeds/helpCenter/selectors'
+import { render } from 'src/util/testHelpers'
 import Results from '../index'
 
 const articles = [

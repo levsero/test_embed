@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorGrey100, zdColorGrey600, zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { Well } from '@zendeskgarden/react-notifications'
-import { Icon } from 'component/Icon'
+import { Icon } from 'src/component/Icon'
 import { FONT_SIZE } from 'src/constants/shared'
 
 export const Description = styled.div`

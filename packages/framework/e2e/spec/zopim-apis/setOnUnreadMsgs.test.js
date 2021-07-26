@@ -1,6 +1,6 @@
+import { agentJoinsChat, sendMessageFromAgent } from 'e2e/helpers/chat-embed'
 import loadWidget from 'e2e/helpers/widget-page'
 import zChat from 'e2e/helpers/zChat'
-import { agentJoinsChat, sendMessageFromAgent } from 'e2e/helpers/chat-embed'
 
 beforeEach(async () => {
   await loadWidget('helpCenter', 'chat')

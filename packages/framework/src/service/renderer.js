@@ -1,14 +1,13 @@
 import _ from 'lodash'
-
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { settings } from 'service/settings'
+import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
+import webWidgetApp from 'src/embeds/webWidget'
+import errorTracker from 'src/framework/services/errorTracker'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
 import { pollTalkStatus } from 'src/redux/modules/talk'
-import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import { setLocaleApi } from 'src/service/api/apis'
-import webWidgetApp from 'src/embeds/webWidget'
-import errorTracker from 'src/framework/services/errorTracker'
+import { settings } from 'src/service/settings'
 
 let initialised = false
 let hasRendered = false

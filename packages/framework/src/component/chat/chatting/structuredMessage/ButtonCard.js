@@ -1,10 +1,8 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
-import { ButtonCard as PureButtonCard } from 'component/shared/StructuredMessage/ButtonCard'
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import { ButtonCard as PureButtonCard } from 'src/component/shared/StructuredMessage/ButtonCard'
 import { Button, ButtonSchemaPropType } from './Button'
-
 import { locals as styles } from './ButtonCard.scss'
 
 export class ButtonCard extends Component {

@@ -1,8 +1,7 @@
 import _ from 'lodash'
-
-import { win } from 'utility/globals'
-import { objectDifference } from 'utility/utils'
 import { updateSettings } from 'src/redux/modules/settings'
+import { win } from 'src/util/globals'
+import { objectDifference } from 'src/util/utils'
 
 const optionAllowList = {
   webWidget: [
