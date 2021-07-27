@@ -1,9 +1,10 @@
-import styled from 'styled-components'
 import { rem } from 'polished'
+import styled from 'styled-components'
 import { Button, Anchor } from '@zendeskgarden/react-buttons'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
+  max-width: ${(props) => rem(300, props.theme.baseFontSize)};
   display: flex;
   align-items: center;
   text-align: center;
@@ -22,7 +23,6 @@ const Subtitle = styled.p`
   font-size: ${(props) => props.theme.messenger.fontSizes.md};
   line-height: ${(props) => props.theme.messenger.lineHeights.md};
   margin-bottom: ${(props) => props.theme.messenger.space.md};
-  max-width: ${(props) => rem(300, props.theme.baseFontSize)};
 `
 
 const ChannelIcon = styled.div`
@@ -48,7 +48,6 @@ const Content = styled.div`
 `
 
 const Instructions = styled.p`
-  max-width: ${(props) => rem(300, props.theme.baseFontSize)};
   margin-bottom: ${(props) => props.theme.messenger.space.lg};
 `
 
