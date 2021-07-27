@@ -4,12 +4,13 @@ import { Button, Anchor } from '@zendeskgarden/react-buttons'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
-  max-width: ${(props) => rem(300, props.theme.baseFontSize)};
+  max-width: ${(props) => rem(640, props.theme.baseFontSize)};
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
   flex-direction: column;
+  padding: 0 ${(props) => props.theme.messenger.space.lg};
 `
 
 const Title = styled.h1`
