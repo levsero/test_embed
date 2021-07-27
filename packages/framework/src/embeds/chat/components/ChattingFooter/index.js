@@ -18,6 +18,7 @@ const ChattingFooter = ({
   theme,
   isPreview,
   sendChat,
+  isComposerFocused,
 }) => {
   return theme.isMobile ? (
     <MobileFooter
@@ -26,6 +27,7 @@ const ChattingFooter = ({
       isMobile={theme.isMobile}
       isPreview={isPreview}
       sendChat={sendChat}
+      isComposerFocused={isComposerFocused}
     >
       {children}
     </MobileFooter>
@@ -56,6 +58,7 @@ ChattingFooter.propTypes = {
   theme: PropTypes.shape({
     isMobile: PropTypes.bool.isRequired,
   }),
+  isComposerFocused: PropTypes.bool,
 }
 
 const actionCreators = {

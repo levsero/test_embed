@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useState } from 'react'
 import { connect } from 'react-redux'
 import ChatLog from 'src/component/chat/chatting/ChatLog'
 import HistoryLog from 'src/component/chat/chatting/HistoryLog'
@@ -98,6 +98,7 @@ const ChattingScreen = ({
 }) => {
   const scrollContainer = useRef(null)
   const agentTypingRef = useRef(null)
+  const [isComposerFocused, setIsComposerFocused] = useState(false)
 
   const isScrollCloseToBottom = () => {
     return scrollContainer.current
@@ -152,6 +153,7 @@ const ChattingScreen = ({
         sendChat={sendChatFn}
         toggleMenu={toggleMenu}
         isPreview={isPreview}
+        isComposerFocused={isComposerFocused}
       >
         <ChatBox
           isMobile={isMobile}
@@ -163,6 +165,12 @@ const ChattingScreen = ({
             }
 
             handleChatBoxChange(message)
+          }}
+          onFocus={() => {
+            setIsComposerFocused(true)
+          }}
+          onBlur={() => {
+            setIsComposerFocused(false)
           }}
         />
       </ChattingFooter>

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Icon } from 'src/component/Icon'
 import { ICONS } from 'src/constants/shared'
@@ -24,8 +25,10 @@ const MobileInputBox = ({
   handleSendInputValue,
   name,
 }) => {
+  const [isComposerFocused, setIsComposerFocused] = useState(false)
+
   return (
-    <Container>
+    <Container isFocused={isComposerFocused}>
       <InputBoxContainer>
         <InputBox
           inputValue={inputValue}
@@ -34,6 +37,12 @@ const MobileInputBox = ({
           updateInputValue={updateInputValue}
           handleSendInputValue={handleSendInputValue}
           isMobile={true}
+          onFocus={() => {
+            setIsComposerFocused(true)
+          }}
+          onBlur={() => {
+            setIsComposerFocused(false)
+          }}
         />
       </InputBoxContainer>
       {renderSend(handleSendInputValue)}
