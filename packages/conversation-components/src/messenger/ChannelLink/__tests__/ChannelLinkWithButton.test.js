@@ -14,6 +14,6 @@ describe('<ChannelLinkWithButton>', () => {
   it('renders a button with channel link url', () => {
     const { getByText } = renderChannelLinkWithButton()
 
-    expect(getByText('Open Messenger')).toBeInTheDocument()
+    expect(getByText('Open Messenger')).toHaveAttribute('href', 'www.awesomeurl.com')
   })
 })
