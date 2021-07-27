@@ -189,7 +189,9 @@ export function setUpZopimApiMethods(win, store) {
       setName: (name) => {
         if (nameValid(name)) {
           onChatSDKInitialized(() => {
-            store.dispatch(setVisitorInfo({ display_name: name }, undefined, 'zopim api')) // eslint-disable-line camelcase
+            store.dispatch(
+              setVisitorInfo({ visitor: { display_name: name }, identifier: 'zopim api' })
+            ) // eslint-disable-line camelcase
 
             prefill(store, { name: { value: name } })
           })
@@ -200,7 +202,7 @@ export function setUpZopimApiMethods(win, store) {
       setPhone: (phone) => {
         if (phoneValid(phone)) {
           onChatSDKInitialized(() => {
-            store.dispatch(setVisitorInfo({ phone }, undefined, 'zopim api'))
+            store.dispatch(setVisitorInfo({ visitor: { phone }, identifier: 'zopim api' }))
             prefill(store, { phone: { value: phone } })
           })
         } else {
@@ -210,7 +212,7 @@ export function setUpZopimApiMethods(win, store) {
       setEmail: (email) => {
         if (emailValid(email)) {
           onChatSDKInitialized(() => {
-            store.dispatch(setVisitorInfo({ email }, undefined, 'zopim api'))
+            store.dispatch(setVisitorInfo({ visitor: { email }, identifier: 'zopim api' }))
             prefill(store, { email: { value: email } })
           })
         } else {

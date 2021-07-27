@@ -1045,13 +1045,12 @@ describe('setUpZopimApiMethods', () => {
           name: { value: 'wayne' },
         })
 
-        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith(
-          {
+        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
+          visitor: {
             display_name: 'wayne', // eslint-disable-line camelcase
           },
-          undefined,
-          'zopim api'
-        )
+          identifier: 'zopim api',
+        })
       })
     })
 
@@ -1084,13 +1083,13 @@ describe('setUpZopimApiMethods', () => {
         expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
           email: { value: 'wayne@see.com' },
         })
-        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith(
-          {
+        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
+          visitor: {
             email: 'wayne@see.com',
           },
-          undefined,
-          'zopim api'
-        )
+
+          identifier: 'zopim api',
+        })
       })
     })
     describe('with invalid input', () => {
@@ -1135,11 +1134,10 @@ describe('setUpZopimApiMethods', () => {
         expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
           phone: { value: '011111' },
         })
-        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith(
-          { phone: '011111' },
-          undefined,
-          'zopim api'
-        )
+        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
+          visitor: { phone: '011111' },
+          identifier: 'zopim api',
+        })
       })
     })
 

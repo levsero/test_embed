@@ -27,6 +27,8 @@ import {
 import { isMobileBrowser } from 'src/util/devices'
 import * as actions from '../actions'
 
+const mockTimestamp = 1234
+Date.now = jest.fn(() => mockTimestamp)
 const timeoutError = { code: 'ETIMEDOUT' }
 const otherError = { code: 'DERP DERP', message: 'I gone derped up' }
 const mockStore = configureMockStore([thunk])
@@ -61,6 +63,28 @@ const getState = (state = {}) => {
 jest.mock('src/util/devices')
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
+
+const dispatchZChatWithTimeoutActionAsync = async (action, error, store) => {
+  store = store || mockStore(getState())
+
+  store.dispatch(action)
+  const timeoutArgs = invoker.mock.calls[0]
+  const callback = timeoutArgs[timeoutArgs.length - 1]
+
+  await callback(error)
+
+  const timeoutArgs2 = invoker.mock.calls[1]
+  if (timeoutArgs2) {
+    const callback2 = timeoutArgs2[timeoutArgs2.length - 1]
+    await callback2(error)
+  }
+
+  return {
+    store,
+    timeoutArgs,
+    callback,
+  }
+}
 
 const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
   const store = mockStore(getState())
@@ -194,10 +218,9 @@ describe('endChat', () => {
 
 describe('setVisitorInfo', () => {
   const mockVisitor = { name: 'Belgarion', email: 'garion@riva.com' }
-  const mockTimestamp = 1234
   const mockRequestSuccessAction = {
     type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
-    payload: { ...mockVisitor, timestamp: mockTimestamp },
+    payload: { ...mockVisitor, timestamp: 1234 },
   }
 
   beforeEach(() => {
@@ -217,7 +240,9 @@ describe('setVisitorInfo', () => {
       it('does not dispatch any actions', () => {
         const store = mockStore(getState())
 
-        store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }))
+        store.dispatch(
+          actions.setVisitorInfo({ visitor: mockVisitor, successAction: { type: 'w00t' } })
+        )
 
         expect(store.getActions()).toEqual([])
       })
@@ -233,16 +258,16 @@ describe('setVisitorInfo', () => {
       jest.spyOn(selectors, 'getIsAuthenticated').mockReturnValue(true)
       const store = mockStore(getState())
 
-      const vistor = {
+      const visitor = {
         name: 'Someone',
         phone: '123',
       }
 
-      store.dispatch(actions.setVisitorInfo(vistor, {}, null, 1234))
+      store.dispatch(actions.setVisitorInfo({ visitor }))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
-          payload: { phone: '123', timestamp: mockTimestamp },
+          payload: { phone: '123', timestamp: 1234 },
         },
       ])
     })
@@ -250,25 +275,27 @@ describe('setVisitorInfo', () => {
     it('dispatches SET_VISITOR_INFO_REQUEST_PENDING', () => {
       const store = mockStore(getState())
 
-      store.dispatch(actions.setVisitorInfo(mockVisitor, {}, null, 1234))
+      store.dispatch(actions.setVisitorInfo({ visitor: mockVisitor }))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
-          payload: { ...mockVisitor, timestamp: mockTimestamp },
+          payload: { ...mockVisitor, timestamp: 1234 },
         },
       ])
     })
 
     it('passes in the visitor as an argument', () => {
-      const { timeoutArgs } = dispatchZChatWithTimeoutAction(actions.setVisitorInfo(mockVisitor))
+      const { timeoutArgs } = dispatchZChatWithTimeoutAction(
+        actions.setVisitorInfo({ visitor: mockVisitor })
+      )
 
       expect(timeoutArgs[0]).toEqual(mockVisitor)
     })
 
-    describe("when there's any error", () => {
-      it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', () => {
-        const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor),
+    describe("when there's an error", () => {
+      it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', async () => {
+        const { store } = await dispatchZChatWithTimeoutActionAsync(
+          actions.setVisitorInfo({ visitor: mockVisitor, retry: true }),
           otherError
         )
 
@@ -276,12 +303,44 @@ describe('setVisitorInfo', () => {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE,
         })
       })
+
+      it('dispatches only SET_VISITOR_INFO_REQUEST_FAILURE if no retries', async () => {
+        const { store } = await dispatchZChatWithTimeoutActionAsync(
+          actions.setVisitorInfo({ visitor: mockVisitor, retry: false }),
+          timeoutError
+        )
+
+        expect(store.getActions()).toContainEqual({
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE,
+        })
+      })
+
+      it('dispatch retries if retries is true', async () => {
+        const { store } = await dispatchZChatWithTimeoutActionAsync(
+          actions.setVisitorInfo({ visitor: mockVisitor }),
+          timeoutError
+        )
+
+        expect(store.getActions()).toEqual([
+          {
+            type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
+            payload: { ...mockVisitor, timestamp: 1234 },
+          },
+          {
+            type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
+            payload: { ...mockVisitor, timestamp: 1234 },
+          },
+          {
+            type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE,
+          },
+        ])
+      })
     })
 
     describe('when there are no errors', () => {
       it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null, null, mockTimestamp)
+          actions.setVisitorInfo({ visitor: mockVisitor })
         )
 
         expect(store.getActions()).toContainEqual(mockRequestSuccessAction)
@@ -290,7 +349,7 @@ describe('setVisitorInfo', () => {
       describe('when an on-success action "callback" is passed', () => {
         it('dispatches the on-success action', () => {
           const { store } = dispatchZChatWithTimeoutAction(
-            actions.setVisitorInfo(mockVisitor, { type: 'COOL_ACTION' })
+            actions.setVisitorInfo({ visitor: mockVisitor, successAction: { type: 'COOL_ACTION' } })
           )
 
           expect(store.getActions()).toContainEqual({ type: 'COOL_ACTION' })

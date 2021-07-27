@@ -142,16 +142,14 @@ export const identifyApi = (reduxStore, user) => {
       console.warn('invalid phone passed into zE.identify', user.phone) // eslint-disable-line no-console
 
     reduxStore.dispatch(
-      // setVisitorInfo cannot accept undefined values.
-      setVisitorInfo(
-        {
+      setVisitorInfo({
+        visitor: {
           ...(validUser.name && { display_name: validUser.name }),
           ...(validUser.email && { email: validUser.email }),
           ...(validUser.phone && { phone: validUser.phone }),
         },
-        undefined,
-        'identify api'
-      )
+        identifier: 'identify api',
+      })
     )
   }
 

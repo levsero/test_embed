@@ -185,8 +185,11 @@ describe('submitPrechatForm', () => {
 
     expect(dispatchedActions).toContainEqual(
       setVisitorInfo({
-        display_name: 'Someone',
-        phone: 123,
+        visitor: {
+          display_name: 'Someone',
+          phone: 123,
+        },
+        identifier: 'prechat form',
       })
     )
   })
