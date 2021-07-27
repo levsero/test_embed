@@ -177,4 +177,9 @@ export default class Sunco {
     if (message.source.id !== getClientId(this.integrationId)) return false
     return message.source.sessionId === getSessionId(this.integrationId)
   }
+
+  updateSession(appUser) {
+    const { _id: appUserId, sessionToken } = appUser
+    storeAppUser({ appUserId, sessionToken, integrationId: this.integrationId })
+  }
 }

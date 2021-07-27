@@ -10,6 +10,10 @@ export const setupSuncoClient = ({ integrationId, appId, baseUrl, conversationHi
 
   client = new Sunco({ integrationId, appId, baseUrl: url, storageType, debug: __DEV__ })
 
+  if (__DEV__) {
+    window.parent.client = window.client = client
+  }
+
   return client
 }
 
@@ -54,6 +58,10 @@ export const sendMessage = async (message, payload, metadata) => {
 export const sendFormResponse = async (fields, formId) => {
   const conversation = await getActiveConversation()
   return conversation.sendFormResponse(fields, formId)
+}
+
+export const updateSession = async (appUser) => {
+  getClient().updateSession(appUser)
 }
 
 export const setLocale = async (locale) => {
