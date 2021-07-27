@@ -85,9 +85,9 @@ Please inform us of any bugs that you have to report in our #taipan-team Slack c
 
 ## Documenting ADRs
 
-We will be documenting architectural decisions surrounding this project under `doc/architecture/decisions`.
-The standards followed are documented by Michael Nygard at:
-[documenting architecture decisions](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)
+We document architectural decisions surrounding this project under `doc/architecture/decisions`.
+
+For more information about ADRs in the Web Widget, please see [Confluence - Web Widget ADRs](https://zendesk.atlassian.net/wiki/spaces/WEB/pages/4921822311/ADRs).
 
 ### Tooling and ADR generation
 
