@@ -10,6 +10,7 @@ import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConv
 import createStore from 'src/apps/messenger/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
+import trackNoMessageReceived from 'src/apps/messenger/utils/trackNoMessageReceived'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import errorTracker from 'src/framework/services/errorTracker'
 import { store as persistence } from 'src/framework/services/persistence'
@@ -46,6 +47,7 @@ const init = async ({ config }) => {
   store.dispatch(messengerConfigReceived(config?.messenger))
   store.dispatch(watchForScreenChanges())
   store.dispatch(initialiseLauncherLabel())
+  trackNoMessageReceived(store)
 
   setupSuncoClient(config.messenger)
 
