@@ -8,6 +8,7 @@ import {
 
 export const messageReceived = createAction('message-received')
 export const activityReceived = createAction('activity-received')
+export const integrationLinked = createAction('integration-linked')
 
 const waitForSocketToConnect = async (activeConversation, dispatch) => {
   const socketIsConnected = new Promise((resolve, reject) => {
@@ -83,8 +84,9 @@ const subscribeToConversationEvents = createAsyncThunk(
     activeConversation.socketClient.on('link', (linkEvent) => {
       switch (linkEvent.type) {
         case 'link':
-          const { appUser } = linkEvent
+          const { appUser, client } = linkEvent
           updateSession(appUser)
+          dispatch(integrationLinked({ integration: client.platform }))
       }
     })
 

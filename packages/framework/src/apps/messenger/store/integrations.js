@@ -1,5 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import { fetchIntegrations as fetchIntegrationsSunco } from 'src/apps/messenger/api/sunco'
+import { integrationLinked } from 'src/apps/messenger/features/suncoConversation/store'
 import { fetchLinkRequest as fetchLinkRequestSunco } from '../api/sunco'
 
 const LINKED = 'linked'
@@ -24,15 +25,6 @@ export const fetchLinkRequest = createAsyncThunk(
     throw new Error(`Failed to fetch link request for integration ${channelId}`)
   }
 )
-
-export const linkIntegration = createAsyncThunk('integrations/link', (type, { getState }) => {
-  // To be replaced with the SunCo API link
-  const integration = selectors.selectById(getState(), type)
-  if (integration) {
-    return integration
-  }
-  throw new Error('No integration with that name found!')
-})
 
 export const unlinkIntegration = createAsyncThunk('integrations/unlink', (type, { getState }) => {
   // To be replaced with the SunCo API unlink
@@ -112,13 +104,16 @@ const integrations = createSlice({
         },
       })
     },
-    [linkIntegration.fulfilled]: (state, { payload: integration }) => {
-      integrationsAdapter.updateOne(state, { id: integration.type, changes: { linked: LINKED } })
-    },
     [unlinkIntegration.fulfilled]: (state, { payload: integration }) => {
       integrationsAdapter.updateOne(state, {
         id: integration.type,
         changes: { linked: NOT_LINKED },
+      })
+    },
+    [integrationLinked](state, action) {
+      integrationsAdapter.updateOne(state, {
+        id: action.payload.integration,
+        changes: { linked: LINKED },
       })
     },
   },

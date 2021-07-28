@@ -1,7 +1,7 @@
+import { integrationLinked } from 'src/apps/messenger/features/suncoConversation/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import reducer, {
   fetchIntegrations,
-  linkIntegration,
   fetchLinkRequest,
   unlinkIntegration,
   getAllIntegrationsLinkStatus,
@@ -113,38 +113,6 @@ testReducer(reducer, [
     action: { type: 'any other action' },
     expected: {
       entities: { messenger: { _id: 123, appId: 1, pageId: '123' } },
-      ids: ['messenger'],
-    },
-  },
-  {
-    extraDesc: 'linkIntegration action is passed for a known integration',
-    initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
-    },
-    action: { type: [linkIntegration.fulfilled], payload: { type: 'messenger' } },
-    expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
-    },
-  },
-  {
-    extraDesc: 'linkIntegration action is passed for an unknown integration',
-    initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
-    },
-    action: { type: [linkIntegration.fulfilled], payload: { type: 'instagram' } },
-    expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
       ids: ['messenger'],
     },
   },
@@ -335,6 +303,18 @@ testReducer(reducer, [
       entities: {
         messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
       },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'Marks an integration as linked',
+    initialState: {
+      entities: { messenger: { _id: 123, type: 'messenger', linked: 'not linked' } },
+      ids: ['messenger'],
+    },
+    action: integrationLinked({ integration: 'messenger' }),
+    expected: {
+      entities: { messenger: { _id: 123, type: 'messenger', linked: 'linked' } },
       ids: ['messenger'],
     },
   },

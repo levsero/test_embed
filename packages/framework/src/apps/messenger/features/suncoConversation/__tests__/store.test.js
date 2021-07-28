@@ -1,37 +1,40 @@
 import { waitFor } from '@testing-library/dom'
 import * as suncoApi from 'src/apps/messenger/api/sunco'
 import createStore from 'src/apps/messenger/store/index'
+import { fetchIntegrations, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 import { startNewConversation } from '../store'
 
 jest.mock('src/apps/messenger/api/sunco')
 
 describe('suncoConversation Store', () => {
-  const listeners = {}
-  const mockConversation = {
-    socketClient: {
-      on: (eventType, callback) => {
-        listeners[eventType] = callback
-      },
-    },
-  }
-
   describe('linkEvent', () => {
+    let listeners
+
+    beforeEach(() => {
+      listeners = {}
+      jest.spyOn(suncoApi, 'getActiveConversation').mockImplementation(async () => ({
+        socketClient: {
+          on: (eventType, callback) => {
+            listeners[eventType] = callback
+          },
+        },
+      }))
+    })
+
     it('calls updateSession on link event', async () => {
       const store = createStore()
-      jest.spyOn(suncoApi, 'getActiveConversation').mockImplementation(async () => mockConversation)
 
       store.dispatch(startNewConversation())
 
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
-      listeners['link']({ type: 'link', appUser: {} })
+      listeners['link']({ type: 'link', appUser: {}, client: { platform: 'messenger' } })
 
       expect(suncoApi.updateSession).toHaveBeenCalledWith({})
     })
 
     it('does not call the link callback on another type of event', async () => {
       const store = createStore()
-      jest.spyOn(suncoApi, 'getActiveConversation').mockImplementation(async () => mockConversation)
 
       store.dispatch(startNewConversation())
 
@@ -40,6 +43,24 @@ describe('suncoConversation Store', () => {
       listeners['link']({ type: 'unlink', appUser: {} })
 
       expect(suncoApi.updateSession).not.toHaveBeenCalled()
+    })
+
+    it('marks the integration as linked', async () => {
+      const store = createStore()
+
+      store.dispatch({
+        type: fetchIntegrations.fulfilled.toString(),
+        payload: [{ pageId: '12345678', appId: '23456789', _id: '0c19f2c2c28', type: 'messenger' }],
+      })
+
+      expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe('not linked')
+
+      store.dispatch(startNewConversation())
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['link']({ type: 'link', appUser: {}, client: { platform: 'messenger' } })
+
+      expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe('linked')
     })
   })
 })
