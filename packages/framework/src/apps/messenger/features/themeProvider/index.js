@@ -125,27 +125,29 @@ const ThemeProvider = ({ children }) => {
             },
           },
           messenger: {
-            title: translate('embeddable_framework.messenger.channel_linking.page.title.messenger'),
+            title: translate(
+              'embeddable_framework.messenger.channel_linking.page.title.fb_messenger'
+            ),
             subtitle: translate(
-              'embeddable_framework.messenger.channel_linking.page.subtitle.messenger'
+              'embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger'
             ),
             instructions: {
               desktop: translate(
-                'embeddable_framework.messenger.channel_linking.page.instructions_desktop.messenger'
+                'embeddable_framework.messenger.channel_linking.page.instructions_desktop.fb_messenger'
               ),
               mobile: translate(
-                'embeddable_framework.messenger.channel_linking.page.instructions_mobile.messenger'
+                'embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger'
               ),
             },
             qrCodeAlt: translate(
-              'embeddable_framework.messenger.channel_linking.page.qr_code.messenger'
+              'embeddable_framework.messenger.channel_linking.page.qr_code.fb_messenger'
             ),
             button: {
               desktop: translate(
-                'embeddable_framework.messenger.channel_linking.page.button_desktop.messenger'
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger'
               ),
               mobile: translate(
-                'embeddable_framework.messenger.channel_linking.page.button_mobile.messenger'
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger'
               ),
             },
           },
