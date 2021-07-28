@@ -20,7 +20,7 @@ import {
   SDK_ACCOUNT_STATUS,
   SDK_CONNECTION_UPDATE,
 } from 'src/redux/modules/chat/chat-action-types'
-import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
+import { getIsChatting, getChatBanned } from 'src/embeds/chat/selectors'
 import {
   getChatAvailable,
   getTalkOnline,

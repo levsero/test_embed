@@ -1,6 +1,6 @@
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { getZChatConfig } from 'src/redux/modules/base/base-selectors'
-import { getIsLoggingOut, getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
+import { getIsLoggingOut, getZChatVendor } from 'src/embeds/chat/selectors'
 import { onChatSDKInitialized } from 'src/service/api/zopimApi/callbacks'
 import { settings } from 'src/service/settings'
 import {

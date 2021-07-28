@@ -1,6 +1,6 @@
 import { FRAME_ANIMATION_DELAY } from 'src/constants/shared'
 import { updateWidgetShown } from 'src/redux/modules/base/base-actions'
-import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors'
+import { getStandaloneMobileNotificationVisible } from 'src/embeds/chat/selectors'
 import { getWebWidgetVisibleOpenAndReady } from 'src/redux/modules/selectors'
 import { isMobileBrowser } from 'src/util/devices'
 import { setScaleLock } from 'src/util/devices'

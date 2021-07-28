@@ -1,12 +1,12 @@
-import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
-import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as reselectors from 'src/embeds/chat/selectors/reselectors'
+import * as simpleSelectors from 'src/embeds/chat/selectors/selectors'
 import { render } from 'src/util/testHelpers'
 import Chat from '../Chat'
 
 let showOfflineChatMock, getShowChatHistoryMock, hasChatSdkConnected
 
 beforeEach(() => {
-  showOfflineChatMock = jest.spyOn(selectors, 'getShowOfflineChat')
+  showOfflineChatMock = jest.spyOn(reselectors, 'getShowOfflineChat')
   getShowChatHistoryMock = jest.spyOn(simpleSelectors, 'getShowChatHistory')
   hasChatSdkConnected = jest.spyOn(simpleSelectors, 'getHasChatSdkConnected')
 })

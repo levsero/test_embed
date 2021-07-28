@@ -4,14 +4,17 @@ import { TEST_IDS } from 'src/constants/shared'
 import ChatContactDetailsModal from 'src/embeds/chat/components/ContactDetails'
 import ChatEmailTranscriptModal from 'src/embeds/chat/components/EmailTranscriptModal'
 import EndChatModal from 'src/embeds/chat/components/Modals/EndChat'
-import { getEditContactDetails } from 'src/embeds/chat/selectors'
+import {
+  getEditContactDetails,
+  getEmailTranscript,
+  getIsEndChatModalVisible,
+} from 'src/embeds/chat/selectors'
 import {
   endChatViaPostChatScreen,
   updateEmailTranscriptVisibility,
   updateEndChatModalVisibility,
   updateContactDetailsVisibility,
 } from 'src/redux/modules/chat'
-import { getEmailTranscript, getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 
 const Controller = ({
   editContactDetails,

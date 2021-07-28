@@ -60,7 +60,7 @@ describe('ChatBadge component', () => {
       'src/redux/modules/selectors': {
         getChatOnline: noop,
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getCurrentMessage: noop,
         getBannerSettings: noop,
       },

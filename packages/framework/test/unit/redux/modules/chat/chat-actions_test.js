@@ -98,7 +98,7 @@ describe('chat redux actions', () => {
         onChatSDKInitialized: mockOnChatSDKInitializedSpy,
         onChatConnected: mockOnChatConnectedSpy,
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy,
         getIsChatting: getIsChattingSpy,

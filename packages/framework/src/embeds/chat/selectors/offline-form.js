@@ -1,9 +1,5 @@
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import {
-  getIsAuthenticated,
-  getLoginSettings,
-  getSocialLogin,
-} from 'src/redux/modules/chat/chat-selectors'
+import { getIsAuthenticated, getLoginSettings, getSocialLogin } from 'src/embeds/chat/selectors'
 import { getOfflineFormFields } from 'src/redux/modules/selectors'
 
 export const getFields = (state) => {

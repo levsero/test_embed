@@ -33,7 +33,7 @@ import {
 } from 'src/redux/modules/base/base-action-types'
 import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
+import { getIsChatting } from 'src/embeds/chat/selectors'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import {

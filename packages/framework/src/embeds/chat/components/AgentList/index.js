@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import AgentInfo from 'src/embeds/chat/components/AgentInfo'
-import { getActiveAgents } from 'src/redux/modules/chat/chat-selectors/reselectors'
+import { getActiveAgents } from 'src/embeds/chat/selectors/reselectors'
 
 const AgentList = ({ agents }) => (
   <ul>

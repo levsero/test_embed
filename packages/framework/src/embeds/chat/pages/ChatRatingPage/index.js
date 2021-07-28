@@ -13,11 +13,7 @@ import {
   updateChatScreen,
 } from 'src/redux/modules/chat'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import {
-  getIsChatting,
-  getChatRating,
-  getAgentEndedChatSession,
-} from 'src/redux/modules/chat/chat-selectors'
+import { getIsChatting, getChatRating, getAgentEndedChatSession } from 'src/embeds/chat/selectors'
 
 const mapStateToProps = (state) => {
   return {

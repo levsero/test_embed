@@ -9,7 +9,7 @@ import {
   getActiveAgentCount,
   getRatingSettings,
   getChatRating,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { Button } from './styles'
 
 const ratingButtonLabel = (

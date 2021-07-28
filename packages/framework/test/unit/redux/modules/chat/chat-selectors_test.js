@@ -82,7 +82,7 @@ describe('chat selectors', () => {
       },
     })
 
-    const selectorsPath = buildSrcPath('redux/modules/chat/chat-selectors')
+    const selectorsPath = buildSrcPath('embeds/chat/selectors')
 
     mockery.registerAllowable(selectorsPath)
 

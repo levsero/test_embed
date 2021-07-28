@@ -5,7 +5,7 @@ import { TEST_IDS, ICONS } from 'src/constants/shared'
 import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import useTranslate from 'src/hooks/useTranslate'
 import { sendChatRating } from 'src/redux/modules/chat'
-import { getChatRating } from 'src/redux/modules/chat/chat-selectors'
+import { getChatRating } from 'src/embeds/chat/selectors'
 import {
   getProfileConfig,
   getShowRatingButtons,

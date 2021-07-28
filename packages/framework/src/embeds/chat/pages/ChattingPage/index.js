@@ -40,8 +40,7 @@ import {
   getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
-import * as selectors from 'src/redux/modules/chat/chat-selectors'
+import * as chatSelectors from 'src/embeds/chat/selectors'
 import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
 import getScrollBottom from 'src/util/get-scroll-bottom'
 import { onNextTick } from 'src/util/utils'
@@ -63,7 +62,7 @@ const mapStateToProps = (state) => {
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     visible: isInChattingScreen(state),
-    connection: selectors.getConnection(state),
+    connection: chatSelectors.getConnection(state),
   }
 }
 

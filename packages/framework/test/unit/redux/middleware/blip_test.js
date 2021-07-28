@@ -35,7 +35,7 @@ describe('blip middleware', () => {
         getFormState: _.identity,
         getAverageWaitTime: (prevState) => prevState.averageWaitTime,
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getIsChatting: (prevState) => prevState.isChatting,
       },
       'src/redux/modules/base/base-selectors': {

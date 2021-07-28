@@ -53,7 +53,7 @@ describe('ChatGroup component', () => {
         FILETYPE_ICONS,
         TEST_IDS,
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getGroupMessages: noop,
       },
       'src/apps/webWidget/services/i18n': {

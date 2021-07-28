@@ -4,11 +4,7 @@ import { HISTORY_REQUEST_STATUS } from 'src/constants/chat'
 import { SCROLL_BOTTOM_THRESHOLD } from 'src/constants/chat'
 import { markAsRead } from 'src/redux/modules/chat'
 import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
-import {
-  getChatsLength,
-  getLastMessageAuthor,
-  getAgentsTyping,
-} from 'src/redux/modules/chat/chat-selectors'
+import { getChatsLength, getLastMessageAuthor, getAgentsTyping } from 'src/embeds/chat/selectors'
 import { isAgent } from 'src/util/chat'
 import getScrollBottom from 'src/util/get-scroll-bottom'
 

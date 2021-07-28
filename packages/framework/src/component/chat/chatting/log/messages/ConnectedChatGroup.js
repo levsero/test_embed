@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getGroupMessages } from 'src/redux/modules/chat/chat-selectors'
+import { getGroupMessages } from 'src/embeds/chat/selectors'
 import ChatGroup from './ChatGroup'
 
 const mapStateToProps = (state, props) => ({

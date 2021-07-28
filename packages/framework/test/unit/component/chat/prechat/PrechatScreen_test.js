@@ -81,7 +81,7 @@ describe('PrechatScreen component', () => {
         DEPARTMENT_STATUSES,
       },
       'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage': PrechatFormOfflineMessageSuccessPage,
-      'src/redux/modules/chat/chat-selectors': {},
+      'src/embeds/chat/selectors': {},
       'src/redux/modules/chat/chat-history-selectors': {},
       'src/components/Widget': {
         Widget: noopReactComponent(),

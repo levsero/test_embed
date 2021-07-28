@@ -24,7 +24,7 @@ import {
   getEmbeddableConfigBadgeSettings,
   getEmbeddableConfigOfflineEnabled,
   getConnection,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import {
   getSettingsChatProfileCard,
   getSettingsChatTitle,

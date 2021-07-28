@@ -22,7 +22,7 @@ import {
   getIsAuthenticated,
   getSocialLogin,
   getPreChatFormState,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { getChatTitle, getOfflineFormSettings } from 'src/redux/modules/selectors'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
 import validate from './validate'

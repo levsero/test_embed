@@ -1,5 +1,10 @@
 import _ from 'lodash'
-import { getContactDetailsSubmissionError } from 'src/embeds/chat/selectors'
+import {
+  getContactDetailsSubmissionError,
+  getChatVisitor,
+  getDepartment,
+  getIsAuthenticated,
+} from 'src/embeds/chat/selectors'
 import {
   clearDepartment,
   handlePrechatFormSubmit,
@@ -10,11 +15,6 @@ import {
   updateChatScreen,
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
-import {
-  getChatVisitor,
-  getDepartment,
-  getIsAuthenticated,
-} from 'src/redux/modules/chat/chat-selectors'
 
 const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => async (
   dispatch,

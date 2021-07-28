@@ -19,7 +19,7 @@ import {
   getNotification,
   getPrechatFormRequired,
   getChatBanned,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'

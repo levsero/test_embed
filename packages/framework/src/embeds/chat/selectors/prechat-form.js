@@ -8,7 +8,7 @@ import {
   getIsAuthenticated,
   getLoginSettings,
   getSocialLogin,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import {
   getDefaultFormFields,
   getPrechatFormFields,

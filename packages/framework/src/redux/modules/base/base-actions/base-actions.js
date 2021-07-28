@@ -17,7 +17,7 @@ import {
 } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
+import { getPrechatFormRequired } from 'src/embeds/chat/selectors'
 import * as callbacks from 'src/service/api/callbacks'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'

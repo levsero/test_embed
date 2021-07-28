@@ -32,7 +32,7 @@ import {
   getChatStatus,
   getHasBackfillCompleted,
   getNotificationCount,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import {
   endChatApi,
   openApi,

@@ -45,7 +45,6 @@ describe('ChatOnline component', () => {
       'src/embeds/chat/pages/ChatRatingPage': noopReactComponent(),
       'src/embeds/chat/pages/PostChatPage': noopReactComponent(),
       'src/component/chat/prechat/PrechatScreen': noopReactComponent(),
-      'src/embeds/chat/selectors': {},
       'src/embeds/chat/actions/actions': {},
       'src/embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
       'src/embeds/chat/components/ReconnectButton': noopReactComponent(),
@@ -100,7 +99,7 @@ describe('ChatOnline component', () => {
       'src/util/chat': {
         isDefaultNickname: noop,
       },
-      'src/redux/modules/chat/chat-selectors': {},
+      'src/embeds/chat/selectors': {},
       'src/util/utils': {
         onNextTick: (cb) => setTimeout(cb, 0),
       },

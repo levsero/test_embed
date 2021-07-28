@@ -9,11 +9,11 @@ import {
   updateChatScreen,
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
-import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
+import { getDepartment } from 'src/embeds/chat/selectors'
 import { createMockStore } from 'src/util/testHelpers'
 
 jest.mock('src/redux/modules/chat')
-jest.mock('src/redux/modules/chat/chat-selectors')
+jest.mock('src/embeds/chat/selectors')
 
 describe('submitPrechatForm', () => {
   beforeEach(() => {

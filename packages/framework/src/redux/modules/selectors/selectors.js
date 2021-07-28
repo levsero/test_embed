@@ -11,7 +11,6 @@ import {
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
   DEFAULT_WIDGET_HEIGHT,
 } from 'src/constants/shared'
-import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
   getAnswerBotEnabled as getAnswerBotConfigEnabled,
   getButtonLabelKey,
@@ -71,7 +70,8 @@ import {
   getConnection as getChatConnection,
   getNotificationCount,
   getShowChatHistory,
-} from '../chat/chat-selectors'
+  getDeferredChatHasResponse,
+} from 'src/embeds/chat/selectors'
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,

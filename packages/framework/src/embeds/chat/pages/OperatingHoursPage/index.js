@@ -4,7 +4,7 @@ import { Widget, Header, Main } from 'src/components/Widget'
 import OperatingHours from 'src/embeds/chat/components/OperatingHours'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { handleOfflineFormBack } from 'src/redux/modules/chat'
-import { getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors'
+import { getGroupedOperatingHours } from 'src/embeds/chat/selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
 
 const OperatingHoursPage = ({ handleOfflineFormBack, operatingHours, title, locale }) => {

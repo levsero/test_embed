@@ -2,7 +2,7 @@ import _ from 'lodash'
 import * as baseActions from 'src/redux/modules/base'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as chatActions from 'src/redux/modules/chat'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+import * as chatSelectors from 'src/embeds/chat/selectors'
 import * as chatLinkedSelectors from 'src/redux/modules/selectors/chat-linked-selectors'
 import * as apis from 'src/service/api/apis'
 import { settings } from 'src/service/settings'
@@ -14,7 +14,7 @@ jest.mock('src/redux/modules/chat', () => ({
   setStatusForcefully: jest.fn(),
   setVisitorInfo: jest.fn(),
 }))
-jest.mock('src/redux/modules/chat/chat-selectors')
+jest.mock('src/embeds/chat/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('src/redux/modules/selectors/chat-linked-selectors')
 jest.mock('src/redux/modules/base', () => ({

@@ -13,7 +13,15 @@ import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
 import ChattingScreen from 'src/embeds/chat/pages/ChattingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
-import { getMenuVisible } from 'src/embeds/chat/selectors'
+import {
+  getAttachmentsEnabled,
+  getChatScreen,
+  getConnection,
+  getDepartments,
+  getEmailTranscript,
+  getIsLoggingOut,
+  getMenuVisible,
+} from 'src/embeds/chat/selectors'
 import {
   sendAttachments,
   resetEmailTranscript,
@@ -23,18 +31,18 @@ import {
   updateEndChatModalVisibility,
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
-import * as selectors from 'src/redux/modules/chat/chat-selectors'
+
 import { locals as styles } from './ChatOnline.scss'
 
 const mapStateToProps = (state) => {
   return {
-    attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    screen: selectors.getChatScreen(state),
-    emailTranscript: selectors.getEmailTranscript(state),
+    attachmentsEnabled: getAttachmentsEnabled(state),
+    screen: getChatScreen(state),
+    emailTranscript: getEmailTranscript(state),
     menuVisible: getMenuVisible(state),
-    connection: selectors.getConnection(state),
-    departments: selectors.getDepartments(state),
-    isLoggingOut: selectors.getIsLoggingOut(state),
+    connection: getConnection(state),
+    departments: getDepartments(state),
+    isLoggingOut: getIsLoggingOut(state),
   }
 }
 

@@ -11,7 +11,7 @@ import {
   SDK_DEPARTMENT_UPDATE,
   SDK_CHAT_MEMBER_LEAVE,
 } from 'src/redux/modules/chat/chat-action-types'
-import { getHasBackfillCompleted } from 'src/redux/modules/chat/chat-selectors/selectors'
+import { getHasBackfillCompleted } from 'src/embeds/chat/selectors/selectors'
 import * as callbacks from 'src/service/api/callbacks'
 import { isVisitor } from 'src/util/chat'
 

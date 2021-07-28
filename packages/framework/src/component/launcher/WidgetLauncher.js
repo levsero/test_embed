@@ -13,7 +13,7 @@ import {
 import { FrameStyle } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { launcherClicked } from 'src/redux/modules/base/'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'
+import { getNotificationCount } from 'src/embeds/chat/selectors'
 import {
   getChatAvailable,
   getTalkOnline,
