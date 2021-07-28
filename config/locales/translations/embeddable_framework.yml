@@ -1889,126 +1889,126 @@ parts:
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.title.whatsapp"
       title: "Title that appears informing the user to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1uLEHYHIOs7kcE1kppq3gBaqCGQf7nj91/view?usp=sharing"
       value: "Continue on WhatsApp"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.title.fb_messenger"
       title: "Title that appears informing the user to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1nJqyPt8JLjXB0KnDZ0LBWXTR532QgdyS/view?usp=sharing"
       value: "Continue on Messenger"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.title.instagram"
       title: "Title that appears informing the user to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1qqE8ZUJ9XTuoLVYVCm9HW0BLNb4_j7wX/view?usp=sharing"
       value: "Continue on Instagram"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.subtitle.whatsapp"
       title: "Subtitle that appears informing the user to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/18_xDEBHGQODUF8V8FauzxvEa_YPcqgc6/view?usp=sharing"
       value: "Take the conversation to your WhatsApp account. You can return anytime."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger"
       title: "Subtitle that appears informing the user to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/150Cxut98FIbPjb2x7fY4JUr9LrStmx3l/view?usp=sharing"
       value: "Take the conversation to your Messenger account. You can return anytime."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.subtitle.instagram"
       title: "Subtitle that appears informing the user to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1Y68Jrx9SpiX2oDT8aB6L9Mh8bFQm4o6h/view?usp=sharing"
       value: "Take the conversation to your Instagram account. You can return anytime."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_desktop.whatsapp"
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1ELKx1c46Ds2GHZqTutUB-tsVBuYS4VB1/view?usp=sharing"
       value: "Scan the QR code and then send the message that appears in your WhatsApp."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_desktop.fb_messenger"
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1ZKMXEaOQyK_dWsSFJv03DSQuIkoWOYaq/view?usp=sharing"
       value: "Scan the QR code and then send the message that appears in your Messenger."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_desktop.instagram"
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1kRrSR98TkrgcdJW5rfRExup8l-pRXofs/view?usp=sharing"
       value: "Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_mobile.whatsapp"
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1M4VT4n0Exm1MZC0K9OPSSRv5RFIdApnW/view?usp=sharing"
       value: "Open WhatsApp and send a short message to connect your account."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger"
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1AAjsymJKvZqzUrmVUFtKp02Q94MoBa7t/view?usp=sharing"
       value: "Open Messenger and send a short message to connect your account."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_mobile.instagram"
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1wZNF3qT2W9WAgq5a0N8yM9nUGoAgymqP/view?usp=sharing"
       value: "Follow @[Instagram handle] to send a DM."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.whatsapp"
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1kot559G8l31UDg8f7q-qKIfRMRNpA6-n/view?usp=sharing"
       value: "QR code to open WhatsApp on this device"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.fb_messenger"
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1qNw1R6qBBiRSoKguAKggYMBgS8ouFBVM/view?usp=sharing"
       value: "QR code to open Messenger on this device"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.instagram"
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1WH4ZtAtUOLigiVW_iTCMi5X2ltfiKsKa/view?usp=sharing"
       value: "QR code to open Instagram on this device"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1RqjEIscc31ppaTLk2djdZY3DbJwOuJGN/view?usp=sharing"
       value: "Open WhatsApp on this device."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1191vn07zirDbF3_M2YefbQocM02QBxax/view?usp=sharing"
       value: "Open Messenger on this device."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.instagram"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1eCh-s5TzmzovE9qCjlGiJxsdPSxVjM8e/view?usp=sharing"
       value: "Open Instagram on this device."
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook WhatsApp channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/16hv5WvYZE93tvmZLcms1HSdL3qazmXFy/view?usp=sharing"
       value: "Open WhatsApp"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook Messenger channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1bNVuhfNnh2isaKW2I4j79sWnzR1g54nI/view?usp=sharing"
       value: "Open Messenger"
       wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.instagram"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook Instagram channel"
-      screenshot: ""
+      screenshot: "https://drive.google.com/file/d/1FVnH-nmlr7uIKUoOES4QkM6ZPjBOhx4B/view?usp=sharing"
       value: "Open Instagram"
       wip: true
