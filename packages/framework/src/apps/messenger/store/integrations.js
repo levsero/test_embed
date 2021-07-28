@@ -1,5 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import { fetchIntegrations as fetchIntegrationsSunco } from 'src/apps/messenger/api/sunco'
+import { fetchLinkRequest as fetchLinkRequestSunco } from '../api/sunco'
 
 const LINKED = 'linked'
 const NOT_LINKED = 'not linked'
@@ -9,6 +10,20 @@ const integrationsAdapter = createEntityAdapter({
 })
 
 const selectors = integrationsAdapter.getSelectors((state) => state.integrations)
+
+export const fetchLinkRequest = createAsyncThunk(
+  'integrations/fetchLinkRequest',
+  async ({ channelId }, { getState }) => {
+    const integration = selectors.selectById(getState(), channelId)
+    const response = await fetchLinkRequestSunco(integration._id)
+
+    if (Array.isArray(response.body.linkRequests) && response.body.linkRequests.length === 1) {
+      return response.body.linkRequests[0]
+    }
+
+    throw new Error(`Failed to fetch link request for integration ${channelId}`)
+  }
+)
 
 export const linkIntegration = createAsyncThunk('integrations/link', (type, { getState }) => {
   // To be replaced with the SunCo API link
@@ -36,17 +51,66 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 
 const integrations = createSlice({
   name: 'integrations',
-  initialState: integrationsAdapter.getInitialState({}),
+  initialState: integrationsAdapter.getInitialState(),
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
         return {
           ...integration,
           linked: NOT_LINKED,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: false,
+          linkRequest: {},
         }
       })
 
       return integrationsAdapter.addMany(state, parsedIntegrations)
+    },
+    [fetchLinkRequest.fulfilled]: (state, { payload: linkRequest }) => {
+      integrationsAdapter.updateOne(state, {
+        id: linkRequest.type,
+        changes: {
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: false,
+          linkRequest,
+        },
+      })
+    },
+    [fetchLinkRequest.pending](
+      state,
+      {
+        meta: {
+          arg: { channelId },
+        },
+      }
+    ) {
+      integrationsAdapter.updateOne(state, {
+        id: channelId,
+        changes: {
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: true,
+          errorFetchingLinkRequest: false,
+        },
+      })
+    },
+    [fetchLinkRequest.rejected](
+      state,
+      {
+        meta: {
+          arg: { channelId },
+        },
+      }
+    ) {
+      integrationsAdapter.updateOne(state, {
+        id: channelId,
+        changes: {
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: true,
+        },
+      })
     },
     [linkIntegration.fulfilled]: (state, { payload: integration }) => {
       integrationsAdapter.updateOne(state, { id: integration.type, changes: { linked: LINKED } })
@@ -58,10 +122,10 @@ const integrations = createSlice({
       })
     },
   },
-  reducers: {},
 })
 
 export const getIntegrations = selectors.selectAll
+export const selectIntegrationById = selectors.selectById
 
 export const getAllIntegrationsLinkStatus = (state) => {
   const integrations = getIntegrations(state)

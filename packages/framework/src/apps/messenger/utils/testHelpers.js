@@ -1,9 +1,9 @@
 import { render as rtlRender } from '@testing-library/react'
+import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import createStore from 'src/apps/messenger/store'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 
 export const render = (

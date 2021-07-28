@@ -2,6 +2,7 @@ import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import reducer, {
   fetchIntegrations,
   linkIntegration,
+  fetchLinkRequest,
   unlinkIntegration,
   getAllIntegrationsLinkStatus,
 } from '../integrations'
@@ -31,7 +32,17 @@ testReducer(reducer, [
     },
     expected: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
+        messenger: {
+          _id: 123,
+          appId: 1,
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+          pageId: 'p1',
+          linked: 'not linked',
+          type: 'messenger',
+        },
       },
       ids: ['messenger'],
     },
@@ -48,9 +59,39 @@ testReducer(reducer, [
     },
     expected: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
-        whatsapp: { _id: 234, appId: 2, pageId: 'p2', linked: 'not linked', type: 'whatsapp' },
-        instagram: { _id: 345, appId: 3, pageId: 'p3', linked: 'not linked', type: 'instagram' },
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: 'p1',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+        whatsapp: {
+          _id: 234,
+          appId: 2,
+          pageId: 'p2',
+          linked: 'not linked',
+          type: 'whatsapp',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+        instagram: {
+          _id: 345,
+          appId: 3,
+          pageId: 'p3',
+          linked: 'not linked',
+          type: 'instagram',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
       },
       ids: ['messenger', 'whatsapp', 'instagram'],
     },
@@ -103,6 +144,163 @@ testReducer(reducer, [
     expected: {
       entities: {
         messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'fetchLinkRequest action is passed for a known integration',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: {
+      type: [fetchLinkRequest.fulfilled],
+      payload: {
+        type: 'messenger',
+        integrationId: '60dacd66c491a400d3882068',
+        code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+        url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+      },
+    },
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          linkRequest: {
+            integrationId: '60dacd66c491a400d3882068',
+            type: 'messenger',
+            code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+            url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+          },
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'fetchLinkRequest action is passed for an unknown integration',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [fetchLinkRequest.fulfilled], payload: { type: 'instagram' } },
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'fetchLinkRequest pending action is dispatched',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [fetchLinkRequest.pending], meta: { arg: { channelId: 'messenger' } } },
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: true,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'fetchLinkRequest rejected action is dispatched',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [fetchLinkRequest.rejected], meta: { arg: { channelId: 'messenger' } } },
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'not linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: true,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
       },
       ids: ['messenger'],
     },

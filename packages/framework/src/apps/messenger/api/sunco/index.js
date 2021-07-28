@@ -68,6 +68,11 @@ export const setLocale = async (locale) => {
   getClient().setLocale(locale)
 }
 
+export const fetchLinkRequest = async (integrationId) => {
+  const conversation = await getActiveConversation()
+  return conversation.getLinkRequest(integrationId)
+}
+
 // Temporary API until we can get this data via embeddable config
 export const fetchIntegrations = async () => {
   return getClient().getIntegrations()
