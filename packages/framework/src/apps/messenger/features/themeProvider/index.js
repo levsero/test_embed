@@ -98,6 +98,83 @@ const ThemeProvider = ({ children }) => {
               `embeddable_framework.messenger.header.menu.continue_on_${name.toLowerCase()}`
             ),
         },
+        channelLink: {
+          whatsapp: {
+            title: translate('embeddable_framework.messenger.channel_linking.page.title.whatsapp'),
+            subtitle: translate(
+              'embeddable_framework.messenger.channel_linking.page.subtitle.whatsapp'
+            ),
+            instructions: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.instructions_desktop.whatsapp'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.instructions_mobile.whatsapp'
+              ),
+            },
+            qrCodeAlt: translate(
+              'embeddable_framework.messenger.channel_linking.page.qr_code.whatsapp'
+            ),
+            button: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp'
+              ),
+            },
+          },
+          messenger: {
+            title: translate('embeddable_framework.messenger.channel_linking.page.title.messenger'),
+            subtitle: translate(
+              'embeddable_framework.messenger.channel_linking.page.subtitle.messenger'
+            ),
+            instructions: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.instructions_desktop.messenger'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.instructions_mobile.messenger'
+              ),
+            },
+            qrCodeAlt: translate(
+              'embeddable_framework.messenger.channel_linking.page.qr_code.messenger'
+            ),
+            button: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.messenger'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.messenger'
+              ),
+            },
+          },
+          instagram: {
+            title: translate('embeddable_framework.messenger.channel_linking.page.title.instagram'),
+            subtitle: translate(
+              'embeddable_framework.messenger.channel_linking.page.subtitle.instagram'
+            ),
+            instructions: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.instructions_desktop.instagram'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.instructions_mobile.instagram'
+              ),
+            },
+            qrCodeAlt: translate(
+              'embeddable_framework.messenger.channel_linking.page.qr_code.instagram'
+            ),
+            button: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.instagram'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.instagram'
+              ),
+            },
+          },
+        },
         formMessage: {
           nextStep: translate('embeddable_framework.messenger.message.form.next_step'),
           send: translate('embeddable_framework.messenger.message.form.submit'),
