@@ -373,27 +373,7 @@
       "embeddable_framework.zendeskLogo.powered_by_url.chat": "https://www.zendesk.com/chat/live-chat-widget/",
       "embeddable_framework.zendeskLogo.powered_by_url.embeddables": "https://www.zendesk.com/embeddables/",
       "embeddable_framework.messenger.header.menu.continue_on_messenger": "Continue on Messenger",
-      "embeddable_framework.messenger.channel_linking.page.title.whatsapp": "Continue on WhatsApp",
-      "embeddable_framework.messenger.channel_linking.page.title.fb_messenger": "Continue on Messenger",
-      "embeddable_framework.messenger.channel_linking.page.title.instagram": "Continue on Instagram",
-      "embeddable_framework.messenger.channel_linking.page.subtitle.whatsapp": "Take the conversation to your WhatsApp account. You can return anytime.",
-      "embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger": "Take the conversation to your Messenger account. You can return anytime.",
-      "embeddable_framework.messenger.channel_linking.page.subtitle.instagram": "Take the conversation to your Instagram account. You can return anytime.",
-      "embeddable_framework.messenger.channel_linking.page.instructions_desktop.whatsapp": "Scan the QR code and then send the message that appears in your WhatsApp.",
-      "embeddable_framework.messenger.channel_linking.page.instructions_desktop.fb_messenger": "Scan the QR code and then send the message that appears in your Messenger.",
-      "embeddable_framework.messenger.channel_linking.page.instructions_desktop.instagram": "Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.",
-      "embeddable_framework.messenger.channel_linking.page.instructions_mobile.whatsapp": "Open WhatsApp and send a short message to connect your account.",
-      "embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger": "Open Messenger and send a short message to connect your account.",
-      "embeddable_framework.messenger.channel_linking.page.instructions_mobile.instagram": "Follow @[Instagram handle] to send a DM.",
-      "embeddable_framework.messenger.channel_linking.page.qr_code.whatsapp": "QR code to open WhatsApp on this device",
-      "embeddable_framework.messenger.channel_linking.page.qr_code.fb_messenger": "QR code to open Messenger on this device",
-      "embeddable_framework.messenger.channel_linking.page.qr_code.instagram": "QR code to open Instagram on this device",
-      "embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp": "Open WhatsApp on this device.",
-      "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger": "Open Messenger on this device.",
-      "embeddable_framework.messenger.channel_linking.page.button_desktop.instagram": "Open Instagram on this device.",
-      "embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp": "Open WhatsApp",
-      "embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger": "Open Messenger",
-      "embeddable_framework.messenger.channel_linking.page.button_mobile.instagram": "Open Instagram"
+      "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger": "Open Messenger on this device."
     }
   }
 }
