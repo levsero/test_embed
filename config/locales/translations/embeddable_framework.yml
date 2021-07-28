@@ -1976,7 +1976,7 @@ parts:
       screenshot: ""
       value: "QR code to open Instagram on this device"
       wip: true
-- translation:
+  - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook WhatsApp channel"
       screenshot: ""
@@ -1994,7 +1994,7 @@ parts:
       screenshot: ""
       value: "Open Instagram on this device."
       wip: true
-- translation:
+  - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook WhatsApp channel"
       screenshot: ""
