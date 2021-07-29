@@ -1,4 +1,5 @@
 import generateColor from 'color'
+import { meetsContrastGuidelines } from 'polished'
 import { zdColorGrey500, zdColorGrey800 } from '@zendeskgarden/css-variables/dist/index'
 
 export class ColorMixer {
@@ -126,11 +127,7 @@ export class ColorMixer {
     return this._isLight(color, ColorMixer.almostWhiteYIQ)
   }
 
-  _isLight = (color, threshold = ColorMixer.defaultLightYIQ) => {
-    const rgb = color.rgb().color
-    const values = ColorMixer.yiqValues
-    const yiq = (rgb[0] * values.r + rgb[1] * values.g + rgb[2] * values.b) / 1000
-
-    return yiq > threshold
+  _isLight = (color) => {
+    return !meetsContrastGuidelines(color.hex(), '#ffffff').AA
   }
 }

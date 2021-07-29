@@ -34,7 +34,7 @@ const StyledTalkIcon = styled(TalkIcon)`
 
   path.customColor,
   rect.customColor {
-    fill: ${(props) => props.theme.listColorStr} !important;
+    fill: ${(props) => props.theme.iconColor} !important;
   }
 `
 

@@ -43,7 +43,7 @@ const StyledEmbeddedVoiceIcon = styled(EmbeddedVoiceIcon)`
   flex-shrink: 0;
   path.customColor,
   rect.customColor {
-    fill: ${(props) => props.theme.baseColor} !important;
+    fill: ${(props) => props.theme.iconColor} !important;
   }
 `
 

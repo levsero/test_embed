@@ -103,7 +103,7 @@ exports[`generateUserWidgetCSS when the color are overidden in settings uses the
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
-      background-color: #1AFF1A !important;
+      background-color: #00D900 !important;
     }
     .u-userBorderColor:not([disabled]) {
       color: #0F0 !important;
@@ -124,7 +124,7 @@ exports[`generateUserWidgetCSS when the color are overidden in settings uses the
       color: #F00 !important;
     }
     .u-userLinkColor a:hover {
-      color: #FF0000 !important;
+      color: #300707 !important;
     }
     .u-userStrokeColor {
       stroke: #283646 !important;
@@ -162,7 +162,7 @@ exports[`generateUserWidgetCSS when the color is light calculates the css correc
       color: #58F9F7 !important;
     }
     .u-iconColor {
-      color: #58F9F7 !important;
+      color: #87929D !important;
     }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {
@@ -186,29 +186,29 @@ exports[`generateUserWidgetCSS when the color is light calculates the css correc
       fill: #186766 !important;
     }
     .u-userBackgroundColorNoHover {
-      background-color: #58F9F7 !important;
-      color: #186766 !important;
+      background-color: #2F3941 !important;
+      color: #FFFFFF !important;
     }
     .u-userBackgroundColor:not([disabled]) {
-      background-color: #58F9F7 !important;
-      color: #186766 !important;
+      background-color: #2F3941 !important;
+      color: #FFFFFF !important;
     }
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
-      background-color: #27F7F5 !important;
+      background-color: #343F48 !important;
     }
     .u-userBorderColor:not([disabled]) {
-      color: #58F9F7 !important;
+      color: #2F3941 !important;
       background-color: transparent !important;
-      border-color: #58F9F7 !important;
+      border-color: #2F3941 !important;
     }
     .u-userBorderColor:not([disabled]):hover,
     .u-userBorderColor:not([disabled]):active,
     .u-userBorderColor:not([disabled]):focus {
-      color: #186766 !important;
-      background-color: #58F9F7 !important;
-      border-color: #58F9F7 !important;
+      color: #FFFFFF !important;
+      background-color: #2F3941 !important;
+      border-color: #2F3941 !important;
     }
     .u-userLinkColor a {
       color: #186766 !important;
@@ -435,8 +435,8 @@ exports[`generateUserWidgetCSS when the color is set via embeddable config uses 
 exports[`generateWebWidgetPreviewCSS calculates the colours correctly 1`] = `
 "
     .u-userBackgroundColor:not([disabled]) {
-      background-color: #58F9F7 !important;
-      color: #186766 !important;
+      background-color: #2F3941 !important;
+      color: #FFFFFF !important;
     }
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
@@ -459,8 +459,8 @@ exports[`generateWebWidgetPreviewCSS calculates the colours correctly 1`] = `
       background: #27F7F5 !important;
     }
     .u-userBackgroundColorNoHover {
-      background-color: #58F9F7 !important;
-      color: #186766 !important;
+      background-color: #2F3941 !important;
+      color: #FFFFFF !important;
     }
   "
 `;

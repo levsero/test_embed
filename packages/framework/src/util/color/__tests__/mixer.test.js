@@ -23,7 +23,7 @@ describe('instantiation', () => {
   })
 
   it('holds a buttonColor in state', () => {
-    expect(mixer.buttonColor.hex()).toEqual('#3ACCF5')
+    expect(mixer.buttonColor.hex()).toEqual('#2F3941')
   })
 
   it('holds a listColor in state', () => {
@@ -60,7 +60,8 @@ describe('#alpha', () => {
 describe('#getButtonColor', () => {
   describe('when the colour is not extremely light', () => {
     it('returns the same colour as the base', () => {
-      expect(mixer.getButtonColor()).toEqual('#3ACCF5')
+      const mixer = new colorMixer('#A30909')
+      expect(mixer.getButtonColor()).toEqual('#A30909')
     })
   })
 
@@ -69,7 +70,7 @@ describe('#getButtonColor', () => {
       mixer = new colorMixer('#FFFFFF')
     })
 
-    it('returns a neutral grey', () => {
+    it('returns a darkened variation', () => {
       expect(mixer.getButtonColor()).toEqual('#2F3941')
     })
   })
