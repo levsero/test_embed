@@ -175,7 +175,7 @@ parts:
       key: "embeddable_framework.validation.error.name"
       title: "Error message shown beneath a name field when there is no value entered."
       screenshot: "https://drive.google.com/open?id=1G0TgGHEXUrkgeVeqm1CRb3dOZWeTh89K"
-      value: "Please enter a valid name."
+      value: "Enter a valid name."
   - translation:
       key: "embeddable_framework.validation.error.department"
       title: "Error message shown beneath a department field when there is no value entered."
@@ -185,7 +185,7 @@ parts:
       key: "embeddable_framework.validation.error.message"
       title: "Error message shown beneath a message field when there is no value entered."
       screenshot: "https://drive.google.com/open?id=12STkQSlJL43xbw1w-FXjZVaBGlauSWQ7"
-      value: "Please enter a valid message."
+      value: "Enter a valid message."
   - translation:
       key: "embeddable_framework.validation.error.number"
       title: "Error message shown beneath a number field when there is no value entered."
