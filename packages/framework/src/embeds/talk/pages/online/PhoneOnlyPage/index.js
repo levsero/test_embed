@@ -6,8 +6,8 @@ import { TEST_IDS } from 'src/constants/shared'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import useGetTitle from 'src/embeds/talk/hooks/useGetTitle'
-import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
 import { getAverageWaitTimeString, getTalkEmbeddableConfig } from 'src/embeds/talk/selectors'
+import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
 import { Container, TalkIcon, Message, PhoneNumberContainer } from './styles'
 
 const PhoneOnlyPage = ({ callUsMessage, averageWaitTime, phoneNumber, formattedPhoneNumber }) => {
@@ -18,6 +18,7 @@ const PhoneOnlyPage = ({ callUsMessage, averageWaitTime, phoneNumber, formattedP
       <Header title={getTitle('embeddable_framework.talk.phoneOnly.title')} />
       <Main>
         <Container data-testid={TEST_IDS.TALK_PHONE_ONLY_PAGE}>
+          HERE
           <TalkIcon />
           <Message>{callUsMessage}</Message>
           {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}

@@ -56,7 +56,7 @@ export const Icon = styled(Paperclip)`
   ${(props) =>
     props.theme.rtl ? `margin-left: ${5 / FONT_SIZE}rem;` : `margin-right: ${5 / FONT_SIZE}rem;`}
 
-  color: ${(props) => props.theme.baseColor};
+  color: ${(props) => props.theme.iconColor};
   min-width: ${18 / FONT_SIZE}rem;
   min-height: ${18 / FONT_SIZE}rem;
   height: ${18 / FONT_SIZE}rem;

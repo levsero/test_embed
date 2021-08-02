@@ -69,13 +69,13 @@ describe('default parameters', () => {
     })
 
     it("preserves the widget's colour after changing it", () => {
-      preview.setColor('#AABBCC')
+      preview.setColor('#174F87')
 
-      expect(webWidgetPreviewBody()).toMatch('background-color: #AABBCC !important;')
+      expect(webWidgetPreviewBody()).toMatch('background-color: #174F87 !important;')
 
       preview.setTitle('message')
 
-      expect(webWidgetPreviewBody()).toMatch('background-color: #AABBCC !important;')
+      expect(webWidgetPreviewBody()).toMatch('background-color: #174F87 !important;')
     })
   })
 
@@ -86,9 +86,9 @@ describe('default parameters', () => {
   })
 
   it('allows setting of color', () => {
-    preview.setColor('#FF1234')
+    preview.setColor('#B81E34')
 
-    expect(webWidgetPreviewBody()).toMatch('background-color: #FF1234 !important;')
+    expect(webWidgetPreviewBody()).toMatch('background-color: #B81E34 !important;')
   })
 
   it('sets it with default color', () => {

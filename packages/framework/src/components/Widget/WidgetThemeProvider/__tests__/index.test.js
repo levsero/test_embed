@@ -80,10 +80,10 @@ describe('connected WidgetThemeProvider', () => {
   describe('custom Widget Theme based on - settings: color: theme', () => {
     const expectedThemedColours = {
       baseColor: '#78A300',
-      baseHighlightColor: '#84B300',
-      buttonColorStr: '#78A300',
-      buttonHighlightColorStr: '#84B300',
-      buttonTextColorStr: '#28320A',
+      baseHighlightColor: '#668B00',
+      buttonColorStr: '#2F3941',
+      buttonHighlightColorStr: '#343F48',
+      buttonTextColorStr: '#FFFFFF',
       listColorStr: '#28320A',
       listHighlightColorStr: '#2C370B',
       linkColorStr: '#28320A',
@@ -91,8 +91,8 @@ describe('connected WidgetThemeProvider', () => {
       headerColorStr: '#78A300',
       headerTextColorStr: '#28320A',
       headerFocusRingColorStr: 'rgba(120,163,0,0.4)',
-      headerBackgroundColorStr: '#84B300',
-      iconColor: '#78A300',
+      headerBackgroundColorStr: '#668B00',
+      iconColor: '#87929D',
     }
 
     for (let colorVariableName in expectedThemedColours) {
