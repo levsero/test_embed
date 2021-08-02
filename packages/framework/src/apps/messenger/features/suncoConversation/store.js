@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import {
-  getActiveConversation,
   fetchMessages,
+  getActiveConversation,
   getClient,
   updateSession,
 } from 'src/apps/messenger/api/sunco'
@@ -9,6 +9,8 @@ import {
 export const messageReceived = createAction('message-received')
 export const activityReceived = createAction('activity-received')
 export const integrationLinked = createAction('integration-linked')
+export const integrationLinkCancelled = createAction('integration-link-cancelled')
+export const integrationLinkFailed = createAction('integration-link-failed')
 
 const waitForSocketToConnect = async (activeConversation, dispatch) => {
   const socketIsConnected = new Promise((resolve, reject) => {
@@ -89,6 +91,18 @@ const subscribeToConversationEvents = createAsyncThunk(
             const { appUser, client } = linkEvent
             updateSession(appUser)
             dispatch(integrationLinked({ type: client.platform, clientId: client.id }))
+          }
+          break
+        case 'link:cancelled':
+          {
+            const { client } = linkEvent
+            dispatch(integrationLinkCancelled({ type: client.platform }))
+          }
+          break
+        case 'link:failed':
+          {
+            const { client } = linkEvent
+            dispatch(integrationLinkFailed({ type: client.platform }))
           }
           break
       }

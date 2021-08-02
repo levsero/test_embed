@@ -35,6 +35,10 @@ const defaultLabels = {
   otherParticipantLayout: {
     avatarAltTag: 'Agent avatar',
   },
+  notification: {
+    connectError: "Couldn't connect. Try again.",
+    disconnectError: "Couldn't disconnect. Try again.",
+  },
   channelLink: {
     whatsapp: {
       title: 'Continue on WhatsApp',

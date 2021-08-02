@@ -23,6 +23,11 @@ const MESSAGE_STATUS = Object.freeze({
   failed: 'failed',
 })
 
+const NOTIFICATION_TYPES = Object.freeze({
+  connectError: 'connectError',
+  disconnectError: 'disconnectError',
+})
+
 const FRAME_MARGIN_FROM_PAGE = 16
 const FRAME_ANIMATION_DURATION = 0.7
 
@@ -33,4 +38,5 @@ export {
   MESSAGE_STATUS,
   FRAME_MARGIN_FROM_PAGE,
   FRAME_ANIMATION_DURATION,
+  NOTIFICATION_TYPES,
 }

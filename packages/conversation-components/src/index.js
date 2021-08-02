@@ -10,6 +10,7 @@ import Avatar from './Avatar'
 import Banner from './Banner'
 import Label from './Label'
 import MessageBubble from './MessageBubble'
+import Notification from './Notification'
 import ThemeProvider from './ThemeProvider'
 import Timestamp from './Timestamp'
 import {
@@ -18,6 +19,7 @@ import {
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS,
   FRAME_ANIMATION_DURATION,
+  NOTIFICATION_TYPES,
 } from './constants'
 import CarouselMessage from './messages/CarouselMessage'
 import FileMessage from './messages/FileMessage'
@@ -62,6 +64,7 @@ export {
   MessengerContainer,
   MessengerFooter,
   MessengerHeader,
+  Notification,
   FBMessengerIcon,
   WhatsAppIcon,
   InstagramIcon,
@@ -86,4 +89,5 @@ export {
   FRAME_ANIMATION_DURATION,
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS,
+  NOTIFICATION_TYPES,
 }

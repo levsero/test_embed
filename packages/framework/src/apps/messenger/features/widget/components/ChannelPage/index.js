@@ -1,18 +1,20 @@
-import { useEffect } from 'react'
-import { forwardRef } from 'react'
+import { forwardRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import {
-  ChannelLinkContainer,
   BackButton,
-  ChannelLinkWithUnlink,
-  ChannelLinkWithQrCode,
+  ChannelLinkContainer,
   ChannelLinkWithButton,
+  ChannelLinkWithQrCode,
+  ChannelLinkWithUnlink,
+  Notification,
+  NOTIFICATION_TYPES,
 } from '@zendesk/conversation-components'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import {
   fetchLinkRequest,
+  leftChannelPage,
   selectIntegrationById,
   unlinkIntegration,
 } from 'src/apps/messenger/store/integrations'
@@ -50,7 +52,10 @@ const ChannelPage = forwardRef((_props, ref) => {
     <ChannelLinkContainer ref={ref}>
       <Header>
         <BackButton
-          onClick={() => history.goBack()}
+          onClick={() => {
+            history.goBack()
+            dispatch(leftChannelPage({ channelId }))
+          }}
           ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
         />
       </Header>
@@ -75,6 +80,12 @@ const ChannelPage = forwardRef((_props, ref) => {
             />
           )}
         </>
+      )}
+
+      {integration.linkCancelled && <Notification messageType={NOTIFICATION_TYPES.connectError} />}
+      {integration.linkFailed && <Notification messageType={NOTIFICATION_TYPES.connectError} />}
+      {integration.unlinkFailed && (
+        <Notification messageType={NOTIFICATION_TYPES.disconnectError} />
       )}
     </ChannelLinkContainer>
   )
