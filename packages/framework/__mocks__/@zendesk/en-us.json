@@ -372,7 +372,8 @@
       "embeddable_framework.web_widget.frame.title": "Find more information here",
       "embeddable_framework.zendeskLogo.powered_by_url.chat": "https://www.zendesk.com/chat/live-chat-widget/",
       "embeddable_framework.zendeskLogo.powered_by_url.embeddables": "https://www.zendesk.com/embeddables/",
-      "embeddable_framework.messenger.header.menu.continue_on_messenger": "Continue on Messenger"
+      "embeddable_framework.messenger.header.menu.continue_on_messenger": "Continue on Messenger",
+      "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger": "Open Messenger on this device."
     }
   }
 }
