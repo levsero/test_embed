@@ -2048,3 +2048,15 @@ parts:
       screenshot: "https://drive.google.com/file/d/1yirqjK5YAch85ID7ouLAjfx5jH0QMhkD/view?usp=sharing"
       value: "Disconnect"
       wip: true
+  - translation:
+      key: "embeddable_framework.messenger.notification.channel_linking.link.failed"
+      title: "A text that displays when the system could not establish a link to social media channel"
+      screenshot: "https://drive.google.com/file/d/19R8oadIembW1Gqf-_V073HOyzQ2dFoVc/view?usp=sharing"
+      value: "Couldn’t connect. Try again."
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.notification.channel_linking.unlink.fail"
+      title: "A text that displays when the system could not un-link/disconnect from a social media channel"
+      screenshot: "https://drive.google.com/file/d/1e7dswtX6fU-psKTqr32fBIo0D4w_JIES/view?usp=sharing"
+      value: "Couldn’t disconnect. Try again."
+      wip: true
