@@ -2012,3 +2012,39 @@ parts:
       screenshot: "https://drive.google.com/file/d/1FVnH-nmlr7uIKUoOES4QkM6ZPjBOhx4B/view?usp=sharing"
       value: "Open Instagram"
       wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_link.instagram.disconnect_button_text"
+      title: "Text that appears informing the user that the Instagram channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
+      screenshot: "https://drive.google.com/file/d/1tWCSRka6i4HXBIMQ7lUDS38eE6vudKDS/view?usp=sharing"
+      value: "Instagram connected."
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_link.instagram.disconnect_link_text"
+      title: "A text link that when clicked will disconnect the Instagram channel from the log"
+      screenshot: "https://drive.google.com/file/d/1EE5fcclr930bflLv6k18YOt-IzBvsfv-/view?usp=sharing"
+      value: "Disconnect"
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_link.messenger.disconnect_button_text"
+      title: "Text that appears informing the user that the Messenger channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
+      screenshot: "https://drive.google.com/file/d/1Tlf9CJWRhZ36vlxNmM5ib8j2ClKoS5Ix/view?usp=sharing"
+      value: "Messenger connected."
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_link.messenger.disconnect_link_text"
+      title: "A text link that when clicked will disconnect the Messenger channel from the log"
+      screenshot: "https://drive.google.com/file/d/1PmtIx8kav64PFup7hNG9Pgo6AMSkcGnv/view?usp=sharing"
+      value: "Disconnect"
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_link.whatsapp.disconnect_button_text"
+      title: "Text that appears informing the user that the WhatsApp channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
+      screenshot: "https://drive.google.com/file/d/1Jl9zxWH7MQmG1KmhvXU_thyBhghDn6WX/view?usp=sharing"
+      value: "WhatsApp connected."
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_link.whatsapp.disconnect_link_text"
+      title: "A text link that when clicked will disconnect the WhatsApp channel from the log"
+      screenshot: "https://drive.google.com/file/d/1yirqjK5YAch85ID7ouLAjfx5jH0QMhkD/view?usp=sharing"
+      value: "Disconnect"
+      wip: true
