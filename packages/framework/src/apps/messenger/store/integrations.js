@@ -1,7 +1,13 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import { fetchIntegrations as fetchIntegrationsSunco } from 'src/apps/messenger/api/sunco'
-import { integrationLinked } from 'src/apps/messenger/features/suncoConversation/store'
-import { fetchLinkRequest as fetchLinkRequestSunco } from '../api/sunco'
+import {
+  integrationLinked,
+  fetchExistingConversation,
+} from 'src/apps/messenger/features/suncoConversation/store'
+import {
+  fetchLinkRequest as fetchLinkRequestSunco,
+  unlinkIntegration as unlinkIntegrationSunco,
+} from '../api/sunco'
 
 const integrationsAdapter = createEntityAdapter({
   selectId: (integration) => integration.type,
@@ -23,14 +29,19 @@ export const fetchLinkRequest = createAsyncThunk(
   }
 )
 
-export const unlinkIntegration = createAsyncThunk('integrations/unlink', (type, { getState }) => {
-  // To be replaced with the SunCo API unlink
-  const integration = selectors.selectById(getState(), type)
-  if (integration) {
+export const unlinkIntegration = createAsyncThunk(
+  'integrations/unlink',
+  async ({ channelId }, { getState }) => {
+    const integration = selectors.selectById(getState(), channelId)
+    const response = await unlinkIntegrationSunco(integration.clientId)
+
+    if (response.status !== 200) {
+      throw new Error('An error occurred removing the channel.')
+    }
+
     return integration
   }
-  throw new Error('No integration with that name found!')
-})
+)
 
 export const fetchIntegrations = createAsyncThunk('integrations/fetch', async () => {
   const response = await fetchIntegrationsSunco()
@@ -40,7 +51,7 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 
 const integrations = createSlice({
   name: 'integrations',
-  initialState: integrationsAdapter.getInitialState(),
+  initialState: integrationsAdapter.getInitialState({}),
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
@@ -66,6 +77,19 @@ const integrations = createSlice({
           linkRequest,
         },
       })
+    },
+    [fetchExistingConversation.fulfilled]: (state, { payload }) => {
+      const { integrations } = payload
+
+      const parsedIntegrations = integrations?.map((integration) => ({
+        id: integration.platform,
+        changes: {
+          linked: true,
+          clientId: integration.id,
+        },
+      }))
+
+      integrationsAdapter.updateMany(state, parsedIntegrations)
     },
     [fetchLinkRequest.pending](
       state,
@@ -101,16 +125,47 @@ const integrations = createSlice({
         },
       })
     },
+    [unlinkIntegration.rejected]: (
+      state,
+      {
+        meta: {
+          arg: { channelId },
+        },
+      }
+    ) => {
+      integrationsAdapter.updateOne(state, { id: channelId, changes: { unlinkPending: false } })
+    },
+    [unlinkIntegration.pending]: (
+      state,
+      {
+        meta: {
+          arg: { channelId },
+        },
+      }
+    ) => {
+      integrationsAdapter.updateOne(state, {
+        id: channelId,
+        changes: { unlinkPending: true },
+      })
+    },
     [unlinkIntegration.fulfilled]: (state, { payload: integration }) => {
       integrationsAdapter.updateOne(state, {
         id: integration.type,
-        changes: { linked: false },
+        changes: {
+          linked: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: false,
+          unlinkPending: false,
+        },
       })
     },
-    [integrationLinked](state, action) {
+    [integrationLinked](state, { payload }) {
+      const { type, clientId } = payload
+
       integrationsAdapter.updateOne(state, {
-        id: action.payload.integration,
-        changes: { linked: true },
+        id: type,
+        changes: { linked: true, clientId },
       })
     },
   },

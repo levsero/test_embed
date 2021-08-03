@@ -28,6 +28,7 @@ import TextMessage from './messages/TextMessage'
 import BackButton from './messenger/ChannelLink/BackButton'
 import ChannelLinkWithButton from './messenger/ChannelLink/ChannelLinkWithButton'
 import ChannelLinkWithQrCode from './messenger/ChannelLink/ChannelLinkWithQrCode'
+import ChannelLinkWithUnlink from './messenger/ChannelLink/ChannelLinkWithUnlink'
 import ChannelLinkContainer from './messenger/ChannelLinkContainer'
 import SquareLauncher from './messenger/Launcher/SquareLauncher'
 import LauncherLabel from './messenger/LauncherLabel'
@@ -49,6 +50,7 @@ export {
   ChannelLinkContainer,
   ChannelLinkWithQrCode,
   ChannelLinkWithButton,
+  ChannelLinkWithUnlink,
   FileMessage,
   FormMessage,
   FormResponseMessage,

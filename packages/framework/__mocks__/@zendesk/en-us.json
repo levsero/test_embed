@@ -373,7 +373,13 @@
       "embeddable_framework.zendeskLogo.powered_by_url.chat": "https://www.zendesk.com/chat/live-chat-widget/",
       "embeddable_framework.zendeskLogo.powered_by_url.embeddables": "https://www.zendesk.com/embeddables/",
       "embeddable_framework.messenger.header.menu.continue_on_messenger": "Continue on Messenger",
-      "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger": "Open Messenger on this device."
+      "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger": "Open Messenger on this device.",
+      "embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger": "Open Messenger",
+      "embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger": "Open Messenger and send a short message to connect your account",
+      "embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger": "Take the conversation to your Messenger account. You can return anytime.",
+      "embeddable_framework.messenger.channel_linking.page.title.fb_messenger": "Take the conversation to your Messenger account. You can return anytime.",
+      "embeddable_framework.messenger.channel_link.messenger.disconnect_link_text": "Disconnect",
+      "embeddable_framework.messenger.channel_link.messenger.disconnect_button_text": "Messenger connected."
     }
   }
 }

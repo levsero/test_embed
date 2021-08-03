@@ -285,7 +285,17 @@ testReducer(reducer, [
     action: { type: [unlinkIntegration.fulfilled], payload: { type: 'messenger' } },
     expected: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: false, type: 'messenger' },
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: false,
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          unlinkPending: false,
+        },
       },
       ids: ['messenger'],
     },
@@ -307,14 +317,41 @@ testReducer(reducer, [
     },
   },
   {
+    extraDesc: 'Marks an integration as pending',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          linked: true,
+          type: 'messenger',
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [unlinkIntegration.pending], meta: { arg: { channelId: 'messenger' } } },
+    expected: {
+      entities: {
+        messenger: { _id: 123, linked: true, unlinkPending: true, type: 'messenger' },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
     extraDesc: 'Marks an integration as linked',
     initialState: {
       entities: { messenger: { _id: 123, type: 'messenger', linked: false } },
       ids: ['messenger'],
     },
-    action: integrationLinked({ integration: 'messenger' }),
+    action: integrationLinked({ type: 'messenger', clientId: 'abc123' }),
     expected: {
-      entities: { messenger: { _id: 123, type: 'messenger', linked: true } },
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: true,
+          clientId: 'abc123',
+        },
+      },
       ids: ['messenger'],
     },
   },
