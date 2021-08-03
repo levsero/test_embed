@@ -3,9 +3,6 @@ import { fetchIntegrations as fetchIntegrationsSunco } from 'src/apps/messenger/
 import { integrationLinked } from 'src/apps/messenger/features/suncoConversation/store'
 import { fetchLinkRequest as fetchLinkRequestSunco } from '../api/sunco'
 
-const LINKED = 'linked'
-const NOT_LINKED = 'not linked'
-
 const integrationsAdapter = createEntityAdapter({
   selectId: (integration) => integration.type,
 })
@@ -49,7 +46,7 @@ const integrations = createSlice({
       const parsedIntegrations = integrations.map((integration) => {
         return {
           ...integration,
-          linked: NOT_LINKED,
+          linked: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           errorFetchingLinkRequest: false,
@@ -107,13 +104,13 @@ const integrations = createSlice({
     [unlinkIntegration.fulfilled]: (state, { payload: integration }) => {
       integrationsAdapter.updateOne(state, {
         id: integration.type,
-        changes: { linked: NOT_LINKED },
+        changes: { linked: false },
       })
     },
     [integrationLinked](state, action) {
       integrationsAdapter.updateOne(state, {
         id: action.payload.integration,
-        changes: { linked: LINKED },
+        changes: { linked: true },
       })
     },
   },

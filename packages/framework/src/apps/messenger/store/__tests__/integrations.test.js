@@ -40,7 +40,7 @@ testReducer(reducer, [
           isFetchingLinkRequest: false,
           linkRequest: {},
           pageId: 'p1',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
         },
       },
@@ -63,7 +63,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: 'p1',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -74,7 +74,7 @@ testReducer(reducer, [
           _id: 234,
           appId: 2,
           pageId: 'p2',
-          linked: 'not linked',
+          linked: false,
           type: 'whatsapp',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -85,7 +85,7 @@ testReducer(reducer, [
           _id: 345,
           appId: 3,
           pageId: 'p3',
-          linked: 'not linked',
+          linked: false,
           type: 'instagram',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -124,7 +124,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -149,7 +149,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: true,
@@ -173,7 +173,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -190,7 +190,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -209,7 +209,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -226,7 +226,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -245,7 +245,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
@@ -262,7 +262,7 @@ testReducer(reducer, [
           _id: 123,
           appId: 1,
           pageId: '123',
-          linked: 'not linked',
+          linked: false,
           type: 'messenger',
           errorFetchingLinkRequest: true,
           hasFetchedLinkRequest: false,
@@ -278,14 +278,14 @@ testReducer(reducer, [
     extraDesc: 'unlinkIntegration action is passed for a known integration',
     initialState: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: true, type: 'messenger' },
       },
       ids: ['messenger'],
     },
     action: { type: [unlinkIntegration.fulfilled], payload: { type: 'messenger' } },
     expected: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: false, type: 'messenger' },
       },
       ids: ['messenger'],
     },
@@ -294,14 +294,14 @@ testReducer(reducer, [
     extraDesc: 'unlinkIntegration action is passed for an unknown integration',
     initialState: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: true, type: 'messenger' },
       },
       ids: ['messenger'],
     },
     action: { type: [unlinkIntegration.fulfilled], payload: { type: 'instagram' } },
     expected: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: true, type: 'messenger' },
       },
       ids: ['messenger'],
     },
@@ -309,24 +309,24 @@ testReducer(reducer, [
   {
     extraDesc: 'Marks an integration as linked',
     initialState: {
-      entities: { messenger: { _id: 123, type: 'messenger', linked: 'not linked' } },
+      entities: { messenger: { _id: 123, type: 'messenger', linked: false } },
       ids: ['messenger'],
     },
     action: integrationLinked({ integration: 'messenger' }),
     expected: {
-      entities: { messenger: { _id: 123, type: 'messenger', linked: 'linked' } },
+      entities: { messenger: { _id: 123, type: 'messenger', linked: true } },
       ids: ['messenger'],
     },
   },
 ])
 
 describe('getAllIntegrationsLinkStatus', () => {
-  it('transforms the integration object to a channels object of channel:linked status', () => {
+  it('transforms the integration object to a channels object of true or false', () => {
     const result = getAllIntegrationsLinkStatus({
       integrations: {
         entities: {
-          messenger: { linked: 'linked', type: 'messenger' },
-          instagram: { linked: 'not linked', type: 'instagram' },
+          messenger: { linked: true, type: 'messenger' },
+          instagram: { linked: false, type: 'instagram' },
           whatsapp: { linked: undefined, type: 'whatsapp' },
         },
         ids: ['messenger', 'instagram', 'whatsapp'],
@@ -335,9 +335,26 @@ describe('getAllIntegrationsLinkStatus', () => {
 
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "instagram": "not linked",
-        "messenger": "linked",
+        "instagram": false,
+        "messenger": true,
         "whatsapp": undefined,
+      }
+    `)
+  })
+
+  it('returns a key and bool value for all "integrations"', () => {
+    const result = getAllIntegrationsLinkStatus({
+      integrations: {
+        entities: {
+          messenger: { linked: true, type: 'messenger' },
+        },
+        ids: ['messenger'],
+      },
+    })
+
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "messenger": true,
       }
     `)
   })
