@@ -6,7 +6,7 @@ const cookiesDisabled = createAsyncThunk('cookies/disabled', () => {
   try {
     forgetUserAndDisconnect()
   } catch {}
-  persistence.clear()
+  persistence.disable()
 })
 
 const cookies = createSlice({
