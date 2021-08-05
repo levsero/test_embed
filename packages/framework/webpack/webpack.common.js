@@ -31,7 +31,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        include: path.resolve(projectRoot, 'src'),
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,

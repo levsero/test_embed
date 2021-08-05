@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { MESSAGE_STATUS } from 'src'
+import { MESSAGE_STATUS } from 'src/constants'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from '../../layouts/PrimaryParticipantLayout'
 import FieldResponse from './FieldResponse'
