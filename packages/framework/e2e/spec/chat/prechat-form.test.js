@@ -157,7 +157,7 @@ describe('prechat form', () => {
 
     await widget.clickButton('Send message')
 
-    await widget.expectToSeeText('Please enter a valid name.')
+    await widget.expectToSeeText('Enter a valid name.')
   })
 
   test('set email field to required if offline department is selected', async () => {

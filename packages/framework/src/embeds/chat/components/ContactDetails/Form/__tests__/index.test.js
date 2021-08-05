@@ -137,7 +137,7 @@ describe('Contact Details Form', () => {
             rerender
           )
 
-          expect(getByText('Please enter a valid name.')).toBeInTheDocument()
+          expect(getByText('Enter a valid name.')).toBeInTheDocument()
         })
       })
     })
