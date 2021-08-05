@@ -1,6 +1,6 @@
 import * as libphonenumber from 'libphonenumber-js'
+import { handleTalkVendorLoaded, updateTalkCallbackForm } from 'src/embeds/talk/actions'
 import createStore from 'src/redux/createStore'
-import { handleTalkVendorLoaded, updateTalkCallbackForm } from 'src/redux/modules/talk'
 import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
 import CallbackAndPhonePage from '../index'
 

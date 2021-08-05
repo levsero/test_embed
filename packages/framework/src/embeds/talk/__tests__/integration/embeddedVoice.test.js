@@ -3,11 +3,11 @@ import userEvent from '@testing-library/user-event'
 import superagent from 'superagent'
 import { Device } from 'twilio-client'
 import Talk from 'src/embeds/talk'
+import { handleTalkVendorLoaded } from 'src/embeds/talk/actions'
+import { updateTalkAgentAvailability } from 'src/embeds/talk/actions'
 import { microphoneErrorCode } from 'src/embeds/talk/hooks/useTwilioDevice'
 import { OPT_IN, OPT_OUT } from 'src/embeds/talk/reducers/recording-consent'
 import createStore from 'src/redux/createStore'
-import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
-import { updateTalkAgentAvailability } from 'src/redux/modules/talk/talk-actions'
 import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
 
 jest.useFakeTimers()

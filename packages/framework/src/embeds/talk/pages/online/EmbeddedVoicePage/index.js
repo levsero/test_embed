@@ -9,6 +9,7 @@ import {
   callFailed,
   resetCallFailed,
 } from 'src/embeds/talk/actions'
+import { talkDisconnect } from 'src/embeds/talk/actions'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import routes from 'src/embeds/talk/routes'
 import {
@@ -17,7 +18,6 @@ import {
   getHasLastCallFailed,
 } from 'src/embeds/talk/selectors'
 import useTranslate from 'src/hooks/useTranslate'
-import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import CallInProgress from './CallInProgress'
 import ConsentToRecord from './ConsentToRecord'
 import MicrophonePermissions from './MicrophonePermissions'
