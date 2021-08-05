@@ -50,7 +50,7 @@ describe('blip middleware', () => {
         getCurrentActiveArticle: (prevState) => prevState.activeArticle,
         getHasContextuallySearched: (prevState) => prevState.hasContextuallySearched,
       },
-      'src/redux/modules/talk/talk-action-types': {
+      'src/embeds/talk/action-types': {
         TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS,
       },
       'src/embeds/helpCenter/actions/action-types': {

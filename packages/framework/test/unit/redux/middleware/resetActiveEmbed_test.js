@@ -74,7 +74,7 @@ describe('resetActiveEmbed middleware', () => {
       'src/redux/modules/settings/settings-action-types': {
         UPDATE_SETTINGS,
       },
-      'src/redux/modules/talk/talk-action-types': {
+      'src/embeds/talk/action-types': {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
         TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       },

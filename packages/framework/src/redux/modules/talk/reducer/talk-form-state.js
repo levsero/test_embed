@@ -1,5 +1,5 @@
+import { UPDATE_CALLBACK_FORM } from 'src/embeds/talk/action-types'
 import { API_CLEAR_FORM } from '../../base/base-action-types'
-import { UPDATE_CALLBACK_FORM } from '../talk-action-types'
 
 const initialState = {
   name: '',

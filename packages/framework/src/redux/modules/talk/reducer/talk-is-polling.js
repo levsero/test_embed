@@ -1,4 +1,4 @@
-import { TALK_VENDOR_LOADED } from '../talk-action-types'
+import { TALK_VENDOR_LOADED } from 'src/embeds/talk/action-types'
 
 const initialState = true
 

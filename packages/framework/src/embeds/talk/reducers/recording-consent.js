@@ -1,8 +1,8 @@
+import { TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT } from 'src/embeds/talk/action-types'
 import {
   RECORDING_CONSENT_ACCEPTED,
   RECORDING_CONSENT_DENIED,
 } from 'src/embeds/talk/actions/action-types'
-import { TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT } from 'src/redux/modules/talk/talk-action-types'
 
 const initialState = null
 
