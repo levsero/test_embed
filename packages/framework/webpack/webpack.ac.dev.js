@@ -94,7 +94,7 @@ module.exports = () => {
         include: path.resolve(projectRoot, '../conversation-components'),
         loader: 'babel-loader',
         options: {
-          configFile: path.resolve(projectRoot, '../conversation-components/.babelrc.js'),
+          configFile: path.resolve(projectRoot, '../conversation-components/babel.config.js'),
         },
       },
       {
@@ -102,7 +102,7 @@ module.exports = () => {
         include: path.resolve(projectRoot, '../sunco-js-client'),
         loader: 'babel-loader',
         options: {
-          configFile: path.resolve(projectRoot, '../sunco-js-client/.babelrc.js'),
+          configFile: path.resolve(projectRoot, '../sunco-js-client/babel.config.js'),
         },
       }
     )
