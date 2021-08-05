@@ -190,10 +190,10 @@ describe('OfflineForm', () => {
 
       renderComponent({ getFields: () => allFields }, { render: rerender })
 
-      expect(getByText('Please enter a valid name.')).toBeInTheDocument()
+      expect(getByText('Enter a valid name.')).toBeInTheDocument()
       expect(getByText('Please enter a valid email address.')).toBeInTheDocument()
       expect(getByText('Please enter a valid phone number.')).toBeInTheDocument()
-      expect(getByText('Please enter a valid message.')).toBeInTheDocument()
+      expect(getByText('Enter a valid message.')).toBeInTheDocument()
     })
 
     const inputIntoFields = async (getByLabelText) => {
@@ -221,17 +221,17 @@ describe('OfflineForm', () => {
 
       renderComponent({ getFields: () => allFields, onSubmit }, { render: rerender })
 
-      expect(getByText('Please enter a valid name.')).toBeInTheDocument()
+      expect(getByText('Enter a valid name.')).toBeInTheDocument()
       expect(getByText('Please enter a valid email address.')).toBeInTheDocument()
       expect(getByText('Please enter a valid phone number.')).toBeInTheDocument()
-      expect(getByText('Please enter a valid message.')).toBeInTheDocument()
+      expect(getByText('Enter a valid message.')).toBeInTheDocument()
 
       await inputIntoFields(getByLabelText)
 
-      expect(queryByText('Please enter a valid name.')).toBeNull()
+      expect(queryByText('Enter a valid name.')).toBeNull()
       expect(queryByText('Please enter a valid email.')).toBeNull()
       expect(queryByText('Please enter a valid phone number.')).toBeNull()
-      expect(queryByText('Please enter a valid message.')).toBeNull()
+      expect(queryByText('Enter a valid message.')).toBeNull()
     })
 
     it('submits when values are correct', async () => {

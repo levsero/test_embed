@@ -84,9 +84,7 @@ describe('support default form', () => {
 
       await submit()
 
-      await wait(async () =>
-        queries.getByText(await widget.getDocument(), 'Please enter a valid name.')
-      )
+      await wait(async () => queries.getByText(await widget.getDocument(), 'Enter a valid name.'))
 
       await allowsInputTextEditing(nameElement, 'Some person')
 
