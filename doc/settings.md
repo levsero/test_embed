@@ -1525,7 +1525,7 @@ Replaces the default string on the launcher button when Talk is enabled, and Cha
 
 ![Talk Label Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/talkLabel.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale. For a list of supported locales and associated codes, see <a name="locales" href="https://support.zendesk.com/api/v2/rosetta/locales/public.json">here.</a>
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale. For a list of supported locales and associated codes, see <a name="locales" href="https://support.zendesk.com/api/v2/locales/public.json">here.</a>
 
 #### Availability
 
