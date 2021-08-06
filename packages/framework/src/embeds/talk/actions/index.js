@@ -12,6 +12,11 @@ import {
   TALK_VENDOR_LOADED,
   RECEIVED_DEFERRED_TALK_STATUS,
 } from 'src/embeds/talk/action-types'
+import {
+  BASE_TALK_POLL_INTERVAL,
+  MAX_TALK_POLL_INTERVAL,
+  REQUESTS_BEFORE_BACKOFF,
+} from 'src/embeds/talk/constants'
 import { getFormState, getIsPollingTalk } from 'src/embeds/talk/selectors'
 import errorTracker from 'src/framework/services/errorTracker'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
@@ -21,11 +26,6 @@ import {
   getTalkServiceUrl,
   getDeferredTalkApiUrl,
 } from 'src/redux/modules/selectors'
-import {
-  BASE_TALK_POLL_INTERVAL,
-  MAX_TALK_POLL_INTERVAL,
-  REQUESTS_BEFORE_BACKOFF,
-} from 'src/redux/modules/talk/constants'
 import { http, socketio } from 'src/service/transport'
 import { parseUrl } from 'src/util/utils'
 import wait from 'src/util/wait'
