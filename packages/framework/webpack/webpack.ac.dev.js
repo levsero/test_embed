@@ -7,6 +7,7 @@ const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
 const previewTemplates = require('../dev/preview_templates')
 const runDashboard = require('./runDashboard')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const projectRoot = path.resolve(__dirname, '../')
 const CSP_HEADER =
@@ -40,8 +41,13 @@ module.exports = () => {
     output: {
       publicPath: WEBPACK_OUTPUT_PUBLIC_PATH,
     },
+    target: 'web',
+    optimization: {
+      runtimeChunk: 'single',
+    },
     devServer: {
       host: WEBPACK_DEV_SERVER_HOST,
+      hot: true,
       port: 1337,
       disableHostCheck: WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK,
       headers: {
@@ -88,6 +94,10 @@ module.exports = () => {
       chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
     }
     webpackConfig.plugins.push(...previewTemplates())
+    webpackConfig.plugins.push(
+      new webpack.HotModuleReplacementPlugin(),
+      new ReactRefreshWebpackPlugin()
+    )
     runDashboard()
   }
 
