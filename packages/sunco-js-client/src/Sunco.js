@@ -94,11 +94,10 @@ export default class Sunco {
         socketClient.unsubscribe()
         this._activeConversation = null
         this.conversationPromise = null
-
-        removeClientId(this.integrationId)
       },
       forgetUser: () => {
         removeAppUser({ integrationId: this.integrationId })
+        removeClientId(this.integrationId)
       },
       getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
       unlinkChannel: (clientId) => this.appUsers.unlinkChannel(appUserId, clientId),
