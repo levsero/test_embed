@@ -64,7 +64,7 @@ parts:
       key: "embeddable_framework.common.notify.error.generic"
       title: "A message displayed on a styled error element, its purpose is to show a generic error message"
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
-      value: "There was an error processing your request. Please try again later."
+      value: "There was an error processing your request. Try again later."
   - translation:
       key: "embeddable_framework.common.textLabel.phone_number"
       title: "The label for a generic phone number form field. The same as embeddable_framework.common.textLabel.phone but with capitalised N for number"
@@ -155,22 +155,22 @@ parts:
       key: "embeddable_framework.validation.error.input"
       title: "Error message shown beneath a required text input field when nothing has been entered."
       screenshot: "https://drive.google.com/open?id=1yKHphG9otXmcDcrO4rkTQQ_f3hN3d11R"
-      value: "Please enter a value."
+      value: "Enter a value."
   - translation:
       key: "embeddable_framework.validation.error.select"
       title: "Error message shown beneath a required dropdown field when nothing has been selected."
       screenshot: "https://drive.google.com/open?id=1-qpAluk8alfGCotf7hqkhJAbA7d9ujx8"
-      value: "Please select a value."
+      value: "Select a value."
   - translation:
       key: "embeddable_framework.validation.error.email"
       title: "Error message shown beneath an email address field when the entered value is an invalid email address."
       screenshot: "https://drive.google.com/open?id=1cnZUZ0D4SwJdqBk-W2kX2mWMo9PPaIOJ"
-      value: "Please enter a valid email address."
+      value: "Enter a valid email address."
   - translation:
       key: "embeddable_framework.validation.error.phone"
       title: "Error message shown beneath a phone number field when the entered value is an invalid phone number."
       screenshot: "https://drive.google.com/open?id=1ZOK0K85KFmJ_XBIALS0U-77Pn_JBvDul"
-      value: "Please enter a valid phone number."
+      value: "Enter a valid phone number."
   - translation:
       key: "embeddable_framework.validation.error.name"
       title: "Error message shown beneath a name field when there is no value entered."
@@ -180,7 +180,7 @@ parts:
       key: "embeddable_framework.validation.error.department"
       title: "Error message shown beneath a department field when there is no value entered."
       screenshot: "https://drive.google.com/file/d/1bfsmK5WPBhRVyIBPGED5LC0P5TUCTEau/"
-      value: "Please select a department."
+      value: "Select a department."
   - translation:
       key: "embeddable_framework.validation.error.message"
       title: "Error message shown beneath a message field when there is no value entered."
@@ -190,12 +190,12 @@ parts:
       key: "embeddable_framework.validation.error.number"
       title: "Error message shown beneath a number field when there is no value entered."
       screenshot: "https://drive.google.com/open?id=1YxgMovHbhiIIP3dg_-PNduLLITOeu3gl"
-      value: "Please enter a number."
+      value: "Enter a number."
   - translation:
       key: "embeddable_framework.validation.error.checkbox"
       title: "Error message shown beneath a checkbox field when there is no value entered."
       screenshot: "https://drive.google.com/open?id=19KZ0HHETZ495uIADSltkY4arXFgUufhh"
-      value: "Please check this box to proceed."
+      value: "Check this box to proceed."
   - translation:
       key: "embeddable_framework.validation.error.attachments.singular"
       title: "Error message shown below attachment label when there is an invalid file. This is for a singular error"
@@ -220,7 +220,7 @@ parts:
       key: "embeddable_framework.validation.error.feedback_form"
       title: "A message presented to the user when they attempt to submit the feedback form without adding a rating or comment. i.e. the form is empty."
       screenshot: "https://drive.google.com/file/d/1BEcLNkFOL3ufcoLszXk7AYXJ2UAV7D32/view?usp=sharing"
-      value: Add a rating or comment
+      value: "Add a rating or comment"
 
   # Launcher embed
   - translation:
@@ -1483,7 +1483,7 @@ parts:
       key: "embeddable_framework.talk.notify.error.invalid_phone_number"
       title: "A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is invalid"
       screenshot: "https://zendesk.box.com/s/1ksdrmstlluiebp40qu6c2alvhk7852i"
-      value: "Please enter a valid phone number."
+      value: "Enter a valid phone number."
   - translation:
       key: "embeddable_framework.talk.offline.label"
       title: "A message that displays when all agents go offline"
