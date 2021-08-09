@@ -17,7 +17,7 @@ You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods b
 
 `zE.setLocale(locale)`
 
-The method takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/rosetta/locales/public.json>.
+The method takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/locales/public.json>.
 
 By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE.setLocale()` to specify the language.
 

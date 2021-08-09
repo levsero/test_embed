@@ -373,7 +373,7 @@ None
 
 Sets the widget locale.
 
-The command takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/rosetta/locales/public.json>.
+The command takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/locales/public.json>.
 
 By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE('webWidget', 'setLocale', data<string>);` to specify the language.
 
