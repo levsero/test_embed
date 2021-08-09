@@ -21,10 +21,6 @@ export default {
     defaultValue: false,
     getArturoValue: (config) => config?.logMessengerErrors,
   },
-  web_widget_channel_linking: {
-    defaultValue: false,
-    getArturoValue: (config) => config?.channelLinking,
-  },
   web_widget_prefetch_widget_container: {
     defaultValue: false,
     getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,

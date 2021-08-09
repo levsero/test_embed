@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
 import { hasExistingConversation, setupSuncoClient } from 'src/apps/messenger/api/sunco'
 import App from 'src/apps/messenger/features/app'
 import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
@@ -17,7 +18,6 @@ import { store as persistence } from 'src/framework/services/persistence'
 import publicApi from 'src/framework/services/publicApi'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import createMessengerApi from './public-api'
-import { MemoryRouter } from 'react-router-dom'
 
 const init = async ({ config }) => {
   if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
@@ -65,8 +65,7 @@ const run = async ({ config, embeddableData }) => {
 
   const messengerReadyCallback = () => {
     listenForOnlineOfflineEvents(store)
-
-    if (isFeatureEnabled(config, 'web_widget_channel_linking')) {
+    if (config.messenger.channelLinkingEnabled) {
       store.dispatch(fetchIntegrations())
     }
 
