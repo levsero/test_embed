@@ -4,7 +4,7 @@ import reducer from 'src/redux/modules/reducer'
 import * as globals from 'src/util/globals'
 import { i18n } from '../i18n'
 
-jest.mock('../../../../../../../config/locales/translations/embeddable_framework.yml', () => {
+jest.mock('../../../../../../../config/locales/translations/web_widget_classic.yml', () => {
   return {
     parts: [
       {

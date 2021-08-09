@@ -1,7 +1,6 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
-const i18nPlugin = require('../webpack/i18nPlugin')
 const prefix = process.cwd()
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
@@ -28,7 +27,7 @@ module.exports = {
       service: path.join(prefix + '/src/service'),
       // src: path.join(prefix + '/src'),
       utility: path.join(prefix + '/src/util'),
-      translation: path.join(prefix + '/src/translation')
+      translation: path.join(prefix + '/src/translation'),
       // types: path.join(prefix + '/src/types'),
       // vendor: path.join(prefix + '/src/vendor'),
       // // CSS Components
@@ -38,7 +37,7 @@ module.exports = {
     }
     config.plugins = [
       ...config.plugins,
-      new webpack.NormalModuleReplacementPlugin(/client-i18n-tools/, resource => {
+      new webpack.NormalModuleReplacementPlugin(/client-i18n-tools/, (resource) => {
         const absRootMockPath = path.resolve(
           __dirname,
           '../__mocks__/@zendesk/client-i18n-tools-storybook.js'
@@ -53,17 +52,14 @@ module.exports = {
       new webpack.DefinePlugin({
         __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify('development'),
         __DEV__: JSON.stringify(true),
-        __EMBEDDABLE_VERSION__: JSON.stringify(version)
-      })
+        __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      }),
     ]
 
     // Don't use Storybook's default SVG Configuration
-    config.module.rules = config.module.rules.map(rule => {
+    config.module.rules = config.module.rules.map((rule) => {
       if (rule.test.toString().includes('svg')) {
-        const test = rule.test
-          .toString()
-          .replace('svg|', '')
-          .replace(/\//g, '')
+        const test = rule.test.toString().replace('svg|', '').replace(/\//g, '')
         return { ...rule, test: new RegExp(test) }
       } else {
         return rule
@@ -85,16 +81,16 @@ module.exports = {
                 { removeViewBox: false },
                 { prefixIds: false },
                 { cleanupIDs: false },
-                { inlineStyles: false }
-              ]
+                { inlineStyles: false },
+              ],
             },
-            titleProp: true
-          }
-        }
-      ]
+            titleProp: true,
+          },
+        },
+      ],
     })
 
     // Return the altered config
     return config
-  }
+  },
 }

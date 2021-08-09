@@ -1,0 +1,1669 @@
+# Note:
+# This file is referenced by Rosetta https://github.com/zendesk/rosetta/blob/ff5db24681a7fe0e18b590ae02e043f13177ccee/config/string_sweep.yml#L153
+# If you move this file, you will also need to update Rosetta to point to the new location
+
+title: 'Web Widget Classic'
+packages:
+  - embeddable_framework
+  - web_widget_classic
+  - enduser
+  - enduser_widget
+
+parts:
+  # Common
+  - translation:
+      key: 'embeddable_framework.common.button.cancel'
+      title: "A generic label to describe the button's action to cancel something. e.g cancel a form, action, etc"
+      screenshot: 'https://zendesk.box.com/s/3514kju8pwjj7mz5i4qq92obfr1vq88j'
+      value: 'Cancel'
+  - translation:
+      key: 'embeddable_framework.common.button.done'
+      title: 'A generic label for a button that indicates an action is done/completed (ref glossary.all.758).'
+      screenshot: 'https://drive.google.com/open?id=1NnVdsOGm6K7ztaSA6psI7i_wM3zyYpg7'
+      value: 'Done'
+  - translation:
+      key: 'embeddable_framework.common.button.send'
+      title: "A generic label to describe the button's action to send something. e.g send a form (not submit), action, etc"
+      screenshot: 'https://zendesk.box.com/s/d01wl1cw7rjr4f3euac0wh8jnlrgn82w'
+      value: 'Send'
+  - translation:
+      key: 'embeddable_framework.common.button.chat'
+      title: 'The label for the live chat option used in both help center and channel choice.'
+      screenshot: 'https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6'
+      value: 'Live chat'
+  - translation:
+      key: 'embeddable_framework.common.button.dismiss'
+      title: "A generic label to describe the button's action to dismiss the modal where the option is contained."
+      screenshot: 'https://zendesk.box.com/s/8s75rxg4o9y8mgr9hvlhbuthxrrv6t1n'
+      value: 'Dismiss'
+  - translation:
+      key: 'embeddable_framework.common.button.end'
+      title: "A generic label to describe the button's action to end something in context; e.g. a chat session, phone call, voice call, etc."
+      screenshot: 'https://zendesk.box.com/s/ytti883fcn6exjuebp0u1vgxskgvrjz9'
+      value: 'End'
+  - translation:
+      key: 'embeddable_framework.common.button.save'
+      title: "A generic label to describe the button's action to save a form's details."
+      screenshot: 'https://zendesk.box.com/s/t27e7sebkcxl64rk2fgvq8s3hzy0u9m2'
+      value: 'Save'
+  - translation:
+      key: 'embeddable_framework.common.button.skip'
+      title: "A generic label to describe the button's action to skip the action described by the modal containing the button."
+      screenshot: 'https://zendesk.box.com/s/t61zjobgsc3i1zjo5l38w6sjsdiaslrp'
+      value: 'Skip'
+  - translation:
+      key: 'embeddable_framework.common.button.goBack'
+      title: 'A generic navigation label for a button to go back to a previous section'
+      screenshot: 'https://drive.google.com/open?id=1L6v2seSK0Rn2v4WOrrwW-rzb0RYEz-Qy'
+      value: 'Go Back'
+  - translation:
+      key: 'embeddable_framework.common.button.goBack_v2'
+      title: 'A generic navigation label for a button to go back to a previous section'
+      screenshot: 'https://drive.google.com/file/d/19heeqTlmCq0FwVWsc1csx0dUdYZZST76/view?usp=sharing'
+      value: 'Go back'
+  - translation:
+      key: 'embeddable_framework.common.notify.error.generic'
+      title: 'A message displayed on a styled error element, its purpose is to show a generic error message'
+      screenshot: 'https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w'
+      value: 'There was an error processing your request. Try again later.'
+  - translation:
+      key: 'embeddable_framework.common.textLabel.phone_number'
+      title: 'The label for a generic phone number form field. The same as embeddable_framework.common.textLabel.phone but with capitalised N for number'
+      screenshot: 'https://zendesk.box.com/s/9f55ahsc3iizdx5csa61hogh8q7h5kux'
+      value: 'Phone Number'
+  - translation:
+      key: 'embeddable_framework.common.textLabel.name'
+      title: 'The label for a generic name form field.'
+      screenshot: 'https://zendesk.box.com/s/gvom4euerrdzmiwq0z8n2ma3vcoeh0rr'
+      value: 'Name'
+  - translation:
+      key: 'embeddable_framework.common.textLabel.email'
+      title: 'A generic field heading that describes the input that follows where it accept an email.'
+      screenshot: 'https://zendesk.box.com/s/9887rckgxtf45i359qlk484nkjlynjk1'
+      value: 'Email'
+  - translation:
+      key: 'embeddable_framework.common.textLabel.message'
+      title: 'A generic field heading that describes the input that follows where it accept a message.'
+      screenshot: 'https://zendesk.box.com/s/dmpnac3geyud5ar4fqz4jq53wr86frcx'
+      value: 'Message'
+  - translation:
+      key: 'embeddable_framework.common.textLabel.description'
+      title: 'The label for a generic description form field.'
+      screenshot: 'https://zendesk.box.com/s/ou2h0p2glttacdu1zwmflui05rkk57un'
+      value: 'How can we help?'
+  - translation:
+      key: 'embeddable_framework.common.attachments.dragdrop'
+      title: 'A generic label or text to describe the action that will occur when a file is dragged over a targetted area'
+      screenshot: 'https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna'
+      value: 'Drop to attach'
+  - translation:
+      key: 'embeddable_framework.common.attachments.error.other'
+      title: 'A generic error message that appears when the user tries to attach a file and the error is unidentified.'
+      screenshot: 'https://zendesk.box.com/s/9wegsy1p4on66he1ani9p504zlf7qvtx'
+      value: 'There was a problem attaching this file. Please try again.'
+  - translation:
+      key: 'embeddable_framework.common.footer.cookies.description'
+      title: 'A short lengthed message that describes the product uses cookies to store data.'
+      screenshot: 'https://zendesk.box.com/s/owtd3fzje8crsf86g2vqto0jdg4z904c'
+      value: 'This widget uses cookies.'
+  - translation:
+      key: 'embeddable_framework.common.today'
+      title: 'This should be a string that denotes the present day. Time will be the time component for the current day. %()s stands for string and does not need to be translated.'
+      screenshot: 'https://drive.google.com/open?id=1da0oNnWxu93qXO8Gz6RBVfqNjFYPyAqS'
+      value: 'Today %(time)s'
+  - translation:
+      key: 'embeddable_framework.common.notification.oneMessage'
+      title: 'A text that displays the number of new messages that were sent by an agent. It can be displayed on buttons, labels, etc.'
+      screenshot: 'https://drive.google.com/file/d/1GXrDQ6hlpj7UWzCBQWTCwC5HbALdr4Vg/view?usp=sharing'
+      value: '1 new message'
+  - translation:
+      key: 'embeddable_framework.common.notification.manyMessages'
+      title: 'A text that displays the number of new messages that are ongoing that were sent by an agent. It can be displayed on buttons, labels, etc. If your language has more than one plural use New messages: %(plural_number)s'
+      screenshot: 'https://drive.google.com/file/d/1DxPO239aNKnfng4F2auSQceHf3H2ctlr/view?usp=sharing'
+      value: '%(plural_number)s new messages'
+  - translation:
+      key: 'embeddable_framework.common.notify.message.thanks_for_reaching_out'
+      title: 'Success message that is displayed after a form is completed, indicating appreciation from customer for user reaching out.'
+      screenshot: 'https://drive.google.com/open?id=1CiiYs0xjIPO_w4CGGseuUVQUs1lBypiu'
+      value: 'Thanks for reaching out.'
+  - translation:
+      key: 'embeddable_framework.common.notify.message.get_back'
+      title: 'Success message that is displayed after a form is completed, indicating customer will get back to user soon.'
+      screenshot: 'https://drive.google.com/open?id=1wzf7c06mTD4LgHWyO1oy1yntdUC9cjLC'
+      value: "We'll get back to you soon."
+  - translation:
+      key: 'embeddable_framework.common.error.form_submission_disabled'
+      title: 'When users have submitted too many forms, we ask them to wait a little bit before sending another one'
+      screenshot: 'https://drive.google.com/file/d/1_30IaNsiWDqF1ljoxiWEzirs_wEFedMv'
+      value: 'Please try again later'
+  - translation:
+      key: 'embeddable_framework.web_widget.frame.title'
+      title: "This string is used by screen readers to identify the currently opened Web Widget. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: 'Find more information here'
+  - translation:
+      key: 'embeddable_framework.common.notify.message.thanks_for_reaching_out_v2'
+      title: 'Success message that is displayed after a form is completed, indicating appreciation from customer for user reaching out.'
+      screenshot: 'https://drive.google.com/open?id=12o4HJswLNlnnzSKoX1XJ6DZOkL28NdhJ'
+      value: 'Thanks for reaching out'
+  - translation:
+      key: 'embeddable_framework.common.notify.message.get_back_v2'
+      title: 'Success message that is displayed after a form is completed, indicating a customer agent will get back to user soon.'
+      screenshot: 'https://drive.google.com/open?id=1wT564ldlhIIcXg3nW3keCXzsJERpi9mq'
+      value: 'Someone will get back to you soon'
+
+  # Validation errors
+  - translation:
+      key: 'embeddable_framework.validation.error.input'
+      title: 'Error message shown beneath a required text input field when nothing has been entered.'
+      screenshot: 'https://drive.google.com/open?id=1yKHphG9otXmcDcrO4rkTQQ_f3hN3d11R'
+      value: 'Enter a value.'
+  - translation:
+      key: 'embeddable_framework.validation.error.select'
+      title: 'Error message shown beneath a required dropdown field when nothing has been selected.'
+      screenshot: 'https://drive.google.com/open?id=1-qpAluk8alfGCotf7hqkhJAbA7d9ujx8'
+      value: 'Select a value.'
+  - translation:
+      key: 'embeddable_framework.validation.error.email'
+      title: 'Error message shown beneath an email address field when the entered value is an invalid email address.'
+      screenshot: 'https://drive.google.com/open?id=1cnZUZ0D4SwJdqBk-W2kX2mWMo9PPaIOJ'
+      value: 'Enter a valid email address.'
+  - translation:
+      key: 'embeddable_framework.validation.error.phone'
+      title: 'Error message shown beneath a phone number field when the entered value is an invalid phone number.'
+      screenshot: 'https://drive.google.com/open?id=1ZOK0K85KFmJ_XBIALS0U-77Pn_JBvDul'
+      value: 'Enter a valid phone number.'
+  - translation:
+      key: 'embeddable_framework.validation.error.name'
+      title: 'Error message shown beneath a name field when there is no value entered.'
+      screenshot: 'https://drive.google.com/open?id=1G0TgGHEXUrkgeVeqm1CRb3dOZWeTh89K'
+      value: 'Enter a valid name.'
+  - translation:
+      key: 'embeddable_framework.validation.error.department'
+      title: 'Error message shown beneath a department field when there is no value entered.'
+      screenshot: 'https://drive.google.com/file/d/1bfsmK5WPBhRVyIBPGED5LC0P5TUCTEau/'
+      value: 'Select a department.'
+  - translation:
+      key: 'embeddable_framework.validation.error.message'
+      title: 'Error message shown beneath a message field when there is no value entered.'
+      screenshot: 'https://drive.google.com/open?id=12STkQSlJL43xbw1w-FXjZVaBGlauSWQ7'
+      value: 'Enter a valid message.'
+  - translation:
+      key: 'embeddable_framework.validation.error.number'
+      title: 'Error message shown beneath a number field when there is no value entered.'
+      screenshot: 'https://drive.google.com/open?id=1YxgMovHbhiIIP3dg_-PNduLLITOeu3gl'
+      value: 'Enter a number.'
+  - translation:
+      key: 'embeddable_framework.validation.error.checkbox'
+      title: 'Error message shown beneath a checkbox field when there is no value entered.'
+      screenshot: 'https://drive.google.com/open?id=19KZ0HHETZ495uIADSltkY4arXFgUufhh'
+      value: 'Check this box to proceed.'
+  - translation:
+      key: 'embeddable_framework.validation.error.attachments.singular'
+      title: 'Error message shown below attachment label when there is an invalid file. This is for a singular error'
+      screenshot: 'https://drive.google.com/file/d/1loDOJ-NN6CfE72w6F-Rt9LvPiRs-GVD_/view?usp=sharing'
+      value: 'Remove invalid file'
+  - translation:
+      key: 'embeddable_framework.validation.error.attachments.plural'
+      title: 'Error message shown below attachment label when there is an invalid file. This is for multiple errors.'
+      screenshot: 'https://drive.google.com/file/d/1loDOJ-NN6CfE72w6F-Rt9LvPiRs-GVD_/view?usp=sharing'
+      value: 'Remove invalid files'
+  - translation:
+      key: 'embeddable_framework.validation.label.new_optional'
+      title: 'A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated'
+      screenshot: 'https://drive.google.com/file/d/1rxKRpuKK--cO1UQlI3nBlxwqzjSKBI2a/view?usp=sharing'
+      value: '<strong>%(label)s</strong> (optional)'
+  - translation:
+      key: 'embeddable_framework.validation.error.attachments.upload_in_progress'
+      title: 'Error message shown below attachment label when attempting to submit the form while a file is uploading.'
+      screenshot: 'https://drive.google.com/file/d/1M92qMzrSXoW3Iy-C48_WJluPgjNlUfGb/view?usp=sharing'
+      value: 'Wait until file upload is complete before submitting form'
+  - translation:
+      key: 'embeddable_framework.validation.error.feedback_form'
+      title: 'A message presented to the user when they attempt to submit the feedback form without adding a rating or comment. i.e. the form is empty.'
+      screenshot: 'https://drive.google.com/file/d/1BEcLNkFOL3ufcoLszXk7AYXJ2UAV7D32/view?usp=sharing'
+      value: 'Add a rating or comment'
+
+  # Launcher embed
+  - translation:
+      key: 'embeddable_framework.launcher.label.help'
+      title: 'Generic label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc)'
+      value: 'Help'
+  - translation:
+      key: 'embeddable_framework.launcher.label.support'
+      title: 'Alternative label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc - Help text would be replaced by Support in screenshot)'
+      value: 'Support'
+  - translation:
+      key: 'embeddable_framework.launcher.label.feedback'
+      title: 'Alternative label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc - Help text would be replaced by Feedback in screenshot)'
+      value: 'Feedback'
+  - translation:
+      key: 'embeddable_framework.launcher.label.chat'
+      title: 'Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session, if over 15 characters only the icon will display (tinyurl.com/mevpgux)'
+      value: 'Chat'
+  - translation:
+      key: 'embeddable_framework.launcher.label.talk.request_callback'
+      title: "This string is the same as 'embeddable_framework.talk.form.title'"
+      screenshot: 'https://zendesk.box.com/s/huu7lxolbcueabf3nx7ifo67ew0oxcqd'
+      value: 'Request a callback'
+  - translation:
+      key: 'embeddable_framework.launcher.label.talk.call_us'
+      title: "This string is the same as 'embeddable_framework.talk.phoneOnly.title'"
+      screenshot: 'https://zendesk.box.com/s/8e4pkn837ahb0t47vnutkffv74cqs483'
+      value: 'Call us'
+  - translation:
+      key: 'embeddable_framework.launcher.frame.title'
+      title: "This string is used by screen readers to identify the Web Widget launcher. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: 'Opens a widget where you can find more information'
+  - translation:
+      key: 'embeddable_framework.launcher.chat.title'
+      title: "This string is used by screen readers to identify the Web Widget launcher when the Chat product is available. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: 'Opens a widget where you can chat to one of our agents'
+  - translation:
+      key: 'embeddable_framework.launcher.talk.title'
+      title: "This string is used by screen readers to identify the Web Widget launcher when the Talk product is available. The text will be read out for the visually impaired. Capitalization doesn't matter."
+      value: 'Opens a widget where you can talk to one of our agents'
+
+  # Chat embed
+  - translation:
+      key: 'embeddable_framework.chat.title'
+      title: "The title that is displayed on the top of the container's frame"
+      screenshot: 'https://zendesk.box.com/s/x3yx88qnonc2l6zfko7nkt2uupnurtbp'
+      value: 'Chat with us'
+  - translation:
+      key: 'embeddable_framework.chat.notification'
+      title: 'The notification message that appears on the launcher button when a new message is received in chat. This is for a singular incoming chat notification'
+      screenshot: 'https://zendesk.app.box.com/s/ukzss6aw8s8wp5nqbn1zt3zit2caglsm'
+      value: '1 new'
+  - translation:
+      key: 'embeddable_framework.chat.notification_multiple'
+      title: 'The notification message that appears on the launcher button when a new message is received. This is for plural notifications. Count will be the number of messages. %()s stands for string and does not need to be translated. If your language has more than one plural, please translate as: New: %(count)s'
+      screenshot: 'https://zendesk.box.com/s/xo1cgwawbuyf0j9sygxka8fabfv4rwbp'
+      value: '%(count)s new'
+  - translation:
+      key: 'embeddable_framework.chat.header.title'
+      title: "The Chat's header text that displays a strong font for a string"
+      screenshot: 'https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h'
+      value: 'Welcome'
+  - translation:
+      key: 'embeddable_framework.chat.header.default.title'
+      title: "Chat's default header text"
+      screenshot: 'https://drive.google.com/open?id=10S05tWpZZXAutXslTBoJNhzv2N7NqApw'
+      value: 'Live Support'
+  - translation:
+      key: 'embeddable_framework.chat.header.subText'
+      title: "The Chat's header text that displays a subText that sits below the title. Please match meshim.widget.controllers.defaultdatanode.defaultdatanode.livechat.settings.concierge.titlestring"
+      screenshot: 'https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h'
+      value: 'Ask us anything'
+  - translation:
+      key: 'embeddable_framework.chat.reconnecting'
+      title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
+      screenshot: 'https://drive.google.com/open?id=1yEx9kGh05t3visDMsWzRDUu_h_5QJBqK'
+      value: 'Reconnecting...'
+  - translation:
+      key: 'embeddable_framework.chat.emailtranscript.failure_message'
+      title: 'The message that appears when an email was not successfully registered for sending a chat transcript.'
+      screenshot: 'https://zendesk.box.com/s/ciyp3cht8bg1ecbls423isur6era66ph'
+      value: 'Unable to send transcript.'
+  - translation:
+      key: 'embeddable_framework.chat.emailtranscript.try_again'
+      title: 'The try again link that appears when an email was not successfully registered for sending a chat transcript. '
+      screenshot: 'https://zendesk.box.com/s/283wa03wokpn8t7yq4kx4huy86zqqizq'
+      value: 'Try again'
+  - translation:
+      key: 'embeddable_framework.chat.emailtranscript.success_message'
+      title: 'The message that appears when an email was successfully registered for sending a chat transcript. We have a <b></b> surrounded around email and %(email)s will be replaced by a real email.'
+      screenshot: 'https://zendesk.box.com/s/2mht92k8pdnjaiixbehabhrx6nmtr4eb'
+      value: 'Email will be sent to %(email)s when the chat ends.'
+  - translation:
+      key: 'embeddable_framework.chat.emailtranscript.title'
+      title: 'The form title of the chat email transcript popup'
+      screenshot: 'https://zendesk.box.com/s/25mefndapdovrycnmf2kwvsi9yt60h84'
+      value: 'Email chat transcript'
+  - translation:
+      key: 'embeddable_framework.chat.messagefailed.resend'
+      title: 'The resend text that shows if a message send fails.'
+      screenshot: 'https://zendesk.box.com/s/c8i2waxi2czx6yl8g04tgw1cb0lvdhl7'
+      value: 'Resend'
+  - translation:
+      key: 'embeddable_framework.chat.messagefailed.failed_twice'
+      title: 'The resend text that shows if a message send fails for the second time.'
+      screenshot: 'https://zendesk.box.com/s/kx69e0et86r5a56w6xas3oxsef0f416d'
+      value: 'Failed to send'
+  - translation:
+      key: 'embeddable_framework.chat.header.by_line'
+      title: 'This is the default byline text if an agent/company does not have one.'
+      screenshot: 'https://drive.google.com/open?id=14o6od3wZ-7tjqix2bJlu0JLg9Br2NxG9'
+      value: 'Customer Support'
+  - translation:
+      key: 'embeddable_framework.chat.contact_details.updated'
+      title: 'This is the text that shows in the chat log when user updates their contact details.'
+      screenshot: 'https://drive.google.com/open?id=102QAXq889nan1Wl7ZI1IXjJPQ0Hkto3c'
+      value: 'Contact details updated'
+  - translation:
+      key: 'embeddable_framework.chat.fetching_history'
+      title: 'This is the text that shows in the chat log when user is fetching old messages'
+      screenshot: 'https://drive.google.com/open?id=1lUBpQbQA5sUMW42VBaAFaEaoE4qsqaZ0'
+      value: 'Loading messages...'
+  - translation:
+      key: 'embeddable_framework.chat.show_original'
+      title: "This is the text that shows the 'Show original' link when a chat message has been translated."
+      screenshot: 'https://drive.google.com/file/d/1oGGQ2DythnXZU1k0OCag5V5Y37q1FyuJ/view?usp=sharing'
+      value: 'Show original'
+  - translation:
+      key: 'embeddable_framework.chat.show_translated'
+      title: "This is the text that shows the 'Show translated' link when a chat message has not been translated."
+      screenshot: 'https://drive.google.com/file/d/1pzyWmoeJ2J7-W4Ygqv3ich2_gw9o_LR7/view?usp=sharing'
+      value: 'Show translated'
+  - translation:
+      key: 'embeddable_framework.chat.badge.label'
+      title: 'The default text shown on the chat badge launcher component. It invites the user to start a chat session'
+      screenshot: 'https://drive.google.com/file/d/1HnSe494tl5Y_zkQtTxady_m0toCdUqZo/view?usp=sharing'
+      value: 'Chat with us'
+
+  # Chat Web SDK
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies.title'
+      title: 'The title that encompasses the following body that describes the agreement for the user to accept in order to access and use the Chat product as intended.'
+      screenshot: 'https://zendesk.box.com/s/n0hbf5yhz5rctwtvloueirsmxeuup8ux'
+      value: 'Zendesk Chat requires cookies to function'
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies.reenable_chat_note'
+      title: 'A note that is displayed at the bottom of the container prior making a selection.'
+      screenshot: 'https://zendesk.box.com/s/tpgi4fvbj5qi79gmhubi9zo6ipcpscx3'
+      value: 'You may re-enable chat anytime.'
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies.disable_chat_note'
+      title: 'A note that is displayed at the bottom of the container prior making a selection.'
+      screenshot: 'https://zendesk.box.com/s/f4xkx3wbgdk0h1dnsho1un6kaitufm6i'
+      value: 'You may disable the chat anytime.'
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies.statement'
+      title: 'A neutral body of text that follows after a title that details the intended agreement to be applied when the user makes a button selection.'
+      screenshot: 'https://zendesk.box.com/s/r5wj9zhr88dx1ohz2xa194x9yq6cngd4'
+      value: "If you do not agree with our <a target='_blank' href='%(url)s'>cookie policy</a>, you may disable the Chat widget. Past information and cookies will be removed."
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies_statement.cookies_objection'
+      title: 'A neutral body of text that follows after a title that details the intended agreement to be applied when the user makes a button selection.'
+      screenshot: 'https://zendesk.box.com/s/j87g3d8bv0drp5al3gmff8fig4weix11'
+      value: "You objected to the use of cookies based on our <a target='_blank' href='%(url)s'>cookie policy</a>. Approve the use of cookies to enable Chat functions."
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies.disable_chat'
+      title: 'A button that describes that the user will disable the chat functionality (Chat can be localized)'
+      screenshot: 'https://zendesk.box.com/s/wzwh72gz1tqifd6u29ftu7579matgl2x'
+      value: 'Disable Chat'
+  - translation:
+      key: 'embeddable_framework.chat.agreement.cookies.enable'
+      title: 'A button that describes that the user will enable cookies and chat (can be localized) functionality when clicked.'
+      screenshot: 'https://zendesk.box.com/s/dxhe1cuu0iflzbsue2zwq9t6648kiuwp'
+      value: 'Enable Cookies and Chat'
+  - translation:
+      key: 'embeddable_framework.chat.chatlog.comment.submitted'
+      title: 'A system message that is displayed in the middle of a chat log when the user has submitted their comment as feedback for the current chat session'
+      screenshot: 'https://zendesk.box.com/s/q87klo5a1fe8egi3ufxinljpq01k91rv'
+      value: 'Comment submitted'
+  - translation:
+      key: 'embeddable_framework.chat.form.editContact.title'
+      title: 'The title of the form modal that is shown when the user edits the contact details in chat'
+      screenshot: 'https://zendesk.box.com/s/mtl15a783261tdd42rb5tt8i3ptw1hpp'
+      value: 'Edit contact details'
+  - translation:
+      key: 'embeddable_framework.chat.form.common.field.social_login.label'
+      title: 'The description under a name field that presents the option to use social media login to fill in name and email details.'
+      screenshot: 'https://drive.google.com/file/d/1GcLRhx8t1RHPvvg88B4P6H6TsCsYc5av/view?usp=sharing'
+      value: 'Or social sign in:'
+  - translation:
+      key: 'embeddable_framework.chat.form.common.field.social_login.title'
+      title: "A title to describe the field below that the user is currently logged in with the details displayed. Use 'Profile' ONLY to avoid formal/informal"
+      screenshot: 'https://drive.google.com/file/d/1ZUkCi60UCyGUeED5VavW8WkCrPECbLOx/view?usp=sharing'
+      value: 'Your profile:'
+  - translation:
+      key: 'embeddable_framework.chat.form.common.dropdown.chooseDepartment'
+      title: 'The default text for the dropdown to select a department in the pre chat form'
+      screenshot: 'https://drive.google.com/file/d/15rteLrYRXt68voCQH95er0lLTkADQseY/view?usp=sharing'
+      value: 'Choose a department'
+  - translation:
+      key: 'embeddable_framework.chat.form.editContact.button.save'
+      title: 'A button to confirm and save all details placed in a form modal of Edit contact Details'
+      screenshot: 'https://zendesk.box.com/s/e8rnqew6iwbgu945kln1nkangupp8vbs'
+      value: 'Save'
+  - translation:
+      key: 'embeddable_framework.chat.form.editContact.placeholder.name'
+      title: 'A greyed-out placeholder text that is displayed on the name field when the user has not typed anything'
+      screenshot: 'https://zendesk.box.com/s/yg3s47evfnczdwaxfhdqn3yx3je9qtk1'
+      value: 'Name'
+  - translation:
+      key: 'embeddable_framework.chat.form.editContact.placeholder.email'
+      title: 'A greyed-out placeholder text that is displayed on the email field when the user has not typed anything'
+      screenshot: 'https://zendesk.box.com/s/wsbiu5y46j43s2hcoecx5moys7ijohvy'
+      value: 'Email'
+  - translation:
+      key: 'embeddable_framework.chat.preChat.online.button.startChat'
+      title: 'A button in the pre-chat form that is enabled once the user has filled in the required chat details'
+      screenshot: 'https://zendesk.box.com/s/ydey48r6d48boxx7m8f231td6rha3mzz'
+      value: 'Start chat'
+  - translation:
+      key: 'embeddable_framework.chat.department.offline.label'
+      title: 'An indicator that a department is offline. The department name will be in the %()s. Do not localize %(department)s'
+      screenshot: 'https://drive.google.com/file/d/1qazdqaOHEwBOWr8-StlyYAAx141MJE8e'
+      value: '%(department)s (offline)'
+  - translation:
+      key: 'embeddable_framework.chat.preChat.offline.button.sendMessage'
+      title: 'A submit button in the pre-chat form that becomes available once the user has filled in chat details'
+      screenshot: 'https://zendesk.box.com/s/o5wnlsojizy84zf6b5cnn0ho0x2tj41y'
+      value: 'Send message'
+  - translation:
+      key: 'embeddable_framework.chat.preChat.offline.greeting'
+      title: 'A description that is displayed on the offline form when there are no Chat agents online to attend to the user'
+      screenshot: 'https://zendesk.box.com/s/qawwqamv9lhpzjjg8mfrfwz4vmp0twbp'
+      value: "Sorry, we aren't online at the moment. Leave a message and we'll get back to you."
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.title'
+      title: "The label for 'Operating Hours' for a given customer"
+      screenshot: 'https://drive.google.com/open?id=1VeJPuTOOdlXZG60l5yJZuh3Ag3UJE1yg'
+      value: 'Operating Hours %(timezone)s'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.anchor'
+      title: 'Link anchor text for clicking into the operating hours section'
+      screenshot: 'https://drive.google.com/open?id=168W3rF9sZAF6XkV5SQ-9vnKpaSozPVdF'
+      value: 'Our Operating Hours'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.closed'
+      title: 'What to say when the customer does not open on any given day'
+      screenshot: 'https://drive.google.com/open?id=10RZsDXuiEwpiddTlcs5vfldvG7N9XDTa'
+      value: 'Closed'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.separator.range'
+      title: 'Separator used for schedules that span consecutive days'
+      screenshot: 'https://drive.google.com/open?id=1nDXoopgGSqhUAwXDHZ6Hz2pC5FCoFOR6'
+      value: ' — '
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.separator.overall'
+      title: 'Separator used to separate non-consecutive days and day ranges'
+      screenshot: 'https://drive.google.com/open?id=1YHwWHpjHGTM8Wen3xrztCGVGSbKIXhkF'
+      value: ', '
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.monday'
+      title: 'Day of the week for operating hours: Monday'
+      screenshot: 'https://drive.google.com/open?id=1uKHW4AxDi6cemxhEspEclAnBCI4wxzkb'
+      value: 'Monday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.tuesday'
+      title: 'Day of the week for operating hours: Tuesday'
+      screenshot: 'https://drive.google.com/open?id=19IPSIKviGq9at-jNr-LBEOdulb5RIw_k'
+      value: 'Tuesday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.wednesday'
+      title: 'Day of the week for operating hours: Wednesday'
+      screenshot: 'https://drive.google.com/open?id=1CiMsr8Yf_UG2B-UjGXDEpxcGU_m58Ckh'
+      value: 'Wednesday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.thursday'
+      title: 'Day of the week for operating hours: Thursday'
+      screenshot: 'https://drive.google.com/open?id=1jNGF6q-AU0y4difm2K6PyPPEmjUDboet'
+      value: 'Thursday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.friday'
+      title: 'Day of the week for operating hours: Friday'
+      screenshot: 'https://drive.google.com/open?id=1l9UxZxv7vzRdJhZ9hgjF-Fd4d0vTfzGL'
+      value: 'Friday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.saturday'
+      title: 'Day of the week for operating hours: Saturday'
+      screenshot: 'https://drive.google.com/open?id=1NdZEqVBWf8NvdNphUHPoNE9Jw42MFHbE'
+      value: 'Saturday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.sunday'
+      title: 'Day of the week for operating hours: Sunday'
+      screenshot: 'https://drive.google.com/open?id=1vz69EFENQmgXzbeZecnWwz9KRoxNNY3-'
+      value: 'Sunday'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.am'
+      title: 'The time equivalent of AM for operating hours'
+      screenshot: 'https://drive.google.com/open?id=1I0KhcUMqfOMulb6G0Zx5nh3ohPa0Qr9q'
+      value: 'am'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.pm'
+      title: 'The time equivalent of PM for operating hours'
+      screenshot: 'https://drive.google.com/open?id=1yZTe5-F0ME22FkduF3JZpbhXKeMKVijU'
+      value: 'pm'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.hourRange'
+      title: "The range for a customer's operating hours on any given day. openingPeriod and closingPeriod refer to AM or PM (which may be disregarded if your language uses 24-hour time)"
+      screenshot: 'https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47'
+      value: '%(openingHour)s %(openingPeriod)s to %(closingHour)s %(closingPeriod)s'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.timeRange'
+      title: "The range for a customer's operating hours on any given day."
+      screenshot: 'https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47'
+      value: '%(openingTime)s to %(closingTime)s'
+  - translation:
+      key: 'embeddable_framework.chat.operatingHours.label.openAllDay'
+      title: "This is shown in place of an hour range when a customer's operating hours are for the whole day: midnight to midnight"
+      screenshot: 'https://drive.google.com/open?id=1Y2D0hg8EB7auSRRThpDhIoXbzIxV9cqT'
+      value: 'Open all day'
+  - translation:
+      key: 'embeddable_framework.chat.offline.label.noForm'
+      title: "The label to display if all agents are online and the customer doesn't have a contact form"
+      screenshot: 'https://drive.google.com/open?id=1cWlcbhwpVpNwVdLKNWm6d2fE80RW4jq7'
+      value: 'Sorry, we are not online at the moment'
+  - translation:
+      key: 'embeddable_framework.chat.offline.button.close'
+      title: 'Button label prompting the user to close the chat offline screen'
+      screenshot: 'https://drive.google.com/open?id=15AKmHYs2dIOdfw3qjrWwmmG8mK81vhxd'
+      value: 'Close'
+  - translation:
+      key: 'embeddable_framework.chat.preChat.offline.label.confirmation'
+      title: 'Confirmation text after users fill out the contact form displayed when all agents are offline'
+      screenshot: 'https://drive.google.com/open?id=1K5GEURjwUDNhyvc9Dj0a_4q3yN_4XhTP'
+      value: "Thanks for the message! We'll get back to you as soon as we can."
+  - translation:
+      key: 'embeddable_framework.chat.preChat.offline.button.sendAnother'
+      title: 'Button to fill out another contact form after one has been filled when all agents are offline'
+      screenshot: 'https://drive.google.com/open?id=1JwCe7SCpWieHWMyw1pPi6SsHQ3YwWqwG'
+      value: 'Send Another'
+      obsolete: '2020-10-31'
+  - translation:
+      key: 'embeddable_framework.chat.options.goBack'
+      title: 'One of the options that is presented in chat when the user clicks on the menu icon'
+      screenshot: 'https://drive.google.com/open?id=1L8wTYsPNunv77KxBfAYwLW6u_vOK4piF'
+      value: 'Go back to Help Center'
+  - translation:
+      key: 'embeddable_framework.chat.options.sendFile'
+      title: 'One of the options that is presented in chat when the user clicks on the menu icon'
+      screenshot: 'https://drive.google.com/open?id=16wJvq_fPhkhlpBAqIz8kzdwHE_dK4-u7'
+      value: 'Send file'
+  - translation:
+      key: 'embeddable_framework.chat.options.yourProfile'
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon. It describes the ability to edit the user's own profile attributes such as name, email and potentially other details."
+      screenshot: 'https://zendesk.box.com/s/ujva92iwya5cwseu3lpizsytm7y6i200'
+      value: 'Your profile'
+  - translation:
+      key: 'embeddable_framework.chat.options.editContactDetails'
+      title: 'One of the options that is presented in chat when the user clicks on the ellipses icon'
+      screenshot: 'https://zendesk.box.com/s/9sae07rivufhpmr8kf3rv5tmhjalohio'
+      value: 'Edit contact details'
+  - translation:
+      key: 'embeddable_framework.chat.options.editContactDetailsSubmission.success'
+      title: 'Label that informs the user that the form to update their contact information has been submitted successfully'
+      screenshot: 'https://drive.google.com/open?id=1aOgF3n31lMauQ1Yj88mMGZgdG01R3oSY'
+      value: 'Success'
+  - translation:
+      key: 'embeddable_framework.chat.options.editContactDetailsSubmission.error'
+      title: 'Error message that displays after a user tries to submit their contact details and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button'
+      screenshot: 'https://drive.google.com/file/d/1WPraF17Ec2uNE-sWgehlLJQ4BGgl2UK1/view?usp=sharing'
+      value: 'There was an error processing your request. Try again later.'
+  - translation:
+      key: 'embeddable_framework.chat.options.emailTranscript'
+      title: 'One of the options that is presented in chat when the user clicks on the ellipses icon'
+      screenshot: 'https://zendesk.box.com/s/dctjnojgjq4n9y0gwg72fy9lygmzttul'
+      value: 'Email transcript'
+  - translation:
+      key: 'embeddable_framework.chat.options.endChat'
+      title: 'One of the options that is presented in chat when the user clicks on the ellipses icon'
+      screenshot: 'https://zendesk.box.com/s/fgsufv4rj3okcxpabowyvu5ig54ebd2i'
+      value: 'End chat'
+  - translation:
+      key: 'embeddable_framework.chat.options.sound'
+      title: 'One of the options that is presented in chat when the user clicks on the ellipses icon'
+      screenshot: 'https://zendesk.box.com/s/9g7xdqxolq9tfc9k27tofi1rbuk8oks8'
+      value: 'Sound'
+  - translation:
+      key: 'embeddable_framework.chat.options.about'
+      title: 'One of the options that is presented in chat when the user clicks on the ellipses icon'
+      screenshot: 'https://zendesk.box.com/s/1hzxsd0sbrcmjohme1jl9t5hkasokj8p'
+      value: 'About'
+  - translation:
+      key: 'embeddable_framework.chat.icon.menu.hover.label'
+      title: "A text popup that is displayed when the user's cursor is hovered above the ellipses (menu) icon"
+      screenshot: 'https://drive.google.com/open?id=1XPtpR_c_3sJrSEMBLZtBNTJdLFSXjOAj'
+      value: 'Options'
+  - translation:
+      key: 'embeddable_framework.chat.icon.attachments.hover.label'
+      title: "A text popup that is displayed when the user's cursor is hovered above the attachments icon"
+      screenshot: 'https://drive.google.com/open?id=1VxljLKDi0_4a-pWrHaJW9fF4uWe1lUxe'
+      value: 'Attach file'
+  - translation:
+      key: 'embeddable_framework.chat.icon.endChat.hover.label'
+      title: "A text popup that is displayed when the user's cursor is hovered above the end chat icon"
+      screenshot: 'https://zendesk.box.com/s/an3d6l0vxyk0lsch5xdd1jjzw0ibdibg'
+      value: 'End chat'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.login.updateInfo'
+      title: "A link which appears in the chat log asking the user to update their details. Avoid use of 'your' if you have formal/informal issues. Example: Update contact info/update profile. Stay consistent with what you used in meshim.widget.widgets.form.profile.str_label_edit_internal. VERY SENSITIVE STRING. Please check TM and keep as close as possible to that version, but avoid formal/informal issues."
+      screenshot: 'https://drive.google.com/open?id=1gJuqzZ3mlDlaO-NVkI9kZYyk0S0mtBjB'
+      value: 'Please update your info'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.description'
+      title: "A template text to describe the user's rating of the chat followed by a value e.g. Good/Bad"
+      screenshot: 'https://zendesk.box.com/s/6217lsbb6xpx9islgzrtg65o6ozma3zz'
+      value: 'Chat rated %(value)s'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.title.good'
+      title: 'A call to action for screen readers to rate the chat as good (not seen on screen)'
+      screenshot: 'https://drive.google.com/file/d/18HoVUrQBimB92H2hNJ-dz0F5_xbsTYhi'
+      value: 'Rate this chat as good'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.title.bad'
+      title: 'A call to action for screen readers to rate the chat as bad (not seen on screen)'
+      screenshot: 'https://drive.google.com/file/d/1G_CWn-NrKYi7cbcYaMIJ0XCMV-ZoIUm5'
+      value: 'Rate this chat as bad'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.good'
+      title: 'A rating value that is displayed once the user clicks on thumbs up icon'
+      screenshot: 'https://zendesk.box.com/s/78c2btcx77ly5d1a4bdaekugzdldoiay'
+      value: 'Good'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.bad'
+      title: 'A rating value that is displayed once the user clicks on thumbs down icon'
+      screenshot: 'https://zendesk.box.com/s/cr65lbpqkg0sutj587wajfukzu58a9kg'
+      value: 'Bad'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.removed'
+      title: 'A message that is displayed if the user removes the current rating'
+      screenshot: 'https://zendesk.box.com/s/pvk9ikpaqnnpy81evyth5yjf7ht5aubg'
+      value: 'Chat rating removed'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.queuePosition'
+      title: 'The system message that is displayed onto the chat log when all agents are occupied and the user is queued.'
+      screenshot: 'https://zendesk.box.com/s/1816c5npxee9tvap5hz5d3ye1g42w6v1'
+      value: 'Queue position: %(value)s'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.chatStarted'
+      title: 'An application message that is displayed on the chat log when the user enters into a chat with a Chat agent'
+      screenshot: 'https://zendesk.box.com/s/2qm6ess3wmdt3glsjhrmemwqosxgxidf'
+      value: 'Chat started'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.chatEnded'
+      title: 'The system message that is displayed onto the chat log once the user or an agent has ended the chat session.'
+      screenshot: 'https://zendesk.box.com/s/1xzdf3rzfbdco5aeeqkzdesd20f1u83e'
+      value: 'Chat ended'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.agentJoined'
+      title: 'An application message that is displayed in the chat log when an agent joins a chat'
+      screenshot: 'https://zendesk.box.com/s/pmhpewnsoc7odl2b6fgs3ue3imeqpdld'
+      value: '%(agent)s joined the chat'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.agentLeft'
+      title: 'An application message that is displayed in the chat log when an agent leaves a chat'
+      screenshot: 'https://zendesk.box.com/s/48nsffvaymmoec3ryv5b6w14kmgbg6pv'
+      value: '%(agent)s left the chat'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.agentDisconnected'
+      title: 'An application message that is displayed in the chat log when an agent leaves a chat due to disconnections'
+      screenshot: 'https://drive.google.com/open?id=11uf5HAorwxi1mymRrFoU5Bb-P1gNdffA'
+      value: '%(agent)s was disconnected and has left the chat'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.button.leaveComment'
+      title: 'A text that is displayed on a button that provides the user with the ability to navigate to a rating form'
+      screenshot: 'https://zendesk.box.com/s/bawjetlh45rha525gnoy1042n78s9hv5'
+      value: 'Leave a comment'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.button.rateChat'
+      title: 'A button that is shown within the chat log when the agent initiates a rating prompt to the user in the chat session.'
+      screenshot: 'https://zendesk.box.com/s/cusff9jlt8u9ru0q71iw9hcrusnphxkd'
+      value: 'Rate this chat'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.isTyping'
+      title: 'An application notifier that signifies that an X person is typing a message'
+      screenshot: 'https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl'
+      value: '%(agent)s is typing'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.isTyping_two'
+      title: 'An application notifier that signifies that two agents are typing a message'
+      screenshot: 'https://zendesk.box.com/s/emcoootsrmdb36wxh91d19imxdsgu1yr'
+      value: '%(agent1)s and %(agent2)s are typing'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.isTyping_multiple'
+      title: 'An application notifier that signifies that more than two agents are typing a message'
+      screenshot: 'https://zendesk.box.com/s/4gy8p6a8wwd9bwexaafrmxhv2g1w89de'
+      value: 'Multiple agents are typing'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.resend'
+      title: 'A text displayed on a link or a button that allows the user to resend an unsent message due to disconnection or other circumstances'
+      screenshot: 'https://zendesk.box.com/s/jgvtmzdm11ubgnj5ritsx6wuikaveldd'
+      value: 'Resend'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.reconnect.label'
+      title: 'A text displayed on a popup that displays when a users chat session has disconnected. Clicking it will reconnect to the session'
+      screenshot: 'https://drive.google.com/open?id=1gsIhKmw7mc7I7NQs0_1_nv3pO-rjVhS6'
+      value: 'Click to reconnect'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.sending'
+      title: 'A text that is displayed at the bottom of an attachment signifying that its in the process of being sent to the server.'
+      screenshot: 'https://zendesk.box.com/s/m25eokdc7fwux7rhkyu6mi6eef9noedc'
+      value: 'Sending...'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.uploading'
+      title: 'A text that is displayed at the bottom of an attachment signifying that its in the process of being uploaded to the server.'
+      screenshot: 'https://zendesk.box.com/s/0yvw1vbm79q8ibvpv36nntyw7asm1yqm'
+      value: 'Uploading...'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.loadingImage'
+      title: 'A text that is displayed at the bottom of an uploaded image attachment signifying that it is in the process of being downloaded to display in the chat log. The %(attachmentSize)s placeholder will be replaced with the size of the image in kilobytes (KB) or megabytes (MB)'
+      screenshot: 'https://zendesk.box.com/s/y5jv9ov2vpy0xm8whq31819dffkj18zu'
+      value: 'Loading image (%(attachmentSize)s)...'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.attachmentDownload'
+      title: 'A text that is displayed on an incoming attachment linking to the file'
+      screenshot: 'https://zendesk.box.com/s/jl47jgnkjwsknei785vfiklkkdep3exl'
+      value: 'Download'
+  - translation:
+      key: 'embeddable_framework.chat.form.endChat.description'
+      title: 'A description that is displayed on a form modal to notify the users if they want to quit the current chat'
+      screenshot: 'https://zendesk.box.com/s/hsnutdne9ixb8b6ygperw3exb0j2m8uw'
+      value: 'Are you sure you want to end this chat?'
+  - translation:
+      key: 'embeddable_framework.chat.form.endChat.button.end'
+      title: 'A text that is shown on a button when the user would like to end the current chat'
+      screenshot: 'https://zendesk.box.com/s/pkzhz6n8nzte7jnu20j8ry0vaadpk9qp'
+      value: 'End'
+  - translation:
+      key: 'embeddable_framework.chat.postChat.byline'
+      title: 'A byline that appears under a chat header when the chat session has ended.'
+      screenshot: 'https://zendesk.box.com/s/2mrpr8jwv57m93dx0q4wffzpcoh4oi4y'
+      value: 'Thank you for chatting with us.'
+  - translation:
+      key: 'embeddable_framework.chat.postChat.rating.new_title'
+      title: 'A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session'
+      screenshot: 'https://drive.google.com/file/d/1V1G9A6M9zgPW04WB5Fnfabfph5_fzWuf/view?usp=sharing'
+      value: 'Please rate this chat'
+  - translation:
+      key: 'embeddable_framework.chat.postChat.rating.plainDescription'
+      title: 'A text that describes the intent of the following element. It points the user to leave a comment in the textarea'
+      screenshot: 'https://drive.google.com/open?id=1dIws7B2s463tG6kDdqlPl2Ff6YD-aDqc'
+      value: 'Leave a comment (optional)'
+  - translation:
+      key: 'embeddable_framework.chat.chatLog.rating.button.skip'
+      title: 'A string for a button to skip a chat rating'
+      screenshot: 'https://drive.google.com/open?id=1P1nDpoepZdmGOiobru6wmdJ_9m5t6fIE'
+      value: 'Skip'
+  - translation:
+      key: 'embeddable_framework.chat.postChat.rating.button.skip'
+      title: 'A text that is displayed on a button that provides the user with the option to skip the rating form'
+      screenshot: 'https://zendesk.box.com/s/h92r7wfca8hvcp38f8pebx4eec50d5vl'
+      value: 'Skip'
+  - translation:
+      key: 'embeddable_framework.chat.postChat.button.startNewChat'
+      title: 'A button that is presented once the user has previously ended chat but they are still present in the chat window'
+      screenshot: 'https://zendesk.box.com/s/ld5xaqrpejbmyy9bfv8le2gk9o23m6zd'
+      value: 'Start a new chat'
+  - translation:
+      key: 'embeddable_framework.chat.form.emailTranscript.title'
+      title: 'The title of the form modal that is shown when the user would like to email chat transcript'
+      screenshot: 'https://zendesk.box.com/s/tauvmgi9m45o25lpxd339vbvj88fm5oo'
+      value: 'Email chat transcript'
+  - translation:
+      key: 'embeddable_framework.chat.popup.button.dismiss'
+      title: 'A text that is displayed on a button that provides the user to dismiss the current chat popup notification'
+      screenshot: 'https://zendesk.box.com/s/qn0ntbcxo4zr8fwahzf3czadezhsd7ts'
+      value: 'Dismiss'
+  - translation:
+      key: 'embeddable_framework.chat.popup.button.reply'
+      title: 'A text that is displayed on a button that provides the user to navigate to their established chat session in another window'
+      screenshot: 'https://zendesk.box.com/s/b1slvax56z1lz1u11d1b3duforg9ygti'
+      value: 'Reply'
+  - translation:
+      key: 'embeddable_framework.chat.chatBox.placeholder.typeMessageHere'
+      title: 'A placeholder text that is displayed in the chat box when there is no content'
+      screenshot: 'https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m'
+      value: 'Type a message here..'
+      obsolete: '2019-12-31'
+  - translation:
+      key: 'embeddable_framework.chat.chatBox.placeholder.typeMessageHere_v2'
+      title: 'A placeholder text that is displayed in the chat box when there is no content'
+      screenshot: 'https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m'
+      value: 'Type a message here...'
+  - translation:
+      key: 'embeddable_framework.chat.chatBox.placeholder.type_your_message'
+      title: 'A placeholder text that is displayed in the chat launcher badge when there is no content'
+      screenshot: 'https://drive.google.com/file/d/1Dea0PqY15FzEBElJCBob1-EvhnmF3apr/view?usp=sharing'
+      value: 'Type your message here'
+  - translation:
+      key: 'embeddable_framework.chat.agentList.button.backToChat'
+      title: 'A button that is presented at the bottom of the window when the user wants to go back to chatting'
+      screenshot: 'https://zendesk.box.com/s/7py8p1xvv56q7bc053rsnvs6id1rraet'
+      value: 'Back to chat'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.not_supported'
+      title: 'A text displayed in the chat log when file sending is not supported on the users browser'
+      screenshot: 'https://zendesk.box.com/s/b46p64o8lr8pdeij7z9ksr6pcptxbri0'
+      value: 'Upload failed. File sending is not supported on this browser.'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.not_allowed'
+      title: 'A text displayed in the chat log when file sending is not allowed due to account’s File Sending settings'
+      screenshot: 'https://zendesk.box.com/s/xcd899s9n42fbxeu9oelhb6f44iy6sy1'
+      value: 'Upload failed. File sending is not allowed.'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.conn_error'
+      title: 'A text displayed in the chat log when file sending fails due to connectivity issues'
+      screenshot: 'https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea'
+      value: 'Upload failed. Something went wrong. Please try again.'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.invalid_extension'
+      title: 'A text displayed in the chat log when file sending fails due to an invalid file extension'
+      screenshot: 'https://zendesk.box.com/s/xs18h6zcmghhqe5nvmjm4h671uxj2izc'
+      value: 'Upload failed. File type is not supported.'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.exceed_size_limit'
+      title: 'A text displayed in the chat log when file sending fails due to file size exceeding the limit'
+      screenshot: 'https://zendesk.box.com/s/a80q86e1njmck8ymdhai1rkf2ppg6djo'
+      value: 'Upload failed. File size is too large.'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.internal_error'
+      title: 'A text displayed in the chat log when file sending fails due to an internal Zendesk Chat error'
+      screenshot: 'https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea'
+      value: 'Upload failed. Something went wrong. Please try again.'
+  - translation:
+      key: 'embeddable_framework.chat.attachments.error.unknown_error'
+      title: 'A text displayed in the chat log when file sending fails due to an unknown error'
+      screenshot: 'https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea'
+      value: 'Upload failed. Something went wrong. Please try again.'
+  - translation:
+      key: 'embeddable_framework.chat.messagingChannels.title'
+      title: 'The title displayed for the messaging channels in Chat offline form. When end-user click on either the Messenger or Twitter icon, a new tab will open to the respective Facebook page/Twitter direct message where they can get support.'
+      screenshot: 'https://drive.google.com/open?id=1hA51T2BFOi8Tvw1ULwLlNaiZQpXJMRBP'
+      value: 'Contact us here'
+  - translation:
+      key: 'embeddable_framework.chat.historyLink.label'
+      title: 'The label that is displayed to direct the user to the chat history screen. Opens the Chat History screen when clicked.'
+      screenshot: 'https://drive.google.com/open?id=1DWwYl7gwZQXs6CjsbLLpirUzUZrfeC76'
+      value: 'View past chats'
+  - translation:
+      key: 'embeddable_framework.chat.backHistoryLabel'
+      title: 'The label on the button that when clicked returns the user back from Chat History screen'
+      screenshot: 'https://drive.google.com/open?id=1k2TccOgxI7-sapLX9doZWvzsm3QnaBOA'
+      value: 'Back'
+
+  # Submit Ticket component
+  - translation:
+      key: 'embeddable_framework.submitTicket.notify.message.success'
+      title: 'Success message that displays after ticket is sent. Text will wrap as needed if width exceeded (tinyurl.com/o8hvzzm)'
+      value: 'Message sent'
+  - translation:
+      key: 'embeddable_framework.submitTicket.notify.message.timeout'
+      title: 'Error message that displays after a user tries to send a ticket and it times out. Time out will occur after 30 seconds. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)'
+      value: 'There was a problem. Please try again.'
+  - translation:
+      key: 'embeddable_framework.submitTicket.notify.message.error'
+      title: 'Error message that displays after a user tries to send a ticket and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)'
+      value: 'There was an error processing your request. Please try again later.'
+
+  # Submit Ticket Form component
+  - translation:
+      key: 'embeddable_framework.submitTicket.form.title.message'
+      title: 'The title of the submit ticket form'
+      screenshot: 'https://zendesk.box.com/s/eji8uxhtirmllja95neuari3q7d8d7xx'
+      value: 'Leave us a message'
+      packages: ['discovery']
+  - translation:
+      key: 'embeddable_framework.submitTicket.form.title.contact'
+      title: 'Alternative title of the submit ticket form, will wrap as needed (https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40)'
+      screenshot: 'https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40'
+      value: 'Contact us'
+      packages: ['discovery']
+  - translation:
+      key: 'embeddable_framework.submitTicket.form.submitButton.label.send'
+      title: 'The label on the button to submit the form in the submit ticket form, will wrap if needed'
+      value: 'Send'
+  - translation:
+      key: 'embeddable_framework.submitTicket.form.submitButton.label.sending'
+      title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending. Will wrap if to long (tinyurl.com/k8pabo8)"
+      value: 'Submitting...'
+  - translation:
+      key: 'embeddable_framework.submitTicket.form.submittedFrom.label'
+      title: 'The label added to tickets to show what page they were submitted from. %()s stands for string and does not need to be edited as it us part of the placeholder %(url)s. (https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9)'
+      screenshot: 'https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9'
+      value: 'Submitted from: %(url)s'
+
+  # Submit Ticket Schema component
+  - translation:
+      key: 'embeddable_framework.submitTicket.field.name.label'
+      title: 'The placeholder in the name field of the submit ticket form. Asking for the customers name. Will get cut off if too long'
+      value: 'Your name'
+  - translation:
+      key: 'embeddable_framework.submitTicket.field.subject.label'
+      title: 'The placeholder in the subject field of the submit ticket form. Asking for the subject of the customers problem.'
+      value: 'Subject'
+  - translation:
+      key: 'embeddable_framework.submitTicket.field.description.label'
+      title: 'The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has. Will wrap if needed'
+      value: 'How can we help you?'
+
+  # Ticket Forms
+  - translation:
+      key: 'embeddable_framework.submitTicket.ticketForms.title'
+      title: 'The title for the ticket forms list that displays when selecting a ticket form to fill out. Will wrap if needed. The drop down menu will load a list of available ticket forms. You can use: Please make a selection below (or similar) if you need in your language. Do not use possessive your!'
+      screenshot: 'https://zendesk.box.com/s/ez705d3o0f46vm8bqkdjrzzb0pu24y6k'
+      value: 'Please select your issue'
+
+  # Form Field component
+  - translation:
+      key: 'embeddable_framework.form.field.email.label'
+      title: 'The placeholder in a generic email field for all our forms that need it. Will get cut off if too long'
+      value: 'Email address'
+
+  # Channel Choice component
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.no_available_agents'
+      title: "The label under a channel option text that describes that there's no available agents (online) to attend to the customer at this time."
+      screenshot: 'https://drive.google.com/open?id=180OcmT-0BUJUGrc9Bc6Z1UmX7Art4pFx'
+      value: 'No available agents'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.no_available_agents_offline_form'
+      title: "The label under a channel option text that describes that there's no available agents (online) to attend to the customer at this time and that there is an offline form available where they can send a message."
+      screenshot: 'https://drive.google.com/file/d/1GXxlVLbZj9ix66b3N-QOQC_44b7JihN5/view?usp=sharing'
+      value: 'No agents available. Leave us a message'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.submitTicket'
+      title: 'The label for the submit ticket option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.submitTicket.message'
+      screenshot: 'https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6'
+      value: 'Leave a message'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.chat_offline_v3'
+      title: 'A notification that appears when a user enters live chat but all agents become unavailable.'
+      screenshot: 'https://drive.google.com/file/d/1ai96g2HeztA2M4sDlzIC56pOi6lsFKjD/view?usp=sharing'
+      value: 'Live chat is offline'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.request_callback'
+      title: "This string should match 'embeddable_framework.talk.form.title'"
+      value: 'Request a callback'
+      screenshot: 'https://zendesk.box.com/s/cmbvuwrzhbrsi9dd7ypn65thr65srs2v'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.call_us'
+      title: "This string should match 'embeddable_framework.talk.phoneOnly.title'"
+      value: 'Call us'
+      screenshot: 'https://zendesk.box.com/s/wt8jnd0n45bloq03em1pfj9fwdixd5fn'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.talk_offline_v2'
+      title: 'A notification that appears when channel choice is open and all talk agents become unavailable.'
+      value: 'No agents are available'
+      screenshot: 'https://zendesk.box.com/s/ehtcqe25fqc7ecirqbxnxuc9l784h63v'
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.click_to_call'
+      title: 'The label for the click to call option in the list.'
+      value: 'Click to call'
+      wip: true
+
+  # Help Center component
+  - translation:
+      key: 'embeddable_framework.helpCenter.content.useSearchBar'
+      title: 'A description that appears in a large space to direct the user to begin searching for content using the above search bar.'
+      screenshot: 'https://drive.google.com/file/d/1YVKfDExZZqaxTteGyRgIQ0feSytOT35X/view?usp=sharing'
+      value: 'Enter a term in the search bar above to find articles.'
+  - translation:
+      key: 'embeddable_framework.helpCenter.form.title.help'
+      title: 'Default title of the help center form (https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi). Must match glossary entry.'
+      screenshot: 'https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi'
+      value: 'Help'
+  - translation:
+      key: 'embeddable_framework.helpCenter.form.title.support'
+      title: 'Alternative title of the help center form (https://zendesk.box.com/s/giqiugq93xt75pay5xwxr6whhtyundrr). Must match glossary entry'
+      screenshot: 'https://zendesk.box.com/s/giqiugq93xt75pay5xwxr6whhtyundrr'
+      value: 'Support'
+  - translation:
+      key: 'embeddable_framework.helpCenter.form.title.feedback'
+      title: 'Alternative title of the help center form (https://zendesk.box.com/s/fi01o7rd1f6qr398zzoko4jnj9ickt8c)'
+      screenshot: 'https://zendesk.box.com/s/fi01o7rd1f6qr398zzoko4jnj9ickt8c'
+      value: 'Feedback'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.topSuggestions'
+      title: 'The text that is shown after a contextual help search is completed with results. (http://tinyurl.com/pkuvu72). Best Help Center articles found to match search query'
+      value: 'Top suggestions'
+  - translation:
+      key: 'embeddable_framework.helpCenter.article.viewLinkText'
+      title: 'The text for the link that opens the current article in a new tab'
+      value: 'View original article'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.label.search'
+      title: 'The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if to long (tinyurl.com/kjubpdk)'
+      value: 'Search help articles'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.label.how_can_we_help'
+      title: 'The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if too long (tinyurl.com/kjubpdk)'
+      value: 'How can we help?'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.noResults.title'
+      title: 'The title of the message for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)'
+      value: 'There are no results for "%(searchTerm)s"'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.noResults.body'
+      title: 'The body of the message for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)'
+      value: 'Try searching for something else.'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.error.title'
+      title: 'The title of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)'
+      value: 'Sorry, there are no results.'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.error.body'
+      title: 'The body of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)'
+      value: 'Click the button below to send us a message.'
+  - translation:
+      key: 'embeddable_framework.helpCenter.submitButton.label.submitTicket.message'
+      title: 'Label on the button in Help Center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. 22 letters (including spaces) max.'
+      screenshot: 'https://zendesk.box.com/s/z09z06zzuzigfz5kr5lw17jqie4uj1b5'
+      value: 'Leave us a message'
+  - translation:
+      key: 'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'
+      title: 'Alternative label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed.'
+      screenshot: 'https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q'
+      value: 'Contact us'
+  - translation:
+      key: 'embeddable_framework.helpCenter.submitButton.label.callback'
+      title: 'Alternative label on the button in help center when only request a callback is available. Same text as `embeddable_framework.talk.form.title`'
+      screenshot: 'https://zendesk.box.com/s/hdcx1sy5uvp1fioitgl5hhx10os9btwd'
+      value: 'Request a callback'
+  - translation:
+      key: 'embeddable_framework.helpCenter.submitButton.label.phone'
+      title: 'Alternative label on the button in help center when only call us is avalable. Same text as `embeddable_framework.talk.phoneOnly.title`'
+      screenshot: 'https://zendesk.box.com/s/esgv3lmib8wytp5bzpl72jpbddx51t9y'
+      value: 'Call us'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.default'
+      title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it. Will wrap if needed"
+      value: 'Common questions'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.results'
+      title: 'The title for the help center widget after user has searched for something. The top search results will appear in a list below it. Will wrap as needed (tinyurl.com/kdgfvbw)'
+      value: 'Top results'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.showAll'
+      title: 'The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed. %()s stands for string and does not need to be translated (tinyurl.com/le5tu52)'
+      value: 'View all (%(count)s)'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.suggestedArticles'
+      title: 'The title for the help center widget when we are suggesting articles relevant to the current page'
+      value: 'Suggested articles'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.popularArticles'
+      title: 'The title for the help center widget when we are offering articles that are popular in the Help Center'
+      value: 'Popular articles'
+  - translation:
+      key: 'embeddable_framework.helpCenter.results.button.backToChat'
+      title: 'A button that is displayed at the bottom when the user has chatted prior viewing the current helpcenter article'
+      screenshot: 'https://zendesk.box.com/s/bgy6121lonubzyv7yj3xvbvrelc5om15'
+      value: 'Back to chat'
+  - translation:
+      key: 'embeddable_framework.helpCenter.search.clear'
+      title: '[A11Y] The aria label for clearing the search input.'
+      screenshot: 'https://drive.google.com/file/d/10mFaL5WxgS8d8Sll_ZMQzyY9N26SGqna/view?usp=sharing'
+      value: 'Clear search'
+
+  # Answer bot embed
+  - translation:
+      key: 'embeddable_framework.answerBot.header.title'
+      title: 'Header text that displays a strong font for a string'
+      screenshot: 'https://drive.google.com/open?id=1LlwHmAsMPWLMghVacOA8PBK5ifU4gd6_'
+      hidden: true
+      value: 'Answer Bot'
+  - translation:
+      key: 'embeddable_framework.answerBot.bot.name'
+      title: 'Name of Answer Bot displayed during conversation'
+      screenshot: 'https://drive.google.com/open?id=1hlQg8etq0UvAsE7WEDG-pwX0Ij9C_YhV'
+      hidden: true
+      value: 'Answer Bot'
+  - translation:
+      key: 'embeddable_framework.answerBot.inputBox.placeholder'
+      title: "Placeholder text for the input box. If you have formal/informal issues, please translate 'Type a message here...'"
+      screenshot: 'https://drive.google.com/open?id=1B0sdjiFOfpyh1aHXN0dYGooYuMSw5IXl'
+      value: 'Type your question here...'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.greetings'
+      title: 'Initial greetings text when visitor starts new conversation.'
+      screenshot: 'https://drive.google.com/open?id=1QclhkQZpOygIDwzxI-fZMFPNN9jLaVdW'
+      value: 'Hello.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.greetings_with_brand'
+      title: 'Initial greetings text when visitor starts new conversation. %(brand)s is a placeholder (s is NOT for plural)'
+      screenshot: 'https://drive.google.com/open?id=13ECDMOW7Fo-1kS8gl2bYABqYO27jVxvp'
+      value: 'Hi! Welcome to %(brand)s.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.feedback.question'
+      title: 'A feedback prompt that is surfaced to the user if they navigated from viewing an article to the answerBot chat without leaving any feedback.'
+      screenshot: 'https://drive.google.com/file/d/1vgQoMJZzUjSa0HPhYKWuvkmExh7mB4_v/view?usp=sharing'
+      value: 'Did the article you viewed help to answer your question?'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.prompt'
+      title: "Initial prompt for visitor query. If you have formal/informal issues, please translate 'Ask me a question and I'll find the answer.'"
+      screenshot: 'https://drive.google.com/open?id=1RYJXIlYyg4tkFDmlijIlidvxuMCcZnWE'
+      value: "Ask me a question and I'll find the answer for you."
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.initial_fallback'
+      title: "Initial message when visitor doesn't type question within 10s. If you have formal/informal issues, please translate 'Or, please send a request.'"
+      screenshot: 'https://drive.google.com/open?id=1dk1m16CokGxBX3zy9xbqRj353iZ4kQBI'
+      value: 'Or you can get in touch.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.no_interaction_fallback'
+      title: "Message when visitor doesn't engage within 5s. If you have formal/informal issues, please translate 'Please send a request.'"
+      screenshot: 'https://drive.google.com/open?id=1XxgPzysmCKqkSTtwUBYGjchCVBVrHNfO'
+      value: 'You can also get in touch.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.prompt_again'
+      title: "Prompt visitor again for new question. If you have formal/informal issues, please translate 'Or ask another question.'"
+      screenshot: 'https://drive.google.com/open?id=1iim2qk5qMZ3Caa4b4d_hRXMfEhCyUuo-'
+      value: 'Or you can ask another question.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.prompt_again_no_channels_available'
+      title: "Prompt visitor again for new question. If you have formal/informal issues, please translate 'Ask another question.'"
+      screenshot: 'https://drive.google.com/open?id=1JAbr4Nc6JNWsMqAhCfrbG5N6A7D72NOh'
+      value: 'You can ask another question.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.prompt_again_after_yes'
+      title: "Prompt visitor for new question after Yes feedback is provided. If you have formal/informal issues, please translate 'If there's anything else I can find, just type another question.'"
+      screenshot: 'https://drive.google.com/open?id=1JAbr4Nc6JNWsMqAhCfrbG5N6A7D72NOh'
+      value: "If there's anything else I can find for you, just type another question."
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.yes_acknowledgement'
+      title: 'Confirm message after visitor accepted the suggested article. Marketing line, can be adapted to your language/culture. A possibile alternative is Glad we were able to help.'
+      screenshot: 'https://drive.google.com/open?id=1qSfBBmgefPRrB0P85g1S6uLnmM8XcEuO'
+      value: 'Nice. Knowledge is power.'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.no_acknowledgement'
+      title: "Confirm message after visitor rejected the suggested article. If you have formal/informal issues, please translate 'I see. Question is still unresolved.'"
+      screenshot: 'https://drive.google.com/open?id=1I-xjIxU6Kfkh2BPTE6Ym2YxS9Y22voIT'
+      value: 'I see. Your question is still unresolved.'
+  - translation:
+      key: 'embeddable_framework.answerBot.article.feedback.title'
+      title: "Title for feedback popup when an article is viewed. If you have formal/informal issues, please translate 'Does this article answer the question?'"
+      screenshot: 'https://drive.google.com/open?id=1QJ53RlZC-0HwcJ6co784dEmeC-jlpQwl'
+      value: 'Does this article answer your question?'
+  - translation:
+      key: 'embeddable_framework.answerBot.article.feedback.yes'
+      title: 'Text for Yes button on the feedback popup when an article is viewed'
+      screenshot: 'https://drive.google.com/open?id=15tdeQxFEA0rwH92hHLHBGQFhIZ8nx42O'
+      value: 'Yes'
+  - translation:
+      key: 'embeddable_framework.answerBot.article.feedback.no.need_help'
+      title: 'Text for No button on the feedback popup when an article is viewed'
+      screenshot: 'https://drive.google.com/open?id=11wbqVU-ut3jlym2-fUqBpKiys9GyoYe0'
+      value: 'No, I need help'
+  - translation:
+      key: 'embeddable_framework.answerBot.article.feedback.no.reason.title'
+      title: 'Title for the rejected reasons on the feedback popup'
+      screenshot: 'https://drive.google.com/open?id=1B0NZtj_2oIQaYcRrhMYZcWdeD3Qr7spI'
+      value: 'Please tell us why.'
+  - translation:
+      key: 'embeddable_framework.answerBot.article.feedback.no.reason.related'
+      title: "Text for the reason that is related but didn't answer the question"
+      screenshot: 'https://drive.google.com/open?id=1V04D5zUuWaqcL6GhLSOh8cyM461QSI3t'
+      value: "It's related, but it didn't answer my question"
+  - translation:
+      key: 'embeddable_framework.answerBot.article.feedback.no.reason.unrelated'
+      title: 'Text for the reason that is not related'
+      screenshot: 'https://drive.google.com/open?id=1JC3tVBFnvY-JJ_FgZcuN2Y-JuIlLbYyA'
+      value: "It's not related to my question"
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.no_articles_fallback'
+      title: "Title for the channel choice message when no articles are returned. If you have formal/informal issues, please stay consistent with what you used in 'embeddable_framework.chat.postChat.rating.title'."
+      screenshot: 'https://drive.google.com/open?id=1Gmvrwxza9oBvGqC25OPfNlVXhOHlRKJO'
+      value: 'Would you like to get in touch?'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.title'
+      title: 'Title for the channel choice message.'
+      screenshot: 'https://drive.google.com/open?id=1X2f8cAh-OrntKAzHqxTpsNxdstYaPHSd'
+      value: 'Choose a way to get in touch:'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.chat_only.title'
+      title: 'Leading message when the only channel available is chat.'
+      screenshot: 'https://drive.google.com/open?id=1TAV47o7lZQe0MQ9rq7e-8fs5-VS1Dg2d'
+      value: 'Would you like to chat with someone who can help?'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.request_callback_only.title'
+      title: "Leading message when the only channel available is to request a callback. If you have formal/informal issues, please translate 'Would you like the team to contact you regarding the question?'"
+      screenshot: 'https://drive.google.com/open?id=1jweTFpGVPMhdKsNMrFBELvdXgd4vG0o5'
+      value: 'Would you like the team to contact you regarding your question?'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.call_us_only.title'
+      title: "Leading message when the only channel available is to call us. If you have formal/informal issues, please translate 'Would you like to contact us regarding the question?'"
+      screenshot: 'https://drive.google.com/open?id=1U1JCJ7FkcbAPfpOis944Am_hcgrRR9al'
+      value: 'Would you like to contact us regarding your question?'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.click_to_call_only.title'
+      title: "Leading message when the only channel available is click to call. If you have formal/informal issues, please translate 'Would you like to contact us regarding the question?'"
+      value: 'Would you like to contact us regarding your question?'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.submit_ticket_only.title'
+      title: "Leading message when the only channel available is contact form. If you have formal/informal issues, please translate 'Would you like to leave a message so the team can follow up on the question'"
+      screenshot: 'https://drive.google.com/open?id=1lIvGGnuPPA4IbmXwg1q3VD8F43zAFKIh'
+      value: 'Would you like to leave a message so the team can follow up on your question?'
+  - translation:
+      key: 'embeddable_framework.answerBot.results.pending'
+      title: 'Text for article results when the bot is searching for articles.'
+      screenshot: 'https://drive.google.com/open?id=1MkhPL8D3m0JJPBFZiGa5Vj5k_Zf3gxog'
+      value: 'Looking for articles...'
+  - translation:
+      key: 'embeddable_framework.answerBot.results.no_article'
+      title: 'Text for article results when there is no article found.'
+      screenshot: 'https://drive.google.com/open?id=1hEXPGlotR14QxRy_VV8nONSLFSbOYh_V'
+      value: "I couldn't find any relevant articles."
+  - translation:
+      key: 'embeddable_framework.answerBot.results.one_article'
+      title: 'Text for article results when there is one article found.'
+      screenshot: 'https://drive.google.com/open?id=1Tmu3lYAP464BINwvW-UFvbxYRBePQUU-'
+      value: 'Here is an article that may help:'
+  - translation:
+      key: 'embeddable_framework.answerBot.results.many_article'
+      title: 'Text for article results when there are many articles found.'
+      screenshot: 'https://drive.google.com/open?id=1f2doiiYFBpPGFEWUfqcokkX39pYlr9Bp'
+      value: 'Here are some articles that may help:'
+  - translation:
+      key: 'embeddable_framework.answerBot.tag.bot'
+      title: 'Tag that signifies something is a bot.'
+      screenshot: 'https://drive.google.com/open?id=1GoxzjL8Wy1T2NcP_Db9Kc9iTsbKF3gU-'
+      value: 'Bot'
+  - translation:
+      key: 'embeddable_framework.answerBot.contextualResults.intro.many_articles'
+      title: 'Text for introducing the results of a contextual search in a conversation with bot.'
+      screenshot: 'https://drive.google.com/file/d/1865-ZHCXNtac9dlukWunjf3FFS_G9itH/view?usp=sharing'
+      value: 'Here are some top suggestions for you:'
+  - translation:
+      key: 'embeddable_framework.answerBot.contextualResults.intro.one_article'
+      title: 'Text for introducing the result of a contextual search (one result only) in a conversation with bot.'
+      screenshot: 'https://drive.google.com/file/d/1rcgLeUCRKSnWnJJoc_HCLbSj30d61ptJ/view?usp=sharing'
+      value: 'Here is the top suggestion for you:'
+  - translation:
+      key: 'embeddable_framework.answerBot.button.get_in_touch'
+      title: 'Text for button in answer bot that users can click to show the contact options available (e.g. chat with us, request a call back and leave a message).'
+      screenshot: 'https://drive.google.com/file/d/1joW8FzHySlSslDRtERVZqn4tcMKLVU4j/view?usp=sharing'
+      value: 'Get in touch'
+  - translation:
+      key: 'embeddable_framework.answerBot.msg.channel_choice.get_in_touch'
+      title: 'Title shown when user wants to get in touch through other channel choice options.'
+      screenshot: 'https://drive.google.com/file/d/1yGexH94XYOvOK2l_Y78reM4FtQ5E1JJV/view?usp=sharing'
+      value: 'How do you want to get in touch?'
+
+  # Mobile
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.linkContext.chat'
+      title: 'The paragraph that displays above the link to a live chat on mobile. Will wrap as needed (http://tinyurl.com/mkhwcns)'
+      value: 'Need more specific help?'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.linkContext.submitTicket'
+      title: 'The paragraph that displays above the link to submit a ticket on mobile. Will wrap as needed (http://tinyurl.com/osklcop)'
+      value: 'Do you have a specific question?'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.link.chat'
+      title: 'The link to a live chat that displays on the initial screen on mobile. Will wrap as needed (http://tinyurl.com/plhecna)'
+      value: 'Chat with us'
+  - translation:
+      key: 'embeddable_framework.helpCenter.label.searchHelpCenter'
+      title: 'The title on the first screen on mobile, above the search box. To give some direction to what the customer will be doing. Will wrap as needed (http://tinyurl.com/oa63gq5)'
+      value: 'Search our Help Center'
+      obsolete: '2019-12-12'
+
+  - translation:
+      key: 'embeddable_framework.navigation.back'
+      title: 'The link to go back a page. Displays at the top left of the widget if there is the option to go back. If over 5 characters will just display icon (tinyurl.com/nj6lvhl)'
+      value: 'Back'
+  - translation:
+      key: 'embeddable_framework.navigation.close'
+      title: 'The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)'
+      value: 'Close'
+  - translation:
+      key: 'embeddable_framework.navigation.minimize'
+      title: 'The aria label for the minimize button.'
+      value: 'Minimize widget'
+      screenshot: 'https://drive.google.com/file/d/1RmJhi3P_kSJVVliiMPw_dS3ok4FxkG7T/view?usp=sharing'
+  - translation:
+      key: 'embeddable_framework.navigation.popout'
+      title: 'The link to open the embeddable popout window. Displays at the top right of the widget only when the user is not authenticated, is  not on mobile, and is chatting. This string is used by screen readers and will be read out for the visually impaired.'
+      value: 'Popout'
+  - translation:
+      key: 'embeddable_framework.navigation.menu'
+      title: 'The button to open chat menu. Displays at the top right of the widget on mobile only. This text is for screen readers, only the icon is visually shown.'
+      screenshot: 'https://tinyurl.com/y8n63eba'
+      value: 'Menu'
+  - translation:
+      key: 'embeddable_framework.popout.title'
+      title: "The name of the Popout chat page, opened via a button while chat is live. Exists separately to the user's prior experience"
+      screenshot: 'https://drive.google.com/open?id=1ZV3Rn-TE4Zgvr25VFvIJ7z8au986DRKM'
+      value: 'Web Widget Live Chat'
+
+  # Attachments
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.title'
+      title: 'The label on the form above the attached files. Will wrap as needed. (https://zendesk.box.com/s/48ji0gkux7aomc2xbn4jntxvaa7ow4m1)'
+      screenshot: 'https://zendesk.box.com/s/48ji0gkux7aomc2xbn4jntxvaa7ow4m1'
+      value: 'Attachments'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.title_withCount'
+      title: 'The label on the form above the attached files. Will wrap as needed. %()s stands for string and does not need to be translated. Wrap the count in brackets (https://zendesk.box.com/s/8mk0lk54gntkwpsfd66l161ubwok8i8g)'
+      screenshot: 'https://zendesk.box.com/s/8mk0lk54gntkwpsfd66l161ubwok8i8g'
+      value: 'Attachments (%(count)s)'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.button.new_label'
+      title: 'The label on the form about attaching files. If your language has more than one plural, please translate as Add up to files: %(files)s'
+      screenshot: 'https://drive.google.com/file/d/1GMEKBjR_wZNri-7oZYNbnQttoKmnYbsr/view?usp=sharing'
+      value: 'Add up to %(files)s files'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.button.label_mobile'
+      title: 'The label on the form about attaching files for mobile devices. Will wrap as needed. (https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu)'
+      screenshot: 'https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu'
+      value: 'Add file from device'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.size_megabyte'
+      title: 'The size of the file shown in the attachment preview. Megabytes will be the unit of measurement. %()s stands for string and does not need to be translated.'
+      value: '%(size)s MB'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.size_kilobyte'
+      title: 'The size of the file shown in the attachment preview. Kilobytes will be the unit of measurement. %()s stands for string and does not need to be translated.'
+      value: '%(size)s KB'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.size'
+      title: "The error notification that appears when trying to attach a file that's too large. Will wrap as needed. MB is the unit of measurement to be used for the number. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven)"
+      screenshot: 'https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven'
+      value: 'The file is too big. Please attach files that are less than %(maxSize)s MB.'
+      obsolete: '2020-03-16'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.limit_reached'
+      title: 'The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated.'
+      screenshot: 'https://zendesk.box.com/s/ka45f3gykenp9xil4uijbm6dwhd6d3e7'
+      value: 'You have already reached the limit of (%(maxFiles)s) attachments'
+      obsolete: '2020-03-16'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.other'
+      title: 'The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)'
+      screenshot: 'https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq'
+      value: 'There was a problem attaching this file. Please try again.'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.size_exceeded_header'
+      title: "Header text in the error notification that appears when trying to attach a file that's too large."
+      screenshot: 'https://drive.google.com/file/d/1hioJi8S5pgieIZt0Yi4O_fm1lMdb0MI-/view?usp=sharing'
+      value: 'File too large'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.size_exceeded_body'
+      title: "Body text in the error notification that appears when trying to attach a file that's too large. Will wrap as needed. MB is the unit of measurement to be used for the number. %(maxSize)s stands for string and does not need to be translated (https://drive.google.com/file/d/1SGtqkWFIooadbJQnhlv4sGhk2amK1tg6/view)."
+      screenshot: 'https://drive.google.com/file/d/1SGtqkWFIooadbJQnhlv4sGhk2amK1tg6/view?usp=sharing'
+      value: 'Must be less than %(maxSize)s MB.'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.uploading_title'
+      title: 'Header text in the error notification that appears when an attachment fails to upload.'
+      screenshot: 'https://drive.google.com/file/d/1S2Aa6f3XtE0pCs_JW9NXoOSxtVmIDlrF/view?usp=sharing'
+      value: 'There was an error uploading your file'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.uploading_body'
+      title: 'Body text in the error notification that appears when an attachment fails to upload.'
+      screenshot: 'https://drive.google.com/file/d/1G3wkgb-YtZCa8DAVCSwj6WdXC6cxneMF/view?usp=sharing'
+      value: 'Try again.'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.limit_reached_header'
+      title: 'Header text in the error notification that appears when trying to attach too many files.'
+      screenshot: 'https://drive.google.com/file/d/1HnK143OwbSJjrZ_oGUjvKAQxXWehNywH/view?usp=sharing'
+      value: 'Attachment limit reached'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.limit_reached_body'
+      title: 'Body text in the error notification that appears when trying to attach too many files. %(maxFiles)s will always be greater than 1.'
+      screenshot: 'https://drive.google.com/file/d/1ak63oEiFC4V7W2c5C6Mn4AGZxwjCWmQ1/view?usp=sharing'
+      value: 'You can upload a maximum of %(maxFiles)s attachments.'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.close'
+      title: '[A11Y] The aria label for removing an attachment file.'
+      screenshot: 'https://drive.google.com/file/d/1IVsDFxFqIy-AuNSrCRkFEihXyEj_kiZU/view?usp=sharing'
+      value: 'Remove file'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.v2.uploading_title'
+      title: 'Header text in the error notification that appears when an attachment fails to upload.'
+      screenshot: 'https://drive.google.com/file/d/1yW1JT5xYRqbeJboL3K4qe3JODi26Hv08/view?usp=sharing'
+      value: 'File upload failed'
+  - translation:
+      key: 'embeddable_framework.submitTicket.attachments.error.v2.uploading_body'
+      title: 'Body text in the error notification that appears when an attachment fails to upload.'
+      screenshot: 'https://drive.google.com/file/d/1OHAo9wB0dUMw9ZR6S0Iyh8pU5whtuZd-/view?usp=sharing'
+      value: 'Check your network connection and try again.'
+
+  # ZendeskLogo component
+  - translation:
+      key: 'embeddable_framework.zendeskLogo.powered_by_url.embeddables'
+      title: 'URL for the Powered By Zendesk link in the Web Widget'
+      value: 'https://www.zendesk.com/embeddables/'
+      screenshot: 'https://zendesk.box.com/s/qmyogztvns6u9t8ti56g4ulbdrakvj81'
+      hidden: true
+  - translation:
+      key: 'embeddable_framework.zendeskLogo.powered_by_url.chat'
+      title: 'URL for the Powered By Zendesk link in the Chat channel of the Web Widget'
+      value: 'https://www.zendesk.com/chat/live-chat-widget/'
+      hidden: true
+
+  # Talk
+  - translation:
+      key: 'embeddable_framework.talk.form.phoneDisplay'
+      title: 'A form label that describes the phone number to the right'
+      screenshot: 'https://zendesk.box.com/s/lml68kcg4764arfm6mx6nso29zecbu9w'
+      value: 'Our phone number:'
+  - translation:
+      key: 'embeddable_framework.talk.form.headerMessage_new'
+      title: 'Header message for the callback form which end-users have to fill'
+      screenshot: 'https://zendesk.box.com/s/x81cx971yox9964upzfrwuwefl7z8x78'
+      value: "Enter your phone number and we'll call you back."
+  - translation:
+      key: 'embeddable_framework.talk.form.averageWaitTimeSingular'
+      title: 'Average wait time in minutes when the wait time is 1 minute'
+      screenshot: 'https://zendesk.box.com/s/bbwmucnfk6rze62gpi0cdsa9hz535b4f'
+      value: 'Average wait time: 1 minute'
+  - translation:
+      key: 'embeddable_framework.talk.form.averageWaitTimePlural'
+      title: 'Average wait time in minutes when the wait time more than 1 minute'
+      screenshot: 'https://zendesk.box.com/s/bbwmucnfk6rze62gpi0cdsa9hz535b4f'
+      value: 'Average wait time: %(averageWaitTime)s minutes'
+  - translation:
+      key: 'embeddable_framework.talk.notify.success.message_new'
+      title: 'Message confirming the form submission worked properly and that the customer will call back the user.'
+      screenshot: 'https://zendesk.box.com/s/2971h3hwl70mmxuxr234fuk8giw8jkuk'
+      value: "Thanks for submitting your request. We'll get back to you soon."
+  - translation:
+      key: 'embeddable_framework.talk.form.title'
+      title: 'Title for the callback request form'
+      screenshot: 'https://zendesk.box.com/s/cmbvuwrzhbrsi9dd7ypn65thr65srs2v'
+      value: 'Request a callback'
+  - translation:
+      key: 'embeddable_framework.talk.phoneOnly.title'
+      title: 'Title for the call us (display phone number) screen'
+      screenshot: 'https://zendesk.box.com/s/wt8jnd0n45bloq03em1pfj9fwdixd5fn'
+      value: 'Call us'
+  - translation:
+      key: 'embeddable_framework.talk.notify.success.title'
+      title: "The title of the callback form after it's been submitted correctly"
+      screenshot: 'https://zendesk.box.com/s/j0onsjmhm05oxr0aa5ro7i8toznr12oy'
+      value: 'Request sent'
+  - translation:
+      key: 'embeddable_framework.talk.phoneOnly.message'
+      title: 'Header message for the call us (display phone number) screen to instruct users that the following number below is available for use.'
+      screenshot: 'https://zendesk.box.com/s/96zongpdclysquuwag03ivisxeeo8tss'
+      value: 'Call the phone number below to get in contact with us.'
+  - translation:
+      key: 'embeddable_framework.talk.phoneOnly.new_message'
+      title: 'Header message for the call us (display phone number) screen to instruct users that the following number below is available for use.'
+      screenshot: 'https://drive.google.com/open?id=1dHZcYU12vr0vFLMQZyEAEkokxYcB3ak_'
+      value: 'Call us at the phone number below to get in contact with us.'
+  - translation:
+      key: 'embeddable_framework.talk.notify.error.phone_number_already_in_queue'
+      title: 'A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is already tracked and processing'
+      screenshot: 'https://zendesk.box.com/s/q3mit3mjkf1wsfriixaq1jp3hbpvwv8a'
+      value: "You've already submitted a request. We'll get back to you soon."
+  - translation:
+      key: 'embeddable_framework.talk.notify.error.invalid_phone_number'
+      title: 'A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is invalid'
+      screenshot: 'https://zendesk.box.com/s/1ksdrmstlluiebp40qu6c2alvhk7852i'
+      value: 'Enter a valid phone number.'
+  - translation:
+      key: 'embeddable_framework.talk.offline.label'
+      title: 'A message that displays when all agents go offline'
+      screenshot: 'https://zendesk.box.com/s/bc4veq1cl0zo5ptd2b4ccisyxowfugs1'
+      value: 'Sorry, all agents are currently offline. Try again later.'
+  - translation:
+      key: 'embeddable_framework.talk.offline.link.help_center'
+      title: 'A link to go back to Help Center when all agents are offline'
+      screenshot: 'https://zendesk.box.com/s/rtxyqticqshlbje59ufctq1j6g44q0pj'
+      value: 'Go back to Help Center'
+  - translation:
+      key: 'embeddable_framework.talk.offline.label_v2'
+      title: 'A message that displays when all agents go offline'
+      screenshot: 'https://drive.google.com/open?id=1FQGryGgTyF2XFH9PYds4Pi6AXjJDufCX'
+      value: 'All agents are currently offline. Try again later.'
+
+  # Talk: Click To Call
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.header.title'
+      title: 'The title used for all the click to call pages.'
+      value: 'Call us'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.message'
+      title: 'Message shown on the Click To Call introduction screen. Warns the user that they will be asked for microphone access at the next step.'
+      value: "Call Customer Support directy from your browser. You'll need to allow microphone access on your device when prompted."
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.button.startCall'
+      title: 'A button on the Click To Call page that starts a call through the browser when clicked.'
+      value: 'Start call'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callInProgress.button.endCall'
+      title: 'Label on a button that ends a call.'
+      value: 'End call'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callEndedNotification.callDuration'
+      title: 'Message used for displaying call duration in the call ended notification'
+      value: 'Call duration: %(duration)s'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callEndedNotification.title'
+      title: 'Title for the call ended notification'
+      value: 'Call ended'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.callDuration'
+      title: 'Message used for displaying call duration in the call disconnected notification.'
+      value: 'Call duration: %(duration)s'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.title'
+      title: 'Title for the call disconnected notification'
+      value: 'Call disconnected'
+      wip: true
+
+  # Talk: Embedded Voice
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.channel.title'
+      title: 'The title used for Digital Voice in all channel choice pages.'
+      value: 'Call us'
+      screenshot: 'https://drive.google.com/file/d/1ZQiKUsS79jfHEG4lAuH9VvVVhG2tT-Eq/view?usp=sharing'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.header.title'
+      title: 'The title used for Digital Voice in all of its pages.'
+      screenshot: 'https://drive.google.com/file/d/1BBjqg6WewrKUtpYf4wbnN4ec_IjA0hC8/view?usp=sharing'
+      value: 'Call us'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.microphoneAccess.title'
+      title: 'The title used for Digital Voice to inform the user that microphone access is required.'
+      screenshot: 'https://drive.google.com/file/d/1rRAqNmO1pDMRe2LgvyHJ9Oi3zQerPVcK/view?usp=sharing'
+      value: 'Allow microphone'
+      obsolete: '2021-04-30'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.microphoneAccess.description'
+      title: 'The description used for Digital Voice to inform the user that microphone access is required.'
+      screenshot: 'https://drive.google.com/file/d/1XgdjJRuSWNMTSxq1Jn0MZ-rgLAjcTRp7/view?usp=sharing'
+      value: 'This app needs permission to use your microphone before you can start a call.'
+      obsolete: '2021-04-30'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.microphoneAccess.button.next'
+      title: 'The button label used for Digital Voice to indicate to the user to proceed to the next page.'
+      screenshot: 'https://drive.google.com/file/d/171kEja-A5J8aDnZusu1ZCl_pWZPPOBGl/view?usp=sharing'
+      value: 'Next'
+      obsolete: '2021-04-30'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.landingPage.description'
+      title: 'The description used to set the expectation for the end user who is about to make a call'
+      screenshot: 'https://drive.google.com/file/d/1cRa1CTiV5GWWhIQtVwWMsnF5aDagEHLf/view?usp=sharing'
+      value: "Call us directly from your browser. You'll need to allow microphone access when prompted."
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.microphoneAccessDenied.title'
+      title: 'The title used for Digital Voice to inform the user that microphone access is required.'
+      screenshot: 'https://drive.google.com/file/d/1rRAqNmO1pDMRe2LgvyHJ9Oi3zQerPVcK/view?usp=sharing'
+      value: 'Microphone access needed'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.microphoneAccessDenied.description'
+      title: 'The description used for Digital Voice to inform the user that microphone access is required.'
+      screenshot: 'https://drive.google.com/file/d/1XgdjJRuSWNMTSxq1Jn0MZ-rgLAjcTRp7/view?usp=sharing'
+      value: 'This permission may have been denied. Check browser settings to grant this permission.'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.call.starting'
+      title: 'The title page to show that a call is starting.'
+      screenshot: 'https://drive.google.com/file/d/141f2KjL1lxwDnEb1KjZnBf3GTffDcqHI/view?usp=sharing'
+      value: 'Starting call...'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.call_in_progress'
+      title: 'The title page to show that a call is in progress.'
+      screenshot: 'https://drive.google.com/file/d/1tWWMVY-0RCWm_9kXV0jf4PrjJHRjwIuF/view?usp=sharing'
+      value: 'Call in progress'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.call.ended'
+      title: 'The title page to show that a call has ended.'
+      screenshot: 'https://drive.google.com/file/d/1mBZNftLgzT4Ezo7MThBzji0Mmb7gdVS3/view?usp=sharing'
+      value: 'Call ended'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.recordingConsent.title'
+      title: 'The title page to get customer consent to record the call.'
+      screenshot: 'https://drive.google.com/file/d/17unB4-k_2mls5N4yORVsjVLuZ3SZilYg/view?usp=sharing'
+      value: 'Allow call to be recorded?'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.recordingConsent.message'
+      title: 'The message to inform the customer that the call will be recorded for quality purposes'
+      value: 'If you consent, the call will be recorded for quality purposes.'
+      screenshot: 'https://drive.google.com/file/d/1aouCyFhA7hiMsNm69cBg1g1cqEmYf1ua/view?usp=sharing'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.recordingConsent.customer.confirmation'
+      title: 'The message to indicate that the customer gives consent for the call to be recorded for quality purposes'
+      screenshot: 'https://drive.google.com/file/d/1OjoKCDfbfzEY27OfJKjcXw8gzvt1oF59/view?usp=sharing'
+      value: 'I consent to this call being recorded.'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.button.startCall'
+      title: 'The button label used for Digital Voice to indicate to the user to start the call.'
+      screenshot: 'https://drive.google.com/file/d/1F6dX5_ljM6mjB--agwImNVlRHO286JmZ/view?usp=sharing'
+      value: 'Start call'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.button.next'
+      title: 'The button label used for Digital Voice to indicate to the user to proceed to the next page.'
+      screenshot: 'https://drive.google.com/file/d/171kEja-A5J8aDnZusu1ZCl_pWZPPOBGl/view?usp=sharing'
+      value: 'Next'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.button.tryAgain'
+      title: 'The button label used for Digital Voice to ask the user to try again when a call has failed'
+      screenshot: 'https://drive.google.com/file/d/1ipD0rCfXzLMFsGoFC1sZziM7XXXqB36M/view?usp=sharing'
+      value: 'Try again'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.networkError.title'
+      title: 'The title page for digital voice to indicate a network error while trying to connect the call'
+      screenshot: 'https://drive.google.com/file/d/1WJOtbVdZHpQGALlrf2ue4cjxuwJWxYD-/view?usp=sharing'
+      value: "Call couldn't be connected"
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.networkError.message'
+      title: 'The message for digital voice to indicate a network error while trying to connect the call'
+      screenshot: 'https://drive.google.com/file/d/1HnICpntXopZlRetHAcZPDHJKPEW8jrb2/view?usp=sharing'
+      value: 'Check your internet connection and try again.'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.networkError.button.reconnect'
+      title: 'The button label to inform the customer to try connecting again.'
+      screenshot: 'https://drive.google.com/file/d/1G2pl32Luw2YJ7ZzYvQVPYzKqSHmNOn8E/view?usp=sharing'
+      value: 'Reconnect'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.callErrors.callFailed'
+      title: 'The page title to indicate that the call failed to connect.'
+      screenshot: 'https://drive.google.com/file/d/1D-UzJdBGNnQmRCbpRQQtfR-o5JTbk3rL/view?usp=sharing'
+      value: 'Call failed'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.callInProgress.button.endCall'
+      title: '[A11Y] Aria Label on a button that ends a call.'
+      screenshot: 'https://drive.google.com/file/d/1kGCbW9K4Blgv2lvmsS3PC3mapnLs782W/view?usp=sharing'
+      value: 'End call'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.callInProgress.button.muteMicrophone'
+      title: '[A11Y] Aria Label on an icon button that mutes the microphone'
+      screenshot: 'https://drive.google.com/file/d/138lbSQiI2Q5FuuhuZR8Xc8L3K9QyP1Jm/view?usp=sharing'
+      value: 'Mute microphone'
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.callInProgress.button.unmuteMicrophone'
+      title: '[A11Y] Aria Label on an icon button that unmutes the microphone'
+      screenshot: 'https://drive.google.com/file/d/1dR4HY8CrN0vZeMMNgMbnXQmbOky1GqVe/view?usp=sharing'
+      value: 'Unmute microphone'

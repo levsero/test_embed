@@ -1,0 +1,411 @@
+# Note:
+# This file is referenced by Rosetta https://github.com/zendesk/rosetta/blob/ff5db24681a7fe0e18b590ae02e043f13177ccee/config/string_sweep.yml#L153
+# If you move this file, you will also need to update Rosetta to point to the new location
+
+title: 'Web Widget Messenger'
+packages:
+  - embeddable_framework
+  - web_widget_messenger
+  - enduser
+  - enduser_widget
+
+parts:
+  # Messenger
+  - translation:
+      key: 'embeddable_framework.messenger.frame.title'
+      title: '[A11Y] iframe title for messaging window (ie Web SDK/Web Widget). Readable by screen readers to describe what’s in the frame.'
+      screenshot: 'https://drive.google.com/file/d/1fM-9OqYwdmaSmj-UpuyddSRAaIWDAUwo/view?usp=sharing'
+      value: 'Messaging window'
+  - translation:
+      key: 'embeddable_framework.messenger.launcher_label.frame.title'
+      title: '[A11Y] iframe title for label that appears next to the launcher for the messaging window. Label includes text supplied by the customer.'
+      screenshot: 'https://drive.google.com/file/d/1lTw750ZrzwEqiSipWM-qKnIgNp5hvuAV/view?usp=sharing'
+      value: 'Message from company'
+  - translation:
+      key: 'embeddable_framework.messenger.launcher.frame.title'
+      title: '[A11Y] iframe title for launcher button'
+      screenshot: 'https://drive.google.com/file/d/1TN4KcupLEnRPP5k_FHfkyo4yKz52XEjQ/view?usp=sharing'
+      value: 'Button to launch messaging window'
+  - translation:
+      key: 'embeddable_framework.messenger.unread_indicator.frame.title'
+      title: '[A11Y] iframe title for unread messages counter on launcher'
+      screenshot: 'https://drive.google.com/file/d/18HiiMY2Kdvl6AAdAIE3N_jwhZptpVQvR/view?usp=sharing'
+      value: 'Number of unread messages'
+  - translation:
+      key: 'embeddable_framework.messenger.header.close'
+      title: '[A11Y] Aria label for Close button in header of messaging window'
+      screenshot: 'https://drive.google.com/file/d/1RLKU1jdj0_onAPSmPX-O4OsRVzJxPBM4/view?usp=sharing'
+      value: 'Close'
+  - translation:
+      key: 'embeddable_framework.messenger.launcher_label.close'
+      title: '[A11Y] Aria label for Close button for label that appears next to the launcher for the messaging window.'
+      screenshot: 'https://drive.google.com/file/d/1G1VKgd2U-G6_9ZmC8m1mlQcHIE7agt5N/view?usp=sharing'
+      value: 'Close'
+  - translation:
+      key: 'embeddable_framework.messenger.launcher.button'
+      title: '[A11Y] Aria label for launcher button'
+      screenshot: 'https://drive.google.com/file/d/1U2aXx_BjU5pq8C1fjU8fpJAVOtM31uwF/view?usp=sharing'
+      value: 'Open messaging window'
+  - translation:
+      key: 'embeddable_framework.messenger.composer.label'
+      title: '[A11Y] Aria label for the field where the user enters text'
+      screenshot: 'https://drive.google.com/file/d/14jaFsThbHiVpmo0IjGSMeioKWvX2ipAk/view?usp=sharing'
+      value: 'Type a message'
+  - translation:
+      key: 'embeddable_framework.messenger.composer.send_button_label'
+      title: '[A11Y] Aria label for the icon button to send the message the user has typed'
+      screenshot: 'https://drive.google.com/file/d/1hd-3L-8r878NA4n0BY9i8YESbOY6LiOz/view?usp=sharing'
+      value: 'Send message'
+  - translation:
+      key: 'embeddable_framework.messenger.previous_messages_spinner'
+      title: '[A11Y] Aria label on the spinner that signifies that previous messages are loading'
+      screenshot: 'https://drive.google.com/file/d/1TFAnDpYuz1mWEJWtYdB6gZeKe5W6inid/view?usp=sharing'
+      value: 'Loading previous messages'
+  - translation:
+      key: 'embeddable_framework.messenger.initial_conversation_spinner'
+      title: '[A11Y] Aria label for spinner that appears when first loading messages in the conversation'
+      screenshot: 'https://drive.google.com/file/d/1dFDwuv1B15DfpDqgrx9YwtvzI30D_Oml/view?usp=sharing'
+      value: 'Loading conversation'
+  - translation:
+      key: 'embeddable_framework.messenger.typing_indicator.single'
+      title: '[A11Y] Aria label for typing indicator when a bot or agent is typing'
+      screenshot: 'https://drive.google.com/file/d/18HiiMY2Kdvl6AAdAIE3N_jwhZptpVQvR/view?usp=sharing'
+      value: '{{name}} is typing...'
+  - translation:
+      key: 'embeddable_framework.messenger.message.file.download'
+      title: "[A11Y] Aria label for action user can take with file. Will be read by screen readers as <file name>, then <file size>, then 'Open in a new tab'"
+      screenshot: 'https://drive.google.com/file/d/1AOQq2K6IKxBAfL82MkKCoFoHX36IZd0b/view?usp=sharing'
+      value: 'Open in a new tab'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.submitting'
+      title: '[A11Y] Aria label for dots shown to indicate the form is currently submitting'
+      screenshot: 'https://drive.google.com/file/d/1GGryuHQZfW2Cj-Yf-8W3wt9aNVK_q_Vn/view?usp=sharing'
+      value: 'Sending form'
+  - translation:
+      key: 'embeddable_framework.messenger.header.company_logo'
+      title: '[A11Y] Alt tag for company logo in header of messaging window'
+      screenshot: 'https://drive.google.com/file/d/1HqjYMnvy64G9XURD-3f77oESTSg1TrgF/view?usp=sharing'
+      value: 'Company logo'
+  - translation:
+      key: 'embeddable_framework.messenger.connection_status.offline'
+      title: 'Message displayed on interface to let the user know their network connection has gone offline'
+      screenshot: 'https://drive.google.com/file/d/11rm3TT-nZfHqttDo7HjsNLsahIb1fhN-/view?usp=sharing'
+      value: 'Offline. You won’t receive messages.'
+  - translation:
+      key: 'embeddable_framework.messenger.connection_status.now_online'
+      title: 'Message displayed after an offline user has come back online'
+      screenshot: 'https://drive.google.com/file/d/1vZIeeb0iIRo0FD-UBY4PkMUb6M2JVs3c/view?usp=sharing'
+      value: 'You’re now online'
+  - translation:
+      key: 'embeddable_framework.messenger.composer.placeholder'
+      title: 'Placeholder that appears in text field before user has entered anything'
+      screenshot: 'https://drive.google.com/file/d/1iUkKWDNmAR7UJLM8lzZZ8D68UZ4RsYnh/view?usp=sharing'
+      value: 'Type a message'
+  - translation:
+      key: 'embeddable_framework.messenger.composer.send_button_tooltip'
+      title: 'Tooltip for the icon button that sends the message the user has typed'
+      screenshot: 'https://drive.google.com/file/d/1LKU9pEveMfYKAOaPLL5AANhMo8kGHjvy/view?usp=sharing'
+      value: 'Send message'
+  - translation:
+      key: 'embeddable_framework.messenger.previous_messages_retry'
+      title: 'Button allowing user to retry loading previous messages after the last attempt failed'
+      screenshot: 'https://drive.google.com/file/d/16E5d2zP21LgyeoXPbdRxRHWg0ITlXyZ3/view?usp=sharing'
+      value: 'Tap to retry'
+  - translation:
+      key: 'embeddable_framework.messenger.initial_conversation_request_failed'
+      title: 'Message to let the user know the first request to load messages has failed'
+      screenshot: 'https://drive.google.com/file/d/1OvdAzptmNv8FTUTLm3Ogu4KVXkMP_yzf/view?usp=sharing'
+      value: 'Couldn’t load messages'
+  - translation:
+      key: 'embeddable_framework.messenger.initial_conversation_retry'
+      title: 'Button allowing user to retry loading initial messages'
+      screenshot: 'https://drive.google.com/file/d/12TNKFvYF9oCnaIJd8PIuCNAL61FalPSj/view?usp=sharing'
+      value: 'Tap to retry'
+  - translation:
+      key: 'embeddable_framework.messenger.see_latest'
+      title: 'Button that appears when messages have been received while the user has scrolled up to an earlier part of the conversation. Clicking it scrolls to the most recent messages.'
+      screenshot: 'https://drive.google.com/file/d/1jtfx4XiLCK8lBOEWjuQbDKlcMXiNwITP/view?usp=sharing'
+      value: 'See latest'
+  - translation:
+      key: 'embeddable_framework.messenger.message.file.size_in_kb'
+      title: 'File size in kilobytes of the file sent to the user'
+      screenshot: 'https://drive.google.com/file/d/1qxonx24f4uOmTk7zWK6adljMtljTJWSw/view?usp=sharing'
+      value: '{{size}} KB'
+  - translation:
+      key: 'embeddable_framework.messenger.message.file.size_in_mb'
+      title: 'File size in megabytes of the file sent to the user'
+      screenshot: 'https://drive.google.com/file/d/1I0M1MViTPIvGBB_JV3Mz978N-4Zadki0/view?usp=sharing'
+      value: '{{size}} MB'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.step_status'
+      title: 'Shows user the current step they’re up to in the form'
+      screenshot: 'https://drive.google.com/file/d/1z1MbzMEI0qtWw9brBPyq8L-NCrYsnb5G/view?usp=sharing'
+      value: '{{step}} of {{totalSteps}}'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.next_step'
+      title: 'Button that will progress the user to the next step of the form'
+      screenshot: 'https://drive.google.com/file/d/1-KRnHksWalgKYyUkTAla8JzwXlGvifhf/view?usp=sharing'
+      value: 'Next'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.submit'
+      title: 'Button to submit the form'
+      screenshot: 'https://drive.google.com/file/d/1nhvnpa4PQ4bFSDpyZbgVm2qNDRDWGxAL/view?usp=sharing'
+      value: 'Send'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.failed_to_submit'
+      title: 'Error message to let the user know the form could not be submitted, most likely due to a poor internet connection.'
+      screenshot: 'https://drive.google.com/file/d/1dONeh6RCK1fM89UxZHMis9zPv_vcb288/view?usp=sharing'
+      value: 'Details couldn’t be sent. Try again.'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.field_is_required'
+      title: 'Error message shown after the user has attempted to submit a field without entering a value'
+      screenshot: 'https://drive.google.com/file/d/1cfvSpenZ_HyI-8NkTDnimQLUDs6-oHTq/view?usp=sharing'
+      value: 'This field is required'
+  - translation:
+      key: 'embeddable_framework.messenger.receipt.retry'
+      title: 'Clickable text that lets the user retry sending a failed message (most likely due to going offline)'
+      screenshot: 'https://drive.google.com/file/d/1OZ6MtIf5xZtoxMhg04MLj2QKMXYnfDvx/view?usp=sharing'
+      value: 'Tap to retry'
+  - translation:
+      key: 'embeddable_framework.messenger.receipt.sending'
+      title: 'Text that lets the user know the message they sent is currently sending'
+      screenshot: 'https://drive.google.com/file/d/1oWs3VohlN5AUwNwUCIiq6vxi8F1PxbKf/view?usp=sharing'
+      value: 'Sending'
+  - translation:
+      key: 'embeddable_framework.messenger.receipt.sent'
+      title: 'Text that lets the user know the message they sent has been successfully delivered'
+      screenshot: 'https://drive.google.com/file/d/1I2af3NTpcYJv641G3JCA5qAqIOTpeu_h/view?usp=sharing'
+      value: 'Sent'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.invalid_min_characters'
+      title: 'Error text that appears when user has not entered enough characters'
+      screenshot: 'https://drive.google.com/file/d/1afSjwEfU-1Y2lSSPRXcC9pYAuHQ-t0pz/view?usp=sharing'
+      value: 'Enter {{count}} characters or more'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.invalid_max_characters.one'
+      title: 'Error text that appears when user has entered too many characters'
+      screenshot: 'https://drive.google.com/file/d/1en_8gI8GpebwszoK3oezCffGTw7c_-Ba/view?usp=sharing'
+      value: 'Enter {{count}} character'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.invalid_max_characters.other'
+      title: 'Error text that appears when user has entered too many characters'
+      screenshot: 'https://drive.google.com/file/d/1seImK67E_YB5OewHUuqzKygUlSp3isI3/view?usp=sharing'
+      value: 'Enter {{count}} characters or less'
+  - translation:
+      key: 'embeddable_framework.messenger.message.form.invalid_email'
+      title: 'Error text that appears when user enters an invalid email address'
+      screenshot: 'https://drive.google.com/file/d/12JgqN4PGH5npnp6d8Rp8k5buqDTipTps/view?usp=sharing'
+      value: 'Enter a valid email address'
+  - translation:
+      key: 'embeddable_framework.messenger.message.receipt.received_recently'
+      title: 'Message that appears to tell user a message was received just now'
+      screenshot: 'https://drive.google.com/file/d/1wWizeCDAcTUte6qVaYyMJp8lQmnH-2bq/view?usp=sharing'
+      value: 'Just now'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.menu'
+      title: '[A11Y] aria label for the channel linking menu option (3-dots)'
+      screenshot: 'https://drive.google.com/file/d/1LdkNiDEEdEHDKwN9dQqSKkEOEYzwC7wu/view?usp=sharing'
+      value: 'Channel linking menu option'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.back.button'
+      title: '[A11Y] aria label for the channel linking back button (SVG)'
+      screenshot: 'https://drive.google.com/file/d/1vnRS9y3teJ_nyZ-jXRufcT72nDTsFoQK/view?usp=sharing'
+      value: 'Back to conversation'
+  - translation:
+      key: 'embeddable_framework.messenger.header.menu.continue_on_messenger'
+      title: 'Text that appears informing the user to integrate their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing'
+      value: 'Continue on Messenger'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.header.menu.continue_on_instagram'
+      title: 'Text that appears informing the user to integrate their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing'
+      value: 'Continue on Instagram'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.header.menu.continue_on_whatsapp'
+      title: 'Text that appears informing the user to integrate their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing'
+      value: 'Continue on WhatsApp'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.title.whatsapp'
+      title: 'Title that appears informing the user to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/1uLEHYHIOs7kcE1kppq3gBaqCGQf7nj91/view?usp=sharing'
+      value: 'Continue on WhatsApp'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.title.fb_messenger'
+      title: 'Title that appears informing the user to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1nJqyPt8JLjXB0KnDZ0LBWXTR532QgdyS/view?usp=sharing'
+      value: 'Continue on Messenger'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.title.instagram'
+      title: 'Title that appears informing the user to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1qqE8ZUJ9XTuoLVYVCm9HW0BLNb4_j7wX/view?usp=sharing'
+      value: 'Continue on Instagram'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.subtitle.whatsapp'
+      title: 'Subtitle that appears informing the user to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/18_xDEBHGQODUF8V8FauzxvEa_YPcqgc6/view?usp=sharing'
+      value: 'Take the conversation to your WhatsApp account. You can return anytime.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger'
+      title: 'Subtitle that appears informing the user to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/150Cxut98FIbPjb2x7fY4JUr9LrStmx3l/view?usp=sharing'
+      value: 'Take the conversation to your Messenger account. You can return anytime.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.subtitle.instagram'
+      title: 'Subtitle that appears informing the user to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1Y68Jrx9SpiX2oDT8aB6L9Mh8bFQm4o6h/view?usp=sharing'
+      value: 'Take the conversation to your Instagram account. You can return anytime.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.instructions_desktop.whatsapp'
+      title: 'Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/1ELKx1c46Ds2GHZqTutUB-tsVBuYS4VB1/view?usp=sharing'
+      value: 'Scan the QR code and then send the message that appears in your WhatsApp.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.instructions_desktop.fb_messenger'
+      title: 'Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1ZKMXEaOQyK_dWsSFJv03DSQuIkoWOYaq/view?usp=sharing'
+      value: 'Scan the QR code and then send the message that appears in your Messenger.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.instructions_desktop.instagram'
+      title: 'Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1kRrSR98TkrgcdJW5rfRExup8l-pRXofs/view?usp=sharing'
+      value: 'Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.instructions_mobile.whatsapp'
+      title: 'Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/1M4VT4n0Exm1MZC0K9OPSSRv5RFIdApnW/view?usp=sharing'
+      value: 'Open WhatsApp and send a short message to connect your account.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger'
+      title: 'Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1AAjsymJKvZqzUrmVUFtKp02Q94MoBa7t/view?usp=sharing'
+      value: 'Open Messenger and send a short message to connect your account.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.instructions_mobile.instagram'
+      title: 'Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1wZNF3qT2W9WAgq5a0N8yM9nUGoAgymqP/view?usp=sharing'
+      value: 'Follow @[Instagram handle] to send a DM.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.qr_code.whatsapp'
+      title: '[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/1kot559G8l31UDg8f7q-qKIfRMRNpA6-n/view?usp=sharing'
+      value: 'QR code to open WhatsApp on this device'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.qr_code.fb_messenger'
+      title: '[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1qNw1R6qBBiRSoKguAKggYMBgS8ouFBVM/view?usp=sharing'
+      value: 'QR code to open Messenger on this device'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.qr_code.instagram'
+      title: '[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1WH4ZtAtUOLigiVW_iTCMi5X2ltfiKsKa/view?usp=sharing'
+      value: 'QR code to open Instagram on this device'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp'
+      title: 'Pill button that appears informing desktop users to click to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/1RqjEIscc31ppaTLk2djdZY3DbJwOuJGN/view?usp=sharing'
+      value: 'Open WhatsApp on this device.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger'
+      title: 'Pill button that appears informing desktop users to click to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1191vn07zirDbF3_M2YefbQocM02QBxax/view?usp=sharing'
+      value: 'Open Messenger on this device.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.button_desktop.instagram'
+      title: 'Pill button that appears informing desktop users to click to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1eCh-s5TzmzovE9qCjlGiJxsdPSxVjM8e/view?usp=sharing'
+      value: 'Open Instagram on this device.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp'
+      title: 'Link button that appears informing mobile users to click to link their conversation with the Facebook WhatsApp channel'
+      screenshot: 'https://drive.google.com/file/d/16hv5WvYZE93tvmZLcms1HSdL3qazmXFy/view?usp=sharing'
+      value: 'Open WhatsApp'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger'
+      title: 'Link button that appears informing mobile users to click to link their conversation with the Facebook Messenger channel'
+      screenshot: 'https://drive.google.com/file/d/1bNVuhfNnh2isaKW2I4j79sWnzR1g54nI/view?usp=sharing'
+      value: 'Open Messenger'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.page.button_mobile.instagram'
+      title: 'Link button that appears informing mobile users to click to link their conversation with the Facebook Instagram channel'
+      screenshot: 'https://drive.google.com/file/d/1FVnH-nmlr7uIKUoOES4QkM6ZPjBOhx4B/view?usp=sharing'
+      value: 'Open Instagram'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.instagram.disconnect_button_text'
+      title: "Text that appears informing the user that the Instagram channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
+      screenshot: 'https://drive.google.com/file/d/1tWCSRka6i4HXBIMQ7lUDS38eE6vudKDS/view?usp=sharing'
+      value: 'Instagram connected.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.instagram.disconnect_link_text'
+      title: 'A text link that when clicked will disconnect the Instagram channel from the log'
+      screenshot: 'https://drive.google.com/file/d/1EE5fcclr930bflLv6k18YOt-IzBvsfv-/view?usp=sharing'
+      value: 'Disconnect'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.messenger.disconnect_button_text'
+      title: "Text that appears informing the user that the Messenger channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
+      screenshot: 'https://drive.google.com/file/d/1Tlf9CJWRhZ36vlxNmM5ib8j2ClKoS5Ix/view?usp=sharing'
+      value: 'Messenger connected.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.messenger.disconnect_link_text'
+      title: 'A text link that when clicked will disconnect the Messenger channel from the log'
+      screenshot: 'https://drive.google.com/file/d/1PmtIx8kav64PFup7hNG9Pgo6AMSkcGnv/view?usp=sharing'
+      value: 'Disconnect'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.whatsapp.disconnect_button_text'
+      title: "Text that appears informing the user that the WhatsApp channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
+      screenshot: 'https://drive.google.com/file/d/1Jl9zxWH7MQmG1KmhvXU_thyBhghDn6WX/view?usp=sharing'
+      value: 'WhatsApp connected.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.whatsapp.disconnect_link_text'
+      title: 'A text link that when clicked will disconnect the WhatsApp channel from the log'
+      screenshot: 'https://drive.google.com/file/d/1yirqjK5YAch85ID7ouLAjfx5jH0QMhkD/view?usp=sharing'
+      value: 'Disconnect'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.notification.channel_linking.link.failed'
+      title: 'A text that displays when the system could not establish a link to social media channel'
+      screenshot: 'https://drive.google.com/file/d/19R8oadIembW1Gqf-_V073HOyzQ2dFoVc/view?usp=sharing'
+      value: 'Couldn’t connect. Try again.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.notification.channel_linking.unlink.fail'
+      title: 'A text that displays when the system could not un-link/disconnect from a social media channel'
+      screenshot: 'https://drive.google.com/file/d/1e7dswtX6fU-psKTqr32fBIo0D4w_JIES/view?usp=sharing'
+      value: 'Couldn’t disconnect. Try again.'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message'
+      title: 'Text that appears in WhatsApp when the user attempts to link to social media channel'
+      screenshot: 'https://drive.google.com/file/d/1htrwwq-aB9uZoWf_tDeSJN-lHm7ihFdy/view?usp=sharing'
+      value: "I'm continuing my conversation on WhatsApp. Here's my code: {{whatsappCode}}"
+      wip: true
