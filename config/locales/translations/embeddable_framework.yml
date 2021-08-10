@@ -2060,3 +2060,9 @@ parts:
       screenshot: "https://drive.google.com/file/d/1e7dswtX6fU-psKTqr32fBIo0D4w_JIES/view?usp=sharing"
       value: "Couldn’t disconnect. Try again."
       wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message"
+      title: "Text that appears in WhatsApp when the user attempts to link to social media channel"
+      screenshot: "https://drive.google.com/file/d/1htrwwq-aB9uZoWf_tDeSJN-lHm7ihFdy/view?usp=sharing"
+      value: "I'm continuing my conversation on WhatsApp. Here's my code: {{whatsappCode}}"
+      wip: true
