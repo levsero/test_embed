@@ -32,6 +32,9 @@ const defaultLabels = {
     channelLinkingMenuAriaLabel: 'Channel linking menu option',
     continueOnChannel: (name) => `Continue on ${name}`,
   },
+  otherParticipantLayout: {
+    avatarAltTag: 'Agent avatar',
+  },
   channelLink: {
     whatsapp: {
       title: 'Continue on WhatsApp',

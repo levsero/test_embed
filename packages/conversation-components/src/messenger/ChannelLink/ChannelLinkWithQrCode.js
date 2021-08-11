@@ -34,7 +34,7 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
               data-testid="generatedQRCode"
               value={url}
               renderAs="svg"
-              aria-labelledby={labels.qrCodeAlt}
+              aria-label={labels.qrCodeAlt}
             />
           )}
         </QRCodeWrapper>

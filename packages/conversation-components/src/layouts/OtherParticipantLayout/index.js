@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import Avatar from 'src/Avatar'
 import Label from 'src/Label'
+import useLabels from 'src/hooks/useLabels'
 import Receipt from 'src/receipts/OtherParticipantReceipt'
 import { LayoutContainer, VerticalContainer } from './styles'
 
@@ -13,11 +14,13 @@ const OtherParticipantLayout = ({
   children,
   isFirstInGroup = true,
 }) => {
+  const labels = useLabels()
+
   return (
     <VerticalContainer isFirstInGroup={isFirstInGroup}>
       {label && <Label>{label}</Label>}
       <LayoutContainer>
-        <Avatar src={avatar} />
+        <Avatar src={avatar} alt={labels.otherParticipantLayout.avatarAltTag} />
         {children}
       </LayoutContainer>
       <Receipt
