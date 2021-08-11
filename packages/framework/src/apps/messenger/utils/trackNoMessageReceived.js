@@ -20,7 +20,7 @@ const beginRace = (store) => {
   const timeoutPromise = new Promise((resolve) => {
     setTimeout(() => {
       resolve({ success: false })
-    }, 3000)
+    }, 5000)
   })
 
   return Promise.race([messageReceivedPromise, timeoutPromise]).then(({ success }) => {
