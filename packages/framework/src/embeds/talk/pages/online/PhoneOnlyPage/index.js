@@ -18,7 +18,6 @@ const PhoneOnlyPage = ({ callUsMessage, averageWaitTime, phoneNumber, formattedP
       <Header title={getTitle('embeddable_framework.talk.phoneOnly.title')} />
       <Main>
         <Container data-testid={TEST_IDS.TALK_PHONE_ONLY_PAGE}>
-          HERE
           <TalkIcon />
           <Message>{callUsMessage}</Message>
           {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
