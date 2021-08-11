@@ -12,7 +12,12 @@ const MessageBubble = ({
   const ParticipantBubble = isPrimaryParticipant ? PrimaryParticipantBubble : OtherParticipantBubble
 
   return (
-    <ParticipantBubble shape={shape} status={status} isFreshMessage={isFreshMessage}>
+    <ParticipantBubble
+      shape={shape}
+      status={status}
+      isFreshMessage={isFreshMessage}
+      data-testid={'participant-bubble'}
+    >
       {children}
     </ParticipantBubble>
   )
