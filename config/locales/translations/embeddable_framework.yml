@@ -1977,6 +1977,24 @@ parts:
       value: "QR code to open Instagram on this device"
       wip: true
   - translation:
+      key: "embeddable_framework.messenger.channel_linking.page.qr_code.loading_error"
+      title: "Message that appears if there is an error loading the qr code"
+      screenshot: "https://drive.google.com/file/d/1QjGoPit419iqLChpFvMwXr_ijg9ckluI/view?usp=sharing"
+      value: "QR code couldn't be loaded"
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_linking.page.link.loading_error"
+      title: "Message that appears if there is an error loading the link"
+      screenshot: "https://drive.google.com/file/d/15PURUgDGraeEmjikW5yGlKahkbdSbykf/view?usp=sharing"
+      value: "Link couldn't be loaded"
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.channel_linking.page.click_to_retry"
+      title: "Button to retry if there is an error loading the link or qr code for the channel integration"
+      screenshot: "https://drive.google.com/file/d/1iLn0OI17M-KkLUyiYpIDlIgSVWBY_Qsf/view?usp=sharing"
+      value: "Click to retry"
+      wip: true
+  - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1RqjEIscc31ppaTLk2djdZY3DbJwOuJGN/view?usp=sharing"
