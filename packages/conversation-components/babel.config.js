@@ -1,4 +1,5 @@
 const path = require('path')
+const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development'
 
 module.exports = (api) => {
   const aliasPath = api.env('development') ? path.resolve(__dirname, './src') : './src'
@@ -53,6 +54,15 @@ module.exports = (api) => {
       'babel-plugin-styled-components',
       {
         displayName: !api.env('production'),
+      },
+    ])
+  }
+
+  if (embeddableEnv === 'production') {
+    config.plugins.push([
+      'react-remove-properties',
+      {
+        properties: ['data-testid'],
       },
     ])
   }
