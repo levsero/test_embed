@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 const win = window.parent
 const prefix = __EMBEDDABLE_FRAMEWORK_ENV__ === 'e2e' ? `ZD-${Date.now()}-` : 'ZD-'
 
@@ -77,10 +75,11 @@ function remove(name) {
 
 function clear() {
   try {
-    const keys = _.keys(defaultStorage).filter((key) => _.includes(key, prefix))
-
-    keys.forEach((key) => {
-      defaultStorage.removeItem(key)
+    ;[win.sessionStorage, win.localStorage].forEach((storageType) => {
+      const keysToRemove = Object.keys(storageType).filter((key) => key.startsWith(prefix))
+      keysToRemove.forEach((key) => {
+        storageType.removeItem(key)
+      })
     })
   } catch (e) {}
 }

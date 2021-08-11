@@ -5,7 +5,7 @@ import IntegrationsApi from './api/IntegrationsApi'
 import MessagesApi from './api/MessagesApi'
 import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser, removeAppUser } from './utils/context'
-import { getClientId, getSessionId } from './utils/device'
+import { getClientId, getSessionId, removeClientId } from './utils/device'
 import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
 
 const BASE_URL = 'https://api.smooch.io'
@@ -97,6 +97,7 @@ export default class Sunco {
       },
       forgetUser: () => {
         removeAppUser({ integrationId: this.integrationId })
+        removeClientId(this.integrationId)
       },
       getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
       unlinkChannel: (clientId) => this.appUsers.unlinkChannel(appUserId, clientId),

@@ -28,7 +28,7 @@ describe('cookies store', () => {
     await store.dispatch(cookiesDisabled())
 
     expect(getAreCookiesEnabled(store.getState())).toBe(false)
-    expect(persistence.clear).toHaveBeenCalled()
+    expect(persistence.disable).toHaveBeenCalled()
   })
 
   it('can be enabled after being disabled', async () => {

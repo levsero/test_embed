@@ -11,6 +11,12 @@ export function getClientId(integrationId) {
   return clientId
 }
 
+export function removeClientId(integrationId) {
+  const key = `${integrationId}.clientId`
+
+  storage.removeItem(key)
+}
+
 export function getClientInfo(integrationId) {
   const { document: _document, navigator } = parent
   const href = _document.location && _document.location.href
