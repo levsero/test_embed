@@ -13,7 +13,7 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "build": "NODE_ENV=production rm -rf dist && mkdir dist && babel ./src --out-dir ./dist --copy-files",
+    "build": "rm -rf dist && mkdir dist && NODE_ENV=production babel ./src --out-dir ./dist --copy-files",
     "watch": "npm run build -- --watch",
     "storybook": "start-storybook -p 6006",
     "test": "jest",

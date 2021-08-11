@@ -87,6 +87,33 @@ module.exports = () => {
     webpackConfig.devServer.injectClient = WEBPACK_DEV_SERVER_INJECT_CLIENT === 'true'
   }
 
+  if (process.env.LAZY_DASHBOARD === 'true') {
+    webpackConfig.resolve.alias = {
+      ...webpackConfig.resolve.alias,
+      '@zendesk/conversation-components': path.join(projectRoot, '../conversation-components/src'),
+      '@zendesk/sunco-js-client': path.join(projectRoot, '../sunco-js-client/src'),
+    }
+
+    webpackConfig.module.rules.push(
+      {
+        test: /\.js$/,
+        include: path.resolve(projectRoot, '../conversation-components'),
+        loader: 'babel-loader',
+        options: {
+          configFile: path.resolve(projectRoot, '../conversation-components/babel.config.js'),
+        },
+      },
+      {
+        test: /\.js$/,
+        include: path.resolve(projectRoot, '../sunco-js-client'),
+        loader: 'babel-loader',
+        options: {
+          configFile: path.resolve(projectRoot, '../sunco-js-client/babel.config.js'),
+        },
+      }
+    )
+  }
+
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {
       preload: path.join(projectRoot, '/src/framework/preload.js'),

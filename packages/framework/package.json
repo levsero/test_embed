@@ -18,6 +18,7 @@
     "predev": "npm run build:version:generate",
     "dev": "webpack serve --config ./webpack/webpack.ac.dev.js",
     "dashboard": "USE_DASHBOARD=true npm run dev",
+    "dashboard:lazy": "LAZY_DASHBOARD=true USE_DASHBOARD=true npm run dev",
     "dev-preview": "webpack serve --config ./webpack/webpack.previewer.dev.js",
     "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && ./script/fetch_i18n && yarn workspace @zendesk/conversation-components build && yarn workspace @zendesk/sunco-js-client build",
     "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.ac.prod.js",
