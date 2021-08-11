@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
@@ -45,5 +46,7 @@ export const onBrowserComingBackOnline = (callback) => {
 }
 
 export const onBrowserGoingOffline = (callback) => {
-  hostPageWindow.addEventListener('offline', callback)
+  const debouncedCallback = _.debounce(callback, 5000)
+  hostPageWindow.addEventListener('offline', debouncedCallback)
+  hostPageWindow.addEventListener('online', debouncedCallback.cancel)
 }
