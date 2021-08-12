@@ -21,7 +21,7 @@ export default class Sunco {
     storageType = DEFAULT_STORAGE_TYPE,
     debug = false,
   }) {
-    const sdkInBaseUrl = baseUrl.endsWith('/sdk')
+    const sdkInBaseUrl = baseUrl.indexOf('/sdk') !== -1
     this.baseUrl = sdkInBaseUrl ? baseUrl : `${baseUrl}/sdk`
     this.appId = appId
     this.integrationId = integrationId
