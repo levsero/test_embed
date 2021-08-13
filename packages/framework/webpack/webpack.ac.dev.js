@@ -41,7 +41,7 @@ module.exports = () => {
     output: {
       publicPath: WEBPACK_OUTPUT_PUBLIC_PATH,
     },
-    target: 'web',
+    target: ['web', 'es5'],
     optimization: {
       runtimeChunk: 'single',
     },
