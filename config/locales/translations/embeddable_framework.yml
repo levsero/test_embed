@@ -1928,6 +1928,7 @@ parts:
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1kRrSR98TkrgcdJW5rfRExup8l-pRXofs/view?usp=sharing"
       value: "Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM."
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_mobile.whatsapp"
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook WhatsApp channel"
@@ -1943,6 +1944,7 @@ parts:
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1wZNF3qT2W9WAgq5a0N8yM9nUGoAgymqP/view?usp=sharing"
       value: "Follow @[Instagram handle] to send a DM."
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.whatsapp"
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook WhatsApp channel"
