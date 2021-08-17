@@ -5,9 +5,6 @@ import {
   CHAT_STARTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
 } from 'src/constants/event'
-import errorTracker from 'src/framework/services/errorTracker'
-import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import {
   getChatVisitor,
   getShowRatingScreen,
@@ -20,6 +17,9 @@ import {
   getPrechatFormRequired,
   getChatBanned,
 } from 'src/embeds/chat/selectors'
+import errorTracker from 'src/framework/services/errorTracker'
+import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
