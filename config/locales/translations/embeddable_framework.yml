@@ -1878,6 +1878,7 @@ parts:
       title: "Text that appears informing the user to integrate their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing"
       value: "Continue on Instagram"
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.header.menu.continue_on_whatsapp"
       title: "Text that appears informing the user to integrate their conversation with the Facebook WhatsApp channel"
@@ -1898,6 +1899,7 @@ parts:
       title: "Title that appears informing the user to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1qqE8ZUJ9XTuoLVYVCm9HW0BLNb4_j7wX/view?usp=sharing"
       value: "Continue on Instagram"
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.subtitle.whatsapp"
       title: "Subtitle that appears informing the user to link their conversation with the Facebook WhatsApp channel"
@@ -1913,6 +1915,7 @@ parts:
       title: "Subtitle that appears informing the user to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1Y68Jrx9SpiX2oDT8aB6L9Mh8bFQm4o6h/view?usp=sharing"
       value: "Take the conversation to your Instagram account. You can return anytime."
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_desktop.whatsapp"
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook WhatsApp channel"
@@ -1960,6 +1963,7 @@ parts:
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1WH4ZtAtUOLigiVW_iTCMi5X2ltfiKsKa/view?usp=sharing"
       value: "QR code to open Instagram on this device"
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.loading_error"
       title: "Message that appears if there is an error loading the qr code"
@@ -1990,6 +1994,7 @@ parts:
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1eCh-s5TzmzovE9qCjlGiJxsdPSxVjM8e/view?usp=sharing"
       value: "Open Instagram on this device."
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook WhatsApp channel"
@@ -2005,16 +2010,19 @@ parts:
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook Instagram channel"
       screenshot: "https://drive.google.com/file/d/1FVnH-nmlr7uIKUoOES4QkM6ZPjBOhx4B/view?usp=sharing"
       value: "Open Instagram"
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_link.instagram.disconnect_button_text"
       title: "Text that appears informing the user that the Instagram channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
       screenshot: "https://drive.google.com/file/d/1tWCSRka6i4HXBIMQ7lUDS38eE6vudKDS/view?usp=sharing"
       value: "Instagram connected."
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_link.instagram.disconnect_link_text"
       title: "A text link that when clicked will disconnect the Instagram channel from the log"
       screenshot: "https://drive.google.com/file/d/1EE5fcclr930bflLv6k18YOt-IzBvsfv-/view?usp=sharing"
       value: "Disconnect"
+      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_link.messenger.disconnect_button_text"
       title: "Text that appears informing the user that the Messenger channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
