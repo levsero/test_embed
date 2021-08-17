@@ -42,7 +42,9 @@ const verifyDepartmentsSettingUsage = (reduxStore) => {
 
       previousEnabledDepartmentsSetting = rawSettings
 
-      if (rawSettings.length > 0 && departmentsEnabled.length === 0) {
+      const settingsWithoutEmptyStrings = rawSettings.filter((department) => department !== '')
+
+      if (settingsWithoutEmptyStrings.length > 0 && departmentsEnabled.length === 0) {
         // eslint-disable-next-line no-console
         console.warn(getAllInvalidDepartmentsMessage(rawSettings))
 
@@ -59,7 +61,7 @@ const verifyDepartmentsSettingUsage = (reduxStore) => {
         validDepartmentOptions[department.name.toLowerCase()] = true
       })
 
-      const invalidDepartments = rawSettings.filter(
+      const invalidDepartments = settingsWithoutEmptyStrings.filter(
         (department) => !validDepartmentOptions[department?.toLowerCase?.()]
       )
 

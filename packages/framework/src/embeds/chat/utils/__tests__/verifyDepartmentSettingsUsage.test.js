@@ -155,4 +155,28 @@ describe('verifyDepartmentsSettingUsage', () => {
 
     expect(console.warn).not.toHaveBeenCalled()
   })
+
+  it('does not consider empty strings to be invalid departments', () => {
+    jest.spyOn(console, 'warn')
+
+    runScenario({
+      enabledDepartments: [''],
+    })
+
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  it('does not log empty strings as invalid departments', async () => {
+    jest.spyOn(console, 'warn')
+
+    runScenario({
+      enabledDepartments: ['Department One', '', 'Invalid department 1'],
+    })
+
+    await waitFor(() =>
+      expect(console.warn).toHaveBeenCalledWith(
+        `Unknown department(s) ["Invalid department 1"] provided to zESetting webWidget.chat.departments.enabled.`
+      )
+    )
+  })
 })
