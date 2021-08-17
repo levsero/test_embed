@@ -55,19 +55,24 @@ const verifyDepartmentsSettingUsage = (reduxStore) => {
         return
       }
 
-      const validDepartmentOptions = {}
-      departmentsEnabled.forEach((department) => {
-        validDepartmentOptions[department.id] = true
-        validDepartmentOptions[department.name.toLowerCase()] = true
-      })
+      if (
+        settingsWithoutEmptyStrings.length > 0 &&
+        departmentsEnabled.length > 0 &&
+        departmentsEnabled.length < settingsWithoutEmptyStrings.length
+      ) {
+        const validDepartmentOptions = {}
+        departmentsEnabled.forEach((department) => {
+          validDepartmentOptions[department.id] = true
+          validDepartmentOptions[department.name.toLowerCase()] = true
+        })
+        const invalidDepartments = settingsWithoutEmptyStrings.filter((department) => {
+          return !validDepartmentOptions[department?.toLowerCase?.() || department]
+        })
 
-      const invalidDepartments = settingsWithoutEmptyStrings.filter(
-        (department) => !validDepartmentOptions[department?.toLowerCase?.()]
-      )
-
-      if (invalidDepartments.length > 0) {
-        // eslint-disable-next-line no-console
-        console.warn(getSomeInvalidDepartmentsMessage(invalidDepartments))
+        if (invalidDepartments.length > 0) {
+          // eslint-disable-next-line no-console
+          console.warn(getSomeInvalidDepartmentsMessage(invalidDepartments))
+        }
       }
     }
   })
