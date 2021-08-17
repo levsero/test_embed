@@ -49,7 +49,10 @@ const verifyDepartmentsSettingUsage = (reduxStore) => {
         console.warn(getAllInvalidDepartmentsMessage(rawSettings))
 
         if (!hasLoggedToRollbar) {
-          errorTracker.error(new Error('Invalid usage of departments.enabled'))
+          errorTracker.error(new Error('Unknown departments in departments.enabled'), {
+            rollbarFingerprint: 'All unknown departments in departments.enabled',
+            rollbarTitle: 'All unknown departments in departments.enabled',
+          })
           hasLoggedToRollbar = true
         }
         return
