@@ -83,6 +83,7 @@ export default class Sunco {
           payload,
           metadata,
         }),
+      sendFile: (file) => this.messages.sendFile(appUserId, conversationId, file),
       sendFormResponse: (fields, formId) =>
         this.messages.create(appUserId, conversationId, {
           fields: fields,
