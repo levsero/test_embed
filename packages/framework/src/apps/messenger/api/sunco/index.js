@@ -73,6 +73,11 @@ export const fetchLinkRequest = async (integrationId) => {
   return conversation.getLinkRequest(integrationId)
 }
 
+export const unlinkIntegration = async (integrationId) => {
+  const conversation = await getActiveConversation()
+  return conversation.unlinkIntegration(integrationId)
+}
+
 // Temporary API until we can get this data via embeddable config
 export const fetchIntegrations = async () => {
   return getClient().getIntegrations()

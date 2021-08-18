@@ -1,6 +1,8 @@
-import { rem } from 'polished'
+import { rem, darken } from 'polished'
 import styled from 'styled-components'
 import { Button, Anchor } from '@zendeskgarden/react-buttons'
+import { Spinner } from '@zendeskgarden/react-loaders'
+import CheckLGStroke from '@zendeskgarden/svg-icons/src/12/check-lg-stroke.svg'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
@@ -88,17 +90,58 @@ const ChannelLinkButton = styled(Anchor)`
 `
 
 const ChannelPillButton = styled(Button)`
-  background-color: ${(props) => props.theme.messenger.colors.action};
+  &&& {
+    background-color: ${(props) => props.theme.messenger.colors.action};
+    margin-bottom: ${(props) => props.theme.messenger.space.lg};
+
+    :hover {
+      background-color: ${(props) => darken(0.1, props.theme.messenger.colors.action)};
+    }
+  }
+`
+
+const UnlinkLink = styled(Button)`
+  &&& {
+    text-decoration: underline;
+    color: inherit;
+  }
+`
+const IconPositioning = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 24px;
+`
+
+const UnlinkText = styled.p`
+  margin-right: ${(props) => props.theme.messenger.space.xs};
+`
+
+const LinkTickIcon = styled(CheckLGStroke)`
+  margin-right: ${(props) => props.theme.messenger.space.sm};
+`
+
+const DisconnectContainer = styled.div`
+  display: flex;
+`
+
+const LoadingSpinner = styled(Spinner)`
+  margin-right: ${(props) => props.theme.messenger.space.sm};
 `
 
 export {
-  Container,
-  Title,
-  Subtitle,
   ChannelIcon,
-  Content,
-  Instructions,
-  QRCodeWrapper,
   ChannelLinkButton,
   ChannelPillButton,
+  Container,
+  Content,
+  DisconnectContainer,
+  IconPositioning,
+  Instructions,
+  LinkTickIcon,
+  LoadingSpinner,
+  QRCodeWrapper,
+  Subtitle,
+  Title,
+  UnlinkLink,
+  UnlinkText,
 }

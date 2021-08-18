@@ -48,6 +48,7 @@ export const fetchExistingConversation = createAsyncThunk(
     return {
       lastRead: activeConversation.lastRead,
       ...messagesResponse.body,
+      integrations: activeConversation.integrations,
     }
   }
 )
@@ -84,9 +85,12 @@ const subscribeToConversationEvents = createAsyncThunk(
     activeConversation.socketClient.on('link', (linkEvent) => {
       switch (linkEvent.type) {
         case 'link':
-          const { appUser, client } = linkEvent
-          updateSession(appUser)
-          dispatch(integrationLinked({ integration: client.platform }))
+          {
+            const { appUser, client } = linkEvent
+            updateSession(appUser)
+            dispatch(integrationLinked({ type: client.platform, clientId: client.id }))
+          }
+          break
       }
     })
 

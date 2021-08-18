@@ -55,7 +55,7 @@ class AppUsersApi extends BaseApi {
     })
   }
 
-  unlinkChannel(appUserId, clientId) {
+  unlinkIntegration(appUserId, clientId) {
     return this.request({
       method: 'DELETE',
       path: `/v2/apps/${this.appId}/appusers/${appUserId}/clients/${clientId}`,

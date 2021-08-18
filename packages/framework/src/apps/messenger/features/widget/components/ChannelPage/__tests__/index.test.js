@@ -1,8 +1,8 @@
+import userEvent from '@testing-library/user-event'
+import { createMemoryHistory } from 'history'
 import { Route } from 'react-router-dom'
 import * as integrationStore from 'src/apps/messenger/store/integrations'
 import { render } from 'src/apps/messenger/utils/testHelpers'
-import { createMemoryHistory } from 'history'
-
 import ChannelPage from '../'
 
 const renderChannelPage = (ui, { channelId, history }) => {
@@ -100,6 +100,32 @@ describe('ChannelPage', () => {
         getByLabelText('Back to conversation').click()
         expect(history.location.pathname).toEqual('/')
       })
+    })
+  })
+
+  describe('when the selected channel has been linked', () => {
+    it('unlinks the channel when the unlink anchor button is clicked', () => {
+      const channelId = 'messenger'
+      const initialEntries = ['/', `/channelPage/${channelId}`]
+      const history = createMemoryHistory({
+        initialEntries,
+        initialIndex: 1,
+      })
+
+      jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+        errorFetchingLinkRequest: false,
+        hasFetchedLinkRequest: true,
+        isFetchingLinkRequest: false,
+        linkRequest: { channelId: 'messenger', url: 'http://some.url/' },
+        linked: 'linked',
+      }))
+      jest.spyOn(integrationStore, 'unlinkIntegration')
+
+      const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
+
+      userEvent.click(getByText('Disconnect'))
+
+      expect(integrationStore.unlinkIntegration).toHaveBeenCalledWith({ channelId })
     })
   })
 })

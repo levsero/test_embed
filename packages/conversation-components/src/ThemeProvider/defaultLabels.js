@@ -45,6 +45,8 @@ const defaultLabels = {
         desktop: 'Open WhatsApp on this device',
         mobile: 'Open WhatsApp',
       },
+      disconnectButtonText: 'WhatsApp connected.',
+      disconnectLinkText: 'Disconnect',
     },
     messenger: {
       title: 'Continue on Messenger',
@@ -58,6 +60,8 @@ const defaultLabels = {
         desktop: 'Open Messenger on this device',
         mobile: 'Open Messenger',
       },
+      disconnectButtonText: 'Messenger connected.',
+      disconnectLinkText: 'Disconnect',
     },
     instagram: {
       title: 'Continue on Instagram',
@@ -71,6 +75,8 @@ const defaultLabels = {
         desktop: 'Open Instagram on this device',
         mobile: 'Open Instagram',
       },
+      disconnectButtonText: 'Instagram connected.',
+      disconnectLinkText: 'Disconnect',
     },
   },
   receipts: {

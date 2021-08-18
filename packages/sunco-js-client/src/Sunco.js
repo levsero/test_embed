@@ -49,7 +49,7 @@ export default class Sunco {
     return this._activeConversation
   }
 
-  set activeConversation({ conversationId, socketSettings, lastRead }) {
+  set activeConversation({ conversationId, socketSettings, lastRead, integrations }) {
     const { appUserId, sessionToken } = getCurrentUserIfAny(this.integrationId)
 
     if (this.debug) {
@@ -67,6 +67,7 @@ export default class Sunco {
     this._activeConversation = {
       appUserId,
       conversationId,
+      integrations,
       lastRead,
       socketClient,
       listMessages: (cursor) => {
@@ -103,7 +104,7 @@ export default class Sunco {
         removeClientId(this.integrationId)
       },
       getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
-      unlinkChannel: (clientId) => this.appUsers.unlinkChannel(appUserId, clientId),
+      unlinkIntegration: (clientId) => this.appUsers.unlinkIntegration(appUserId, clientId),
     }
   }
 
@@ -122,6 +123,9 @@ export default class Sunco {
                     conversationId: response.body.conversations[0]._id,
                     socketSettings: response.body.settings.realtime,
                     lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
+                    integrations: response.body.appUser.clients.filter(
+                      (client) => client.platform !== 'web'
+                    ),
                   } // TODO - might need to eventually select a particular conversation - isDefault: true
                   resolve(this.activeConversation)
                 })
@@ -174,6 +178,9 @@ export default class Sunco {
           this.activeConversation = {
             conversationId: response.body.conversations[0]._id,
             socketSettings: response.body.settings.realtime,
+            integrations: response.body.appUser.clients?.filter(
+              (client) => client.platform !== 'web'
+            ),
           }
           resolve(this.activeConversation)
         })

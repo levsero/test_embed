@@ -5,12 +5,17 @@ import { useHistory, useParams } from 'react-router-dom'
 import {
   ChannelLinkContainer,
   BackButton,
+  ChannelLinkWithUnlink,
   ChannelLinkWithQrCode,
   ChannelLinkWithButton,
 } from '@zendesk/conversation-components'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
-import { fetchLinkRequest, selectIntegrationById } from 'src/apps/messenger/store/integrations'
+import {
+  fetchLinkRequest,
+  selectIntegrationById,
+  unlinkIntegration,
+} from 'src/apps/messenger/store/integrations'
 import { Header } from './styles'
 
 const ChannelPage = forwardRef((_props, ref) => {
@@ -22,15 +27,23 @@ const ChannelPage = forwardRef((_props, ref) => {
   const isFullScreen = useSelector(getIsFullScreen)
 
   useEffect(() => {
-    dispatch(fetchLinkRequest({ channelId }))
-  }, [])
+    if (!integration.linked) {
+      dispatch(fetchLinkRequest({ channelId }))
+    }
+  }, [integration.linked])
 
-  if (!integration?.hasFetchedLinkRequest && integration?.isFetchingLinkRequest) {
-    return <div>Loading link request</div>
-  }
+  if (!integration.linked) {
+    if (!integration?.hasFetchedLinkRequest && integration?.isFetchingLinkRequest) {
+      return <div>Loading link request</div>
+    }
 
-  if (!integration?.hasFetchedLinkRequest && integration?.errorFetchingLinkRequest) {
-    return <div>Error fetching link request</div>
+    if (!integration?.hasFetchedLinkRequest && integration?.errorFetchingLinkRequest) {
+      return <div>Error fetching link request</div>
+    }
+
+    if (!integration?.hasFetchedLinkRequest) {
+      return <div>Loading link request</div>
+    }
   }
 
   return (
@@ -41,18 +54,25 @@ const ChannelPage = forwardRef((_props, ref) => {
           ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
         />
       </Header>
-      {integration?.hasFetchedLinkRequest && (
+      {integration.linked && (
+        <ChannelLinkWithUnlink
+          channelId={channelId}
+          pending={integration.unlinkPending}
+          onDisconnect={() => {
+            dispatch(unlinkIntegration({ channelId }))
+          }}
+        />
+      )}
+      {!integration.linked && (
         <>
-          {!isFullScreen && (
+          {isFullScreen ? (
+            <ChannelLinkWithButton channelId={channelId} url={integration.linkRequest.url} />
+          ) : (
             <ChannelLinkWithQrCode
               channelId={channelId}
               url={integration.linkRequest.url}
               qrCode={integration.linkRequest.qrCode}
             />
-          )}
-
-          {isFullScreen && (
-            <ChannelLinkWithButton channelId={channelId} url={integration.linkRequest.url} />
           )}
         </>
       )}
