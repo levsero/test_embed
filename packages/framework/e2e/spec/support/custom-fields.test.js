@@ -89,7 +89,7 @@ describe('support custom fields', () => {
       await submit()
 
       const widgetDocument = await widget.getDocument()
-      await expect(await widgetDocument.$('body')).toMatch('Please check this box to proceed.')
+      await expect(await widgetDocument.$('body')).toMatch('Check this box to proceed.')
 
       await element.click()
       await expectSuccess({
@@ -128,7 +128,7 @@ describe('support custom fields', () => {
       await submit()
 
       const widgetDocument = await widget.getDocument()
-      await expect(await widgetDocument.$('body')).toMatch('Please enter a value.')
+      await expect(await widgetDocument.$('body')).toMatch('Enter a value.')
 
       await allowsInputTextEditing(element, 'Some text')
       await expectSuccess({
@@ -171,7 +171,7 @@ describe('support custom fields', () => {
       await submit()
 
       const widgetDocument = await widget.getDocument()
-      await expect(await widgetDocument.$('body')).toMatch('Please enter a value.')
+      await expect(await widgetDocument.$('body')).toMatch('Enter a value.')
 
       await allowsInputTextEditing(element, 'Some text')
       await page.keyboard.press('Enter')
@@ -216,7 +216,7 @@ describe('support custom fields', () => {
       await submit()
 
       const widgetDocument = await widget.getDocument()
-      await expect(await widgetDocument.$('body')).toMatch('Please enter a number.')
+      await expect(await widgetDocument.$('body')).toMatch('Enter a number.')
 
       await element.focus()
       await page.keyboard.type('123')
@@ -264,7 +264,7 @@ describe('support custom fields', () => {
       await submit()
 
       const widgetDocument = await widget.getDocument()
-      await expect(await widgetDocument.$('body')).toMatch('Please enter a number.')
+      await expect(await widgetDocument.$('body')).toMatch('Enter a number.')
 
       await element.focus()
       await page.keyboard.type('123.456')
@@ -364,7 +364,7 @@ describe('support custom fields', () => {
         const { expectSuccess, submit } = await testCustomForm({ field })
         await submit()
 
-        await widget.waitForText('Please select a value.')
+        await widget.waitForText('Select a value.')
 
         await openDropdown()
         await select('Sales')
