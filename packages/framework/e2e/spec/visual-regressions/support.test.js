@@ -26,7 +26,7 @@ const completeForm = async () => {
 
 const inputError = async (tag) => {
   await widget.clickText('Send')
-  await widget.waitForText('Please enter a valid email address.')
+  await widget.waitForText('Enter a valid email address.')
   await assertScreenshot('contact-form-input-error', { tag })
 }
 

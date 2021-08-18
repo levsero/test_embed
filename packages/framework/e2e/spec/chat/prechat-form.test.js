@@ -185,6 +185,6 @@ describe('prechat form', () => {
 
     await widget.clickButton('Send message')
 
-    await widget.waitForText('Please enter a valid email address.')
+    await widget.waitForText('Enter a valid email address.')
   })
 })
