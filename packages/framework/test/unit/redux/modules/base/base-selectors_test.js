@@ -509,26 +509,6 @@ describe('base selectors', () => {
     })
   })
 
-  describe('getConfigColor', () => {
-    let result, mockState
-
-    beforeEach(() => {
-      mockState = {
-        base: {
-          embeddableConfig: {
-            color: 'blue',
-            textColor: 'deep',
-          },
-        },
-      }
-      result = selectors.getConfigColor(mockState)
-    })
-
-    it('returns the color in expected format', () => {
-      expect(result).toEqual({ base: 'blue', text: 'deep' })
-    })
-  })
-
   describe('getLocale', () => {
     let result, mockState
 
