@@ -1873,7 +1873,6 @@ parts:
       title: "Text that appears informing the user to integrate their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing"
       value: "Continue on Messenger"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.header.menu.continue_on_instagram"
       title: "Text that appears informing the user to integrate their conversation with the Facebook Instagram channel"
@@ -1885,19 +1884,16 @@ parts:
       title: "Text that appears informing the user to integrate their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing"
       value: "Continue on WhatsApp"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.title.whatsapp"
       title: "Title that appears informing the user to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1uLEHYHIOs7kcE1kppq3gBaqCGQf7nj91/view?usp=sharing"
       value: "Continue on WhatsApp"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.title.fb_messenger"
       title: "Title that appears informing the user to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1nJqyPt8JLjXB0KnDZ0LBWXTR532QgdyS/view?usp=sharing"
       value: "Continue on Messenger"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.title.instagram"
       title: "Title that appears informing the user to link their conversation with the Facebook Instagram channel"
@@ -1909,13 +1905,11 @@ parts:
       title: "Subtitle that appears informing the user to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/18_xDEBHGQODUF8V8FauzxvEa_YPcqgc6/view?usp=sharing"
       value: "Take the conversation to your WhatsApp account. You can return anytime."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger"
       title: "Subtitle that appears informing the user to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/150Cxut98FIbPjb2x7fY4JUr9LrStmx3l/view?usp=sharing"
       value: "Take the conversation to your Messenger account. You can return anytime."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.subtitle.instagram"
       title: "Subtitle that appears informing the user to link their conversation with the Facebook Instagram channel"
@@ -1927,13 +1921,11 @@ parts:
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1ELKx1c46Ds2GHZqTutUB-tsVBuYS4VB1/view?usp=sharing"
       value: "Scan the QR code and then send the message that appears in your WhatsApp."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_desktop.fb_messenger"
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1ZKMXEaOQyK_dWsSFJv03DSQuIkoWOYaq/view?usp=sharing"
       value: "Scan the QR code and then send the message that appears in your Messenger."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_desktop.instagram"
       title: "Instructions that appear informing desktop users of the actions required to link their conversation with the Facebook Instagram channel"
@@ -1945,13 +1937,11 @@ parts:
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1M4VT4n0Exm1MZC0K9OPSSRv5RFIdApnW/view?usp=sharing"
       value: "Open WhatsApp and send a short message to connect your account."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger"
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1AAjsymJKvZqzUrmVUFtKp02Q94MoBa7t/view?usp=sharing"
       value: "Open Messenger and send a short message to connect your account."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.instructions_mobile.instagram"
       title: "Instructions that appear informing mobile users of the actions required to link their conversation with the Facebook Instagram channel"
@@ -1963,13 +1953,11 @@ parts:
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1kot559G8l31UDg8f7q-qKIfRMRNpA6-n/view?usp=sharing"
       value: "QR code to open WhatsApp on this device"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.fb_messenger"
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1qNw1R6qBBiRSoKguAKggYMBgS8ouFBVM/view?usp=sharing"
       value: "QR code to open Messenger on this device"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.qr_code.instagram"
       title: "[A11Y] Alt tag for QR code image that appears to desktop users for the action required to link their conversation with the Facebook Instagram channel"
@@ -1981,31 +1969,26 @@ parts:
       title: "Message that appears if there is an error loading the qr code"
       screenshot: "https://drive.google.com/file/d/1QjGoPit419iqLChpFvMwXr_ijg9ckluI/view?usp=sharing"
       value: "QR code couldn't be loaded"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.link.loading_error"
       title: "Message that appears if there is an error loading the link"
       screenshot: "https://drive.google.com/file/d/15PURUgDGraeEmjikW5yGlKahkbdSbykf/view?usp=sharing"
       value: "Link couldn't be loaded"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.click_to_retry"
       title: "Button to retry if there is an error loading the link or qr code for the channel integration"
       screenshot: "https://drive.google.com/file/d/1iLn0OI17M-KkLUyiYpIDlIgSVWBY_Qsf/view?usp=sharing"
       value: "Click to retry"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/1RqjEIscc31ppaTLk2djdZY3DbJwOuJGN/view?usp=sharing"
       value: "Open WhatsApp on this device."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1191vn07zirDbF3_M2YefbQocM02QBxax/view?usp=sharing"
       value: "Open Messenger on this device."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_desktop.instagram"
       title: "Pill button that appears informing desktop users to click to link their conversation with the Facebook Instagram channel"
@@ -2017,13 +2000,11 @@ parts:
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook WhatsApp channel"
       screenshot: "https://drive.google.com/file/d/16hv5WvYZE93tvmZLcms1HSdL3qazmXFy/view?usp=sharing"
       value: "Open WhatsApp"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook Messenger channel"
       screenshot: "https://drive.google.com/file/d/1bNVuhfNnh2isaKW2I4j79sWnzR1g54nI/view?usp=sharing"
       value: "Open Messenger"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.page.button_mobile.instagram"
       title: "Link button that appears informing mobile users to click to link their conversation with the Facebook Instagram channel"
@@ -2047,40 +2028,33 @@ parts:
       title: "Text that appears informing the user that the Messenger channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
       screenshot: "https://drive.google.com/file/d/1Tlf9CJWRhZ36vlxNmM5ib8j2ClKoS5Ix/view?usp=sharing"
       value: "Messenger connected."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_link.messenger.disconnect_link_text"
       title: "A text link that when clicked will disconnect the Messenger channel from the log"
       screenshot: "https://drive.google.com/file/d/1PmtIx8kav64PFup7hNG9Pgo6AMSkcGnv/view?usp=sharing"
       value: "Disconnect"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_link.whatsapp.disconnect_button_text"
       title: "Text that appears informing the user that the WhatsApp channel has been connected, appears next to a 'Disconnect' link which will disconnect the channel from the log"
       screenshot: "https://drive.google.com/file/d/1Jl9zxWH7MQmG1KmhvXU_thyBhghDn6WX/view?usp=sharing"
       value: "WhatsApp connected."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_link.whatsapp.disconnect_link_text"
       title: "A text link that when clicked will disconnect the WhatsApp channel from the log"
       screenshot: "https://drive.google.com/file/d/1yirqjK5YAch85ID7ouLAjfx5jH0QMhkD/view?usp=sharing"
       value: "Disconnect"
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.notification.channel_linking.link.failed"
       title: "A text that displays when the system could not establish a link to social media channel"
       screenshot: "https://drive.google.com/file/d/19R8oadIembW1Gqf-_V073HOyzQ2dFoVc/view?usp=sharing"
       value: "Couldn’t connect. Try again."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.notification.channel_linking.unlink.fail"
       title: "A text that displays when the system could not un-link/disconnect from a social media channel"
       screenshot: "https://drive.google.com/file/d/1e7dswtX6fU-psKTqr32fBIo0D4w_JIES/view?usp=sharing"
       value: "Couldn’t disconnect. Try again."
-      wip: true
   - translation:
       key: "embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message"
       title: "Text that appears in WhatsApp when the user attempts to link to social media channel"
       screenshot: "https://drive.google.com/file/d/1htrwwq-aB9uZoWf_tDeSJN-lHm7ihFdy/view?usp=sharing"
       value: "I'm continuing my conversation on WhatsApp. Here's my code: {{whatsappCode}}"
-      wip: true
