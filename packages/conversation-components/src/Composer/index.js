@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { forwardRef, useState } from 'react'
-import { KEY_CODES } from '@zendeskgarden/react-selection'
 import useLabels from 'src/hooks/useLabels'
 import { Container, Textarea, SendIcon, Field, SendButton } from './styles'
 
+const KEY_CODE_ENTER = 13
+
 const triggerOnEnter = (callback) => (e) => {
-  if (e.keyCode === KEY_CODES.ENTER && !e.shiftKey) {
+  if (e.keyCode === KEY_CODE_ENTER && !e.shiftKey) {
     e.preventDefault()
     callback(e)
   }

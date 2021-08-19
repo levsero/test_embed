@@ -8,8 +8,8 @@
   },
   "sideEffects": "false",
   "files": [
-    "dist/*.js",
-    "dist/*.js.map"
+    "dist/**/*.js",
+    "dist/**/*.js.map"
   ],
   "main": "dist/index.js",
   "scripts": {
@@ -44,19 +44,22 @@
     "jest-styled-components": "^6.0.0"
   },
   "dependencies": {
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "qrcode.react": "^1.0.1",
+    "react-linkify": "^0.2.2",
+    "sanitize-html": "~1.11.4"
   },
   "peerDependencies": {
-    "@zendeskgarden/react-avatars": "^8.0.0",
-    "@zendeskgarden/react-buttons": "^8.28.2",
-    "@zendeskgarden/react-loaders": "^8.39.0",
-    "@zendeskgarden/react-theming": "^8.0.0",
+    "@zendeskgarden/react-avatars": "^8.1.0",
+    "@zendeskgarden/react-buttons": "^8.1.0",
+    "@zendeskgarden/react-dropdowns": "^8.1.0",
+    "@zendeskgarden/react-loaders": "^8.1.0",
+    "@zendeskgarden/react-theming": "^8.1.0",
     "@zendeskgarden/svg-icons": "^6.27.0",
-    "linkify": "^0.2.1",
-    "polished": "^3.6.0",
+    "polished": "^3.6.0 || ^4.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-transition-group": "^4.4.1",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.2.0 || ^5.0.0"
   }
 }
