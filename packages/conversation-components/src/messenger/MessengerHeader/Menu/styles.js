@@ -1,8 +1,7 @@
 import { rem } from 'polished'
 import styled from 'styled-components'
 import MenuSvg from '@zendeskgarden/svg-icons/src/16/overflow-stroke.svg'
-import { Item } from 'src/Dropdown'
-import { Menu } from 'src/Dropdown'
+import { Item, Menu } from 'src/Dropdown'
 import dirStyles from 'src/utils/dirStyles'
 
 const HeaderMenu = styled(Menu)`
@@ -39,13 +38,6 @@ const ChannelIcon = styled.div`
   svg, img {
     height: ${(props) => props.theme.messenger.iconSizes.md};
     width: ${(props) => props.theme.messenger.iconSizes.md};
-
-    ${(props) =>
-      props.channel === 'instagram' &&
-      `
-      height: ${rem(14, props.theme.baseFontSize)};
-      width: ${rem(14, props.theme.baseFontSize)};
-    `}
   }
 `
 

@@ -8,7 +8,7 @@ import { HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
 import FBMessengerIcon from './FBMessengerIcon'
 import InstagramIcon from './InstagramIcon'
 import WhatsAppIcon from './WhatsAppIcon'
-import { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon } from './styles'
+import { ChannelIcon, HeaderMenu, HeaderMenuItem, MenuIcon } from './styles'
 
 const channelOptions = [
   {
