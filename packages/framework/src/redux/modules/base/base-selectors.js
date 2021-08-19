@@ -75,10 +75,7 @@ export const getQueue = (state) => state.base.queue
 export const getZopimId = createSelector([getEmbeddableConfig], (embeddableConfig) => {
   return embeddableConfig.embeds.chat.props.zopimId
 })
-export const getConfigColor = createSelector([getEmbeddableConfig], (embeddableConfig) => ({
-  base: embeddableConfig.color,
-  text: embeddableConfig.textColor,
-}))
+
 export const getFormTitleKey = createSelector(getEmbeddableConfig, (embeddableConfig) =>
   _.get(embeddableConfig, 'embeds.ticketSubmissionForm.props.formTitleKey', 'message')
 )

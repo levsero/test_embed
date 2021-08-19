@@ -9,7 +9,7 @@ function getWidgetColorVariables(color) {
   const baseHighlightColor = mixer.highlight(baseColor)
   const iconColor = mixer.getIconColor()
 
-  const buttonColorStr = colorFor(color.button, mixer.getButtonColor())
+  const buttonColorStr = textColor ? baseColor : colorFor(color.button, mixer.getButtonColor())
   const buttonHighlightColorStr = mixer.highlight(buttonColorStr)
   const buttonTextColorStr = textColor || mixer.foregroundColorFrom(buttonColorStr)
 
