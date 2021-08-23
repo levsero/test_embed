@@ -47,7 +47,6 @@ module.exports = () => {
     },
     devServer: {
       host: WEBPACK_DEV_SERVER_HOST,
-      hot: true,
       port: 1337,
       disableHostCheck: WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK,
       headers: {
@@ -125,6 +124,8 @@ module.exports = () => {
       new webpack.HotModuleReplacementPlugin(),
       new ReactRefreshWebpackPlugin()
     )
+    webpackConfig.target = 'web'
+    webpackConfig.devServer.hot = true
     runDashboard()
   }
 

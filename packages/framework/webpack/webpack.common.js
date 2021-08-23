@@ -21,6 +21,10 @@ const cssModulesName = embeddableEnv === DEV ? '[path][name]-[local]' : '[local]
 const babelLoaderPlugins =
   embeddableEnv === PROD ? [['react-remove-properties', { properties: ['data-testid'] }]] : []
 
+if (process.env.USE_DASHBOARD && embeddableEnv !== PROD) {
+  babelLoaderPlugins.push('react-refresh/babel')
+}
+
 module.exports = {
   output: {
     path: path.resolve(projectRoot, 'dist/public'),

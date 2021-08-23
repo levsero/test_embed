@@ -47,7 +47,7 @@
           }
         ]
       ],
-      "plugins": ["babel-plugin-styled-components", "lodash", "react-refresh/babel"]
+      "plugins": ["babel-plugin-styled-components", "lodash"]
     },
     "production": {
       "plugins": [
