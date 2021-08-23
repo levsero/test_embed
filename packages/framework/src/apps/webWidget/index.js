@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import verifyDepartmentsSettingUsage from 'src/embeds/chat/utils/verifyDepartmentsSettingUsage'
 import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import webWidgetApp from 'src/embeds/webWidget'
 import errorTracker from 'src/framework/services/errorTracker'
@@ -50,6 +51,7 @@ const filterEmbeds = (config) => {
 function setUpEmbeds(embeds, reduxStore) {
   if (embeds.chat) {
     reduxStore.dispatch(setUpChat(true))
+    verifyDepartmentsSettingUsage(reduxStore)
   }
 
   if (embeds.talk) {
