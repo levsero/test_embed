@@ -62,5 +62,41 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe(true)
     })
+
+    it('set linkCancelled status to true on link:cancelled event', async () => {
+      const store = createStore()
+
+      store.dispatch({
+        type: fetchIntegrations.fulfilled.toString(),
+        payload: [{ pageId: '12345678', appId: '23456789', _id: '0c19f2c2c28', type: 'messenger' }],
+      })
+
+      expect(selectIntegrationById(store.getState(), 'messenger').linkCancelled).toBe(false)
+
+      store.dispatch(startNewConversation())
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['link']({ type: 'link:cancelled', appUser: {}, client: { platform: 'messenger' } })
+
+      expect(selectIntegrationById(store.getState(), 'messenger').linkCancelled).toBe(true)
+    })
+
+    it('set linkFailed status to true on link:failed event', async () => {
+      const store = createStore()
+
+      store.dispatch({
+        type: fetchIntegrations.fulfilled.toString(),
+        payload: [{ pageId: '12345678', appId: '23456789', _id: '0c19f2c2c28', type: 'messenger' }],
+      })
+
+      expect(selectIntegrationById(store.getState(), 'messenger').linkFailed).toBe(false)
+
+      store.dispatch(startNewConversation())
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['link']({ type: 'link:failed', appUser: {}, client: { platform: 'messenger' } })
+
+      expect(selectIntegrationById(store.getState(), 'messenger').linkFailed).toBe(true)
+    })
   })
 })

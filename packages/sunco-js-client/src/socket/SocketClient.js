@@ -159,6 +159,8 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
             case 'activity':
               this.eventObservers['activity'].notify(event.activity)
               break
+            case 'link:cancelled':
+            case 'link:failed':
             case 'link':
               this.eventObservers['link'].notify(event)
               break

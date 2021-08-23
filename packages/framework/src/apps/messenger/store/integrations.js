@@ -1,13 +1,15 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
-import { fetchIntegrations as fetchIntegrationsSunco } from 'src/apps/messenger/api/sunco'
 import {
-  integrationLinked,
-  fetchExistingConversation,
-} from 'src/apps/messenger/features/suncoConversation/store'
-import {
+  fetchIntegrations as fetchIntegrationsSunco,
   fetchLinkRequest as fetchLinkRequestSunco,
   unlinkIntegration as unlinkIntegrationSunco,
-} from '../api/sunco'
+} from 'src/apps/messenger/api/sunco'
+import {
+  fetchExistingConversation,
+  integrationLinkCancelled,
+  integrationLinked,
+  integrationLinkFailed,
+} from 'src/apps/messenger/features/suncoConversation/store'
 
 const integrationsAdapter = createEntityAdapter({
   selectId: (integration) => integration.type,
@@ -52,12 +54,34 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 const integrations = createSlice({
   name: 'integrations',
   initialState: integrationsAdapter.getInitialState({}),
+  reducers: {
+    leftChannelPage: (state, { payload }) => {
+      const { channelId } = payload
+
+      integrationsAdapter.updateOne(state, {
+        id: channelId,
+        changes: {
+          linkFailed: false,
+          linkCancelled: false,
+          unlinkPending: false,
+          unlinkFailed: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: false,
+        },
+      })
+    },
+  },
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
         return {
           ...integration,
           linked: false,
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkPending: false,
+          unlinkFailed: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           errorFetchingLinkRequest: false,
@@ -74,6 +98,10 @@ const integrations = createSlice({
           hasFetchedLinkRequest: true,
           isFetchingLinkRequest: false,
           errorFetchingLinkRequest: false,
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkPending: false,
+          unlinkFailed: false,
           linkRequest,
         },
       })
@@ -133,7 +161,10 @@ const integrations = createSlice({
         },
       }
     ) => {
-      integrationsAdapter.updateOne(state, { id: channelId, changes: { unlinkPending: false } })
+      integrationsAdapter.updateOne(state, {
+        id: channelId,
+        changes: { unlinkPending: false, unlinkFailed: true },
+      })
     },
     [unlinkIntegration.pending]: (
       state,
@@ -145,7 +176,7 @@ const integrations = createSlice({
     ) => {
       integrationsAdapter.updateOne(state, {
         id: channelId,
-        changes: { unlinkPending: true },
+        changes: { unlinkPending: true, unlinkFailed: false },
       })
     },
     [unlinkIntegration.fulfilled]: (state, { payload: integration }) => {
@@ -156,7 +187,10 @@ const integrations = createSlice({
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           errorFetchingLinkRequest: false,
+          linkCancelled: false,
+          linkFailed: false,
           unlinkPending: false,
+          unlinkFailed: false,
         },
       })
     },
@@ -165,7 +199,23 @@ const integrations = createSlice({
 
       integrationsAdapter.updateOne(state, {
         id: type,
-        changes: { linked: true, clientId },
+        changes: { linked: true, linkCancelled: false, linkFailed: false, clientId },
+      })
+    },
+    [integrationLinkCancelled](state, { payload }) {
+      const { type } = payload
+
+      integrationsAdapter.updateOne(state, {
+        id: type,
+        changes: { linkCancelled: true, linkFailed: false },
+      })
+    },
+    [integrationLinkFailed](state, { payload }) {
+      const { type } = payload
+
+      integrationsAdapter.updateOne(state, {
+        id: type,
+        changes: { linkFailed: true, linkCancelled: false },
       })
     },
   },
@@ -182,5 +232,7 @@ export const getAllIntegrationsLinkStatus = (state) => {
     return accumulator
   }, {})
 }
+
+export const leftChannelPage = integrations.actions.leftChannelPage
 
 export default integrations.reducer

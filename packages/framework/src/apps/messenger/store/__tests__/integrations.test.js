@@ -1,10 +1,15 @@
-import { integrationLinked } from 'src/apps/messenger/features/suncoConversation/store'
+import {
+  integrationLinkCancelled,
+  integrationLinked,
+  integrationLinkFailed,
+} from 'src/apps/messenger/features/suncoConversation/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import reducer, {
   fetchIntegrations,
   fetchLinkRequest,
-  unlinkIntegration,
   getAllIntegrationsLinkStatus,
+  leftChannelPage,
+  unlinkIntegration,
 } from '../integrations'
 
 testReducer(reducer, [
@@ -42,6 +47,10 @@ testReducer(reducer, [
           pageId: 'p1',
           linked: false,
           type: 'messenger',
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
         },
       },
       ids: ['messenger'],
@@ -69,6 +78,10 @@ testReducer(reducer, [
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           linkRequest: {},
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
         },
         whatsapp: {
           _id: 234,
@@ -80,6 +93,10 @@ testReducer(reducer, [
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           linkRequest: {},
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
         },
         instagram: {
           _id: 345,
@@ -91,6 +108,10 @@ testReducer(reducer, [
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           linkRequest: {},
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
         },
       },
       ids: ['messenger', 'whatsapp', 'instagram'],
@@ -129,6 +150,10 @@ testReducer(reducer, [
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
           linkRequest: {},
         },
       },
@@ -154,6 +179,10 @@ testReducer(reducer, [
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: true,
           isFetchingLinkRequest: false,
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
           linkRequest: {
             integrationId: '60dacd66c491a400d3882068',
             type: 'messenger',
@@ -195,6 +224,43 @@ testReducer(reducer, [
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'resets the state variables when the leftChannelPage action is dispatched',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: false,
+          type: 'messenger',
+          linkRequest: {},
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [leftChannelPage], payload: { channelId: 'messenger' } },
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: false,
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkFailed: false,
+          linkCancelled: false,
+          unlinkPending: false,
+          unlinkFailed: false,
           linkRequest: {},
         },
       },
@@ -294,6 +360,9 @@ testReducer(reducer, [
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
           unlinkPending: false,
         },
       },
@@ -317,7 +386,7 @@ testReducer(reducer, [
     },
   },
   {
-    extraDesc: 'Marks an integration as pending',
+    extraDesc: 'Marks an integration as unlink pending',
     initialState: {
       entities: {
         messenger: {
@@ -331,7 +400,66 @@ testReducer(reducer, [
     action: { type: [unlinkIntegration.pending], meta: { arg: { channelId: 'messenger' } } },
     expected: {
       entities: {
-        messenger: { _id: 123, linked: true, unlinkPending: true, type: 'messenger' },
+        messenger: {
+          _id: 123,
+          linked: true,
+          unlinkFailed: false,
+          unlinkPending: true,
+          type: 'messenger',
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'unlinkIntegration rejected action is dispatched',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          unlinkPending: true,
+          unlinkFailed: false,
+          linkRequest: {
+            integrationId: '60dacd66c491a400d3882068',
+            type: 'messenger',
+            code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+            url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+          },
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: {
+      type: [unlinkIntegration.rejected],
+      meta: { arg: { channelId: 'messenger' } },
+    },
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'linked',
+          type: 'messenger',
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          unlinkPending: false,
+          unlinkFailed: true,
+          linkRequest: {
+            integrationId: '60dacd66c491a400d3882068',
+            type: 'messenger',
+            code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+            url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+          },
+        },
       },
       ids: ['messenger'],
     },
@@ -350,6 +478,68 @@ testReducer(reducer, [
           type: 'messenger',
           linked: true,
           clientId: 'abc123',
+          linkCancelled: false,
+          linkFailed: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'Marks an integration link as cancelled',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: 'not linked',
+          linkCancelled: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          unlinkPending: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: integrationLinkCancelled({ type: 'messenger' }),
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: 'not linked',
+          unlinkPending: false,
+          linkFailed: false,
+          unlinkFailed: false,
+          linkCancelled: true,
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'Marks an integration as failed to link',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: 'not linked',
+          linkFailed: false,
+          linkCancelled: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: integrationLinkFailed({ type: 'messenger' }),
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: 'not linked',
+          linkFailed: true,
+          linkCancelled: false,
         },
       },
       ids: ['messenger'],

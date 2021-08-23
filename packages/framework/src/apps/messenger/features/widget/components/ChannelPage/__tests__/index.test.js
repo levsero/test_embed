@@ -88,6 +88,7 @@ describe('ChannelPage', () => {
 
     describe('when the back button is clicked', () => {
       it('can go back to previous page', () => {
+        jest.spyOn(integrationStore, 'leftChannelPage')
         const channelId = 'messenger'
         const initialEntries = ['/', `/channelPage/${channelId}`]
         const history = createMemoryHistory({
@@ -99,6 +100,55 @@ describe('ChannelPage', () => {
         expect(getByLabelText('Back to conversation')).toBeInTheDocument()
         getByLabelText('Back to conversation').click()
         expect(history.location.pathname).toEqual('/')
+        expect(integrationStore.leftChannelPage).toHaveBeenCalledWith({ channelId })
+      })
+    })
+
+    describe('when the link is cancelled by the user', () => {
+      it('displays a notification message', () => {
+        const channelId = 'messenger'
+        const initialEntries = ['/', `/channelPage/${channelId}`]
+        const history = createMemoryHistory({
+          initialEntries,
+          initialIndex: 1,
+        })
+
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          linkRequest: { channelId: 'messenger', url: 'http://some.url/' },
+          linked: 'linked',
+          linkCancelled: true,
+        }))
+
+        const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
+
+        expect(getByText("Couldn't connect. Try again.")).toBeInTheDocument()
+      })
+    })
+
+    describe('when the link fails', () => {
+      it('displays a notification message', () => {
+        const channelId = 'messenger'
+        const initialEntries = ['/', `/channelPage/${channelId}`]
+        const history = createMemoryHistory({
+          initialEntries,
+          initialIndex: 1,
+        })
+
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          linkRequest: { channelId: 'messenger', url: 'http://some.url/' },
+          linked: 'linked',
+          linkFailed: true,
+        }))
+
+        const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
+
+        expect(getByText("Couldn't connect. Try again.")).toBeInTheDocument()
       })
     })
   })
@@ -126,6 +176,31 @@ describe('ChannelPage', () => {
       userEvent.click(getByText('Disconnect'))
 
       expect(integrationStore.unlinkIntegration).toHaveBeenCalledWith({ channelId })
+    })
+
+    describe('when the unlink fails', () => {
+      it('displays a notification message', () => {
+        const channelId = 'messenger'
+        const initialEntries = ['/', `/channelPage/${channelId}`]
+        const history = createMemoryHistory({
+          initialEntries,
+          initialIndex: 1,
+        })
+
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          linkRequest: { channelId: 'messenger', url: 'http://some.url/' },
+          linked: 'linked',
+          unlinkFailed: true,
+        }))
+        jest.spyOn(integrationStore, 'unlinkIntegration')
+
+        const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
+
+        expect(getByText("Couldn't disconnect. Try again.")).toBeInTheDocument()
+      })
     })
   })
 })
