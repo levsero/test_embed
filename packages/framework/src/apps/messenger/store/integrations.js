@@ -117,6 +117,7 @@ const integrations = createSlice({
         },
       }))
 
+      if (!parsedIntegrations) return
       integrationsAdapter.updateMany(state, parsedIntegrations)
     },
     [fetchLinkRequest.pending](
