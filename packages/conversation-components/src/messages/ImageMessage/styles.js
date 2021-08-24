@@ -7,6 +7,7 @@ const getRadius = (props) => props.theme.messenger.borderRadii.textMessage
 const Image = styled.img`
   height: ${(props) => props.theme.messenger.space.imageHeight};
   object-fit: cover;
+  display: block;
 `
 
 const radiusForShapePrimary = (props) => {
