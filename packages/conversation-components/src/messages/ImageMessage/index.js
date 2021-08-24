@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
+import NewWindowIcon from '@zendeskgarden/svg-icons/src/12/new-window-stroke.svg'
 import MessageBubble from 'src/MessageBubble'
 import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import useLabels from 'src/hooks/useLabels'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
-import { OtherParticipantImage, PrimaryParticipantImage, Text } from './styles'
+import {
+  OtherParticipantImage,
+  PrimaryParticipantImage,
+  Text,
+  OpenImageText,
+  ImageContainerLink,
+} from './styles'
 
 const ImageMessage = ({
   avatar,
@@ -24,6 +32,7 @@ const ImageMessage = ({
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const ParticipantImage = isPrimaryParticipant ? PrimaryParticipantImage : OtherParticipantImage
   const hasText = text && text.trim().length > 0
+  const labels = useLabels().imageMessage
 
   return (
     <Layout
@@ -37,7 +46,13 @@ const ImageMessage = ({
       isFreshMessage={isFreshMessage}
     >
       <MessageBubble shape={shape} isPrimaryParticipant={isPrimaryParticipant}>
-        <a href={mediaUrl} target="_blank">
+        <ImageContainerLink
+          href={mediaUrl}
+          target="_blank"
+          shape={shape}
+          hasText={hasText}
+          isPrimaryParticipant={isPrimaryParticipant}
+        >
           <ParticipantImage
             src={mediaUrl}
             alt={alt}
@@ -45,7 +60,10 @@ const ImageMessage = ({
             isPrimaryParticipant={isPrimaryParticipant}
             hasText={hasText}
           />
-        </a>
+          <OpenImageText>
+            {labels.openImage} <NewWindowIcon />
+          </OpenImageText>
+        </ImageContainerLink>
         {hasText && (
           <Linkify properties={{ target: '_blank' }}>
             <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>

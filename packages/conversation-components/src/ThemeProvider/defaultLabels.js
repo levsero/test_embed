@@ -13,6 +13,9 @@ const defaultLabels = {
     sizeInKB: (size) => `${size} KB`,
     downloadAriaLabel: 'Open in a new tab',
   },
+  imageMessage: {
+    openImage: 'Open in a new tab',
+  },
   formMessage: {
     nextStep: 'next',
     send: 'send',
