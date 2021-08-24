@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
-import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
 import { Route, Switch } from 'react-router-dom'
+import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
 import ChannelPage from './components/ChannelPage'
 import WidgetFrame from './components/WidgetFrame'
 
