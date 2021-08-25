@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Route } from 'react-router-dom'
+import * as responsiveDesignStore from 'src/apps/messenger/features/responsiveDesign/store'
 import * as integrationStore from 'src/apps/messenger/store/integrations'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import ChannelPage from '../'
@@ -39,7 +40,7 @@ describe('ChannelPage', () => {
 
   describe('when a link request has not been fetched yet', () => {
     describe('when the link request is loading', () => {
-      it('renders a loading message', () => {
+      it('renders a a loading spinner', () => {
         const channelId = 'messenger'
         jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
           errorFetchingLinkRequest: false,
@@ -47,24 +48,65 @@ describe('ChannelPage', () => {
           isFetchingLinkRequest: true,
           linkRequest: {},
         }))
-        const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+        const { getByRole } = renderChannelPage(<ChannelPage />, { channelId })
 
-        expect(getByText('Loading link request')).toBeInTheDocument()
+        expect(getByRole('progressbar')).toBeInTheDocument()
       })
     })
 
     describe('when the fetch link request is in an error state', () => {
-      it('renders an error message', () => {
-        const channelId = 'messenger'
-        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
-          errorFetchingLinkRequest: true,
-          hasFetchedLinkRequest: false,
-          isFetchingLinkRequest: false,
-          linkRequest: {},
-        }))
-        const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+      describe('the QRCode page', () => {
+        it('renders an error message and retry button', () => {
+          const channelId = 'messenger'
+          jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+            errorFetchingLinkRequest: true,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          }))
+          const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
-        expect(getByText('Error fetching link request')).toBeInTheDocument()
+          expect(getByText("QR code couldn't be loaded")).toBeInTheDocument()
+          expect(getByText('Click to retry')).toBeInTheDocument()
+        })
+      })
+
+      describe('the button page', () => {
+        it('renders an error message and retry button', () => {
+          const channelId = 'messenger'
+          jest.spyOn(responsiveDesignStore, 'getIsFullScreen').mockReturnValue(true)
+          jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+            errorFetchingLinkRequest: true,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          }))
+
+          const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+
+          expect(getByText("Link couldn't be loaded")).toBeInTheDocument()
+          expect(getByText('Click to retry')).toBeInTheDocument()
+        })
+      })
+
+      describe('when the retry button is clicked', () => {
+        it('attempts to fetch the link request again', () => {
+          const channelId = 'messenger'
+          jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+            errorFetchingLinkRequest: true,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          }))
+
+          const linkRequestSpy = jest.spyOn(integrationStore, 'fetchLinkRequest')
+
+          const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+          expect(linkRequestSpy).toHaveBeenCalledTimes(1)
+
+          getByText('Click to retry').click()
+          expect(linkRequestSpy).toHaveBeenCalledTimes(2)
+        })
       })
     })
   })

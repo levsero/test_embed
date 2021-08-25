@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Button, Anchor } from '@zendeskgarden/react-buttons'
 import { Spinner } from '@zendeskgarden/react-loaders'
 import CheckLGStroke from '@zendeskgarden/svg-icons/src/12/check-lg-stroke.svg'
+import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
@@ -128,18 +129,63 @@ const LoadingSpinner = styled(Spinner)`
   margin-right: ${(props) => props.theme.messenger.space.sm};
 `
 
+const BigLoadingSpinner = styled(Spinner)`
+  margin-top: ${(props) => props.theme.messenger.space.lg};
+`
+
+const LinkErrorText = styled.p`
+  color: inherit;
+  font-weight: ${(props) => props.theme.messenger.fontWeights.semibold};
+`
+
+const LinkRetryButton = styled(Button)`
+  &&& {
+    color: inherit;
+    :hover,
+    &[data-garden-focus-visible] {
+      color: ${(props) => props.theme.palette.black};
+    }
+  }
+
+  text-decoration: underline;
+`
+
+const ErrorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: ${(props) => props.theme.messenger.space.lg};
+`
+
+const StyledReloadStroke = styled(ReloadStroke)`
+  margin-left: ${(props) => props.theme.messenger.space.xs};
+  margin-right: ${(props) => props.theme.messenger.space.xs};
+  margin-top: ${(props) => props.theme.messenger.space.xxs};
+`
+
+const RetryPositioning = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`
+
 export {
+  BigLoadingSpinner,
   ChannelIcon,
   ChannelLinkButton,
   ChannelPillButton,
   Container,
   Content,
   DisconnectContainer,
+  ErrorContainer,
   IconPositioning,
   Instructions,
+  LinkErrorText,
+  LinkRetryButton,
   LinkTickIcon,
   LoadingSpinner,
   QRCodeWrapper,
+  StyledReloadStroke as ReloadStroke,
+  RetryPositioning,
   Subtitle,
   Title,
   UnlinkLink,
