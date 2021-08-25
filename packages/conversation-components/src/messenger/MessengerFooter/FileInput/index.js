@@ -1,18 +1,15 @@
 import PropTypes from 'prop-types'
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import PaperclipIcon from '@zendeskgarden/svg-icons/src/16/paperclip.svg'
-import { Input } from './styles'
+import { Input, FileInputButton } from './styles'
 
 const FileInput = ({ accept, onChange }) => {
   const fileInput = useRef(null)
-  useEffect(() => {
-    console.log(fileInput)
-  }, [])
   return (
     <>
-      <button onClick={() => fileInput.current.click()}>
+      <FileInputButton onClick={() => fileInput.current.click()}>
         <PaperclipIcon />
-      </button>
+      </FileInputButton>
       <Input type="file" ref={fileInput} accept={accept} multiple={true} onChange={onChange} />
     </>
   )

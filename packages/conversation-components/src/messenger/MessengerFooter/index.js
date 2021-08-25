@@ -7,9 +7,8 @@ import { Container } from './styles'
 const MessengerFooter = forwardRef((props, ref) => {
   return (
     <Container>
-      {props.isFileInputVisible && (
-        <FileInput accept={props.allowedFileTypes} onChange={props.onFilesSelected} />
-      )}
+      {props.isFileInputVisible ||
+        (true && <FileInput accept={props.allowedFileTypes} onChange={props.onFilesSelected} />)}
       <Composer ref={ref} {...props} />
     </Container>
   )
