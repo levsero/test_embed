@@ -1,3 +1,7 @@
-import Icon from './instagram.svg'
+import Icon from './instagram.png'
 
-export default Icon
+const InstagramIcon = () => {
+  return <img role="presentation" src={Icon} alt="" />
+}
+
+export default InstagramIcon
