@@ -12,7 +12,7 @@ import createStore from 'src/apps/messenger/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
 import trackNoMessageReceived from 'src/apps/messenger/utils/trackNoMessageReceived'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled, { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
 import errorTracker from 'src/framework/services/errorTracker'
 import { store as persistence } from 'src/framework/services/persistence'
 import publicApi from 'src/framework/services/publicApi'
@@ -20,6 +20,8 @@ import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import createMessengerApi from './public-api'
 
 const init = async ({ config }) => {
+  updateFeatures(config.features)
+
   if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
     errorTracker.logOneOutOfXErrors(1)
   }
@@ -44,7 +46,7 @@ const init = async ({ config }) => {
 
   publicApi.registerApi(createMessengerApi(store))
 
-  store.dispatch(messengerConfigReceived(config?.messenger))
+  store.dispatch(messengerConfigReceived(config.messenger))
   store.dispatch(watchForScreenChanges())
   store.dispatch(initialiseLauncherLabel())
   trackNoMessageReceived(store)
