@@ -9,7 +9,9 @@ class Request {
     this._response = null
 
     this._request.set(headers)
-    if (!isEmpty(data)) this._request.send(data)
+    if (!isEmpty(data) || typeof data?.values === 'function') {
+      this._request.send(data)
+    }
     if (!isEmpty(params)) this._request.query(params)
   }
 
