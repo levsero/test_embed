@@ -49,17 +49,9 @@ const ImageMessage = ({
         <ImageContainerLink
           href={mediaUrl}
           target="_blank"
-          shape={shape}
-          hasText={hasText}
           isPrimaryParticipant={isPrimaryParticipant}
         >
-          <ParticipantImage
-            src={mediaUrl}
-            alt={alt}
-            shape={shape}
-            isPrimaryParticipant={isPrimaryParticipant}
-            hasText={hasText}
-          />
+          <ParticipantImage src={mediaUrl} alt={alt} isPrimaryParticipant={isPrimaryParticipant} />
           <OpenImageText>
             {labels.openImage} <NewWindowIcon />
           </OpenImageText>
