@@ -1,10 +1,15 @@
 import { rgba } from 'polished'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import { FONT_SIZE } from 'src/constants/shared'
+import getReadableMessengerColor from 'src/ThemeProvider/getReadableMessengerColor'
 
-const HEADER_ICON_SIZE = 2
+const getAccessibleColors = (backgroundColor) => {
+  return css`
+    background-color: ${backgroundColor};
+    color: ${getReadableMessengerColor(backgroundColor)};
+  `
+}
 
 const StyledIconButton = styled(IconButton)`
   svg {
@@ -13,20 +18,21 @@ const StyledIconButton = styled(IconButton)`
   }
 
   &&& {
-    width: ${(props) => props.theme.messenger.space[props.size]};
-    height: ${(props) => props.theme.messenger.space[props.size]};
-    color: ${(props) => props.theme.messenger.colors[props.iconColor]};
+    width: ${(props) => props.theme.messenger.space[props.buttonSize]};
+    height: ${(props) => props.theme.messenger.space[props.buttonSize]};
+    ${(props) => getAccessibleColors(props.theme.messenger.colors[props.backgroundColor])}
     align-self: center;
 
     &:hover {
-      background-color: ${(props) => rgba(props.theme.messenger.colors[props.highlightColor], 0.2)};
+      ${(props) =>
+        getAccessibleColors(rgba(props.theme.messenger.colors[props.highlightColor], 0.2))}
     }
 
     &:active,
     &[aria-pressed='true'],
     &[aria-pressed='mixed'] {
-      background-color: ${(props) =>
-        rgba(props.theme.messenger.colors[props.highlightColor], 0.35)};
+      ${(props) =>
+        getAccessibleColors(rgba(props.theme.messenger.colors[props.highlightColor], 0.35))}
     }
 
     &[data-garden-focus-visible] {
@@ -42,10 +48,16 @@ const StyledIconButton = styled(IconButton)`
   }
 `
 
-StyledIconButton.propTypes = {
-  iconSize: PropTypes.oneOf(['lg', 'md', 'sm', 'xl']),
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xl']),
-  iconColor: PropTypes.oneOf(['actionText']),
+StyledIconButton.defaultProps = {
+  backgroundColor: 'primaryBackground',
+  highlightColor: 'action',
 }
 
-export { StyledIconButton as IconButton }
+StyledIconButton.propTypes = {
+  iconSize: PropTypes.oneOf(['lg', 'md', 'sm', 'xl']),
+  buttonSize: PropTypes.oneOf(['lg', 'md', 'sm', 'xl']),
+  iconColor: PropTypes.oneOf(['actionText']),
+  backgroundColor: PropTypes.string, // TODO:
+}
+
+export default StyledIconButton
