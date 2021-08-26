@@ -15,15 +15,15 @@ const ThemeProvider = ({
   labels,
   children,
 }) => {
-  const theme = createTheme(
+  const theme = createTheme({
     rtl,
     currentFrame,
     baseFontSize,
     primaryColor,
     messageColor,
     actionColor,
-    labels
-  )
+    labels,
+  })
 
   return <GardenThemeProvider theme={theme}>{children}</GardenThemeProvider>
 }

@@ -8,8 +8,8 @@ const FileInput = ({ accept, onChange, ariaLabel }) => {
   return (
     <>
       <IconButton
-        buttonSize={'xl'}
-        iconSize={'attachmentButton'}
+        buttonSize="xl"
+        iconSize="attachmentButton"
         aria-label={ariaLabel}
         onClick={() => fileInput.current.click()}
       >

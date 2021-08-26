@@ -9,10 +9,10 @@ const Close = ({ onClick }) => {
   return (
     <HeaderControl>
       <IconButton
-        backgroundColor={'primary'}
-        highlightColor={'primaryText'}
-        buttonSize={'xl'}
-        iconSize={'md'}
+        backgroundColor="primary"
+        highlightColor="primaryText"
+        buttonSize="xl"
+        iconSize="md"
         onClick={onClick}
         aria-label={labels.closeButtonAriaLabel}
       >

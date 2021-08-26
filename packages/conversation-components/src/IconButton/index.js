@@ -57,7 +57,7 @@ StyledIconButton.defaultProps = {
 StyledIconButton.propTypes = {
   iconSize: PropTypes.oneOf(Object.keys(defaultTheme.messenger.iconSizes)),
   buttonSize: PropTypes.oneOf(Object.keys(defaultTheme.messenger.space)),
-  iconColor: PropTypes.oneOf(Object.keys(defaultTheme.messenger.colors)),
+  highlightColor: PropTypes.oneOf(Object.keys(defaultTheme.messenger.colors)),
   backgroundColor: PropTypes.oneOf(Object.keys(defaultTheme.messenger.colors)),
 }
 

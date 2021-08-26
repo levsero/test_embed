@@ -4,8 +4,7 @@ import IconButton from 'src/IconButton'
 
 const BackButton = ({ onClick, ariaLabel }) => {
   return (
-    // TODO: There's got to be a better way
-    <IconButton buttonSize={'xl'} iconSize={'md'} onClick={onClick} aria-label={ariaLabel}>
+    <IconButton buttonSize="xl" iconSize="md" onClick={onClick} aria-label={ariaLabel}>
       <ChevronIcon />
     </IconButton>
   )
