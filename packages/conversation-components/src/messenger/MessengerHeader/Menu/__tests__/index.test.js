@@ -61,4 +61,28 @@ describe('Menu', () => {
 
     expect(queryByText('Continue on WhatsApp')).not.toBeInTheDocument()
   })
+
+  describe('when there are channels', () => {
+    it('renders the menu trigger', () => {
+      const { getByLabelText } = renderComponent({
+        isOpen: false,
+        channels: {
+          whatsapp: true,
+        },
+      })
+
+      expect(getByLabelText('Channel linking menu option')).toBeInTheDocument()
+    })
+  })
+
+  describe('when there are no channels', () => {
+    it('does not render the menu', () => {
+      const { queryByLabelText } = renderComponent({
+        isOpen: false,
+        channels: {},
+      })
+
+      expect(queryByLabelText('Channel linking menu option')).not.toBeInTheDocument()
+    })
+  })
 })
