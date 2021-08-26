@@ -409,3 +409,18 @@ parts:
       screenshot: 'https://drive.google.com/file/d/1htrwwq-aB9uZoWf_tDeSJN-lHm7ihFdy/view?usp=sharing'
       value: "I'm continuing my conversation on WhatsApp. Here's my code: {{whatsappCode}}"
       wip: true
+  - translation:
+      key: "embeddable_framework.messenger.file_upload.tap_to_retry"
+      title: "Text to display when file upload process failed"
+      screenshot: "https://drive.google.com/file/d/1FkjPBFIDb8uSUfk9I3ZBTHrmIYi9I6P4/view?usp=sharing"
+      value: "Tap to retry"
+  - translation:
+      key: "embeddable_framework.messenger.file_upload.open_image_in_new_tab"
+      title: "When mouse over/hover or on focus, a text is displayed that tells the user that the image can be viewed/opened in a new browser tab"
+      screenshot: "https://drive.google.com/file/d/1dRiCjyVcG6RGDfleZBOlLs7MrCQ1GQcg/view?usp=sharing"
+      value: "Open image in new tab"
+  - translation:
+      key: "embeddable_framework.messenger.file_upload.upload_button"
+      title: "[A11Y] Aria label on the file upload button"
+      screenshot: "https://drive.google.com/file/d/1bawlh1Eyg8Xr866E7suwZaOdXl3kbcgA/view?usp=sharing"
+      value: "Upload file"
