@@ -9,13 +9,21 @@ const FileInput = ({ accept, onChange, ariaLabel }) => {
     <>
       <IconButton
         buttonSize={'xl'}
-        iconSize={'md'} // TODO:
+        iconSize={'attachmentButton'}
         aria-label={ariaLabel}
         onClick={() => fileInput.current.click()}
       >
         <PaperclipIcon />
       </IconButton>
-      <Input type="file" ref={fileInput} accept={accept} multiple={true} onChange={onChange} />
+      <Input
+        type="file"
+        ref={fileInput}
+        accept={accept}
+        multiple={true}
+        onChange={(e) => {
+          onChange(e.target.files)
+        }}
+      />
     </>
   )
 }

@@ -2,6 +2,7 @@ import { rgba } from 'polished'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import { defaultTheme } from 'src/ThemeProvider'
 import getReadableMessengerColor from 'src/ThemeProvider/getReadableMessengerColor'
 
 const getAccessibleColors = (backgroundColor) => {
@@ -54,10 +55,10 @@ StyledIconButton.defaultProps = {
 }
 
 StyledIconButton.propTypes = {
-  iconSize: PropTypes.oneOf(['lg', 'md', 'sm', 'xl']),
-  buttonSize: PropTypes.oneOf(['lg', 'md', 'sm', 'xl']),
-  iconColor: PropTypes.oneOf(['actionText']),
-  backgroundColor: PropTypes.string, // TODO:
+  iconSize: PropTypes.oneOf(Object.keys(defaultTheme.messenger.iconSizes)),
+  buttonSize: PropTypes.oneOf(Object.keys(defaultTheme.messenger.space)),
+  iconColor: PropTypes.oneOf(Object.keys(defaultTheme.messenger.colors)),
+  backgroundColor: PropTypes.oneOf(Object.keys(defaultTheme.messenger.colors)),
 }
 
 export default StyledIconButton
