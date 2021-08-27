@@ -7,29 +7,37 @@ export default {
   component: IconButton,
   argTypes: {
     iconSize: {
-      options: Object.keys(defaultTheme.messenger.iconSizes),
-      control: { type: 'select' },
+      default: 'md',
+      control: { type: 'select', options: Object.keys(defaultTheme.messenger.iconSizes) },
     },
     buttonSize: {
-      options: Object.keys(defaultTheme.messenger.space),
-      control: { type: 'select' },
+      control: { type: 'select', options: Object.keys(defaultTheme.messenger.space) },
     },
     highlightColor: {
-      options: Object.keys(defaultTheme.messenger.colors),
-      control: { type: 'select', value: IconButton.defaultProps.highlightColor },
+      control: {
+        type: 'select',
+        value: IconButton.defaultProps.highlightColor,
+        options: Object.keys(defaultTheme.messenger.colors),
+      },
     },
     backgroundColor: {
-      options: Object.keys(defaultTheme.messenger.colors),
-      control: { type: 'select', value: IconButton.defaultProps.backgroundColor },
+      control: {
+        type: 'select',
+        value: IconButton.defaultProps.backgroundColor,
+        options: Object.keys(defaultTheme.messenger.colors),
+      },
     },
     primaryColor: {
-      control: { type: 'color', value: defaultTheme.palette.kale[600] },
+      defaultValue: defaultTheme.palette.kale[600],
+      control: { type: 'color' },
     },
     actionColor: {
-      control: { type: 'color', value: defaultTheme.palette.mint[400] },
+      defaultValue: defaultTheme.palette.mint[400],
+      control: { type: 'color' },
     },
     messageColor: {
-      control: { type: 'color', value: defaultTheme.palette.kale[700] },
+      defaultValue: defaultTheme.palette.kale[700],
+      control: { type: 'color' },
     },
   },
 }

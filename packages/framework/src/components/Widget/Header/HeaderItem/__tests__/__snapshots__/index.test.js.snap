@@ -193,10 +193,6 @@ exports[`HeaderItem renders 1`] = `
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
-.c0:hover {
-  background: !important;
-}
-
 <button
   class="c0 c1"
   data-garden-id="buttons.icon_button"
