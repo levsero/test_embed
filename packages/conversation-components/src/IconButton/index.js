@@ -22,6 +22,8 @@ const StyledIconButton = styled(IconButton)`
     &:hover {
       background-color: ${(props) =>
         rgba(props.theme.messenger.colors[props.highlightColor], 0.08)};
+      color: ${(props) =>
+        getReadableMessengerColor(props.theme.messenger.colors[props.backgroundColor], '#000000')}}
     }
 
     &:active,
