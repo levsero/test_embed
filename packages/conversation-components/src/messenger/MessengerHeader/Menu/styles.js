@@ -45,7 +45,6 @@ const ChannelIcon = styled.div`
 
 const MenuIcon = styled(MenuSvg)`
   transform: rotate(90deg);
-  color: ${(props) => props.theme.palette.white};
 `
 
 const MenuTrigger = styled.div`
