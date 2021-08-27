@@ -1,16 +1,9 @@
 import { rgba } from 'polished'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { defaultTheme } from 'src/ThemeProvider'
 import getReadableMessengerColor from 'src/ThemeProvider/getReadableMessengerColor'
-
-const getAccessibleColors = (backgroundColor) => {
-  return css`
-    background-color: ${backgroundColor};
-    color: ${getReadableMessengerColor(backgroundColor)};
-  `
-}
 
 const StyledIconButton = styled(IconButton)`
   svg {
@@ -21,19 +14,20 @@ const StyledIconButton = styled(IconButton)`
   &&& {
     width: ${(props) => props.theme.messenger.space[props.buttonSize]};
     height: ${(props) => props.theme.messenger.space[props.buttonSize]};
-    ${(props) => getAccessibleColors(props.theme.messenger.colors[props.backgroundColor])}
+    background-color: ${(props) => props.theme.messenger.colors[props.backgroundColor]};
+    color: ${(props) =>
+      getReadableMessengerColor(props.theme.messenger.colors[props.backgroundColor])};
     align-self: center;
 
     &:hover {
-      ${(props) =>
-        getAccessibleColors(rgba(props.theme.messenger.colors[props.highlightColor], 0.2))}
+      background-color: ${(props) =>
+        rgba(props.theme.messenger.colors[props.highlightColor], 0.08)};
     }
 
     &:active,
     &[aria-pressed='true'],
     &[aria-pressed='mixed'] {
-      ${(props) =>
-        getAccessibleColors(rgba(props.theme.messenger.colors[props.highlightColor], 0.35))}
+      background-color: ${(props) => rgba(props.theme.messenger.colors[props.highlightColor], 0.2)};
     }
 
     &[data-garden-focus-visible] {
