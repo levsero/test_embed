@@ -1,8 +1,10 @@
 import { rem } from 'polished'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import MenuSvg from '@zendeskgarden/svg-icons/src/16/overflow-stroke.svg'
 import { Item, Menu } from 'src/Dropdown'
 import dirStyles from 'src/utils/dirStyles'
+
+const animatedDuration = 0.2
 
 const HeaderMenu = styled(Menu)`
   border-radius: ${(props) => rem(20, props.theme.baseFontSize)};
@@ -46,4 +48,19 @@ const MenuIcon = styled(MenuSvg)`
   color: ${(props) => props.theme.palette.white};
 `
 
-export { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon }
+const MenuTrigger = styled.div`
+  transition: opacity ${animatedDuration}s ease-in;
+
+  ${(props) => {
+    if (props.state === 'entered') {
+      return css`
+        opacity: 1;
+      `
+    }
+    return css`
+      opacity: 0;
+    `
+  }};
+`
+
+export { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon, MenuTrigger }
