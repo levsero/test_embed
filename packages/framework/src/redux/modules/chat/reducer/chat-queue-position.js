@@ -1,5 +1,5 @@
 import { CONNECTION_STATUSES } from 'src/constants/chat'
-import { SDK_CHAT_QUEUE_POSITION, SDK_CONNECTION_UPDATE } from '../chat-action-types'
+import { SDK_CHAT_QUEUE_POSITION, SDK_CONNECTION_UPDATE, CHAT_DROPPED } from '../chat-action-types'
 
 const initialState = 0
 
@@ -14,6 +14,8 @@ const queuePosition = (state = initialState, action = {}) => {
         return initialState
       }
       return state
+    case CHAT_DROPPED:
+      return initialState
     default:
       return state
   }
