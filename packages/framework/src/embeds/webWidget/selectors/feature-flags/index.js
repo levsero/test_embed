@@ -1,7 +1,7 @@
 import { store as persistenceStore } from 'src/framework/services/persistence'
 import logger from 'src/util/logger'
 import { inDebugMode } from 'src/util/runtime'
-import features from './features'
+import features, { updateFeatures } from './features'
 
 const featurePrefix = 'feature-'
 const getFullStorageName = (name) => `${persistenceStore.prefix}${featurePrefix}${name}`
@@ -55,5 +55,7 @@ const isFeatureEnabled = (stateOrConfig, name) => {
 
   return Boolean(feature.getArturoValue(stateOrConfig))
 }
+
+export { updateFeatures }
 
 export default isFeatureEnabled

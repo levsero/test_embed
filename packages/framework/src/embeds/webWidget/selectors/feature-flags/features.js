@@ -2,6 +2,12 @@
 // Do not import from any other file
 // localStorage.setItem(`ZD-feature-web_widget_prefetch_widget_container`, true)
 
+let features = {}
+
+export const updateFeatures = (updatedFeatures) => {
+  features = updatedFeatures
+}
+
 export default {
   web_widget_prechat_form_visible_departments: {
     defaultValue: false,
@@ -17,9 +23,13 @@ export default {
   web_widget_messenger_animations_disabled: {
     defaultValue: false,
   },
+  web_widget_messenger_file_uploads: {
+    defaultValue: false,
+    getArturoValue: () => features.fileUploads,
+  },
   log_all_messenger_errors: {
     defaultValue: false,
-    getArturoValue: (config) => config?.logMessengerErrors,
+    getArturoValue: () => features.logMessengerErrors,
   },
   web_widget_prefetch_widget_container: {
     defaultValue: false,
