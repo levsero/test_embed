@@ -8,7 +8,7 @@ const Input = styled.input`
 const FileInputButton = styled(IconButton)`
   &&& {
     align-self: flex-end;
-    margin-right: ${(props) => props.theme.messenger.space.xxs};
+    margin-right: ${(props) => props.theme.messenger.space.xs};
   }
 `
 
