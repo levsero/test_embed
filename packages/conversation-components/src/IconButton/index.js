@@ -16,16 +16,33 @@ const StyledIconButton = styled(IconButton)`
     height: ${(props) => props.theme.messenger.space[props.buttonSize]};
     background-color: ${(props) => props.theme.messenger.colors[props.backgroundColor]};
     color: ${(props) =>
-      getReadableMessengerColor(props.theme.messenger.colors[props.backgroundColor])};
+      props.backgroundColor === 'primaryBackground'
+        ? getReadableMessengerColor(
+            props.theme.messenger.colors[props.backgroundColor],
+            props.theme.palette.grey[500]
+          )
+        : getReadableMessengerColor(
+            props.theme.messenger.colors[props.backgroundColor],
+            props.theme.palette.grey[800],
+            props.theme.palette.white
+          )};
     align-self: center;
 
     &:hover {
       background-color: ${(props) =>
         rgba(props.theme.messenger.colors[props.highlightColor], 0.08)};
       color: ${(props) =>
-        getReadableMessengerColor(props.theme.messenger.colors[props.backgroundColor], '#000000')}}
+        props.backgroundColor === 'primaryBackground'
+          ? getReadableMessengerColor(
+              props.theme.messenger.colors[props.backgroundColor],
+              props.theme.palette.grey[600]
+            )
+          : getReadableMessengerColor(
+              props.theme.messenger.colors[props.backgroundColor],
+              props.theme.palette.black,
+              props.theme.palette.white
+            )};
     }
-
     &:active,
     &[aria-pressed='true'],
     &[aria-pressed='mixed'] {
@@ -35,6 +52,17 @@ const StyledIconButton = styled(IconButton)`
     &[data-garden-focus-visible] {
       box-shadow: ${(props) =>
         props.theme.shadows.md(rgba(props.theme.messenger.colors[props.highlightColor], 0.2))};
+      color: ${(props) =>
+        props.backgroundColor === 'primaryBackground'
+          ? getReadableMessengerColor(
+              props.theme.messenger.colors[props.backgroundColor],
+              props.theme.palette.grey[500]
+            )
+          : getReadableMessengerColor(
+              props.theme.messenger.colors[props.backgroundColor],
+              props.theme.palette.grey[800],
+              props.theme.palette.white
+            )};
     }
 
     /* We have to style this as a child of the button in order to access the theme props */
