@@ -53,7 +53,10 @@ const ImageMessage = ({
         >
           <ParticipantImage src={mediaUrl} alt={alt} isPrimaryParticipant={isPrimaryParticipant} />
           <OpenImageText>
-            {labels.openImage} <NewWindowIcon />
+            <span>
+              {labels.openImage}&nbsp;
+              <NewWindowIcon />
+            </span>
           </OpenImageText>
         </ImageContainerLink>
         {hasText && (

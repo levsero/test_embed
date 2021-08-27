@@ -1,3 +1,4 @@
+import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
 import ImageMessage from '../'
 
@@ -20,14 +21,25 @@ describe('ImageMessage', () => {
     expect(getByText('Some message')).toBeInTheDocument()
   })
 
-  it('open in a new tab has the correct css display value', async () => {
+  it('displays "open in a new tab" when focused', async () => {
     const { getByText } = renderComponent({
       text: 'Some message',
     })
-    const imageText = getByText('Open in a new tab')
+    const imageText = getByText('Open in a new tab').closest('div')
     expect(imageText).toBeInTheDocument()
     expect(imageText).toHaveStyleRule('display, none')
     await imageText.focus()
-    expect(imageText).toHaveStyleRule('display, block')
+    expect(imageText).toHaveStyleRule('display, flex')
+  })
+
+  it('displays "open in a new tab" when hovering', () => {
+    const { getByText } = renderComponent({
+      text: 'Some message',
+    })
+    const imageText = getByText('Open in a new tab').closest('div')
+    expect(imageText).toBeInTheDocument()
+    expect(imageText).toHaveStyleRule('display, none')
+    userEvent.hover(imageText)
+    expect(imageText).toHaveStyleRule('display, flex')
   })
 })

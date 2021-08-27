@@ -11,16 +11,14 @@ const PrimaryParticipantImage = styled(Image)`
 `
 
 const OtherParticipantImage = styled(Image)`
-  width: ${(props) => props.theme.messenger.space.imageWidth};
+  width: ${(props) => props.theme.messenger.space.otherImageWidth};
 `
 
-const OpenImageText = styled.p`
+const OpenImageText = styled.div`
   display: none;
   position: absolute;
   top: calc(${(props) => props.theme.messenger.space.imageHeight} / 2);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+  justify-content: center;
   color: #fff;
   width: 100%;
   z-index: 1;
@@ -32,8 +30,8 @@ const OpenImageText = styled.p`
 const ImageContainerLink = styled.a`
   &:hover,
   &:focus {
-    p {
-      display: block;
+    ${OpenImageText} {
+      display: flex;
     }
 
     &:before {
@@ -43,7 +41,7 @@ const ImageContainerLink = styled.a`
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 1;
       height: ${(props) => props.theme.messenger.space.imageHeight};
     }
