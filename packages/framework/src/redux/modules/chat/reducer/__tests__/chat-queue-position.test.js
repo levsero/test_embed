@@ -1,6 +1,9 @@
 import { CONNECTION_STATUSES } from 'src/constants/chat'
-import { SDK_CHAT_QUEUE_POSITION } from 'src/redux/modules/chat/chat-action-types'
-import { SDK_CONNECTION_UPDATE } from 'src/redux/modules/chat/chat-action-types'
+import {
+  SDK_CHAT_QUEUE_POSITION,
+  SDK_CONNECTION_UPDATE,
+  CHAT_DROPPED,
+} from 'src/redux/modules/chat/chat-action-types'
 import { testReducer } from 'src/util/testHelpers'
 import chatQueuePosition from '../chat-queue-position'
 
@@ -24,6 +27,13 @@ testReducer(chatQueuePosition, [
     },
     initialState: 1,
     expected: 5,
+  },
+  {
+    action: {
+      type: CHAT_DROPPED,
+    },
+    initialState: 2,
+    expected: 0,
   },
   {
     action: {
