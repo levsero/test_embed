@@ -10,7 +10,7 @@ describe('FileInput', () => {
   }
   const renderComponent = (props = {}) => render(<FileInput {...defaultProps} {...props} />)
 
-  it('renders the back button with an aria-label', () => {
+  it('renders the file upload button with an aria-label', () => {
     const { getByLabelText } = renderComponent()
     expect(getByLabelText('Upload file')).toBeInTheDocument()
   })
