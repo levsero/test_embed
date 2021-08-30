@@ -1,4 +1,5 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import logger from 'redux-logger'
 import composer from 'src/apps/messenger/features/footer/store'
 import header from 'src/apps/messenger/features/header/store'
 import i18n from 'src/apps/messenger/features/i18n/store'
@@ -14,16 +15,27 @@ import integrations from 'src/apps/messenger/store/integrations'
 import rememberConversationHistory from 'src/apps/messenger/store/rememberConversationHistory'
 import unreadIndicator from 'src/apps/messenger/store/unreadIndicator'
 import createResettableReducer from 'src/apps/messenger/utils/createResettableReducer'
+import { store as persistence } from 'src/framework/services/persistence'
+import { inDebugMode } from 'src/util/runtime'
 import cookies from './cookies'
 import visibility from './visibility'
 
 const createStore = () => {
   const store = configureStore({
-    devTools: __DEV__
-      ? {
-          name: 'Zendesk Messenger',
-        }
-      : undefined,
+    devTools:
+      __DEV__ || inDebugMode()
+        ? {
+            name: 'Zendesk Messenger',
+          }
+        : undefined,
+    middleware: (getDefaultMiddleware) => {
+      if (!__DEV__ && persistence.get('debug')) {
+        return getDefaultMiddleware().concat(logger)
+      }
+
+      return getDefaultMiddleware()
+    },
+
     reducer: combineReducers({
       visibility: createResettableReducer(visibility),
       i18n,
