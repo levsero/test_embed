@@ -7,7 +7,7 @@ import {
   saveDraft,
 } from 'src/apps/messenger/features/footer/store'
 import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
-import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
+import { sendMessage, sendFile } from 'src/apps/messenger/features/messageLog/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 
@@ -17,6 +17,11 @@ const Footer = () => {
   const isComposerEnabled = useSelector(getIsComposerEnabled)
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
+  const onFilesSelected = (files) => {
+    Array.from(files).forEach((file) => {
+      dispatch(sendFile(file))
+    })
+  }
 
   const onSendMessage = (message) => {
     if (message.trim().length === 0) {
@@ -58,6 +63,7 @@ const Footer = () => {
       initialValue={composerDraft}
       onChange={onChange}
       onSendMessage={onSendMessage}
+      onFilesSelected={onFilesSelected}
     />
   )
 }

@@ -55,6 +55,11 @@ export const sendMessage = async (message, payload, metadata) => {
   return conversation.sendMessage(message, payload, metadata)
 }
 
+export const sendFile = async (file) => {
+  const conversation = await getActiveConversation()
+  return conversation.sendFile(file)
+}
+
 export const sendFormResponse = async (fields, formId) => {
   const conversation = await getActiveConversation()
   return conversation.sendFormResponse(fields, formId)

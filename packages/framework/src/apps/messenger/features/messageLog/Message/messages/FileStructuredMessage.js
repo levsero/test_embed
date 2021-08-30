@@ -8,7 +8,7 @@ const FileStructuredMessage = ({
     isFirstInGroup,
     isFirstMessageInAuthorGroup,
     isLastInGroup,
-    isPrimaryParticipant,
+    role,
     isLastMessageInAuthorGroup,
     mediaSize,
     mediaUrl,
@@ -17,6 +17,7 @@ const FileStructuredMessage = ({
     received,
   },
 }) => {
+  const isPrimaryParticipant = role === 'appUser'
   return (
     <FileMessage
       isPrimaryParticipant={isPrimaryParticipant}

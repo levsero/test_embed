@@ -4,7 +4,7 @@ import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import { messageReceived } from 'src/apps/messenger/features/suncoConversation/store'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
-import reducer, { sendMessage } from '../store'
+import reducer, { sendMessage, sendFile } from '../store'
 
 jest.mock('src/apps/messenger/api/sunco')
 
@@ -898,6 +898,71 @@ describe('messages store', () => {
             type: 'text',
             status: 'sending',
             text: 'Some message',
+          }),
+        ])
+      )
+    })
+  })
+
+  describe('sendFile', () => {
+    it('adds an optimistic message into the message log when sent', () => {
+      const mockClient = {
+        sendFile: async () => {},
+      }
+      jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
+      URL.createObjectURL = () => 'mockurl'
+      const store = createStore()
+
+      store.dispatch(sendFile({ type: 'image/png', name: 'filename.img' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'image',
+            status: 'sending',
+            name: 'filename.img',
+          }),
+        ])
+      )
+    })
+
+    it('updates the status to sent on success', async () => {
+      const mockSendFile = async () => {
+        return { body: { messageId: 'messageId' } }
+      }
+      jest.spyOn(suncoClient, 'sendFile').mockImplementation(mockSendFile)
+      URL.createObjectURL = () => 'mockurl'
+      const store = createStore()
+
+      await store.dispatch(sendFile({ type: 'image/png', name: 'filename.img' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'image',
+            status: 'sent',
+            name: 'filename.img',
+          }),
+        ])
+      )
+    })
+
+    it('updates the status to failed on failure', async () => {
+      const mockSendFile = async () => {
+        return { body: { messageId: '' } }
+      }
+      jest.spyOn(suncoClient, 'sendFile').mockImplementation(mockSendFile)
+      URL.createObjectURL = () => 'mockurl'
+      const store = createStore()
+
+      await store.dispatch(sendFile({ type: 'image/png', name: 'filename.img' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'image',
+            status: 'failed',
+            name: 'filename.img',
           }),
         ])
       )
