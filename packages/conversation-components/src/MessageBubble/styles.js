@@ -23,6 +23,7 @@ const Bubble = styled.div`
 
   transition: ${transition(messageSteps.messageBorder, 'border-radius')},
     ${transition(messageSteps.messageStatusOpacity, 'opacity')};
+  overflow: hidden;
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`
