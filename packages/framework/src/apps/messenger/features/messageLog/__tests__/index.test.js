@@ -1,14 +1,15 @@
-import { waitFor } from '@testing-library/dom'
+import { waitFor, fireEvent } from '@testing-library/dom'
 import MessageLog from 'src/apps/messenger/features/messageLog'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import { activityReceived } from 'src/apps/messenger/features/suncoConversation/store'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 
+let mockRetryFetchMessages = jest.fn()
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),
   isFetchingHistory: false,
   errorFetchingHistory: false,
-  retryFetchMessages: jest.fn(),
+  retryFetchMessages: mockRetryFetchMessages,
 }))
 
 describe('MessageLog', () => {
@@ -197,6 +198,27 @@ describe('MessageLog', () => {
 
       expect(getByText('First quick reply')).toBeInTheDocument()
       expect(queryByLabelText('{{name}} is typing...')).not.toBeInTheDocument() // how to interpolate properly?
+    })
+  })
+
+  describe('When messages fail to load', () => {
+    it('renders an option to retry', () => {
+      const { getByText, store } = renderComponent()
+      store.dispatch({
+        type: 'messageLog/fetchMessages/rejected',
+      })
+      const retryButton = getByText('Tap to retry')
+
+      expect(retryButton).toBeInTheDocument()
+    })
+
+    it('retryFetchMessages is called when tap to retry is clicked', () => {
+      const { getByText, store } = renderComponent()
+      store.dispatch({ type: 'messageLog/fetchMessages/rejected' })
+      const retryButton = getByText('Tap to retry')
+      fireEvent.click(retryButton)
+
+      expect(mockRetryFetchMessages).toHaveBeenCalled()
     })
   })
 })

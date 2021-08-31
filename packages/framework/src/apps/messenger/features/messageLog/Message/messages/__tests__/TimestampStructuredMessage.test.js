@@ -4,7 +4,7 @@ import TimestampStructuredMessage from '../TimestampStructuredMessage'
 const renderComponent = (props = {}) => {
   const mergedProps = {
     message: {
-      received: new Date('11:59 PM September 28, 2020').getTime(),
+      received: new Date('11:59 PM September 28, 2020').getTime() / 1000,
       ...props,
     },
   }
