@@ -1,7 +1,6 @@
-import { rem, rgba } from 'polished'
+import { rem } from 'polished'
 import styled from 'styled-components'
 import { Avatar as GardenAvatar } from '@zendeskgarden/react-avatars'
-import { IconButton as GardenIconButton } from '@zendeskgarden/react-buttons'
 import CloseSVG from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 import dirStyles from 'src/utils/dirStyles'
 
@@ -63,37 +62,6 @@ const Description = styled.div`
 
 const CloseIcon = styled(CloseSVG)``
 
-const IconButton = styled(GardenIconButton)`
-  &&& {
-    width: ${(props) => props.theme.messenger.space.xl};
-    height: ${(props) => props.theme.messenger.space.xl};
-    color: ${(props) => props.theme.messenger.colors.primaryText};
-    align-self: center;
-
-    &:hover {
-      background-color: ${(props) => rgba(props.theme.messenger.colors.primaryText, 0.2)};
-    }
-
-    &:active,
-    &[aria-pressed='true'],
-    &[aria-pressed='mixed'] {
-      background-color: ${(props) => rgba(props.theme.messenger.colors.primaryText, 0.35)};
-    }
-
-    &[data-garden-focus-visible] {
-      box-shadow: ${(props) =>
-        props.theme.shadows.md(rgba(props.theme.messenger.colors.primaryText, 0.2))};
-    }
-
-    /* We have to style this as a child of the button in order to access the theme props */
-    svg {
-      color: ${(props) => props.theme.messenger.colors.primaryText};
-      width: ${(props) => props.theme.messenger.iconSizes.md};
-      height: ${(props) => props.theme.messenger.iconSizes.md};
-    }
-  }
-`
-
 const HeaderControl = styled.div`
   display: flex;
   flex-direction: column;
@@ -117,6 +85,5 @@ export {
   CompactContainer,
   Details,
   CloseIcon,
-  IconButton,
   HeaderControl,
 }

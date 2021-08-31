@@ -30,29 +30,29 @@ Snapshot Diff:
 @@ -141,1 +141,1 @@
 - .c18 .c6:not(:first-of-type):not(:last-of-type) {
 + .c19 .c6:not(:first-of-type):not(:last-of-type) {
-@@ -309,1 +309,1 @@
+@@ -299,1 +299,1 @@
 - .c15 {
 + .c16 {
-@@ -315,1 +315,1 @@
+@@ -305,1 +305,1 @@
 - .c17 {
 + .c18 {
-@@ -320,1 +320,1 @@
+@@ -310,1 +310,1 @@
 - .c17 svg {
 + .c18 svg {
-@@ -326,3 +326,3 @@
+@@ -316,3 +316,3 @@
 - .c17 svg:hover path,
 - .c17 svg:active path,
 - .c17 svg:focus path {
 + .c18 svg:hover path,
 + .c18 svg:active path,
 + .c18 svg:focus path {
-@@ -332,1 +332,1 @@
+@@ -322,1 +322,1 @@
 - .c17 svg path {
 + .c18 svg path {
-@@ -336,1 +336,1 @@
+@@ -326,1 +326,1 @@
 - .c16 {
 + .c17 {
-@@ -359,1 +359,6 @@
+@@ -349,1 +349,6 @@
 - .c14 {
 + .c13 {
 +   margin-bottom: 1.0714285714285714rem;
@@ -60,22 +60,22 @@ Snapshot Diff:
 + }
 + 
 + .c15 {
-@@ -365,3 +370,3 @@
+@@ -355,3 +360,3 @@
 - .c14:hover,
 - .c14:focus,
 - .c14:active {
 + .c15:hover,
 + .c15:focus,
 + .c15:active {
-@@ -416,1 +421,1 @@
+@@ -406,1 +411,1 @@
 - .c13 {
 + .c14 {
-@@ -421,2 +426,2 @@
+@@ -411,2 +416,2 @@
 - .c13 a,
 - .c13 a span {
 + .c14 a,
 + .c14 a span {
-@@ -426,1 +431,1 @@
+@@ -416,1 +421,1 @@
 - .c13 a:hover {
 + .c14 a:hover {
 `;
@@ -345,19 +345,9 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   height: 1rem !important;
 }
 
-.c5 svg,
-.c5 path {
-  fill: #FFFFFF !important;
-  color: #FFFFFF !important;
-}
-
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
-}
-
-.c5:hover {
-  background: #195055 !important;
 }
 
 .c9 {
@@ -637,29 +627,29 @@ Snapshot Diff:
 @@ -141,1 +141,1 @@
 - .c19 .c6:not(:first-of-type):not(:last-of-type) {
 + .c18 .c6:not(:first-of-type):not(:last-of-type) {
-@@ -309,1 +309,1 @@
+@@ -299,1 +299,1 @@
 - .c16 {
 + .c15 {
-@@ -315,1 +315,1 @@
+@@ -305,1 +305,1 @@
 - .c18 {
 + .c17 {
-@@ -320,1 +320,1 @@
+@@ -310,1 +310,1 @@
 - .c18 svg {
 + .c17 svg {
-@@ -326,3 +326,3 @@
+@@ -316,3 +316,3 @@
 - .c18 svg:hover path,
 - .c18 svg:active path,
 - .c18 svg:focus path {
 + .c17 svg:hover path,
 + .c17 svg:active path,
 + .c17 svg:focus path {
-@@ -332,1 +332,1 @@
+@@ -322,1 +322,1 @@
 - .c18 svg path {
 + .c17 svg path {
-@@ -336,1 +336,1 @@
+@@ -326,1 +326,1 @@
 - .c17 {
 + .c16 {
-@@ -359,6 +359,1 @@
+@@ -349,6 +349,1 @@
 - .c13 {
 -   margin-bottom: 1.0714285714285714rem;
 -   data-testid: talk--averageWaitTime;
@@ -667,22 +657,22 @@ Snapshot Diff:
 - 
 - .c15 {
 + .c14 {
-@@ -370,3 +365,3 @@
+@@ -360,3 +355,3 @@
 - .c15:hover,
 - .c15:focus,
 - .c15:active {
 + .c14:hover,
 + .c14:focus,
 + .c14:active {
-@@ -421,1 +416,1 @@
+@@ -411,1 +406,1 @@
 - .c14 {
 + .c13 {
-@@ -426,2 +421,2 @@
+@@ -416,2 +411,2 @@
 - .c14 a,
 - .c14 a span {
 + .c13 a,
 + .c13 a span {
-@@ -431,1 +426,1 @@
+@@ -421,1 +416,1 @@
 - .c14 a:hover {
 + .c13 a:hover {
 `;

@@ -93,9 +93,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   font-family: ${(props) => props.theme.messenger.fontFamily};
-  padding: ${(props) => props.theme.messenger.space.sm}
-    ${(props) => props.theme.messenger.space.sixteen};
-  flex-shrink: 0;
+  flex-grow: 1;
   position: relative;
 `
 

@@ -13,4 +13,5 @@ const Template = (args) => <MessengerFooter {...args} />
 export const EmptyFooter = Template.bind()
 EmptyFooter.args = {
   onSendMessage: (value) => console.log('Footer send message: ', value),
+  onFilesSelected: (value) => console.log('Files have been selected: ', value),
 }

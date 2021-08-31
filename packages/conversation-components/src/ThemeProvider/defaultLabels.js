@@ -8,6 +8,9 @@ const defaultLabels = {
     sendButtonTooltip: 'Send a message',
     sendButtonAriaLabel: 'Send a message',
   },
+  fileUpload: {
+    fileUploadButtonAriaLabel: 'Upload file',
+  },
   fileMessage: {
     sizeInMB: (size) => `${size} MB`,
     sizeInKB: (size) => `${size} KB`,

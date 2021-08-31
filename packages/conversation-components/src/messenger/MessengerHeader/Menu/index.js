@@ -4,8 +4,9 @@ import Transition from 'react-transition-group/Transition'
 import { ThemeContext } from 'styled-components'
 import { Trigger } from '@zendeskgarden/react-dropdowns'
 import { Dropdown } from 'src/Dropdown'
+import IconButton from 'src/IconButton'
 import useLabels from 'src/hooks/useLabels'
-import { HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
+import { HeaderControl } from 'src/messenger/MessengerHeader/styles'
 import FBMessengerIcon from './FBMessengerIcon'
 import InstagramIcon from './InstagramIcon'
 import WhatsAppIcon from './WhatsAppIcon'
@@ -62,7 +63,14 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
             >
               <MenuTrigger state={state}>
                 <Trigger>
-                  <IconButton isPill={true} aria-label={labels.channelLinkingMenuAriaLabel}>
+                  <IconButton
+                    backgroundColor={'primary'}
+                    highlightColor={'primaryText'}
+                    buttonSize={'xl'}
+                    iconSize={'md'}
+                    isPill={true}
+                    aria-label={labels.channelLinkingMenuAriaLabel}
+                  >
                     <MenuIcon />
                   </IconButton>
                 </Trigger>
