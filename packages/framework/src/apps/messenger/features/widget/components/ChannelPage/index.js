@@ -22,10 +22,25 @@ import {
 import { Header } from './styles'
 
 const getLinkStatus = (integration) => {
+  if (integration.ignoreLinkRequest) return 'success'
   if (integration.errorFetchingLinkRequest) return 'error'
   if (integration.linkPending) return 'pending'
   if (integration.isFetchingLinkRequest || !integration.linkRequest.url) return 'loading'
   return 'success'
+}
+
+const getUrl = (integration, channelId, translate) => {
+  if (channelId === 'whatsapp')
+    return encodeURI(
+      `https://wa.me/${
+        integration.phoneNumber
+      }?text=${translate(
+        'embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message',
+        { whatsappCode: integration.linkRequest.code }
+      )}`
+    )
+
+  return integration.linkRequest.url
 }
 
 const ChannelPage = forwardRef((_props, ref) => {
@@ -35,25 +50,15 @@ const ChannelPage = forwardRef((_props, ref) => {
   const translate = useTranslate()
   const integration = useSelector((state) => selectIntegrationById(state, channelId))
   const isFullScreen = useSelector(getIsFullScreen)
-  let whatsAppUrl = undefined
-
-  if (channelId === 'whatsapp') {
-    const customWhatsappMessage = translate(
-      'embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message',
-      { whatsappCode: integration.linkRequest.code }
-    )
-    whatsAppUrl = encodeURI(
-      `https://wa.me/${integration.phoneNumber}?text=${customWhatsappMessage}`
-    )
-  }
 
   useEffect(() => {
-    if (!integration.linked) {
+    if (!integration.linked && !integration.ignoreLinkRequest) {
       dispatch(fetchLinkRequest({ channelId }))
     }
-  }, [integration.linked])
+  }, [integration.linked, integration.ignoreLinkRequest])
 
   const linkStatus = getLinkStatus(integration)
+  const url = getUrl(integration, channelId, translate)
 
   return (
     <ChannelLinkContainer ref={ref}>
@@ -70,6 +75,7 @@ const ChannelPage = forwardRef((_props, ref) => {
         <ChannelLinkWithUnlink
           channelId={channelId}
           pending={integration.unlinkPending}
+          businessUsername={integration.businessUsername}
           onDisconnect={() => {
             dispatch(unlinkIntegration({ channelId }))
           }}
@@ -81,6 +87,7 @@ const ChannelPage = forwardRef((_props, ref) => {
             <ChannelLinkWithButton
               channelId={channelId}
               url={integration.linkRequest.url}
+              businessUsername={integration.businessUsername}
               status={linkStatus}
               onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
               onLinkAttempted={() => {
@@ -90,8 +97,9 @@ const ChannelPage = forwardRef((_props, ref) => {
           ) : (
             <ChannelLinkWithQrCode
               channelId={channelId}
-              url={whatsAppUrl ? whatsAppUrl : integration.linkRequest.url}
+              url={url}
               qrCode={integration.linkRequest.qrCode}
+              businessUsername={integration.businessUsername}
               status={linkStatus}
               onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
               onLinkAttempted={() => {

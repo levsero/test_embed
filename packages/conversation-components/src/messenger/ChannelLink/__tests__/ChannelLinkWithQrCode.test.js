@@ -71,4 +71,19 @@ describe('<ChannelLinkWithQrCode>', () => {
       expect(onRetry).toHaveBeenCalled()
     })
   })
+
+  describe('when an integration with an account tag is included', () => {
+    it('updates the instructions to point to that @tag', () => {
+      const { getByText } = renderChannelLinkWithQrCode({
+        channelId: 'instagram',
+        url: 'https://instagram.com/totallycoolthing',
+        businessUsername: 'totallycoolthing',
+        status: 'success',
+      })
+
+      expect(
+        getByText('Scan the QR code to open Instagram. Follow @totallycoolthing to send a DM.')
+      ).toBeInTheDocument()
+    })
+  })
 })

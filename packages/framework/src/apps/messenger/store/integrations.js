@@ -46,10 +46,27 @@ export const unlinkIntegration = createAsyncThunk(
   }
 )
 
+export const setupRequestlessIntegrations = (integrations) => {
+  return integrations.map((integration) => {
+    switch (integration.type) {
+      case 'instagram':
+        return {
+          ...integration,
+          ignoreLinkRequest: true,
+          linkRequest: {
+            url: `https://instagram.com/${integration.businessUsername}`,
+          },
+        }
+      default:
+        return { ...integration }
+    }
+  })
+}
+
 export const fetchIntegrations = createAsyncThunk('integrations/fetch', async () => {
   const response = await fetchIntegrationsSunco()
 
-  return response?.body?.config?.integrations || []
+  return setupRequestlessIntegrations(response?.body?.config?.integrations || [])
 })
 
 const integrations = createSlice({
@@ -88,7 +105,7 @@ const integrations = createSlice({
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
           errorFetchingLinkRequest: false,
-          linkRequest: {},
+          linkRequest: integration.linkRequest || {},
         }
       })
 
