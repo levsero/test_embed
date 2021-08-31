@@ -5881,13 +5881,6 @@
     webpack-inject-plugin "^1.5.5"
     webpack-sources "^2.2.0"
 
-"@zendesk/conversation-components@*":
-  version "0.0.11"
-  resolved "https://zdrepo.jfrog.io/artifactory/api/npm/npm/@zendesk/conversation-components/-/@zendesk/conversation-components-0.0.11.tgz#2f88a147792f639321a2aa29ea4f14457f55e468"
-  integrity sha1-L4ihR3kvY5Mhoqop6k8URX9V5Gg=
-  dependencies:
-    prop-types "^15.7.2"
-
 "@zendeskgarden/container-buttongroup@^0.3.1":
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/container-buttongroup/-/container-buttongroup-0.3.6.tgz#12c16414a744758d7848380c3cb6306865fd570f"
