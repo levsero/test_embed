@@ -42,6 +42,7 @@ import MessengerHeader from './messenger/MessengerHeader'
 import FBMessengerIcon from './messenger/MessengerHeader/Menu/FBMessengerIcon'
 import InstagramIcon from './messenger/MessengerHeader/Menu/InstagramIcon'
 import WhatsAppIcon from './messenger/MessengerHeader/Menu/WhatsAppIcon'
+import Previewer from './messenger/Previewer'
 
 export {
   Animated,
@@ -81,6 +82,7 @@ export {
   useScroll,
   dirStyles,
   LauncherLabel,
+  Previewer,
 }
 
 export {
