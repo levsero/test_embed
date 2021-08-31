@@ -5,8 +5,6 @@ import { IconButton } from '@zendeskgarden/react-buttons'
 import { defaultTheme } from 'src/ThemeProvider'
 import getReadableMessengerColor from 'src/ThemeProvider/getReadableMessengerColor'
 
-const whitePrimaryBackground = 'primaryBackground'
-
 const StyledIconButton = styled(IconButton)`
   svg {
     width: ${(props) => props.theme.messenger.iconSizes[props.iconSize]};
@@ -17,8 +15,15 @@ const StyledIconButton = styled(IconButton)`
     width: ${(props) => props.theme.messenger.space[props.buttonSize]};
     height: ${(props) => props.theme.messenger.space[props.buttonSize]};
     background-color: ${(props) => props.theme.messenger.colors[props.backgroundColor]};
+    /*
+      IconButton needs to handle the icon color for white backgrounds (the assumed default
+      which we control), and for light and dark backgrounds for components like the
+      Header (configurable by users). This current implementation assumes a white background
+      as the default so if more than one default needed to be supported (e.g. we introduce a
+      dark mode), this would need to change.
+    */
     color: ${(props) =>
-      props.backgroundColor === whitePrimaryBackground
+      props.theme.messenger.colors[props.backgroundColor] === props.theme.palette.white
         ? getReadableMessengerColor(
             props.theme.messenger.colors[props.backgroundColor],
             props.theme.palette.grey[500]
@@ -32,8 +37,15 @@ const StyledIconButton = styled(IconButton)`
     &:hover {
       background-color: ${(props) =>
         rgba(props.theme.messenger.colors[props.highlightColor], 0.08)};
+      /*
+        IconButton needs to handle the icon color for white backgrounds (the assumed default
+        which we control), and for light and dark backgrounds for components like the
+        Header (configurable by users). This current implementation assumes a white background
+        as the default so if more than one default needed to be supported (e.g. we introduce a
+        dark mode), this would need to change.
+      */
       color: ${(props) =>
-        props.backgroundColor === whitePrimaryBackground
+        props.theme.messenger.colors[props.backgroundColor] === props.theme.palette.white
           ? getReadableMessengerColor(
               props.theme.messenger.colors[props.backgroundColor],
               props.theme.palette.grey[600]
