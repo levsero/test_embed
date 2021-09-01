@@ -40,7 +40,7 @@ const sendMessage = createAsyncThunk(
   }
 )
 
-const sendFile = createAsyncThunk('file/send', async (file) => {
+const sendFile = createAsyncThunk('file/send', async ({ file }) => {
   const response = await sendSuncoFile(file)
 
   if (response.body.messageId) {
@@ -134,7 +134,7 @@ const messagesSlice = createSlice({
       })
     },
     [sendFile.pending](state, action) {
-      const file = action.meta.arg
+      const file = action.meta.arg.file
       const type = file.type.startsWith('image/') ? 'image' : 'file'
 
       messagesAdapter.addOne(state, {

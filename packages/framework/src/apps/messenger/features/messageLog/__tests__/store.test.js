@@ -913,7 +913,7 @@ describe('messages store', () => {
       URL.createObjectURL = () => 'mockurl'
       const store = createStore()
 
-      store.dispatch(sendFile({ type: 'image/png', name: 'filename.img' }))
+      store.dispatch(sendFile({ file: { type: 'image/png', name: 'filename.img' } }))
 
       expect(getMessageLog(store.getState())).toEqual(
         expect.arrayContaining([
@@ -934,7 +934,7 @@ describe('messages store', () => {
       URL.createObjectURL = () => 'mockurl'
       const store = createStore()
 
-      await store.dispatch(sendFile({ type: 'image/png', name: 'filename.img' }))
+      await store.dispatch(sendFile({ file: { type: 'image/png', name: 'filename.img' } }))
 
       expect(getMessageLog(store.getState())).toEqual(
         expect.arrayContaining([
@@ -955,7 +955,7 @@ describe('messages store', () => {
       URL.createObjectURL = () => 'mockurl'
       const store = createStore()
 
-      await store.dispatch(sendFile({ type: 'image/png', name: 'filename.img' }))
+      await store.dispatch(sendFile({ file: { type: 'image/png', name: 'filename.img' } }))
 
       expect(getMessageLog(store.getState())).toEqual(
         expect.arrayContaining([

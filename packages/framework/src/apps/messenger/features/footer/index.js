@@ -19,7 +19,7 @@ const Footer = () => {
   const composerDraft = useSelector(getComposerDraft)
   const onFilesSelected = (files) => {
     Array.from(files).forEach((file) => {
-      dispatch(sendFile(file))
+      dispatch(sendFile({ file }))
     })
   }
 
