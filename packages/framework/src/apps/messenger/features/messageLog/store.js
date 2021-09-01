@@ -1,5 +1,9 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { sendMessage as sendSuncoMessage, fetchMessages } from 'src/apps/messenger/api/sunco'
+import {
+  sendMessage as sendSuncoMessage,
+  fetchMessages,
+  sendFile as sendSuncoFile,
+} from 'src/apps/messenger/api/sunco'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import {
   fetchExistingConversation,
@@ -35,6 +39,18 @@ const sendMessage = createAsyncThunk(
     throw new Error('Message failed to send')
   }
 )
+
+const sendFile = createAsyncThunk('file/send', async (file) => {
+  const response = await sendSuncoFile(file)
+
+  if (response.body.messageId) {
+    return {
+      message: response.body.messageId,
+    }
+  }
+
+  throw new Error('Message failed to send')
+})
 
 const messagesAdapter = createEntityAdapter({
   selectId: (message) => message._id,
@@ -117,6 +133,35 @@ const messagesSlice = createSlice({
         status: 'sent',
       })
     },
+    [sendFile.pending](state, action) {
+      const file = action.meta.arg
+      const type = file.type.startsWith('image/') ? 'image' : 'file'
+
+      messagesAdapter.addOne(state, {
+        _id: file.messageId ?? action.meta.requestId,
+        payload: action.meta.arg.payload,
+        type,
+        role: 'appUser',
+        received: Date.now() / 1000,
+        isOptimistic: true,
+        status: 'sending',
+        mediaSize: file.size,
+        mediaUrl: URL.createObjectURL(file),
+        name: file.name,
+      })
+    },
+    [sendFile.rejected](state, action) {
+      messagesAdapter.upsertOne(state, {
+        _id: action.meta.arg.messageId ?? action.meta.requestId,
+        status: 'failed',
+      })
+    },
+    [sendFile.fulfilled](state, action) {
+      messagesAdapter.upsertOne(state, {
+        _id: action.meta.arg.messageId ?? action.meta.requestId,
+        status: 'sent',
+      })
+    },
   },
 })
 
@@ -138,6 +183,7 @@ export {
   fetchPaginatedMessages,
   getAllMessages,
   getMessage,
+  sendFile,
 }
 
 export default messagesSlice.reducer
