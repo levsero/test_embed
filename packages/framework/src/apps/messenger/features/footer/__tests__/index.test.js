@@ -131,8 +131,48 @@ describe('Footer', () => {
         target: { files: ['file-one.pdf', 'file-two.jpg'] },
       })
 
-      expect(messageLogStore.sendFile).toHaveBeenCalledWith({ file: 'file-one.pdf' })
-      expect(messageLogStore.sendFile).toHaveBeenCalledWith({ file: 'file-two.jpg' })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: 'file-one.pdf',
+        failDueToTooMany: false,
+      })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: 'file-two.jpg',
+        failDueToTooMany: false,
+      })
+    })
+
+    it('has a limit of 25 files at a time', () => {
+      const files = new Array(30)
+        .fill(null)
+        .map((_, index) => ({ name: `file-${index}.png`, type: 'image/png' }))
+
+      jest.spyOn(messageLogStore, 'sendFile')
+
+      renderComponent()
+      fireEvent.change(document.querySelector('input'), {
+        target: { files },
+      })
+
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: files[0],
+        failDueToTooMany: false,
+      })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: files[15],
+        failDueToTooMany: false,
+      })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: files[24],
+        failDueToTooMany: false,
+      })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: files[25],
+        failDueToTooMany: true,
+      })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({
+        file: files[26],
+        failDueToTooMany: true,
+      })
     })
   })
 

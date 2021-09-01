@@ -23,6 +23,7 @@ jest.mock('@zendesk/client-i18n-tools')
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WWI18N'
 global.noop = () => {}
+global.URL.createObjectURL = jest.fn()
 
 const mockMedia = () => ({
   matches: false,

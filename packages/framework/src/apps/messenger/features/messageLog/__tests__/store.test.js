@@ -1,4 +1,6 @@
+import { waitFor } from '@testing-library/dom'
 import { MESSAGE_STATUS } from '@zendesk/conversation-components'
+import { SuncoAPIError } from '@zendesk/sunco-js-client'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import { messageReceived } from 'src/apps/messenger/features/suncoConversation/store'
@@ -947,9 +949,9 @@ describe('messages store', () => {
       )
     })
 
-    it('updates the status to failed on failure', async () => {
+    it('updates the status to failed with unknown reason when no reason provided from sunco-js-client', async () => {
       const mockSendFile = async () => {
-        return { body: { messageId: '' } }
+        throw new Error('something failed for some reason')
       }
       jest.spyOn(suncoClient, 'sendFile').mockImplementation(mockSendFile)
       URL.createObjectURL = () => 'mockurl'
@@ -963,8 +965,59 @@ describe('messages store', () => {
             type: 'image',
             status: 'failed',
             name: 'filename.img',
+            errorReason: 'unknown',
           }),
         ])
+      )
+    })
+
+    it('updates the status to failed with reason "too-many" failDueToTooMany is true', async () => {
+      const mockSendFile = async () => {
+        throw new Error('something failed for some reason')
+      }
+      jest.spyOn(suncoClient, 'sendFile').mockImplementation(mockSendFile)
+      URL.createObjectURL = () => 'mockurl'
+      const store = createStore()
+
+      await store.dispatch(
+        sendFile({ file: { type: 'image/png', name: 'filename.img' }, failDueToTooMany: true })
+      )
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'image',
+            status: 'failed',
+            name: 'filename.img',
+            errorReason: 'too-many',
+          }),
+        ])
+      )
+    })
+
+    it('updates the status with a reason when failed', async () => {
+      const mockSendFile = async () => {
+        throw new SuncoAPIError('Mock error', {
+          reason: 'some fake reason',
+        })
+      }
+      jest.spyOn(suncoClient, 'sendFile').mockImplementation(mockSendFile)
+      URL.createObjectURL = () => 'mockurl'
+      const store = createStore()
+
+      await store.dispatch(sendFile({ file: { type: 'image/png', name: 'filename.img' } }))
+
+      await waitFor(() =>
+        expect(getMessageLog(store.getState())).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              type: 'image',
+              status: 'failed',
+              name: 'filename.img',
+              errorReason: 'some fake reason',
+            }),
+          ])
+        )
       )
     })
   })

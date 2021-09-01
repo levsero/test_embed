@@ -20,8 +20,8 @@ const Footer = () => {
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
   const onFilesSelected = (files) => {
-    Array.from(files).forEach((file) => {
-      dispatch(sendFile({ file }))
+    Array.from(files).forEach((file, index) => {
+      dispatch(sendFile({ file, failDueToTooMany: index >= 25 }))
     })
   }
 

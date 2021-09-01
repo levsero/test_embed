@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { SuncoAPIError } from '@zendesk/sunco-js-client'
 import {
   sendMessage as sendSuncoMessage,
   fetchMessages,
@@ -40,17 +41,37 @@ const sendMessage = createAsyncThunk(
   }
 )
 
-const sendFile = createAsyncThunk('file/send', async ({ file }) => {
-  const response = await sendSuncoFile(file)
+const sendFile = createAsyncThunk(
+  'file/send',
+  async ({ file, failDueToTooMany }, { rejectWithValue }) => {
+    try {
+      if (failDueToTooMany) {
+        return rejectWithValue({
+          errorReason: 'too-many',
+        })
+      }
 
-  if (response.body.messageId) {
-    return {
-      message: response.body.messageId,
+      const response = await sendSuncoFile(file)
+
+      if (!response.body.messageId) {
+        return rejectWithValue({
+          errorReason: 'unknown',
+        })
+      }
+
+      if (response.body.messageId) {
+        return {}
+      }
+    } catch (err) {
+      if (err instanceof SuncoAPIError) {
+        return rejectWithValue({ errorReason: err.suncoErrorInfo?.reason || 'unknown' })
+      }
+      return rejectWithValue({
+        errorReason: 'unknown',
+      })
     }
   }
-
-  throw new Error('Message failed to send')
-})
+)
 
 const messagesAdapter = createEntityAdapter({
   selectId: (message) => message._id,
@@ -154,6 +175,7 @@ const messagesSlice = createSlice({
       messagesAdapter.upsertOne(state, {
         _id: action.meta.arg.messageId ?? action.meta.requestId,
         status: 'failed',
+        errorReason: action.payload?.errorReason,
       })
     },
     [sendFile.fulfilled](state, action) {
