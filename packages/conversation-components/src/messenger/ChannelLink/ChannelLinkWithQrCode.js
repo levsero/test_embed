@@ -3,18 +3,25 @@ import QRCode from 'qrcode.react'
 import useLabels from 'src/hooks/useLabels'
 import { channelIcons } from './channelIcons'
 import {
-  Container,
-  Title,
-  Subtitle,
+  BigLoadingSpinner,
   ChannelIcon,
-  Content,
-  Instructions,
-  QRCodeWrapper,
   ChannelLinkButton,
+  Container,
+  Content,
+  ErrorContainer,
+  Instructions,
+  LinkErrorText,
+  LinkRetryButton,
+  QRCodeWrapper,
+  ReloadStroke,
+  RetryPositioning,
+  Subtitle,
+  Title,
 } from './styles'
 
-const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
+const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry }) => {
   const labels = useLabels().channelLink[channelId]
+  const genericlabels = useLabels().channelLink.linkError
   const ChannelLogo = channelIcons[channelId]
 
   return (
@@ -26,21 +33,44 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
       <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
         <Instructions>{labels.instructions.desktop}</Instructions>
-        <QRCodeWrapper>
-          {qrCode ? (
-            <img src={qrCode} alt={labels.qrCodeAlt} />
-          ) : (
-            <QRCode
-              data-testid="generatedQRCode"
-              value={url}
-              renderAs="svg"
-              aria-label={labels.qrCodeAlt}
-            />
-          )}
-        </QRCodeWrapper>
-        <ChannelLinkButton href={url} target="_blank" rel="noopener noreferrer">
-          {labels.button.desktop}
-        </ChannelLinkButton>
+        {(() => {
+          switch (status) {
+            case 'error':
+              return (
+                <ErrorContainer>
+                  <LinkErrorText>{genericlabels.qrError}</LinkErrorText>
+                  <LinkRetryButton isLink={true} onClick={onRetry}>
+                    <RetryPositioning>
+                      {genericlabels.retry}
+                      <ReloadStroke />
+                    </RetryPositioning>
+                  </LinkRetryButton>
+                </ErrorContainer>
+              )
+            case 'loading':
+              return <BigLoadingSpinner size="24" />
+            case 'success':
+              return (
+                <>
+                  <QRCodeWrapper>
+                    {qrCode ? (
+                      <img src={qrCode} alt={labels.qrCodeAlt} />
+                    ) : (
+                      <QRCode
+                        data-testid="generatedQRCode"
+                        value={url}
+                        renderAs="svg"
+                        aria-label={labels.qrCodeAlt}
+                      />
+                    )}
+                  </QRCodeWrapper>
+                  <ChannelLinkButton href={url} target="_blank" rel="noopener noreferrer">
+                    {labels.button.desktop}
+                  </ChannelLinkButton>
+                </>
+              )
+          }
+        })()}
       </Content>
     </Container>
   )
@@ -48,8 +78,10 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode }) => {
 
 ChannelLinkWithQrCode.propTypes = {
   channelId: PropTypes.string,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   qrCode: PropTypes.string,
+  status: PropTypes.oneOf(['error', 'loading', 'success']),
+  onRetry: PropTypes.func,
 }
 
 export default ChannelLinkWithQrCode

@@ -17,5 +17,5 @@ export const LinkUsingButton = Template.bind()
 LinkUsingButton.args = {
   channelId: 'messenger',
   url: 'www.awesomeurl.com',
-  handleBackButtonClick: () => console.log('Close Clicked'),
+  status: 'success',
 }

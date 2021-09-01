@@ -20,6 +20,12 @@ import {
 } from 'src/apps/messenger/store/integrations'
 import { Header } from './styles'
 
+const getLinkStatus = (integration) => {
+  if (integration.errorFetchingLinkRequest) return 'error'
+  if (integration.isFetchingLinkRequest || !integration.linkRequest.url) return 'loading'
+  return 'success'
+}
+
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
   const dispatch = useDispatch()
@@ -34,19 +40,7 @@ const ChannelPage = forwardRef((_props, ref) => {
     }
   }, [integration.linked])
 
-  if (!integration.linked) {
-    if (!integration?.hasFetchedLinkRequest && integration?.isFetchingLinkRequest) {
-      return <div>Loading link request</div>
-    }
-
-    if (!integration?.hasFetchedLinkRequest && integration?.errorFetchingLinkRequest) {
-      return <div>Error fetching link request</div>
-    }
-
-    if (!integration?.hasFetchedLinkRequest) {
-      return <div>Loading link request</div>
-    }
-  }
+  const linkStatus = getLinkStatus(integration)
 
   return (
     <ChannelLinkContainer ref={ref}>
@@ -71,12 +65,19 @@ const ChannelPage = forwardRef((_props, ref) => {
       {!integration.linked && (
         <>
           {isFullScreen ? (
-            <ChannelLinkWithButton channelId={channelId} url={integration.linkRequest.url} />
+            <ChannelLinkWithButton
+              channelId={channelId}
+              url={integration.linkRequest.url}
+              status={linkStatus}
+              onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
+            />
           ) : (
             <ChannelLinkWithQrCode
               channelId={channelId}
               url={integration.linkRequest.url}
               qrCode={integration.linkRequest.qrCode}
+              status={linkStatus}
+              onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
             />
           )}
         </>

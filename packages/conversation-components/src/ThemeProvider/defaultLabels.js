@@ -46,6 +46,11 @@ const defaultLabels = {
     disconnectError: "Couldn't disconnect. Try again.",
   },
   channelLink: {
+    linkError: {
+      qrError: "QR code couldn't be loaded",
+      buttonError: "Link couldn't be loaded",
+      retry: 'Click to retry',
+    },
     whatsapp: {
       title: 'Continue on WhatsApp',
       subtitle: 'Take the conversation to your WhatsApp account. You can return anytime.',
