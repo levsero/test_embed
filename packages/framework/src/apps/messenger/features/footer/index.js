@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
+import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
 import {
   getComposerDraft,
   getIsComposerEnabled,
@@ -9,6 +10,7 @@ import {
 import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 import { sendMessage, sendFile } from 'src/apps/messenger/features/messageLog/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 
 const Footer = () => {
@@ -64,6 +66,8 @@ const Footer = () => {
       onChange={onChange}
       onSendMessage={onSendMessage}
       onFilesSelected={onFilesSelected}
+      isFileInputVisible={isFeatureEnabled(undefined, 'web_widget_messenger_file_uploads')}
+      allowedFileTypes={SUPPORTED_FILE_TYPES}
     />
   )
 }

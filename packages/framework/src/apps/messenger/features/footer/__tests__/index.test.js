@@ -1,7 +1,10 @@
-import { waitFor } from '@testing-library/dom'
+import { fireEvent, waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
+import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
+import * as messageLogStore from 'src/apps/messenger/features/messageLog/store'
 import { render } from 'src/apps/messenger/utils/testHelpers'
+import { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
 import Footer from '../'
 import { startTyping } from '../typing'
 
@@ -97,5 +100,55 @@ describe('Footer', () => {
     await waitFor(() =>
       expect(second.getByLabelText('Type a message')).toHaveValue('message from user')
     )
+  })
+
+  describe('when file uploads arturo is enabled', () => {
+    beforeEach(() => {
+      updateFeatures({ fileUploads: true })
+    })
+
+    afterEach(() => {
+      updateFeatures({})
+    })
+
+    it('renders the file attachment button', () => {
+      const { getByLabelText } = renderComponent()
+
+      expect(getByLabelText('Upload file')).toBeInTheDocument()
+    })
+
+    it('limits what files can be uploaded', () => {
+      renderComponent()
+
+      expect(document.querySelector('input')).toHaveAttribute('accept', SUPPORTED_FILE_TYPES)
+    })
+
+    it('attempts to send each file that is selected', () => {
+      jest.spyOn(messageLogStore, 'sendFile')
+
+      renderComponent()
+      fireEvent.change(document.querySelector('input'), {
+        target: { files: ['file-one.pdf', 'file-two.jpg'] },
+      })
+
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({ file: 'file-one.pdf' })
+      expect(messageLogStore.sendFile).toHaveBeenCalledWith({ file: 'file-two.jpg' })
+    })
+  })
+
+  describe('when file uploads arturo is not enabled', () => {
+    beforeEach(() => {
+      updateFeatures({ fileUploads: false })
+    })
+
+    afterEach(() => {
+      updateFeatures({})
+    })
+
+    it('does not render the file attachment button', () => {
+      const { queryByLabelText } = renderComponent()
+
+      expect(queryByLabelText('Upload file')).not.toBeInTheDocument()
+    })
   })
 })
