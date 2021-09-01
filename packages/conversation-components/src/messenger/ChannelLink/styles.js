@@ -1,6 +1,6 @@
 import { rem, darken } from 'polished'
 import styled from 'styled-components'
-import { Button, Anchor } from '@zendeskgarden/react-buttons'
+import { Button } from '@zendeskgarden/react-buttons'
 import { Spinner } from '@zendeskgarden/react-loaders'
 import CheckLGStroke from '@zendeskgarden/svg-icons/src/12/check-lg-stroke.svg'
 import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
@@ -80,16 +80,6 @@ const QRCodeWrapper = styled.div`
   }
 `
 
-const ChannelLinkButton = styled(Anchor)`
-  &&& {
-    color: ${(props) => props.theme.palette.black};
-
-    &:focus {
-      text-decoration: underline;
-    }
-  }
-`
-
 const ChannelPillButton = styled(Button)`
   &&& {
     background-color: ${(props) => props.theme.messenger.colors.action};
@@ -101,12 +91,6 @@ const ChannelPillButton = styled(Button)`
   }
 `
 
-const UnlinkLink = styled(Button)`
-  &&& {
-    text-decoration: underline;
-    color: inherit;
-  }
-`
 const IconPositioning = styled.div`
   display: flex;
   align-items: center;
@@ -138,18 +122,6 @@ const LinkErrorText = styled.p`
   font-weight: ${(props) => props.theme.messenger.fontWeights.semibold};
 `
 
-const LinkRetryButton = styled(Button)`
-  &&& {
-    color: inherit;
-    :hover,
-    &[data-garden-focus-visible] {
-      color: ${(props) => props.theme.palette.black};
-    }
-  }
-
-  text-decoration: underline;
-`
-
 const ErrorContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -171,7 +143,6 @@ const RetryPositioning = styled.div`
 export {
   BigLoadingSpinner,
   ChannelIcon,
-  ChannelLinkButton,
   ChannelPillButton,
   Container,
   Content,
@@ -180,7 +151,6 @@ export {
   IconPositioning,
   Instructions,
   LinkErrorText,
-  LinkRetryButton,
   LinkTickIcon,
   LoadingSpinner,
   QRCodeWrapper,
@@ -188,6 +158,5 @@ export {
   RetryPositioning,
   Subtitle,
   Title,
-  UnlinkLink,
   UnlinkText,
 }
