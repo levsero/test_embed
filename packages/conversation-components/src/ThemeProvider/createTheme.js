@@ -30,7 +30,7 @@ const createTheme = ({
         otherParticipantMessage: '#f4f6f8',
         otherParticipantMessageText: getReadableMessengerColor('#f4f6f8'),
         otherParticipantMessageBorder: DEFAULT_THEME.palette.grey[200],
-        primaryBackground: DEFAULT_THEME.palette.white,
+        frameBackground: DEFAULT_THEME.palette.white,
       },
       fontSizes: {
         xs: rem(DEFAULT_THEME.fontSizes.xs, baseFontSize),

@@ -39,7 +39,7 @@ const Content = styled.div`
   align-items: center;
   overflow: hidden;
   z-index: 10;
-  background: ${(props) => props.theme.messenger.colors.primaryBackground};
+  background: ${(props) => props.theme.messenger.colors.frameBackground};
   padding: ${(props) => props.theme.messenger.space.xs};
   ${(props) => props.theme.messenger.space.xs};
   border-radius: ${(props) => props.theme.messenger.borderRadii.textMessage};
