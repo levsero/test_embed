@@ -1,5 +1,7 @@
+import { MAX_FILE_SIZE } from '../utils/constants'
 import { getClientInfo, getSessionId } from '../utils/device'
 import storage from '../utils/storage'
+import SuncoAPIError from './../utils/SuncoAPIError'
 import BaseApi from './BaseApi'
 
 class MessagesApi extends BaseApi {
@@ -35,6 +37,14 @@ class MessagesApi extends BaseApi {
   }
 
   sendFile(appUserId, conversationId, file) {
+    if (file.size > MAX_FILE_SIZE) {
+      throw new SuncoAPIError('File size is too large', {
+        reason: 'file-size',
+        fileSize: file.size,
+        limit: MAX_FILE_SIZE,
+      })
+    }
+
     const data = new FormData()
     data.append('author', JSON.stringify(this.getAuthorInformation(appUserId)))
     data.append('message', JSON.stringify({}))
