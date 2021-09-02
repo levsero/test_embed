@@ -55,15 +55,14 @@ const PrimaryParticipantBubble = styled(Bubble)`
   ${(props) =>
     props.status === MESSAGE_STATUS.sending &&
     `
-      opacity: 0.5;
+      opacity: 0.66;
   `}
 
   ${(props) =>
     props.status === MESSAGE_STATUS.failed &&
     `
-      opacity: 0.5;
-      background-color: ${props.theme.palette.red[400]};
-      color: ${props.theme.palette.white};
+      background-color: ${props.theme.palette.red[100]};
+      color: ${props.theme.palette.red[700]};
   `}
 `
 

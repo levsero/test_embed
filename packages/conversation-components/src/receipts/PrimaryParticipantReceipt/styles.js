@@ -144,7 +144,7 @@ const Tail = styled.div`
     ${(props) =>
       props.status === 'sending' &&
       `
-    opacity: 0.5;
+    opacity: 0.66;
   `}
   }
 
@@ -157,7 +157,7 @@ const Tail = styled.div`
     ${(props) =>
       props.status === 'sending' &&
       `
-    opacity: 0.5;
+    opacity: 0.66;
   `}
   }
 
@@ -177,7 +177,7 @@ const Tail = styled.div`
 const FailedMessage = styled(Anchor)`
   &&& {
     border: 0;
-    color: ${(props) => props.theme.palette.red[400]};
+    color: ${(props) => props.theme.palette.red[700]};
     font-size: ${(props) => props.theme.messenger.fontSizes.sm};
     background-color: transparent;
 
