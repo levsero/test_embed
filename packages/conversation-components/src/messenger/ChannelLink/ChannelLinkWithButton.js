@@ -52,9 +52,9 @@ const ChannelLinkWithButton = ({ channelId, url, status, onRetry }) => {
                 <ChannelPillButton
                   isPrimary={true}
                   isPill={true}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={() => {
+                    window.open(url, '_blank', 'noopener,noreferrer')
+                  }}
                 >
                   {labels.button.mobile}
                 </ChannelPillButton>

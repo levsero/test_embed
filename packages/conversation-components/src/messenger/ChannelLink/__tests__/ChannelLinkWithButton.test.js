@@ -16,7 +16,23 @@ describe('<ChannelLinkWithButton>', () => {
     it('renders a button with channel link url', () => {
       const { getByText } = renderChannelLinkWithButton()
 
-      expect(getByText('Open Messenger')).toHaveAttribute('href', 'www.awesomeurl.com')
+      expect(getByText('Open Messenger')).toBeInTheDocument()
+
+      window.open = jest.fn()
+      getByText('Open Messenger').click()
+      expect(window.open).toHaveBeenCalled()
+    })
+
+    it('opens a new window when clicked', () => {
+      const { getByText } = renderChannelLinkWithButton()
+
+      window.open = jest.fn()
+      getByText('Open Messenger').click()
+      expect(window.open).toHaveBeenCalledWith(
+        'www.awesomeurl.com',
+        '_blank',
+        'noopener,noreferrer'
+      )
     })
   })
 
@@ -37,7 +53,7 @@ describe('<ChannelLinkWithButton>', () => {
       expect(onRetry).toHaveBeenCalled()
     })
   })
-  
+
   describe('when the status is loading', () => {
     it('renders a loading spinner', () => {
       const { getByRole } = renderChannelLinkWithButton({ status: 'loading' })
