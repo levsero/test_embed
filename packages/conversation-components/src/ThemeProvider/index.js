@@ -1,9 +1,16 @@
 import PropTypes from 'prop-types'
+import { createGlobalStyle } from 'styled-components'
 import { ThemeProvider as GardenThemeProvider } from '@zendeskgarden/react-theming'
 import { MESSAGE_STATUS } from 'src/constants'
 import createTheme from './createTheme'
 
 export const defaultTheme = createTheme()
+
+const BaseStyles = createGlobalStyle`
+  html {
+    color: ${(props) => props.theme.messenger.colors.frameText};
+  }
+`
 
 const ThemeProvider = ({
   primaryColor,
@@ -25,7 +32,12 @@ const ThemeProvider = ({
     labels,
   })
 
-  return <GardenThemeProvider theme={theme}>{children}</GardenThemeProvider>
+  return (
+    <GardenThemeProvider theme={theme}>
+      <BaseStyles />
+      {children}
+    </GardenThemeProvider>
+  )
 }
 
 ThemeProvider.propTypes = {

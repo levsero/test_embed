@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
+import TextButton from 'src/TextButton'
 import useLabels from 'src/hooks/useLabels'
 import { channelIcons } from './channelIcons'
 import {
   BigLoadingSpinner,
   ChannelIcon,
-  ChannelLinkButton,
   Container,
   Content,
   ErrorContainer,
   Instructions,
   LinkErrorText,
-  LinkRetryButton,
   QRCodeWrapper,
   ReloadStroke,
   RetryPositioning,
@@ -39,12 +38,12 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry }) => {
               return (
                 <ErrorContainer>
                   <LinkErrorText>{genericlabels.qrError}</LinkErrorText>
-                  <LinkRetryButton isLink={true} onClick={onRetry}>
+                  <TextButton onClick={onRetry}>
                     <RetryPositioning>
                       {genericlabels.retry}
                       <ReloadStroke />
                     </RetryPositioning>
-                  </LinkRetryButton>
+                  </TextButton>
                 </ErrorContainer>
               )
             case 'loading':
@@ -64,9 +63,7 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry }) => {
                       />
                     )}
                   </QRCodeWrapper>
-                  <ChannelLinkButton href={url} target="_blank" rel="noopener noreferrer">
-                    {labels.button.desktop}
-                  </ChannelLinkButton>
+                  <TextButton href={url}>{labels.button.desktop}</TextButton>
                 </>
               )
           }

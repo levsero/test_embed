@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import TextButton from 'src/TextButton'
 import useLabels from 'src/hooks/useLabels'
 import { channelIcons } from './channelIcons'
 import {
@@ -13,7 +14,6 @@ import {
   LoadingSpinner,
   Subtitle,
   Title,
-  UnlinkLink,
   UnlinkText,
 } from './styles'
 
@@ -35,9 +35,7 @@ const ChannelLinkWithUnlink = ({ channelId, onDisconnect, pending }) => {
         <DisconnectContainer>
           <IconPositioning>{pending ? <LoadingSpinner /> : <LinkTickIcon />}</IconPositioning>
           <UnlinkText>{labels.disconnectButtonText}</UnlinkText>
-          <UnlinkLink isLink={true} onClick={onDisconnect}>
-            {labels.disconnectLinkText}
-          </UnlinkLink>
+          <TextButton onClick={onDisconnect}>{labels.disconnectLinkText}</TextButton>
         </DisconnectContainer>
       </Content>
     </Container>

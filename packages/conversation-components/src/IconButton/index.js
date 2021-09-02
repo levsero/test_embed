@@ -75,7 +75,7 @@ const StyledIconButton = styled(IconButton)`
 `
 
 StyledIconButton.defaultProps = {
-  backgroundColor: 'primaryBackground',
+  backgroundColor: 'frameBackground',
   highlightColor: 'action',
 }
 

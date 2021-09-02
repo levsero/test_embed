@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import TextButton from 'src/TextButton'
 import useLabels from 'src/hooks/useLabels'
 import { channelIcons } from './channelIcons'
 import {
@@ -10,7 +11,6 @@ import {
   ErrorContainer,
   Instructions,
   LinkErrorText,
-  LinkRetryButton,
   ReloadStroke,
   RetryPositioning,
   Subtitle,
@@ -37,12 +37,12 @@ const ChannelLinkWithButton = ({ channelId, url, status, onRetry }) => {
               return (
                 <ErrorContainer>
                   <LinkErrorText>{genericlabels.buttonError}</LinkErrorText>
-                  <LinkRetryButton isLink={true} onClick={onRetry}>
+                  <TextButton onClick={onRetry}>
                     <RetryPositioning>
                       {genericlabels.retry}
                       <ReloadStroke />
                     </RetryPositioning>
-                  </LinkRetryButton>
+                  </TextButton>
                 </ErrorContainer>
               )
             case 'loading':
