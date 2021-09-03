@@ -15,6 +15,7 @@ const FileStructuredMessage = ({
     altText,
     name,
     received,
+    status,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
@@ -29,6 +30,7 @@ const FileStructuredMessage = ({
       mediaSize={mediaSize}
       mediaUrl={mediaUrl}
       altText={altText}
+      status={status}
     />
   )
 }

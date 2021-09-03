@@ -39,7 +39,7 @@ const FileMessage = ({
   mediaSize,
   timeReceived,
   shape = 'standalone',
-  status = 'sent',
+  status,
   isPrimaryParticipant = false,
   isFirstInGroup = true,
   isReceiptVisible = true,
@@ -64,7 +64,7 @@ const FileMessage = ({
       status={status}
       isFreshMessage={isFreshMessage}
     >
-      <MessageBubble isPrimaryParticipant={isPrimaryParticipant} shape={shape}>
+      <MessageBubble isPrimaryParticipant={isPrimaryParticipant} shape={shape} status={status}>
         <Container>
           <Icon />
           <Content>
@@ -75,6 +75,7 @@ const FileMessage = ({
               target="_blank"
               isPill={false}
               isPrimaryParticipant={isPrimaryParticipant}
+              status={status}
             >
               {fileName || altText || abbreviatedName}
             </Name>
