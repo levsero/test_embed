@@ -4,10 +4,11 @@ import { PrimaryParticipantBubble, OtherParticipantBubble } from './styles'
 
 const MessageBubble = ({
   shape = 'standalone',
-  status = 'sent',
+  status,
   children,
   isPrimaryParticipant = true,
   isFreshMessage = true,
+  type,
 }) => {
   const ParticipantBubble = isPrimaryParticipant ? PrimaryParticipantBubble : OtherParticipantBubble
 
@@ -17,6 +18,7 @@ const MessageBubble = ({
       status={status}
       isFreshMessage={isFreshMessage}
       data-testid={'participant-bubble'}
+      type={type}
     >
       {children}
     </ParticipantBubble>
@@ -29,6 +31,7 @@ MessageBubble.propTypes = {
   children: PropTypes.node,
   isPrimaryParticipant: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
+  type: PropTypes.string,
 }
 
 export default MessageBubble

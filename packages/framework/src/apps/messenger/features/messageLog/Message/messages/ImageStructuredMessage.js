@@ -15,20 +15,24 @@ const ImageStructuredMessage = ({
     avatarUrl,
     name,
     received,
-    isLastMessageThatHasntFailed,
+    type,
+    status,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
+
   return (
     <ImageMessage
+      type={type}
       isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
-      isReceiptVisible={isLastMessageThatHasntFailed}
+      isReceiptVisible={true}
       timeReceived={received}
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
       mediaUrl={mediaUrl}
+      status={status}
       text={text}
       alt={altText}
     />

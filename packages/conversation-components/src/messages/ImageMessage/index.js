@@ -22,7 +22,8 @@ const ImageMessage = ({
   alt,
   timeReceived,
   shape = 'standalone',
-  status = 'sent',
+  status,
+  type,
   isPrimaryParticipant = false,
   isFirstInGroup = true,
   isReceiptVisible = true,
@@ -45,13 +46,23 @@ const ImageMessage = ({
       status={status}
       isFreshMessage={isFreshMessage}
     >
-      <MessageBubble shape={shape} isPrimaryParticipant={isPrimaryParticipant}>
+      <MessageBubble
+        shape={shape}
+        isPrimaryParticipant={isPrimaryParticipant}
+        type={type}
+        status={status}
+      >
         <ImageContainerLink
           href={mediaUrl}
           target="_blank"
           isPrimaryParticipant={isPrimaryParticipant}
         >
-          <ParticipantImage src={mediaUrl} alt={alt} isPrimaryParticipant={isPrimaryParticipant} />
+          <ParticipantImage
+            src={mediaUrl}
+            alt={alt}
+            isPrimaryParticipant={isPrimaryParticipant}
+            status={status}
+          />
           <OpenImageText>
             <span>
               {labels.openImage}&nbsp;
@@ -79,6 +90,7 @@ ImageMessage.propTypes = {
   timeReceived: PropTypes.number,
   shape: PropTypes.oneOf(Object.values(MESSAGE_BUBBLE_SHAPES)),
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
+  type: PropTypes.string,
   isFirstInGroup: PropTypes.bool,
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,

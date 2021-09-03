@@ -56,7 +56,7 @@ const PrimaryParticipantBubble = styled(Bubble)`
     props.status === MESSAGE_STATUS.sending &&
     `
       opacity: 0.66;
-  `}
+    `}
 
   ${(props) =>
     props.status === MESSAGE_STATUS.failed &&
@@ -64,6 +64,13 @@ const PrimaryParticipantBubble = styled(Bubble)`
       background-color: ${props.theme.palette.red[100]};
       color: ${props.theme.palette.red[700]};
   `}
+
+    ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    props.type === 'image' &&
+    `
+      background-color: ${props.theme.palette.red[700]};
+    `}
 `
 
 const OtherParticipantBubble = styled(Bubble)`
