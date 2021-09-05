@@ -104,7 +104,7 @@ describe('Footer', () => {
 
   describe('when file uploads arturo is enabled', () => {
     beforeEach(() => {
-      updateFeatures({ fileUploads: true })
+      updateFeatures({ messengerFileUploads: true })
     })
 
     afterEach(() => {
@@ -178,7 +178,7 @@ describe('Footer', () => {
 
   describe('when file uploads arturo is not enabled', () => {
     beforeEach(() => {
-      updateFeatures({ fileUploads: false })
+      updateFeatures({ messengerFileUploads: false })
     })
 
     afterEach(() => {
