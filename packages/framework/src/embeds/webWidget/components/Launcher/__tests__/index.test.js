@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/dom'
 import { getByRole, fireEvent } from '@testing-library/react'
 import { renewToken } from 'src/redux/modules/base'
 import * as baseSelectors from 'src/redux/modules/selectors/selectors'
@@ -82,7 +83,7 @@ describe('Opens a widget where you can find more information', () => {
     )
   })
 
-  it('renews auth tokens when clicked', () => {
+  it('renews auth tokens when clicked', async () => {
     renewToken.mockReturnValue({ type: 'renew token' })
     const { getByTitle, store } = renderComponent()
 
@@ -100,13 +101,15 @@ describe('Opens a widget where you can find more information', () => {
       })
     )
 
-    expect(
-      getByRole(
-        getByTitle('Opens a widget where you can find more information').contentDocument,
-        'button',
-        /Some text/
-      )
-    ).toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        getByRole(
+          getByTitle('Opens a widget where you can find more information').contentDocument,
+          'button',
+          /Some text/
+        )
+      ).toBeInTheDocument()
+    )
 
     fireEvent.click(
       getByRole(

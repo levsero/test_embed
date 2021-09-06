@@ -27,7 +27,7 @@ describe('FooterIconButton', () => {
     const { container } = renderComponent()
 
     expect(container.querySelector('path')).toHaveStyle(`
-      stroke: ${zdColorGrey600} !important;
+      stroke: ${zdColorGrey600};
     `)
   })
 
@@ -35,7 +35,7 @@ describe('FooterIconButton', () => {
     const { container } = renderComponent({ colorType: 'stroke' })
 
     expect(container.querySelector('path')).toHaveStyle(`
-      stroke: ${zdColorGrey600} !important;
+      stroke: ${zdColorGrey600};
     `)
   })
 
@@ -43,7 +43,7 @@ describe('FooterIconButton', () => {
     const { container } = renderComponent({ colorType: 'fill' })
 
     expect(container.querySelector('path')).toHaveStyle(`
-      fill: ${zdColorGrey600} !important;
+      fill: ${zdColorGrey600};
     `)
   })
 })

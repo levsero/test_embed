@@ -1,10 +1,18 @@
+import { waitFor } from '@testing-library/dom'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import createStore from 'src/apps/messenger/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
 import { widgetOpened, getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Header from '../'
-import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
+
+// Garden uses a css selector that is most likely being affected by this bug
+// https://github.com/dperini/nwsapi/issues/46
+jest.mock('@zendeskgarden/react-avatars', () => ({
+  // eslint-disable-next-line react/prop-types
+  Avatar: ({ children }) => <div data-avatar={true}>{children}</div>,
+}))
 
 const closeButtonAriaLabel = 'Close'
 
@@ -22,7 +30,7 @@ describe('Header', () => {
     return render(<Header />, { store })
   }
 
-  it('navigates to the channel page when a channel is selected', () => {
+  it('navigates to the channel page when a channel is selected', async () => {
     const { getByLabelText, getByText, history, store } = renderComponent()
     store.dispatch({
       type: fetchIntegrations.fulfilled.toString(),
@@ -30,7 +38,7 @@ describe('Header', () => {
     })
 
     getByLabelText('Channel linking menu option').click()
-    expect(getByText('Continue on Messenger')).toBeInTheDocument()
+    await waitFor(() => expect(getByText('Continue on Messenger')).toBeInTheDocument())
     getByText('Continue on Messenger').click()
     expect(history.location.pathname).toEqual('/channelPage/messenger')
   })

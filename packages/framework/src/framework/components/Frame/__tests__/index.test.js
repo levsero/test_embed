@@ -46,9 +46,7 @@ describe('Frame', () => {
     const { baseElement } = renderComponent({ children: <ChildComponent /> })
 
     await waitFor(() =>
-      expect(
-        getIFrame(baseElement).querySelector('head').querySelector('style')
-      ).toBeInTheDocument()
+      expect(getIFrame(baseElement).querySelector('head').querySelector('style')).not.toBeNull()
     )
   })
 
