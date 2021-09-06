@@ -21,6 +21,7 @@ const ImageStructuredMessage = ({
     received,
     type,
     status,
+    errorReason,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
@@ -39,6 +40,7 @@ const ImageStructuredMessage = ({
       isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
       mediaUrl={mediaUrl}
       status={status}
+      errorReason={errorReason}
       text={text}
       alt={altText}
       onRetry={() => dispatch(sendFile({ messageId: _id }))}

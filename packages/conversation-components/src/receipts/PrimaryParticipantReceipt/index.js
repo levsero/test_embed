@@ -12,6 +12,7 @@ const Receipt = ({
   status = MESSAGE_STATUS.sent,
   isReceiptVisible = true,
   isFreshMessage = true,
+  errorReason = 'unknown',
   onRetry = () => {},
 }) => {
   const parsedTime = useParseTime(timeReceived)
@@ -21,6 +22,12 @@ const Receipt = ({
   if (status !== currentStatus.current) {
     previousStatus.current = currentStatus.current
     currentStatus.current = status
+  }
+
+  const errorMessage = {
+    'file-size': 'Files must be 50 MB or less',
+    'too-many': 'Limit of 25 files per upload. Tap to retry.',
+    unknown: 'Tap to retry',
   }
 
   return (
@@ -43,7 +50,7 @@ const Receipt = ({
         )}
         {status === MESSAGE_STATUS.failed && (
           <FailedMessage onClick={onRetry} tabIndex="0" onKeyDown={triggerOnEnter(onRetry)}>
-            {labels.status[status]}
+            {errorMessage[errorReason]}
             {` `}
             <AlertIcon />
           </FailedMessage>
@@ -59,6 +66,7 @@ Receipt.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
+  errorReason: PropTypes.string,
 }
 
 export default Receipt

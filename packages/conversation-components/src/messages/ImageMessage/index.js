@@ -23,6 +23,7 @@ const ImageMessage = ({
   timeReceived,
   shape = 'standalone',
   status,
+  errorReason,
   type,
   isPrimaryParticipant = false,
   isFirstInGroup = true,
@@ -44,6 +45,7 @@ const ImageMessage = ({
       timeReceived={timeReceived}
       isReceiptVisible={isReceiptVisible}
       status={status}
+      errorReason={errorReason}
       isFreshMessage={isFreshMessage}
     >
       <MessageBubble
@@ -95,6 +97,7 @@ ImageMessage.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
+  errorReason: PropTypes.string,
 }
 
 export default ImageMessage

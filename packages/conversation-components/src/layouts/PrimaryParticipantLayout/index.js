@@ -7,6 +7,7 @@ const PrimaryParticipantLayout = ({
   isReceiptVisible,
   timeReceived,
   status = MESSAGE_STATUS.sent,
+  errorReason,
   isFirstInGroup,
   isFreshMessage,
   children,
@@ -22,6 +23,7 @@ const PrimaryParticipantLayout = ({
         onRetry={onRetry}
         isReceiptVisible={isReceiptVisible}
         isFreshMessage={isFreshMessage}
+        errorReason={errorReason}
       />
     </VerticalLayout>
   )
@@ -35,6 +37,7 @@ PrimaryParticipantLayout.propTypes = {
   isFreshMessage: PropTypes.bool,
   children: PropTypes.node,
   onRetry: PropTypes.func,
+  errorReason: PropTypes.string,
 }
 
 export default PrimaryParticipantLayout

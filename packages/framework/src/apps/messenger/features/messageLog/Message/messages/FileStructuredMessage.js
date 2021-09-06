@@ -20,6 +20,7 @@ const FileStructuredMessage = ({
     name,
     received,
     status,
+    errorReason,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
@@ -39,6 +40,7 @@ const FileStructuredMessage = ({
       mediaUrl={mediaUrl}
       altText={altText}
       status={status}
+      errorReason={errorReason}
       onRetry={() => dispatch(sendFile({ messageId: _id }))}
     />
   )
