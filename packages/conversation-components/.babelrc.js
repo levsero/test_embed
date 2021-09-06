@@ -2,7 +2,7 @@ const path = require('path')
 const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development'
 
 module.exports = (api) => {
-  const aliasPath = api.env('development') ? path.resolve(__dirname, './src') : './src'
+  const aliasPath = api.env('production') ? './src' : path.resolve(__dirname, './src')
 
   const config = {
     presets: [

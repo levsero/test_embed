@@ -28,3 +28,5 @@ webdrivercss/
 **/*.csv
 docker-chromium
 **/coverage/**
+!**/*/.babelrc.js
+!**/*/.babelrc.json
