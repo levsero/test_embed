@@ -4,6 +4,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { Spinner } from '@zendeskgarden/react-loaders'
 import CheckLGStroke from '@zendeskgarden/svg-icons/src/12/check-lg-stroke.svg'
 import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
+import dirStyles from 'src/utils/dirStyles'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
@@ -98,11 +99,11 @@ const IconPositioning = styled.div`
 `
 
 const UnlinkText = styled.p`
-  margin-right: ${(props) => props.theme.messenger.space.xs};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xs};
 `
 
 const LinkTickIcon = styled(CheckLGStroke)`
-  margin-right: ${(props) => props.theme.messenger.space.sm};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.sm};
 `
 
 const DisconnectContainer = styled.div`
@@ -110,7 +111,7 @@ const DisconnectContainer = styled.div`
 `
 
 const LoadingSpinner = styled(Spinner)`
-  margin-right: ${(props) => props.theme.messenger.space.sm};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.sm};
 `
 
 const BigLoadingSpinner = styled(Spinner)`
