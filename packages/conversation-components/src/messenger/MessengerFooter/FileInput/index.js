@@ -11,7 +11,10 @@ const FileInput = ({ accept, onChange, ariaLabel }) => {
         buttonSize="xl"
         iconSize="attachmentButton"
         aria-label={ariaLabel}
-        onClick={() => fileInput.current.click()}
+        onClick={() => {
+          fileInput.current.value = null
+          fileInput.current.click()
+        }}
       >
         <PaperclipIcon />
       </IconButton>

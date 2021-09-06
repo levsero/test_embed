@@ -25,7 +25,7 @@ export default {
   },
   web_widget_messenger_file_uploads: {
     defaultValue: false,
-    getArturoValue: () => features.fileUploads,
+    getArturoValue: () => features.messengerFileUploads,
   },
   log_all_messenger_errors: {
     defaultValue: false,
