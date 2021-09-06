@@ -18,8 +18,8 @@ jobs:
         task:
           [
             'lint',
-            'test-ci',
-            'test-conversation-components',
+            'test',
+            'test-legacy',
             'fossa',
             'audit',
             'validate',
@@ -33,15 +33,16 @@ jobs:
           - task: lint
             run: |
               yarn lint
-          - task: test-ci
+          - task: test
             run: |
               echo "Starting unit and integration tests"
               download_translations
-              yarn workspace @zendesk/embeddable-framework test:ci
-          - task: test-conversation-components
+              yarn test --ci --runInBand
+          - task: test-legacy
             run: |
-              echo "Starting unit tests"
-              yarn workspace @zendesk/conversation-components test:ci
+              echo "Starting legacy jasmine tests"
+              download_translations
+              yarn workspace @zendesk/embeddable-framework test:old
           - task: fossa
             run: |
               echo "Starting Fossa open source scan"
@@ -132,7 +133,7 @@ jobs:
           }
           ${{ matrix.run }}
       - name: SonarQube scan PR - conversation-components
-        if: matrix.task == 'test-conversation-components' && github.event_name == 'pull_request'
+        if: matrix.task == 'test' && github.event_name == 'pull_request'
         run: |
           sonar-scanner \
           -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
@@ -150,7 +151,7 @@ jobs:
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.javascript.lcov.reportPaths=packages/conversation-components/coverage/lcov.info
       - name: SonarQube scan master - conversation-components
-        if: matrix.task == 'test-conversation-components' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: matrix.task == 'test' && github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
           sonar-scanner -X \
           -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
@@ -164,7 +165,7 @@ jobs:
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.javascript.lcov.reportPaths=packages/conversation-components/coverage/lcov.info
       - name: SonarQube scan PR - framework
-        if: matrix.task == 'test-ci' && github.event_name == 'pull_request'
+        if: matrix.task == 'test' && github.event_name == 'pull_request'
         run: |
           sonar-scanner \
           -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
@@ -182,7 +183,7 @@ jobs:
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.javascript.lcov.reportPaths="$(pwd)/packages/framework/coverage/lcov.info"
       - name: SonarQube scan master - framework
-        if: matrix.task == 'test-ci' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: matrix.task == 'test' && github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
           sonar-scanner -X \
           -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
