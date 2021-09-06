@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types'
-import { FileMessage } from '@zendesk/conversation-components'
+import { useDispatch } from 'react-redux'
+import { FileMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
+import { sendFile } from 'src/apps/messenger/features/messageLog/store'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const FileStructuredMessage = ({
   message: {
+    _id,
     avatarUrl,
     isFirstInGroup,
     isFirstMessageInAuthorGroup,
     isLastInGroup,
     role,
     isLastMessageInAuthorGroup,
+    isLastMessageThatHasntFailed,
     mediaSize,
     mediaUrl,
     altText,
@@ -19,6 +23,9 @@ const FileStructuredMessage = ({
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
+  const dispatch = useDispatch()
+  const messageStatus = status ?? MESSAGE_STATUS.sent
+
   return (
     <FileMessage
       isPrimaryParticipant={isPrimaryParticipant}
@@ -27,10 +34,12 @@ const FileStructuredMessage = ({
       timeReceived={received}
       isFirstInGroup={isFirstInGroup}
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
       mediaSize={mediaSize}
       mediaUrl={mediaUrl}
       altText={altText}
       status={status}
+      onRetry={() => dispatch(sendFile({ messageId: _id }))}
     />
   )
 }

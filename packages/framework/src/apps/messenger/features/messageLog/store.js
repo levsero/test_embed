@@ -41,9 +41,17 @@ const sendMessage = createAsyncThunk(
   }
 )
 
+const retryFileStorage = {}
+
 const sendFile = createAsyncThunk(
   'file/send',
-  async ({ file, failDueToTooMany }, { rejectWithValue }) => {
+  async ({ file, messageId, failDueToTooMany }, { requestId, rejectWithValue }) => {
+    if (file) {
+      retryFileStorage[requestId] = file
+    }
+
+    const fileToUpload = file || retryFileStorage[messageId]
+
     try {
       if (failDueToTooMany) {
         return rejectWithValue({
@@ -51,7 +59,7 @@ const sendFile = createAsyncThunk(
         })
       }
 
-      const response = await sendSuncoFile(file)
+      const response = await sendSuncoFile(fileToUpload)
 
       if (!response.body.messageId) {
         return rejectWithValue({
@@ -59,9 +67,7 @@ const sendFile = createAsyncThunk(
         })
       }
 
-      if (response.body.messageId) {
-        return {}
-      }
+      delete retryFileStorage[messageId || requestId]
     } catch (err) {
       if (err instanceof SuncoAPIError) {
         return rejectWithValue({ errorReason: err.suncoErrorInfo?.reason || 'unknown' })
@@ -156,6 +162,17 @@ const messagesSlice = createSlice({
       })
     },
     [sendFile.pending](state, action) {
+      const messageId = action.meta.arg.messageId ?? action.meta.requestId
+
+      // If file was already in store, just update its status
+      if (state.entities[messageId]) {
+        messagesAdapter.upsertOne(state, {
+          _id: action.meta.arg.messageId,
+          status: 'sending',
+        })
+        return
+      }
+
       const file = action.meta.arg.file
       const type = file.type.startsWith('image/') ? 'image' : 'file'
 
