@@ -1,3 +1,4 @@
+import ThemeProvider from 'src/ThemeProvider'
 import { MessengerContainerDecorator } from '../../.storybook/decorators'
 import { NOTIFICATION_TYPES } from '../constants'
 import Notification from './index'
@@ -17,9 +18,15 @@ export default {
   },
 }
 
-const Template = (args) => <Notification {...args} />
+// eslint-disable-next-line react/prop-types
+const Template = ({ isFullScreen, ...args }) => (
+  <ThemeProvider isFullScreen={isFullScreen}>
+    <Notification {...args} />
+  </ThemeProvider>
+)
 
 export const Default = Template.bind()
 Default.args = {
   messageType: NOTIFICATION_TYPES.connectError,
+  isFullScreen: false,
 }

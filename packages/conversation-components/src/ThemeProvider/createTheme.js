@@ -11,6 +11,7 @@ const createTheme = ({
   messageColor = DEFAULT_THEME.palette.kale[700],
   actionColor = DEFAULT_THEME.palette.mint[400],
   labels = {},
+  isFullScreen = false,
 } = {}) => {
   return {
     ...DEFAULT_THEME,
@@ -18,6 +19,7 @@ const createTheme = ({
     document: currentFrame?.document,
     messenger: {
       currentFrame: currentFrame,
+      isFullScreen,
       fontFamily: DEFAULT_THEME.fonts.system,
       baseFontSize: baseFontSize,
       colors: {
