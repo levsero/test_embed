@@ -12,6 +12,7 @@ import {
 } from '@zendesk/conversation-components'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { attemptedChannelLink } from 'src/apps/messenger/features/suncoConversation/store'
 import {
   fetchLinkRequest,
   leftChannelPage,
@@ -22,6 +23,7 @@ import { Header } from './styles'
 
 const getLinkStatus = (integration) => {
   if (integration.errorFetchingLinkRequest) return 'error'
+  if (integration.linkPending) return 'pending'
   if (integration.isFetchingLinkRequest || !integration.linkRequest.url) return 'loading'
   return 'success'
 }
@@ -70,6 +72,9 @@ const ChannelPage = forwardRef((_props, ref) => {
               url={integration.linkRequest.url}
               status={linkStatus}
               onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
+              onLinkAttempted={() => {
+                dispatch(attemptedChannelLink({ channelId }))
+              }}
             />
           ) : (
             <ChannelLinkWithQrCode
@@ -78,6 +83,9 @@ const ChannelPage = forwardRef((_props, ref) => {
               qrCode={integration.linkRequest.qrCode}
               status={linkStatus}
               onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
+              onLinkAttempted={() => {
+                dispatch(attemptedChannelLink({ channelId }))
+              }}
             />
           )}
         </>

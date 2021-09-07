@@ -55,12 +55,18 @@ const Instructions = styled.p`
   margin-bottom: ${(props) => props.theme.messenger.space.lg};
 `
 
-const QRCodeWrapper = styled.div`
+const QRSpaceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: ${(props) => rem(140, props.theme.baseFontSize)};
   height: ${(props) => rem(140, props.theme.baseFontSize)};
-  border: ${(props) => props.theme.borders.sm} ${(props) => props.theme.palette.grey[300]};
   border-radius: ${(props) => rem(4, props.theme.baseFontSize)};
   margin-bottom: ${(props) => props.theme.messenger.space.lg};
+`
+
+const QRCodeWrapper = styled(QRSpaceContainer)`
+  border: ${(props) => props.theme.borders.sm} ${(props) => props.theme.palette.grey[300]};
   /*
     Unset removes default width/height (128px) from qrcode.react
     Otherwise, it messes up centering for Messenger/Instagram
@@ -68,6 +74,7 @@ const QRCodeWrapper = styled.div`
     The QR code image for WhatsApp provided by SunCo contains
     padding, so we only add it to Messenger and Instagram
   */
+
   svg {
     width: unset;
     height: unset;
@@ -82,12 +89,32 @@ const QRCodeWrapper = styled.div`
 
 const ChannelPillButton = styled(Button)`
   &&& {
+    position: relative;
     background-color: ${(props) => props.theme.messenger.colors.action};
     margin-bottom: ${(props) => props.theme.messenger.space.lg};
 
     :hover {
       background-color: ${(props) => darken(0.1, props.theme.messenger.colors.action)};
     }
+  }
+`
+
+const HiddenText = styled.span`
+  visibility: hidden;
+`
+
+const ButtonSpinnerContainer = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    margin: 0;
   }
 `
 
@@ -159,4 +186,7 @@ export {
   Subtitle,
   Title,
   UnlinkText,
+  QRSpaceContainer,
+  ButtonSpinnerContainer,
+  HiddenText,
 }
