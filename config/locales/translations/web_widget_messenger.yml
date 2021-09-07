@@ -406,3 +406,13 @@ parts:
       title: 'When the Channel Link request fails and we are unable to show the users a channel link button/QR Code, we display a button prompting them to retry the request'
       value: 'Click to retry'
       screenshot: 'https://drive.google.com/file/d/1MAdl-k9ezrHU2gclJnsYpGuScMSUllaI/view?usp=sharing'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.generate_new_link'
+      title: 'Link to generate a new one time url to link their widget to one of their social channels'
+      screenshot: 'https://drive.google.com/file/d/1-8TxpO_jKp1rlq5xvo5PRzPnCShE6g0a/view?usp=sharing'
+      value: 'Generate new link'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_linking.generate_new_qr_code'
+      title: 'Link to generate a new QR code that links their widget to one of their social channels'
+      screenshot: 'https://drive.google.com/file/d/1xxalh7xJ_xSwI96G1-FufDVE3lWZyilW/view?usp=sharing'
+      value: 'Generate new QR code'
