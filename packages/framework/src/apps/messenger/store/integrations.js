@@ -5,6 +5,7 @@ import {
   unlinkIntegration as unlinkIntegrationSunco,
 } from 'src/apps/messenger/api/sunco'
 import {
+  attemptedChannelLink,
   fetchExistingConversation,
   integrationLinkCancelled,
   integrationLinked,
@@ -63,6 +64,7 @@ const integrations = createSlice({
         changes: {
           linkFailed: false,
           linkCancelled: false,
+          linkPending: false,
           unlinkPending: false,
           unlinkFailed: false,
           hasFetchedLinkRequest: false,
@@ -80,6 +82,7 @@ const integrations = createSlice({
           linked: false,
           linkCancelled: false,
           linkFailed: false,
+          linkPending: false,
           unlinkPending: false,
           unlinkFailed: false,
           hasFetchedLinkRequest: false,
@@ -100,6 +103,7 @@ const integrations = createSlice({
           errorFetchingLinkRequest: false,
           linkCancelled: false,
           linkFailed: false,
+          linkPending: false,
           unlinkPending: false,
           unlinkFailed: false,
           linkRequest,
@@ -130,6 +134,7 @@ const integrations = createSlice({
       integrationsAdapter.updateOne(state, {
         id: channelId,
         changes: {
+          linkPending: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: true,
           errorFetchingLinkRequest: false,
@@ -199,7 +204,13 @@ const integrations = createSlice({
 
       integrationsAdapter.updateOne(state, {
         id: type,
-        changes: { linked: true, linkCancelled: false, linkFailed: false, clientId },
+        changes: {
+          linked: true,
+          linkCancelled: false,
+          linkFailed: false,
+          linkPending: false,
+          clientId,
+        },
       })
     },
     [integrationLinkCancelled](state, { payload }) {
@@ -216,6 +227,14 @@ const integrations = createSlice({
       integrationsAdapter.updateOne(state, {
         id: type,
         changes: { linkFailed: true, linkCancelled: false },
+      })
+    },
+    [attemptedChannelLink](state, action) {
+      integrationsAdapter.updateOne(state, {
+        id: action.payload.channelId,
+        changes: {
+          linkPending: true,
+        },
       })
     },
   },

@@ -11,6 +11,7 @@ export const activityReceived = createAction('activity-received')
 export const integrationLinked = createAction('integration-linked')
 export const integrationLinkCancelled = createAction('integration-link-cancelled')
 export const integrationLinkFailed = createAction('integration-link-failed')
+export const attemptedChannelLink = createAction('attempted-channel-link')
 
 const waitForSocketToConnect = async (activeConversation, dispatch) => {
   const socketIsConnected = new Promise((resolve, reject) => {
@@ -99,12 +100,16 @@ const subscribeToConversationEvents = createAsyncThunk(
             dispatch(integrationLinkCancelled({ type: client.platform }))
           }
           break
-        case 'link:failed':
-          {
-            const { client } = linkEvent
-            dispatch(integrationLinkFailed({ type: client.platform }))
-          }
+        case 'link:matched': {
+          const { client } = linkEvent
+          dispatch(attemptedChannelLink({ channelId: client.platform }))
           break
+        }
+        case 'link:failed': {
+          const { client } = linkEvent
+          dispatch(integrationLinkFailed({ type: client.platform }))
+          break
+        }
       }
     })
 
