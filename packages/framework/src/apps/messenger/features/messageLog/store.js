@@ -55,7 +55,7 @@ const sendFile = createAsyncThunk(
     try {
       if (failDueToTooMany) {
         return rejectWithValue({
-          errorReason: 'too-many',
+          errorReason: 'tooMany',
         })
       }
 

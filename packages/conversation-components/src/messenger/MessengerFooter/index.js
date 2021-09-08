@@ -13,7 +13,7 @@ const MessengerFooter = forwardRef((props, ref) => {
         <FileInput
           accept={props.allowedFileTypes}
           onChange={props.onFilesSelected}
-          ariaLabel={labels.fileUploadButtonAriaLabel}
+          ariaLabel={labels.uploadButtonAriaLabel}
         />
       )}
       <Composer ref={ref} {...props} />

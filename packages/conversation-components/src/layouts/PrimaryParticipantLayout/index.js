@@ -16,7 +16,6 @@ const PrimaryParticipantLayout = ({
   return (
     <VerticalLayout>
       <LayoutContainer isFirstInGroup={isFirstInGroup}>{children}</LayoutContainer>
-
       <Receipt
         timeReceived={timeReceived}
         status={status}

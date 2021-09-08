@@ -1,3 +1,5 @@
+import { MAX_FILE_SIZE_IN_BYTES } from '@zendesk/sunco-js-client'
+
 export const widgetFrameHeight = 700
 export const widgetFrameWidth = 380
 export const launcherSize = 64
@@ -9,3 +11,5 @@ export const frameBoxShadow =
 export const bezierCurve = 'cubic-bezier(0.66, 0, 0.12, 1)'
 export const baseFontSize = '16px'
 export const baseFontSizeFullScreen = '14px'
+export const fileUploadSizeLimitInMb = MAX_FILE_SIZE_IN_BYTES / (1024 * 1024)
+export const fileUploadCountLimit = 25
