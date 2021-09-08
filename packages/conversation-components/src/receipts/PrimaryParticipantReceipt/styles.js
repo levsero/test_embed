@@ -142,7 +142,7 @@ const Tail = styled.div`
     opacity: 1;
 
     ${(props) =>
-      props.status === 'sending' &&
+      props.status === MESSAGE_STATUS.sending &&
       `
     opacity: 0.66;
   `}
@@ -155,14 +155,14 @@ const Tail = styled.div`
     transform: translateY(-105%) scale(0);
     opacity: 1;
     ${(props) =>
-      props.status === 'sending' &&
+      props.status === MESSAGE_STATUS.sending &&
       `
     opacity: 0.66;
   `}
   }
 
   ${(props) =>
-    props.status === 'sending' &&
+    props.status === MESSAGE_STATUS.sending &&
     css`
       animation: ${sendingAnimation};
     `}
@@ -172,9 +172,9 @@ const Tail = styled.div`
   `)}
 
   ${disabledAnimationsCSS}
-`
+  `
 
-const FailedMessage = styled(Anchor)`
+const RetryableFailedMessage = styled(Anchor)`
   &&& {
     border: 0;
     color: ${(props) => props.theme.palette.red[700]};
@@ -187,10 +187,23 @@ const FailedMessage = styled(Anchor)`
   }
 `
 
+const NonRetryableFailedMessage = styled.p`
+  color: ${(props) => props.theme.palette.red[700]};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+`
+
 const AlertIcon = styled(AlertSVG)`
   height: ${(props) => props.theme.messenger.iconSizes.sm};
   width: ${(props) => props.theme.messenger.iconSizes.sm};
   max-height: none;
 `
 
-export { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer }
+export {
+  Layout,
+  Tail,
+  Time,
+  RetryableFailedMessage,
+  NonRetryableFailedMessage,
+  AlertIcon,
+  TailContainer,
+}
