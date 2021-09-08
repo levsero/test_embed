@@ -14,7 +14,7 @@ const MessageBubble = ({
 
   return (
     <ParticipantBubble
-      shape={shape}
+      shape={status === MESSAGE_STATUS.failed ? 'standalone' : shape}
       status={status}
       isFreshMessage={isFreshMessage}
       data-testid={'participant-bubble'}
