@@ -391,3 +391,18 @@ parts:
       title: '[A11Y] Aria label on the file upload button'
       screenshot: 'https://drive.google.com/file/d/1bawlh1Eyg8Xr866E7suwZaOdXl3kbcgA/view?usp=sharing'
       value: 'Upload file'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.link_error.qr_code_error'
+      title: 'When the link request fails on a desktop view and we cannot display the QR Code, we show this error'
+      value: "QR code couldn't be loaded"
+      screenshot: 'https://drive.google.com/file/d/1dcViCAhKlhD4HWDy9qhCRaLYxnr4QGzB/view?usp=sharing'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.link_error.button_error'
+      title: 'When the link request fails on a mobile view and we cannot display the channel link button, we show this error'
+      value: "Link code couldn't be loaded"
+      screenshot: 'https://drive.google.com/file/d/1Yq8xvOC97ieKwa9Tsl9uXlkmzhHrrlEO/view?usp=sharing'
+  - translation:
+      key: 'embeddable_framework.messenger.channel_link.link_error.retry'
+      title: 'When the Channel Link request fails and we are unable to show the users a channel link button/QR Code, we display a button prompting them to retry the request'
+      value: 'Click to retry'
+      screenshot: 'https://drive.google.com/file/d/1MAdl-k9ezrHU2gclJnsYpGuScMSUllaI/view?usp=sharing'
