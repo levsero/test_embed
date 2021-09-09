@@ -22,6 +22,7 @@ const ImageStructuredMessage = ({
     type,
     status,
     errorReason,
+    isRetryable,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
@@ -30,7 +31,6 @@ const ImageStructuredMessage = ({
 
   return (
     <ImageMessage
-      type={type}
       isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
@@ -39,10 +39,12 @@ const ImageStructuredMessage = ({
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
       isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
       mediaUrl={mediaUrl}
-      status={status}
-      errorReason={errorReason}
       text={text}
       alt={altText}
+      type={type}
+      status={status}
+      errorReason={errorReason}
+      isRetryable={isRetryable}
       onRetry={() => dispatch(sendFile({ messageId: _id }))}
     />
   )
@@ -60,6 +62,7 @@ ImageStructuredMessage.propTypes = {
     avatarUrl: PropTypes.string,
     name: PropTypes.string,
     received: PropTypes.number,
+    isRetryable: PropTypes.bool,
   }),
 }
 

@@ -41,6 +41,7 @@ const FileMessage = ({
   shape = 'standalone',
   status,
   errorReason,
+  isRetryable,
   isPrimaryParticipant = false,
   isFirstInGroup = true,
   isReceiptVisible = true,
@@ -63,6 +64,7 @@ const FileMessage = ({
       isReceiptVisible={isReceiptVisible}
       status={status}
       errorReason={errorReason}
+      isRetryable={isRetryable}
       isFreshMessage={isFreshMessage}
     >
       <MessageBubble isPrimaryParticipant={isPrimaryParticipant} shape={shape} status={status}>
@@ -103,6 +105,7 @@ FileMessage.propTypes = {
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
   errorReason: PropTypes.string,
+  isRetryable: PropTypes.bool,
 }
 
 export default FileMessage

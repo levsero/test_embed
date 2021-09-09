@@ -29,6 +29,7 @@ const ImageMessage = ({
   isFirstInGroup = true,
   isReceiptVisible = true,
   isFreshMessage = true,
+  isRetryable,
   onRetry = () => {},
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
@@ -47,6 +48,7 @@ const ImageMessage = ({
       status={status}
       errorReason={errorReason}
       isFreshMessage={isFreshMessage}
+      isRetryable={isRetryable}
     >
       <MessageBubble
         shape={shape}
@@ -98,6 +100,7 @@ ImageMessage.propTypes = {
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
   errorReason: PropTypes.string,
+  isRetryable: PropTypes.bool,
 }
 
 export default ImageMessage

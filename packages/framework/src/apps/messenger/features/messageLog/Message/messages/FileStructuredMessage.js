@@ -21,6 +21,7 @@ const FileStructuredMessage = ({
     received,
     status,
     errorReason,
+    isRetryable,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
@@ -41,6 +42,7 @@ const FileStructuredMessage = ({
       altText={altText}
       status={status}
       errorReason={errorReason}
+      isRetryable={isRetryable}
       onRetry={() => dispatch(sendFile({ messageId: _id }))}
     />
   )
@@ -58,6 +60,7 @@ FileStructuredMessage.propTypes = {
     name: PropTypes.string,
     received: PropTypes.number,
     altText: PropTypes.string,
+    isRetryable: PropTypes.bool,
   }),
 }
 

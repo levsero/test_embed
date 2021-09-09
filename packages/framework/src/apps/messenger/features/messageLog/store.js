@@ -194,6 +194,7 @@ const messagesSlice = createSlice({
         _id: action.meta.arg.messageId ?? action.meta.requestId,
         status: 'failed',
         errorReason: action.payload?.errorReason,
+        isRetryable: action.payload?.errorReason !== 'fileSize',
       })
     },
     [sendFile.fulfilled](state, action) {

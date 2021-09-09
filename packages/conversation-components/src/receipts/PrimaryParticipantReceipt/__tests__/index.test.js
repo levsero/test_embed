@@ -41,6 +41,7 @@ describe('PrimaryParticipantReceipt', () => {
       const { getByText } = renderPrimaryParticipantReceipt({
         status: 'failed',
         errorReason: 'unknown',
+        isRetryable: true,
       })
 
       const errorMessage = getByText('Tap to retry')
@@ -54,6 +55,7 @@ describe('PrimaryParticipantReceipt', () => {
       const { getByText } = renderPrimaryParticipantReceipt({
         status: 'failed',
         errorReason: 'unknown',
+        isRetryable: true,
         onRetry,
       })
 
@@ -66,6 +68,7 @@ describe('PrimaryParticipantReceipt', () => {
       const { getByText } = renderPrimaryParticipantReceipt({
         status: 'failed',
         errorReason: 'tooMany',
+        isRetryable: true,
       })
 
       const errorMessage = getByText('Limit of 25 files per upload. Tap to retry.')
@@ -78,6 +81,7 @@ describe('PrimaryParticipantReceipt', () => {
       const { getByText } = renderPrimaryParticipantReceipt({
         status: 'failed',
         errorReason: 'fileSize',
+        isRetryable: false,
       })
 
       const errorMessage = getByText('Files must be 50 MB or less')
