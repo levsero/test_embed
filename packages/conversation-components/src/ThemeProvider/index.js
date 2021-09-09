@@ -20,6 +20,7 @@ const ThemeProvider = ({
   baseFontSize,
   currentFrame,
   labels,
+  isFullScreen,
   children,
 }) => {
   const theme = createTheme({
@@ -30,6 +31,7 @@ const ThemeProvider = ({
     messageColor,
     actionColor,
     labels,
+    isFullScreen,
   })
 
   return (
@@ -89,6 +91,7 @@ ThemeProvider.propTypes = {
   launcher: PropTypes.shape({
     ariaLabel: PropTypes.string,
   }),
+  isFullScreen: PropTypes.bool,
 }
 
 export default ThemeProvider

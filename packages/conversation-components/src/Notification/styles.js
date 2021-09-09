@@ -1,3 +1,4 @@
+import { rem } from 'polished'
 import styled, { css } from 'styled-components'
 import InfoStrokeIcon from '@zendeskgarden/svg-icons/src/16/info-stroke.svg'
 
@@ -8,13 +9,24 @@ const Container = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${(props) => props.theme.messenger.space.lg};
   transition: opacity ${animatedDuration}s ease-in,
     transform ${animatedDuration}s ${gardenNotificationBezierCurve};
+
+  bottom: ${(props) => rem(40, props.theme.messenger.baseFontSize)};
+
+  ${(props) =>
+    props.theme.messenger.isFullScreen &&
+    css`
+      top: ${(props) => rem(60, props.theme.messenger.baseFontSize)};
+      bottom: auto;
+
+      @media (orientation: landscape) {
+        top: ${(props) => rem(20, props.theme.messenger.baseFontSize)};
+      }
+    `}
 
   ${(props) => {
     if (props.state === 'entered') {
@@ -41,7 +53,6 @@ const Content = styled.div`
   z-index: 10;
   background: ${(props) => props.theme.messenger.colors.frameBackground};
   padding: ${(props) => props.theme.messenger.space.xs};
-  ${(props) => props.theme.messenger.space.xs};
   border-radius: ${(props) => props.theme.messenger.borderRadii.textMessage};
   box-shadow: 0px 1px 4px 0px rgba(71, 69, 123, 0.04), 0px 4px 12px 0px rgba(36, 36, 36, 0.1);
 `

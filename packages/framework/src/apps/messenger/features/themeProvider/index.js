@@ -58,6 +58,7 @@ const ThemeProvider = ({ children }) => {
       messageColor={messengerColors.message}
       actionColor={messengerColors.action}
       baseFontSize={currentBaseFontSize}
+      isFullScreen={isFullScreen}
       rtl={i18n.isRTL()}
       labels={{
         receipts: {
