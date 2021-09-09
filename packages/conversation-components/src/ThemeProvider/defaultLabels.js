@@ -107,8 +107,8 @@ const defaultLabels = {
     },
     receivedRecently: 'Just now',
     errors: {
-      tooMany: (count) => `Limit of ${count} files per upload. Tap to retry.`,
-      fileSize: (size) => `Files must be ${size} MB or less`,
+      tooMany: 'Limit of 25 files per upload. Tap to retry.',
+      fileSize: 'Files must be 50 MB or less',
       unknown: 'Tap to retry',
     },
   },

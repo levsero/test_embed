@@ -20,7 +20,7 @@ const Receipt = ({
   status = MESSAGE_STATUS.sent,
   isReceiptVisible = true,
   isFreshMessage = true,
-  errorReason = 'unknown',
+  errorReason,
   onRetry = () => {},
 }) => {
   const parsedTime = useParseTime(timeReceived)
@@ -31,6 +31,7 @@ const Receipt = ({
     previousStatus.current = currentStatus.current
     currentStatus.current = status
   }
+  const isRetryable = ['tooMany', 'unknown'].includes(errorReason)
 
   return (
     <AnimatedReceipt isFreshMessage={isReceiptVisible} isReceiptVisible={isReceiptVisible}>
@@ -50,21 +51,20 @@ const Receipt = ({
             </TailContainer>
           </>
         )}
-        {status === MESSAGE_STATUS.failed && errorReason !== 'fileSize' && (
+        {status === MESSAGE_STATUS.failed && isRetryable && (
           <RetryableFailedMessage
+            href=""
             onClick={onRetry}
             tabIndex="0"
             onKeyDown={triggerOnEnter(onRetry)}
           >
-            {labels.errors[errorReason]}
-            {` `}
+            {`${labels.errors[errorReason]}` + ` `}
             <AlertIcon />
           </RetryableFailedMessage>
         )}
-        {status === MESSAGE_STATUS.failed && errorReason === 'fileSize' && (
+        {status === MESSAGE_STATUS.failed && !isRetryable && (
           <NonRetryableFailedMessage tabIndex="0">
-            {labels.errors[errorReason]}
-            {` `}
+            {`${labels.errors[errorReason]}` + ` `}
             <AlertIcon />
           </NonRetryableFailedMessage>
         )}
