@@ -396,7 +396,7 @@ parts:
       title: 'When mouse over/hover or on focus, a text is displayed that tells the user that the image can be viewed/opened in a new browser tab'
       screenshot: 'https://drive.google.com/file/d/1dRiCjyVcG6RGDfleZBOlLs7MrCQ1GQcg/view?usp=sharing'
       value: 'Open image in new tab'
-      obsolete: '2021-09-01'
+      obsolete: '2021-11-15'
   - translation:
       key: 'embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2'
       title: 'When mouse over/hover or on focus, a text is displayed that tells the user that the image can be viewed/opened in a new browser tab'
