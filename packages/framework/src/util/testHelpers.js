@@ -10,11 +10,11 @@ import { IdManager } from '@zendeskgarden/react-selection'
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
+import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
+import { updateTalkEmbeddableConfig } from 'src/embeds/talk/actions'
 import createStore from 'src/redux/createStore'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
 import reducer from 'src/redux/modules/reducer'
-import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({

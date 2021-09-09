@@ -13,6 +13,7 @@ import {
   getCurrentScreen,
 } from 'src/embeds/answerBot/selectors/root'
 import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
+import { getIsChatting } from 'src/embeds/chat/selectors'
 import {
   ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
@@ -26,6 +27,13 @@ import {
   getCurrentActiveArticle,
   getHasContextuallySearched,
 } from 'src/embeds/helpCenter/selectors'
+import { TALK_CALLBACK_SUCCESS } from 'src/embeds/talk/action-types'
+import {
+  getTalkEmbeddableConfig,
+  getAgentAvailability,
+  getFormState,
+  getAverageWaitTime,
+} from 'src/embeds/talk/selectors'
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_WIDGET_SHOWN,
@@ -33,15 +41,7 @@ import {
 } from 'src/redux/modules/base/base-action-types'
 import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
-import { getIsChatting } from 'src/embeds/chat/selectors'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
-import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
-import {
-  getTalkEmbeddableConfig,
-  getAgentAvailability,
-  getFormState,
-  getAverageWaitTime,
-} from 'src/embeds/talk/selectors'
 import { beacon } from 'src/service/beacon'
 import hcStats from 'src/service/hcStats'
 

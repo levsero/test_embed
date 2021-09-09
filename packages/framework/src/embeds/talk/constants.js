@@ -16,3 +16,7 @@ export const TEST_IDS = {
   BUTTON_HANG_UP: 'button-hang-up',
   ICON_AVATAR: 'Icon--avatar',
 }
+
+export const BASE_TALK_POLL_INTERVAL = 60000 // milliseconds
+export const MAX_TALK_POLL_INTERVAL = 1000 * 60 * 30 // milliseconds
+export const REQUESTS_BEFORE_BACKOFF = 1

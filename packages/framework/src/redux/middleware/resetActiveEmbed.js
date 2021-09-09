@@ -1,9 +1,16 @@
 import _ from 'lodash'
 import { EMBED_MAP, NIL_EMBED } from 'src/constants/shared'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'src/embeds/chat/actions/action-types'
+import { getIsChatting, getChatBanned } from 'src/embeds/chat/selectors'
 import helpCenterRoutes from 'src/embeds/helpCenter/routes'
 import { getArticleViewActive } from 'src/embeds/helpCenter/selectors'
 import supportRoutes from 'src/embeds/support/routes'
+import {
+  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
+  TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
+  TALK_SUCCESS_DONE_BUTTON_CLICKED,
+  RECEIVED_DEFERRED_TALK_STATUS,
+} from 'src/embeds/talk/action-types'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import {
   WIDGET_INITIALISED,
@@ -20,7 +27,6 @@ import {
   SDK_ACCOUNT_STATUS,
   SDK_CONNECTION_UPDATE,
 } from 'src/redux/modules/chat/chat-action-types'
-import { getIsChatting, getChatBanned } from 'src/embeds/chat/selectors'
 import {
   getChatAvailable,
   getTalkOnline,
@@ -32,12 +38,6 @@ import {
   getWebWidgetVisibleOpenAndReady,
 } from 'src/redux/modules/selectors'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
-import {
-  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-  TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-  TALK_SUCCESS_DONE_BUTTON_CLICKED,
-  RECEIVED_DEFERRED_TALK_STATUS,
-} from 'src/redux/modules/talk/talk-action-types'
 import history from 'src/service/history'
 import { isPopout } from 'src/util/globals'
 

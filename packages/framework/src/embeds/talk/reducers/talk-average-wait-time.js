@@ -1,7 +1,7 @@
 import {
   TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-} from '../talk-action-types'
+} from 'src/embeds/talk/action-types'
 
 const initialState = {
   waitTime: '0',

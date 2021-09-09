@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Main, Footer } from 'src/components/Widget'
+import { submitTalkCallbackForm, updateTalkCallbackForm } from 'src/embeds/talk/actions'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
 import DescriptionField from 'src/embeds/talk/components/DescriptionField'
@@ -10,6 +11,12 @@ import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import NameField from 'src/embeds/talk/components/NameField'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
 import routes from 'src/embeds/talk/routes'
+import {
+  getAverageWaitTimeString,
+  getCallback,
+  getTalkEmbeddableConfig,
+  getFormState,
+} from 'src/embeds/talk/selectors'
 import useTranslate from 'src/hooks/useTranslate'
 import {
   getTalkDescriptionLabel,
@@ -17,13 +24,6 @@ import {
   getTalkNickname,
   getTalkServiceUrl,
 } from 'src/redux/modules/selectors'
-import { submitTalkCallbackForm, updateTalkCallbackForm } from 'src/redux/modules/talk'
-import {
-  getAverageWaitTimeString,
-  getCallback,
-  getTalkEmbeddableConfig,
-  getFormState,
-} from 'src/embeds/talk/selectors'
 import { SubmitButton, Form, Header, FormDivider } from './styles'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']

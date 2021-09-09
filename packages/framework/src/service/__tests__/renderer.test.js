@@ -12,7 +12,7 @@ jest.mock('src/redux/modules/base', () => ({
 jest.mock('src/apps/webWidget/services/i18n')
 jest.mock('src/service/api/apis')
 jest.mock('src/redux/modules/chat')
-jest.mock('src/redux/modules/talk')
+jest.mock('src/embeds/talk/actions')
 jest.mock('src/embeds/webWidget', () => ({
   render: jest.fn(),
 }))
@@ -58,7 +58,7 @@ beforeEach(() => {
   renderWebWidget = require('src/embeds/webWidget').render
 
   chatActions = require('src/redux/modules/chat')
-  talkActions = require('src/redux/modules/talk')
+  talkActions = require('src/embeds/talk/actions')
   helpCenterActions = require('src/embeds/helpCenter/actions')
 
   renderer = require('../renderer').renderer

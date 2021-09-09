@@ -1,11 +1,11 @@
-import * as actions from 'src/redux/modules/talk'
+import * as actions from 'src/embeds/talk/actions'
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
   talkAverageWaitTimeEventToAction,
 } from '../events'
 
-jest.mock('src/redux/modules/talk')
+jest.mock('src/embeds/talk/actions')
 
 const mockSocket = {
   on: jest.fn(),

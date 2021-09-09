@@ -1,10 +1,10 @@
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
-import { testReducer } from 'src/util/testHelpers'
+import * as actionTypes from 'src/embeds/talk/action-types'
 import {
   CALLBACK_ONLY,
   PHONE_ONLY,
   CALLBACK_AND_PHONE,
 } from 'src/embeds/talk/talk-capability-types'
+import { testReducer } from 'src/util/testHelpers'
 import embeddableConfig from '../talk-embeddable-config'
 
 const initialState = {

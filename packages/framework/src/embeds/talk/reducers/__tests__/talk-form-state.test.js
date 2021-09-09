@@ -1,6 +1,6 @@
-import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
+import * as actionTypes from 'src/embeds/talk/action-types'
+import { API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
-import { API_CLEAR_FORM } from '../../../base/base-action-types'
 import formState from '../talk-form-state'
 
 const initialState = {

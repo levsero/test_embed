@@ -3,7 +3,7 @@ import {
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE,
   TALK_SUCCESS_DONE_BUTTON_CLICKED,
-} from '../talk-action-types'
+} from 'src/embeds/talk/action-types'
 
 const initialState = {
   isSending: false,

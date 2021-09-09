@@ -7,6 +7,8 @@ import {
 } from 'src/embeds/helpCenter/actions/action-types'
 import { FORM_OPENED } from 'src/embeds/support/actions/action-types'
 import { TICKET_SUBMISSION_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
+import { TALK_CALLBACK_SUCCESS } from 'src/embeds/talk/action-types'
+import { PHONE_ONLY, CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
 import { UPDATE_ACTIVE_EMBED, UPDATE_WIDGET_SHOWN } from 'src/redux/modules/base/base-action-types'
 import {
   SDK_CHAT_MEMBER_JOIN,
@@ -15,8 +17,6 @@ import {
   SDK_CHAT_COMMENT,
   PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
-import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
-import { PHONE_ONLY, CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
 import { GA } from 'src/service/analytics/googleAnalytics'
 import * as callbacks from 'src/service/api/callbacks'
 import { trackAnalytics } from '../analytics'

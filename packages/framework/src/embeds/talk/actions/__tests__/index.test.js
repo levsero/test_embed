@@ -1,12 +1,12 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import * as types from 'src/embeds/talk/action-types'
+import * as actions from 'src/embeds/talk/actions'
+import { MAX_TALK_POLL_INTERVAL, BASE_TALK_POLL_INTERVAL } from 'src/embeds/talk/constants'
 import createStore from 'src/redux/createStore'
 import * as baseTypes from 'src/redux/modules/base/base-action-types'
 import * as baseSelectors from 'src/redux/modules/selectors/selectors'
-import { MAX_TALK_POLL_INTERVAL, BASE_TALK_POLL_INTERVAL } from 'src/redux/modules/talk/constants'
 import { http, socketio } from 'src/service/transport'
-import * as types from '../talk-action-types'
-import * as actions from '../talk-actions'
 
 jest.useFakeTimers()
 

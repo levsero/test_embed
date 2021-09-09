@@ -6,8 +6,8 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import LoadingPage from 'src/components/LoadingPage'
 import { WidgetThemeProvider } from 'src/components/Widget'
 import SuspensePage from 'src/components/Widget/SuspensePage'
+import { loadTalkVendors } from 'src/embeds/talk/actions'
 import { getCapability, getIsCallInProgress } from 'src/embeds/talk/selectors'
-import { loadTalkVendors } from 'src/redux/modules/talk'
 import {
   getAgentAvailability,
   getSocketIoVendor,
