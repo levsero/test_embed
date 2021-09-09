@@ -382,10 +382,26 @@ parts:
       screenshot: 'https://drive.google.com/file/d/1FkjPBFIDb8uSUfk9I3ZBTHrmIYi9I6P4/view?usp=sharing'
       value: 'Tap to retry'
   - translation:
+      key: 'embeddable_framework.messenger.file_upload.error.file_count_limit'
+      title: 'Error message text in receipt when trying to attach too many files at once (more than 25 files in a single upload). The first 25 files selected are sent, and the error message is displayed on remaining files with a retry link.'
+      screenshot: 'https://drive.google.com/file/d/1xUDcSk4D3IG3ztkiRlRF0E0mLJZZ9S5b/view?usp=sharing'
+      value: 'Limit of {{fileUploadCountLimit}} files per upload. Tap to retry.'
+  - translation:
+      key: 'embeddable_framework.messenger.file_upload.error.file_size_limit'
+      title: 'Error message text in receipt when trying to attach a file that is too large. MB is the unit of measurement to express the maximum file size allowed.'
+      screenshot: 'https://drive.google.com/drive/u/0/folders/1GCxTJCgh8QY81aHCccEzDeJeY_KZq0L1'
+      value: 'Files must be {{fileUploadSizeLimitInMb}} MB or less'
+  - translation:
       key: 'embeddable_framework.messenger.file_upload.open_image_in_new_tab'
       title: 'When mouse over/hover or on focus, a text is displayed that tells the user that the image can be viewed/opened in a new browser tab'
       screenshot: 'https://drive.google.com/file/d/1dRiCjyVcG6RGDfleZBOlLs7MrCQ1GQcg/view?usp=sharing'
       value: 'Open image in new tab'
+      obsolete: '2021-11-15'
+  - translation:
+      key: 'embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2'
+      title: 'When mouse over/hover or on focus, a text is displayed that tells the user that the image can be viewed/opened in a new browser tab'
+      screenshot: 'https://drive.google.com/file/d/1xtYTRiE3QVuCOSgZMq-EyNFmgpqgqKLu/view?usp=sharing'
+      value: 'Open in new tab'
   - translation:
       key: 'embeddable_framework.messenger.file_upload.upload_button'
       title: '[A11Y] Aria label on the file upload button'
