@@ -12,14 +12,14 @@ const renderPrimaryParticipantMessage = (props = {}) => {
 const PARTICIPANT_BUBBLE_TEST_ID = 'participant-bubble'
 
 describe('MessageBubble', () => {
-  describe('PrimaryParticipantBubble', () => {
+  describe('for primary participant', () => {
     describe('when message status is sent', () => {
       it('renders a message bubble', () => {
         const { getByTestId } = renderPrimaryParticipantMessage()
         expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toBeInTheDocument
       })
 
-      it('displays styles for a successful message', () => {
+      it('displays color styles for a successful message', () => {
         const { getByTestId } = renderPrimaryParticipantMessage()
 
         expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule(
@@ -31,7 +31,7 @@ describe('MessageBubble', () => {
     })
 
     describe('when message status is sending', () => {
-      it('displays styles for a pending message', () => {
+      it('displays color and opacity styles for a pending message', () => {
         const { getByTestId } = renderPrimaryParticipantMessage({ status: 'sending' })
 
         expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule('opacity', '0.66')
@@ -39,7 +39,7 @@ describe('MessageBubble', () => {
     })
 
     describe('when message status is failed', () => {
-      it('displays default primary participant styles for a failed message', () => {
+      it('displays default color styles for a failed message', () => {
         const { getByTestId } = renderPrimaryParticipantMessage({ status: 'failed' })
 
         expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule(
@@ -49,7 +49,7 @@ describe('MessageBubble', () => {
         expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule('color', '#8c232c')
       })
 
-      it('displays styles for a failed image message', () => {
+      it('displays color styles for a failed image message', () => {
         const { getByTestId } = renderPrimaryParticipantMessage({ status: 'failed', type: 'image' })
 
         expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule(

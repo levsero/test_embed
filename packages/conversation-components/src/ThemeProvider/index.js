@@ -90,8 +90,8 @@ ThemeProvider.propTypes = {
         [MESSAGE_STATUS.failed]: PropTypes.string,
       }),
       errors: PropTypes.shape({
-        tooMany: PropTypes.func,
-        fileSize: PropTypes.func,
+        tooMany: PropTypes.string,
+        fileSize: PropTypes.string,
         unknown: PropTypes.string,
       }),
       receivedRecently: PropTypes.string,
