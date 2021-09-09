@@ -46,7 +46,6 @@ const FileMessage = ({
   isReceiptVisible = true,
   isFreshMessage = true,
   onRetry = () => {},
-  fileName,
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
@@ -79,7 +78,7 @@ const FileMessage = ({
               isPrimaryParticipant={isPrimaryParticipant}
               status={status}
             >
-              {fileName || altText || abbreviatedName}
+              {abbreviatedName || altText}
             </Name>
             <Size>{size}</Size>
           </Content>
@@ -92,7 +91,6 @@ const FileMessage = ({
 FileMessage.propTypes = {
   avatar: PropTypes.string,
   label: PropTypes.string,
-  fileName: PropTypes.string,
   altText: PropTypes.string,
   isPrimaryParticipant: PropTypes.bool,
   mediaUrl: PropTypes.string,

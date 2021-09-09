@@ -50,7 +50,7 @@ const Name = styled.a`
     ${(props) =>
       props.status === MESSAGE_STATUS.failed &&
       `
-    color: ${props.theme.palette.red[700]}
+    color: ${props.theme.palette.red[700]};
     `}
   }
 `
