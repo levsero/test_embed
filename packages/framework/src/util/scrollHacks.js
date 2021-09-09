@@ -1,21 +1,30 @@
 import { setScaleLock } from 'src/util/devices'
 import { win, document as doc } from 'src/util/globals'
+import { isNativeFunction, getNativeFunction } from 'src/util/native'
 
 let oldHostBodyPosition
 let oldWindowScrollY = null
 let scrollKillerActive = false
 let oldPositionTop, oldPositionBottom, oldPositionLeft, oldPositionRight, oldMargin
 
+const scrollTo = (x, y) => {
+  const nativeScrollTo = isNativeFunction(win.scrollTo)
+    ? win.scrollTo
+    : getNativeFunction('scrollTo')
+
+  nativeScrollTo(x, y)
+}
+
 function setWindowScroll(y) {
   if (oldWindowScrollY === null) {
     oldWindowScrollY = win.scrollY
   }
-  win.scrollTo(win.scrollX, y)
+  scrollTo(win.scrollX, y)
 }
 
 function revertWindowScroll() {
   if (oldWindowScrollY !== null) {
-    win.scrollTo(win.scrollX, oldWindowScrollY)
+    scrollTo(win.scrollX, oldWindowScrollY)
     oldWindowScrollY = null
   }
 }
