@@ -35,6 +35,17 @@ const ChannelPage = forwardRef((_props, ref) => {
   const translate = useTranslate()
   const integration = useSelector((state) => selectIntegrationById(state, channelId))
   const isFullScreen = useSelector(getIsFullScreen)
+  let whatsAppUrl = undefined
+
+  if (channelId === 'whatsapp') {
+    const customWhatsappMessage = translate(
+      'embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message',
+      { whatsappCode: integration.linkRequest.code }
+    )
+    whatsAppUrl = encodeURI(
+      `https://wa.me/${integration.phoneNumber}?text=${customWhatsappMessage}`
+    )
+  }
 
   useEffect(() => {
     if (!integration.linked) {
@@ -79,7 +90,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           ) : (
             <ChannelLinkWithQrCode
               channelId={channelId}
-              url={integration.linkRequest.url}
+              url={whatsAppUrl ? whatsAppUrl : integration.linkRequest.url}
               qrCode={integration.linkRequest.qrCode}
               status={linkStatus}
               onRetry={() => dispatch(fetchLinkRequest({ channelId }))}

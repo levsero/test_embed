@@ -379,7 +379,8 @@
       "embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger": "Take the conversation to your Messenger account. You can return anytime.",
       "embeddable_framework.messenger.channel_linking.page.title.fb_messenger": "Take the conversation to your Messenger account. You can return anytime.",
       "embeddable_framework.messenger.channel_link.messenger.disconnect_link_text": "Disconnect",
-      "embeddable_framework.messenger.channel_link.messenger.disconnect_button_text": "Messenger connected."
+      "embeddable_framework.messenger.channel_link.messenger.disconnect_button_text": "Messenger connected.",
+      "embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message": "I'm continuing my conversation on WhatsApp. Here's my code: {{whatsappCode}}"
     }
   }
 }

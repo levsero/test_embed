@@ -128,6 +128,18 @@ describe('ChannelPage', () => {
       expect(getByText('Open Messenger', { exact: false })).toBeInTheDocument()
     })
 
+    describe('when the channel is Whatsapp', () => {
+      it('should render an integration link with the custom Whatsapp message', () => {
+        const channelId = 'whatsapp'
+        const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+
+        const link = getByText('Open WhatsApp on this device', { exact: false })
+        expect(link.href).toContain(
+          'text=I%27m%20continuing%20my%20conversation%20on%20WhatsApp.%20Here%27s%20my%20code:%20'
+        )
+      })
+    })
+
     describe('when the back button is clicked', () => {
       it('can go back to previous page', () => {
         jest.spyOn(integrationStore, 'leftChannelPage')
