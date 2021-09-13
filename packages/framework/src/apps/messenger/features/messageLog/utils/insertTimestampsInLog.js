@@ -1,11 +1,10 @@
 const fifteenMinutes = 60 * 15
 
 const createTimestamp = (message) => {
-  const correctedMessageReceived = message.received * 1000
   return {
     type: 'timestamp',
-    received: correctedMessageReceived,
-    _id: `timestamp_${correctedMessageReceived}`,
+    received: message.received,
+    _id: `timestamp_${message.received}`,
     isLocalMessageType: true,
   }
 }

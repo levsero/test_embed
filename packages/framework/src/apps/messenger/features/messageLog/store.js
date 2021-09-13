@@ -91,6 +91,7 @@ const messagesSlice = createSlice({
       messagesAdapter.addOne(state, action.payload.message)
     },
     [startNewConversation.fulfilled](state, action) {
+      state.errorFetchingHistory = false
       state.hasFetchedConversation = true
       messagesAdapter.addMany(state, action.payload.messages)
     },

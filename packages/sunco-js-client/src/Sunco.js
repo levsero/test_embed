@@ -147,7 +147,11 @@ export default class Sunco {
           }),
         DELAY_BETWEEN_RETRIES,
         MAX_RETRIES
-      )
+      ).catch(() => {
+        // When any of the promises in this retry wrapper are rejected, eg. from a failed request,
+        // setting the conversationPromise back to null will allow users to 'try again'
+        this.conversationPromise = null
+      })
 
     return this.conversationPromise
   }
