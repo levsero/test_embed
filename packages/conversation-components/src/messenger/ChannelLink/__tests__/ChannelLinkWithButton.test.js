@@ -1,3 +1,4 @@
+import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
 import ChannelLinkWithButton from '../ChannelLinkWithButton'
 
@@ -59,6 +60,30 @@ describe('<ChannelLinkWithButton>', () => {
       const { getByRole } = renderChannelLinkWithButton({ status: 'loading' })
 
       expect(getByRole('progressbar')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the status is pending', () => {
+    it('renders a loading spinner', () => {
+      const { getByRole } = renderChannelLinkWithButton({ status: 'pending' })
+
+      expect(getByRole('progressbar')).toBeInTheDocument()
+    })
+
+    it('gives the user the ability to generate a new link', () => {
+      const onRetry = jest.fn()
+      const { getByText } = renderChannelLinkWithButton({ status: 'pending', onRetry })
+
+      userEvent.click(getByText('Generate new link'))
+
+      expect(onRetry).toHaveBeenCalled()
+    })
+
+    it('displays hidden text inside the button so its width does not change when spinner is displayed', () => {
+      const { getByText } = renderChannelLinkWithButton({ status: 'pending' })
+
+      expect(getByText('Open Messenger')).toHaveStyleRule('visibility', 'hidden')
+      expect(getByText('Open Messenger')).toHaveAttribute('aria-hidden', 'true')
     })
   })
 })

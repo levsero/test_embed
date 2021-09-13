@@ -4,20 +4,23 @@ import useLabels from 'src/hooks/useLabels'
 import { channelIcons } from './channelIcons'
 import {
   BigLoadingSpinner,
+  ButtonSpinnerContainer,
   ChannelIcon,
   ChannelPillButton,
   Container,
   Content,
   ErrorContainer,
+  HiddenText,
   Instructions,
   LinkErrorText,
+  LoadingSpinner,
   ReloadStroke,
   RetryPositioning,
   Subtitle,
   Title,
 } from './styles'
 
-const ChannelLinkWithButton = ({ channelId, url, status, onRetry }) => {
+const ChannelLinkWithButton = ({ channelId, url, status, onRetry, onLinkAttempted }) => {
   const labels = useLabels().channelLink[channelId]
   const genericlabels = useLabels().channelLink.linkError
   const ChannelLogo = channelIcons[channelId]
@@ -47,12 +50,29 @@ const ChannelLinkWithButton = ({ channelId, url, status, onRetry }) => {
               )
             case 'loading':
               return <BigLoadingSpinner size="24" />
+            case 'pending':
+              return (
+                <div>
+                  <ChannelPillButton isPrimary={true} isPill={true} disabled={true}>
+                    <HiddenText aria-hidden={true}>{labels.button.mobile}</HiddenText>
+                    <ButtonSpinnerContainer>
+                      <LoadingSpinner size="24" />
+                    </ButtonSpinnerContainer>
+                  </ChannelPillButton>
+                  <RetryPositioning>
+                    <TextButton onClick={onRetry}>Generate new link</TextButton>
+                    <ReloadStroke />
+                  </RetryPositioning>
+                </div>
+              )
             case 'success':
               return (
                 <ChannelPillButton
                   isPrimary={true}
                   isPill={true}
                   onClick={() => {
+                    onLinkAttempted?.()
+
                     window.open(url, '_blank', 'noopener,noreferrer')
                   }}
                 >
@@ -69,8 +89,9 @@ const ChannelLinkWithButton = ({ channelId, url, status, onRetry }) => {
 ChannelLinkWithButton.propTypes = {
   channelId: PropTypes.string,
   url: PropTypes.string,
-  status: PropTypes.oneOf(['error', 'loading', 'success']),
+  status: PropTypes.oneOf(['error', 'loading', 'success', 'pending']),
   onRetry: PropTypes.func,
+  onLinkAttempted: PropTypes.func,
 }
 
 export default ChannelLinkWithButton

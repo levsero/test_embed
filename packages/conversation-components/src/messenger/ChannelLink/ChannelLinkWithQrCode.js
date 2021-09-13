@@ -11,14 +11,16 @@ import {
   ErrorContainer,
   Instructions,
   LinkErrorText,
+  LoadingSpinner,
   QRCodeWrapper,
+  QRSpaceContainer,
   ReloadStroke,
   RetryPositioning,
   Subtitle,
   Title,
 } from './styles'
 
-const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry }) => {
+const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry, onLinkAttempted }) => {
   const labels = useLabels().channelLink[channelId]
   const genericlabels = useLabels().channelLink.linkError
   const ChannelLogo = channelIcons[channelId]
@@ -48,6 +50,18 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry }) => {
               )
             case 'loading':
               return <BigLoadingSpinner size="24" />
+            case 'pending':
+              return (
+                <>
+                  <QRSpaceContainer>
+                    <LoadingSpinner size="24" />
+                  </QRSpaceContainer>
+                  <RetryPositioning>
+                    <TextButton onClick={onRetry}>Generate new QR code</TextButton>
+                    <ReloadStroke />
+                  </RetryPositioning>
+                </>
+              )
             case 'success':
               return (
                 <>
@@ -63,7 +77,9 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry }) => {
                       />
                     )}
                   </QRCodeWrapper>
-                  <TextButton href={url}>{labels.button.desktop}</TextButton>
+                  <TextButton href={url} onClick={onLinkAttempted}>
+                    {labels.button.desktop}
+                  </TextButton>
                 </>
               )
           }
@@ -77,8 +93,9 @@ ChannelLinkWithQrCode.propTypes = {
   channelId: PropTypes.string,
   url: PropTypes.string,
   qrCode: PropTypes.string,
-  status: PropTypes.oneOf(['error', 'loading', 'success']),
+  status: PropTypes.oneOf(['error', 'loading', 'success', 'pending']),
   onRetry: PropTypes.func,
+  onLinkAttempted: PropTypes.func,
 }
 
 export default ChannelLinkWithQrCode

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import ChannelChoiceMenu from 'src/component/channelChoice/ChannelChoiceMenu'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
+import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import useTranslate from 'src/hooks/useTranslate'
 import { onChannelChoiceNextClick } from 'src/redux/modules/base'
 import {
@@ -12,7 +13,6 @@ import {
   getTalkOnline,
   getSubmitTicketAvailable,
 } from 'src/redux/modules/selectors'
-import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import { isMobileBrowser } from 'src/util/devices'
 
 const ChannelChoicePage = ({

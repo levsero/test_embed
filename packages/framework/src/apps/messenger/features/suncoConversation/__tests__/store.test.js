@@ -98,5 +98,27 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linkFailed).toBe(true)
     })
+
+    describe('event is a link:matched event', () => {
+      it('puts the channel in a pending state', async () => {
+        const store = createStore()
+
+        store.dispatch({
+          type: fetchIntegrations.fulfilled.toString(),
+          payload: [
+            { pageId: '12345678', appId: '23456789', _id: '0c19f2c2c28', type: 'messenger' },
+          ],
+        })
+
+        expect(selectIntegrationById(store.getState(), 'messenger').linkPending).toBe(false)
+
+        store.dispatch(startNewConversation())
+        await waitFor(() => expect(listeners['connected']).toBeTruthy())
+        listeners['connected']()
+        listeners['link']({ type: 'link:matched', appUser: {}, client: { platform: 'messenger' } })
+
+        expect(selectIntegrationById(store.getState(), 'messenger').linkPending).toBe(true)
+      })
+    })
   })
 })

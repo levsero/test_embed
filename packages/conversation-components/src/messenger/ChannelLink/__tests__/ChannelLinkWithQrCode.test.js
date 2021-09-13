@@ -1,3 +1,4 @@
+import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
 import ChannelLinkWithQrCode from '../ChannelLinkWithQrCode'
 
@@ -51,6 +52,23 @@ describe('<ChannelLinkWithQrCode>', () => {
       const { getByRole } = renderChannelLinkWithQrCode({ status: 'loading' })
 
       expect(getByRole('progressbar')).toBeInTheDocument()
+    })
+  })
+
+  describe('when the status is pending', () => {
+    it('renders a loading spinner', () => {
+      const { getByRole } = renderChannelLinkWithQrCode({ status: 'pending' })
+
+      expect(getByRole('progressbar')).toBeInTheDocument()
+    })
+
+    it('gives the user the ability to generate a new link', () => {
+      const onRetry = jest.fn()
+      const { getByText } = renderChannelLinkWithQrCode({ status: 'pending', onRetry })
+
+      userEvent.click(getByText('Generate new QR code'))
+
+      expect(onRetry).toHaveBeenCalled()
     })
   })
 })
