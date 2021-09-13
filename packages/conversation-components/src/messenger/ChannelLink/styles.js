@@ -121,24 +121,20 @@ const ButtonSpinnerContainer = styled.div`
 const IconPositioning = styled.div`
   display: flex;
   align-items: center;
-  min-width: 24px;
 `
 
 const UnlinkText = styled.p`
+  margin-left: ${(props) => props.theme.messenger.space.xs};
   margin-right: ${(props) => props.theme.messenger.space.xs};
 `
 
-const LinkTickIcon = styled(CheckLGStroke)`
-  margin-right: ${(props) => props.theme.messenger.space.sm};
-`
+const LinkTickIcon = styled(CheckLGStroke)``
 
 const DisconnectContainer = styled.div`
   display: flex;
 `
 
-const LoadingSpinner = styled(Spinner)`
-  margin-right: ${(props) => props.theme.messenger.space.sm};
-`
+const LoadingSpinner = styled(Spinner)``
 
 const BigLoadingSpinner = styled(Spinner)`
   margin-top: ${(props) => props.theme.messenger.space.lg};
