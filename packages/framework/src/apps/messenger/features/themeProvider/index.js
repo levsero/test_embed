@@ -79,13 +79,13 @@ const ThemeProvider = ({ children }) => {
             tooMany: translate(
               'embeddable_framework.messenger.file_upload.error.file_count_limit',
               {
-                count: fileUploadCountLimit,
+                fileUploadCountLimit,
               }
             ),
             fileSize: translate(
               'embeddable_framework.messenger.file_upload.error.file_size_limit',
               {
-                size: fileUploadSizeLimitInMb,
+                fileUploadSizeLimitInMb,
               }
             ),
             unknown: translate('embeddable_framework.messenger.file_upload.tap_to_retry'),
