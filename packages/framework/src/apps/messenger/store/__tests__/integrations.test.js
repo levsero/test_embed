@@ -10,6 +10,7 @@ import reducer, {
   fetchLinkRequest,
   getAllIntegrationsLinkStatus,
   leftChannelPage,
+  setupRequestlessIntegrations,
   unlinkIntegration,
 } from '../integrations'
 
@@ -65,7 +66,7 @@ testReducer(reducer, [
       payload: [
         { type: 'messenger', _id: 123, appId: 1, pageId: 'p1' },
         { type: 'whatsapp', _id: 234, appId: 2, pageId: 'p2' },
-        { type: 'instagram', _id: 345, appId: 3, pageId: 'p3' },
+        { type: 'instagram', _id: 345, appId: 3, pageId: 'p3', linkRequest: { url: 'abc123' } },
       ],
     },
     expected: {
@@ -111,7 +112,7 @@ testReducer(reducer, [
           errorFetchingLinkRequest: false,
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
-          linkRequest: {},
+          linkRequest: { url: 'abc123' },
           linkCancelled: false,
           linkFailed: false,
           unlinkFailed: false,
@@ -665,5 +666,30 @@ describe('getAllIntegrationsLinkStatus', () => {
     const result = getAllIntegrationsLinkStatus({ integrations: { entities: {}, ids: [] } })
 
     expect(result).toEqual({})
+  })
+})
+
+describe('setupRequestlessIntegrations', () => {
+  const input = [
+    { type: 'instagram', businessUsername: 'testaccount' },
+    { type: 'messenger', businessUsername: 'testAccount2' },
+    { type: 'whatsapp', businessUsername: 'testAccount3' },
+  ]
+  it('parses instagram to include a linkRequest URL and ignoreLinkRequest flag', () => {
+    const result = setupRequestlessIntegrations(input)
+
+    expect(result[0].linkRequest).toEqual({
+      url: 'https://instagram.com/testaccount',
+    })
+    expect(result[0].ignoreLinkRequest).toBe(true)
+  })
+
+  it('does not parse other integrations', () => {
+    const result = setupRequestlessIntegrations(input)
+
+    expect(result[1].linkRequest).toBeFalsy()
+    expect(result[2].linkRequest).toBeFalsy()
+    expect(result[1].ignoreLinkRequest).toBeFalsy()
+    expect(result[2].ignoreLinkRequest).toBeFalsy()
   })
 })

@@ -20,7 +20,15 @@ import {
   Title,
 } from './styles'
 
-const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry, onLinkAttempted }) => {
+const ChannelLinkWithQrCode = ({
+  channelId,
+  url,
+  qrCode,
+  status,
+  onRetry,
+  onLinkAttempted,
+  businessUsername,
+}) => {
   const labels = useLabels().channelLink[channelId]
   const genericlabels = useLabels().channelLink.linkError
   const ChannelLogo = channelIcons[channelId]
@@ -33,7 +41,7 @@ const ChannelLinkWithQrCode = ({ channelId, url, qrCode, status, onRetry, onLink
       <Title>{labels.title}</Title>
       <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
-        <Instructions>{labels.instructions.desktop}</Instructions>
+        <Instructions>{labels.instructions.desktop(businessUsername)}</Instructions>
         {(() => {
           switch (status) {
             case 'error':
@@ -96,6 +104,7 @@ ChannelLinkWithQrCode.propTypes = {
   status: PropTypes.oneOf(['error', 'loading', 'success', 'pending']),
   onRetry: PropTypes.func,
   onLinkAttempted: PropTypes.func,
+  businessUsername: PropTypes.string,
 }
 
 export default ChannelLinkWithQrCode

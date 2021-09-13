@@ -86,4 +86,17 @@ describe('<ChannelLinkWithButton>', () => {
       expect(getByText('Open Messenger')).toHaveAttribute('aria-hidden', 'true')
     })
   })
+
+  describe('when an integration with an account tag is included', () => {
+    it('updates the instructions to point to that @tag', () => {
+      const { getByText } = renderChannelLinkWithButton({
+        channelId: 'instagram',
+        url: 'https://instagram.com/totallycoolthing',
+        businessUsername: 'totallycoolthing',
+        status: 'success',
+      })
+
+      expect(getByText('Follow @totallycoolthing to send a DM.')).toBeInTheDocument()
+    })
+  })
 })

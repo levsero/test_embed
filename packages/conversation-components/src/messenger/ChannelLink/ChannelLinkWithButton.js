@@ -20,7 +20,14 @@ import {
   Title,
 } from './styles'
 
-const ChannelLinkWithButton = ({ channelId, url, status, onRetry, onLinkAttempted }) => {
+const ChannelLinkWithButton = ({
+  channelId,
+  url,
+  status,
+  onRetry,
+  onLinkAttempted,
+  businessUsername,
+}) => {
   const labels = useLabels().channelLink[channelId]
   const genericlabels = useLabels().channelLink.linkError
   const ChannelLogo = channelIcons[channelId]
@@ -33,7 +40,7 @@ const ChannelLinkWithButton = ({ channelId, url, status, onRetry, onLinkAttempte
       <Title>{labels.title}</Title>
       <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
-        <Instructions>{labels.instructions.mobile}</Instructions>
+        <Instructions>{labels.instructions.mobile(businessUsername)}</Instructions>
         {(() => {
           switch (status) {
             case 'error':
@@ -92,6 +99,7 @@ ChannelLinkWithButton.propTypes = {
   status: PropTypes.oneOf(['error', 'loading', 'success', 'pending']),
   onRetry: PropTypes.func,
   onLinkAttempted: PropTypes.func,
+  businessUsername: PropTypes.string,
 }
 
 export default ChannelLinkWithButton
