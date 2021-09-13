@@ -109,6 +109,10 @@ const integrations = createSlice({
     [fetchExistingConversation.fulfilled]: (state, { payload }) => {
       const { integrations } = payload
 
+      if (!integrations) {
+        return
+      }
+
       const parsedIntegrations = integrations?.map((integration) => ({
         id: integration.platform,
         changes: {
@@ -117,7 +121,6 @@ const integrations = createSlice({
         },
       }))
 
-      if (!parsedIntegrations) return
       integrationsAdapter.updateMany(state, parsedIntegrations)
     },
     [fetchLinkRequest.pending](

@@ -1,4 +1,5 @@
 import {
+  fetchExistingConversation,
   integrationLinkCancelled,
   integrationLinked,
   integrationLinkFailed,
@@ -539,6 +540,67 @@ testReducer(reducer, [
           type: 'messenger',
           linked: 'not linked',
           linkFailed: true,
+          linkCancelled: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'Marks an integration as linked when exists in conversation',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: false,
+          linkFailed: false,
+          linkCancelled: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: fetchExistingConversation.fulfilled({
+      integrations: [{ platform: 'messenger', id: 'client-id' }],
+    }),
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          clientId: 'client-id',
+          linked: true,
+          linkFailed: false,
+          linkCancelled: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+  },
+  {
+    extraDesc: 'Leaves integrations as is when none exist in conversation',
+    initialState: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: false,
+          linkFailed: false,
+          linkCancelled: false,
+        },
+      },
+      ids: ['messenger'],
+    },
+    action: fetchExistingConversation.fulfilled({
+      integrations: null,
+    }),
+    expected: {
+      entities: {
+        messenger: {
+          _id: 123,
+          type: 'messenger',
+          linked: false,
+          linkFailed: false,
           linkCancelled: false,
         },
       },
