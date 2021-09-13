@@ -1,6 +1,6 @@
 import { setScaleLock } from 'src/util/devices'
 import { win, document as doc } from 'src/util/globals'
-import { isNativeFunction, getNativeFunction } from 'src/util/native'
+import { isNativeFunction } from 'src/util/native'
 
 let oldHostBodyPosition
 let oldWindowScrollY = null
@@ -8,11 +8,9 @@ let scrollKillerActive = false
 let oldPositionTop, oldPositionBottom, oldPositionLeft, oldPositionRight, oldMargin
 
 const scrollTo = (x, y) => {
-  const nativeScrollTo = isNativeFunction(win.scrollTo)
-    ? win.scrollTo
-    : getNativeFunction('scrollTo')
-
-  nativeScrollTo(x, y)
+  // Fallback to calling our iframe's scrollTo function. This is required, when a user or theme
+  // author overrides a function with their own implementation that breaks the widget.
+  isNativeFunction(win.scrollTo) ? win.scrollTo(x, y) : window.scrollTo.call(win, x, y)
 }
 
 function setWindowScroll(y) {
