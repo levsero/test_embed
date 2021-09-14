@@ -383,7 +383,8 @@
       "embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message": "I'm continuing my conversation on WhatsApp. Here's my code: {{whatsappCode}}",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limit of {{fileUploadCountLimit}} files per upload. Tap to retry.",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Tap to retry",
-      "embeddable_framework.messenger.file_upload.error.file_size_limit": "Files must be {{fileUploadSizeLimitInMb}} MB or less"
+      "embeddable_framework.messenger.file_upload.error.file_size_limit": "Files must be {{fileUploadSizeLimitInMb}} MB or less",
+      "embeddable_framework.messenger.file_upload.upload_button": "Upload file"
     }
   }
 }

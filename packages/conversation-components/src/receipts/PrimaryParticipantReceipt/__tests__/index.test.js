@@ -22,9 +22,9 @@ describe('PrimaryParticipantReceipt', () => {
     })
 
     it('renders a timestamp when sent over a minute ago', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({ timeReceived: 1631150648.461 })
+      const { getByText } = renderPrimaryParticipantReceipt({ timeReceived: 1631150648 })
 
-      expect(getByText('Sent · 11:24 AM')).toBeInTheDocument
+      expect(getByText(/Sent · September 9/)).toBeInTheDocument
     })
   })
 
