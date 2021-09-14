@@ -80,7 +80,7 @@ const FileMessage = ({
               isPrimaryParticipant={isPrimaryParticipant}
               status={status}
             >
-              {abbreviatedName || altText}
+              {altText || abbreviatedName}
             </Name>
             <Size>{size}</Size>
           </Content>
