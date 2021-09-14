@@ -20,6 +20,13 @@ export default {
         options: Object.values(MESSAGE_STATUS),
       },
     },
+    errorReason: {
+      defaultValue: 'unknown',
+      control: {
+        type: 'inline-radio',
+        options: ['unknown', 'tooMany', 'fileSize'],
+      },
+    },
   },
 }
 

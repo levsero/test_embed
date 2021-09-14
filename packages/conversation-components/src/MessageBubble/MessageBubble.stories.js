@@ -1,4 +1,4 @@
-import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import MessageBubble from './'
 
 export default {
@@ -13,6 +13,13 @@ export default {
       control: {
         type: 'inline-radio',
         options: Object.values(MESSAGE_BUBBLE_SHAPES),
+      },
+    },
+    status: {
+      defaultValue: MESSAGE_STATUS.sent,
+      control: {
+        type: 'inline-radio',
+        options: Object.values(MESSAGE_STATUS),
       },
     },
   },
