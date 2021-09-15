@@ -9,7 +9,7 @@ const ChannelLinkContainer = styled.div`
     props.theme.messenger.isFullScreen &&
     css`
       @media (orientation: landscape) {
-        margin-top: ${(props) => rem(60, props.theme.messenger.baseFontSize)};
+        margin-top: ${rem(60, props.theme.messenger.baseFontSize)};
       }
     `}
 `
