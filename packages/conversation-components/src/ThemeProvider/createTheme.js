@@ -61,7 +61,8 @@ const createTheme = ({
         xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize),
         messageBubbleWidth: rem(52, baseFontSize),
         imageHeight: rem('146px', baseFontSize),
-        imageWidth: rem('264px', baseFontSize),
+        otherImageWidth: rem('264px', baseFontSize),
+        primaryImageWidth: rem('284px', baseFontSize),
       },
       lineHeights: {
         sm: rem(DEFAULT_THEME.lineHeights.sm, baseFontSize),
