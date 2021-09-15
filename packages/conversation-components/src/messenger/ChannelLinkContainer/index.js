@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 
 const ChannelLinkContainer = styled.div`
   margin-top: ${(props) => rem(120, props.theme.messenger.baseFontSize)};
+  margin-bottom: ${(props) => props.theme.messenger.space.lg};
 
   ${(props) =>
     props.theme.messenger.isFullScreen &&
