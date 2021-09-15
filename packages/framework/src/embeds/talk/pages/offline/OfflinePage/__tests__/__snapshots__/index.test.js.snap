@@ -390,6 +390,8 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           >
             title
           </h1>
@@ -412,6 +414,7 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
       >

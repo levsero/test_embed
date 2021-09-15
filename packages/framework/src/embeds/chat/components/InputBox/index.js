@@ -3,7 +3,7 @@ import { Field } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
 import { keyCodes } from 'src/util/keyboard'
-import { HiddenLabel, Container, StyledTextarea } from './styles'
+import { Container, HiddenLabel, StyledTextarea } from './styles'
 
 const InputBox = ({
   currentMessage = '',
@@ -16,7 +16,7 @@ const InputBox = ({
   const translate = useTranslate()
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+    if (e.key === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault()
       sendChat()
     }

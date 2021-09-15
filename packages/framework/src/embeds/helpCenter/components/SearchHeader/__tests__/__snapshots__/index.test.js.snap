@@ -662,6 +662,8 @@ exports[`renders correctly on desktop 1`] = `
         <h1
           class="c2 c3"
           data-testid="widget-title"
+          id="widgetHeaderTitle"
+          role="alert"
         >
           Search
         </h1>
@@ -743,7 +745,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -64,7 +64,7 @@
+@@ -66,7 +66,7 @@
                   />
                   <input
 -                   aria-describedby="2val-field_1.3.4--hint"
@@ -753,7 +755,7 @@ Snapshot Diff:
 +                   aria-labelledby="3val-field_1.3.4--label"
                     autocapitalize="off"
                     class="sc-gZMcBi sc-fjdhpX kTrTzY"
-@@ -72,5 +72,5 @@
+@@ -74,5 +74,5 @@
                     data-garden-version="8.20.0"
                     data-testid="search-field"
 -                   id="2val-field_1.3.4--input"

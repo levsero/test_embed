@@ -11,7 +11,7 @@ import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
 import { convertFieldValue } from 'src/embeds/support/utils/fieldConversion'
 import useOnClear from 'src/embeds/webWidget/hooks/useOnClear'
 import useTranslate from 'src/hooks/useTranslate'
-import { Fields, FormContainer, Alert } from './styles'
+import { Alert, Fields, FormContainer } from './styles'
 
 const Form = ({
   isSubmitting,
@@ -39,7 +39,12 @@ const Form = ({
   useOnClear(onClear)
 
   return (
-    <FormContainer onSubmit={onSubmit} noValidate={true} data-testid={TEST_IDS.SUPPORT_TICKET_FORM}>
+    <FormContainer
+      onSubmit={onSubmit}
+      noValidate={true}
+      data-testid={TEST_IDS.SUPPORT_TICKET_FORM}
+      aria-labelledby={'widgetHeaderTitle'}
+    >
       <Main>
         {children}
 

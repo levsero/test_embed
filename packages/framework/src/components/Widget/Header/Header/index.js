@@ -10,7 +10,9 @@ const Header = ({ children, title, useReactRouter, showBackButton, showCloseButt
   <HeaderView data-testid={TEST_IDS.WIDGET_HEADER_VIEW}>
     <TitleRow>
       {showBackButton && <BackButton useReactRouter={useReactRouter} />}
-      <Title>{title}</Title>
+      <Title role={'alert'} id={'widgetHeaderTitle'}>
+        {title}
+      </Title>
       {showCloseButton && <CloseButton />}
     </TitleRow>
     {children}

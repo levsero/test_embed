@@ -397,6 +397,8 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           />
           <button
             aria-label="Minimize widget"
@@ -417,6 +419,7 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
       >
