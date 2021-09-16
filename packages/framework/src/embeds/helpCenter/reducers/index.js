@@ -12,6 +12,7 @@ import resultsLocale from './resultsLocale'
 import searchAttempted from './searchAttempted'
 import searchFailed from './searchFailed'
 import searchFieldValue from './searchFieldValue'
+import searchId from './searchId'
 import searchLoading from './searchLoading'
 import searchTerm from './searchTerm'
 import searchedArticles from './searchedArticles'
@@ -27,6 +28,7 @@ export default combineReducers({
   manualContextualSuggestions,
   restrictedImages,
   resultsCount,
+  searchId,
   resultsLocale,
   searchAttempted,
   searchFailed,

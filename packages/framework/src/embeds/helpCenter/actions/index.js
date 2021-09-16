@@ -65,11 +65,12 @@ const sendQuery = async (path, query, doneFn, failFn, filter, responseType) => {
 }
 
 const formatResults = (response) => {
-  const { results = [], count = 0 } = response.body
+  const { results = [], count = 0, search_id = 0 } = response.body
 
   return {
     articles: results,
     resultsCount: count,
+    searchId: search_id,
     locale: results.length > 0 ? results[0].locale : '',
   }
 }

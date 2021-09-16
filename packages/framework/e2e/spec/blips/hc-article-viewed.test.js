@@ -18,6 +18,7 @@ export const assertHCArticleViewedPayload = (url) => {
       value: {
         query: 'Help',
         resultsCount: 3,
+        searchId: '1',
         uniqueSearchResultClick: true,
         articleId: expect.any(Number),
         locale: 'en-gb',
@@ -95,6 +96,7 @@ test('sends hc stat call in the correct format', async () => {
     last_search: {
       query: 'Help',
       results_count: 3,
+      search_id: '1',
       origin: 'web_widget',
     },
     unique_search_result_click: true,

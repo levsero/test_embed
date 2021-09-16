@@ -14,6 +14,7 @@ const articleViewed = (articleId, locale, params) => {
       last_search: {
         query: params.query,
         results_count: params.resultsCount,
+        search_id: params.searchId,
         origin: 'web_widget',
       },
       unique_search_result_click: params.uniqueSearchResultClick,

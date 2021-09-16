@@ -23,6 +23,7 @@ import {
 import {
   getTotalUserSearches,
   getResultsCount,
+  getSearchId,
   getSearchTerm,
   getCurrentActiveArticle,
   getHasContextuallySearched,
@@ -63,12 +64,14 @@ const createTalkBlipData = (state, phone) => {
 
 const getArticleClickValues = (state, articleId, answerBot) => {
   const resultsCount = getResultsCount(state)
+  const searchId = getSearchId(state)
   const trackPayload = {
     query: getSearchTerm(state),
     resultsCount: resultsCount > 3 ? 3 : resultsCount,
     uniqueSearchResultClick: !getCurrentActiveArticle(state),
     articleId,
     locale: i18n.getLocale(),
+    searchId: searchId,
     contextualSearch: getHasContextuallySearched(state),
     answerBot: Boolean(answerBot),
   }

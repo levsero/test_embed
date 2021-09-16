@@ -307,6 +307,7 @@ describe('performSearch', () => {
     it('dispatches SEARCH_REQUEST_SUCCESS if timestamp matches', async () => {
       const response = {
         body: {
+          search_id: 0,
           results: [
             {
               locale: 'fr',
@@ -331,6 +332,7 @@ describe('performSearch', () => {
           articles: [{ locale: 'fr', text: 'blah' }],
           locale: 'fr',
           resultsCount: 1,
+          searchId: 0,
           isFallback: false,
         },
         type: types.SEARCH_REQUEST_SUCCESS,
@@ -343,6 +345,7 @@ describe('performSearch', () => {
       jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
       const response = {
         body: {
+          searchId: 0,
           results: [
             {
               locale: 'fr',
@@ -397,6 +400,7 @@ describe('performSearch', () => {
               "isFallback": false,
               "locale": "",
               "resultsCount": 0,
+              "searchId": 0,
             },
             "type": "widget/helpCenter/SEARCH_REQUEST_SUCCESS",
           },
@@ -413,6 +417,7 @@ describe('performSearch', () => {
               "isFallback": true,
               "locale": "",
               "resultsCount": 0,
+              "searchId": 0,
             },
             "type": "widget/helpCenter/SEARCH_REQUEST_SUCCESS",
           },
@@ -530,6 +535,7 @@ describe('performContextualSearch', () => {
           articles: [{ locale: 'fr', text: 'blah' }],
           locale: 'fr',
           resultsCount: 1,
+          searchId: 0,
         },
         type: types.CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
       })
