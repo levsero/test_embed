@@ -35,6 +35,8 @@ import ChannelLinkContainer from './messenger/ChannelLinkContainer'
 import SquareLauncher from './messenger/Launcher/SquareLauncher'
 import LauncherLabel from './messenger/LauncherLabel'
 import MessageLogList from './messenger/MessageLogList'
+import MessageLogError from './messenger/MessageLogStatus/MessageLogError'
+import MessageLogSpinner from './messenger/MessageLogStatus/MessageLogSpinner'
 import MessengerBody from './messenger/MessengerBody'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
@@ -64,6 +66,8 @@ export {
   MessengerBody,
   MessengerContainer,
   MessengerFooter,
+  MessageLogError,
+  MessageLogSpinner,
   MessengerHeader,
   Notification,
   FBMessengerIcon,

@@ -1,15 +1,9 @@
 import PropTypes from 'prop-types'
 import { Spinner } from '@zendeskgarden/react-loaders'
 import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
+import { MessageLogError, MessageLogSpinner } from '@zendesk/conversation-components'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-import {
-  CenterSpinnerContainer,
-  TopSpinnerContainer,
-  CenterLoadingErrorTitle,
-  CenterLoadingErrorContainer,
-  TopLoadingErrorContainer,
-  LoadingErrorButton,
-} from './styles'
+import { TopSpinnerContainer, TopLoadingErrorContainer, LoadingErrorButton } from './styles'
 
 const HistoryLoader = ({
   hasFetchedConversation,
@@ -27,14 +21,7 @@ const HistoryLoader = ({
       </TopSpinnerContainer>
     )
 
-  if (!hasFetchedConversation && isFetchingHistory)
-    return (
-      <CenterSpinnerContainer
-        aria-label={translate('embeddable_framework.messenger.initial_conversation_spinner')}
-      >
-        <Spinner />
-      </CenterSpinnerContainer>
-    )
+  if (!hasFetchedConversation && isFetchingHistory) return <MessageLogSpinner />
 
   if (errorFetchingHistory && hasFetchedConversation && !isFetchingHistory)
     return (
@@ -46,16 +33,7 @@ const HistoryLoader = ({
     )
 
   if (errorFetchingHistory && !hasFetchedConversation)
-    return (
-      <CenterLoadingErrorContainer>
-        <CenterLoadingErrorTitle>
-          {translate('embeddable_framework.messenger.initial_conversation_request_failed')}
-        </CenterLoadingErrorTitle>
-        <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-          {translate('embeddable_framework.messenger.initial_conversation_retry')} <ReloadStroke />
-        </LoadingErrorButton>
-      </CenterLoadingErrorContainer>
-    )
+    return <MessageLogError onRetry={retryFetchMessages} />
   return null
 }
 
