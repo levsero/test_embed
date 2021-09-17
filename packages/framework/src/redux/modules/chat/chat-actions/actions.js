@@ -32,6 +32,11 @@ import { isMobileBrowser } from 'src/util/devices'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import * as actions from '../chat-action-types'
 import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
+import {
+  onSetDepartmentComplete,
+  setDepartmentComplete,
+  setDepartmentPending,
+} from './setDepartmentQueue'
 
 const chatTypingTimeout = 2000
 let history = []
@@ -91,18 +96,19 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
 export function sendMsg(msg, timestamp = Date.now()) {
   return (dispatch, getState) => {
     onChatConnected(() => {
-      let visitor = getChatVisitor(getState())
+      onSetDepartmentComplete(() => {
+        let visitor = getChatVisitor(getState())
 
-      dispatch(sendMsgRequest(msg, visitor, timestamp))
+        dispatch(sendMsgRequest(msg, visitor, timestamp))
 
-      zChatWithTimeout(getState, 'sendChatMsg')(msg, (err) => {
-        visitor = getChatVisitor(getState())
-
-        if (!err) {
-          dispatch(sendMsgSuccess(msg, visitor, timestamp))
-        } else {
-          dispatch(sendMsgFailure(msg, visitor, timestamp))
-        }
+        zChatWithTimeout(getState, 'sendChatMsg')(msg, (err) => {
+          visitor = getChatVisitor(getState())
+          if (!err) {
+            dispatch(sendMsgSuccess(msg, visitor, timestamp))
+          } else {
+            dispatch(sendMsgFailure(msg, visitor, timestamp))
+          }
+        })
       })
     })
   }
@@ -227,23 +233,24 @@ export function setVisitorInfo({
     })
     return new Promise((res, rej) => {
       onChatSDKInitialized(() => {
-        zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, async (err) => {
-          if (!err) {
-            dispatch({
-              type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
-              payload: { ...infoToUpdate, timestamp },
-            })
-            if (_.isObjectLike(successAction)) dispatch(successAction)
-            res()
-          } else {
-            if (err.code === 'ETIMEDOUT' && retry) {
-              return res(
-                dispatch(setVisitorInfo({ visitor, successAction, identifier, retry: false }))
-              )
+        onSetDepartmentComplete(() => {
+          zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, async (err) => {
+            if (!err) {
+              dispatch({
+                type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
+                payload: { ...infoToUpdate, timestamp },
+              })
+              if (_.isObjectLike(successAction)) dispatch(successAction)
+              res()
+            } else {
+              if (err.code === 'ETIMEDOUT' && retry) {
+                return res(
+                  dispatch(setVisitorInfo({ visitor, successAction, identifier, retry: false }))
+                )
+              }
+              rej(err)
             }
-
-            rej(err)
-          }
+          })
         })
       })
     }).catch((err) => {
@@ -547,6 +554,7 @@ export function chatOfflineFormChanged(formState) {
 
 export function setDepartment(departmentId, successCallback = noop, errCallback = noop) {
   return (dispatch, getState) => {
+    setDepartmentPending()
     zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, (err) => {
       dispatch(setDefaultDepartment(departmentId, Date.now()))
 
@@ -555,6 +563,7 @@ export function setDepartment(departmentId, successCallback = noop, errCallback 
       } else {
         errCallback(err)
       }
+      setDepartmentComplete()
     })
   }
 }

@@ -98,6 +98,7 @@ describe('chat redux actions', () => {
         onChatSDKInitialized: mockOnChatSDKInitializedSpy,
         onChatConnected: mockOnChatConnectedSpy,
       },
+      'src/embeds/webWidget/selectors/feature-flags': () => false,
       'src/embeds/chat/selectors': {
         getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy,
