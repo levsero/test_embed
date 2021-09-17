@@ -10,6 +10,7 @@ import typingIndicators from 'src/apps/messenger/features/messageLog/Message/mes
 import messages from 'src/apps/messenger/features/messageLog/store'
 import onlineStatus from 'src/apps/messenger/features/onlineStatus/store'
 import responsiveDesign from 'src/apps/messenger/features/responsiveDesign/store'
+import { reducer as conversation } from 'src/apps/messenger/features/suncoConversation/store'
 import theme from 'src/apps/messenger/features/themeProvider/store'
 import integrations from 'src/apps/messenger/store/integrations'
 import rememberConversationHistory from 'src/apps/messenger/store/rememberConversationHistory'
@@ -55,6 +56,7 @@ const createStore = () => {
       cookies,
       integrations,
       rememberConversationHistory,
+      conversation: createResettableReducer(conversation),
     }),
   })
 
