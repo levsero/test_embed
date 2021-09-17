@@ -79,7 +79,7 @@
   ],
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
-    "@zendesk/client-i18n-tools": "^15.5.0",
+    "@zendesk/client-i18n-tools": "^17.2.0",
     "@zendesk/conversation-components": "*",
     "@zendesk/sunco-js-client": "*",
     "@zendeskgarden/container-focusjail": "^1.2.2",
