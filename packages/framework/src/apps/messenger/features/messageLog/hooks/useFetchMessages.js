@@ -7,7 +7,7 @@ import {
   fetchPaginatedMessages,
   getIsFetchingHistory,
 } from 'src/apps/messenger/features/messageLog/store'
-import { startNewConversation } from 'src/apps/messenger/features/suncoConversation/store'
+import { startConversation } from 'src/apps/messenger/features/suncoConversation/store'
 import useSafeState from 'src/hooks/useSafeState'
 
 const useFetchMessages = ({ messages, container }) => {
@@ -20,7 +20,7 @@ const useFetchMessages = ({ messages, container }) => {
 
   const retryFetchMessages = () => {
     if (!hasExistingConversation()) {
-      dispatch(startNewConversation())
+      dispatch(startConversation())
     } else {
       if (isFetchingHistory) return
 

@@ -7,7 +7,7 @@ import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import { listenForOnlineOfflineEvents } from 'src/apps/messenger/features/onlineStatus/store'
 import { watchForScreenChanges } from 'src/apps/messenger/features/responsiveDesign/store'
-import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
+import { startConversation } from 'src/apps/messenger/features/suncoConversation/store'
 import createStore from 'src/apps/messenger/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
@@ -72,7 +72,7 @@ const run = async ({ config, embeddableData }) => {
     }
 
     if (hasExistingConversation()) {
-      store.dispatch(fetchExistingConversation())
+      store.dispatch(startConversation())
     }
   }
 

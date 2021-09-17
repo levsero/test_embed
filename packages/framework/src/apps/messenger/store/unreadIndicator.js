@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { sendConversationRead } from 'src/apps/messenger/api/sunco'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
-import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
+import { startConversation } from 'src/apps/messenger/features/suncoConversation/store'
 
 const markAsRead = createAsyncThunk('markAsRead', async () => {
   await sendConversationRead()
@@ -16,7 +16,7 @@ const unreadIndicator = createSlice({
     [markAsRead.pending](state, action) {
       state.lastReadTimestamp = action.meta.arg.lastMessageTimestamp
     },
-    [fetchExistingConversation.fulfilled](state, action) {
+    [startConversation.fulfilled](state, action) {
       state.lastReadTimestamp = action.payload.lastRead
     },
   },

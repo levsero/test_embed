@@ -2,7 +2,7 @@ import { waitFor } from '@testing-library/dom'
 import * as suncoApi from 'src/apps/messenger/api/sunco'
 import createStore from 'src/apps/messenger/store/index'
 import { fetchIntegrations, selectIntegrationById } from 'src/apps/messenger/store/integrations'
-import { startNewConversation } from '../store'
+import { startConversation } from '../store'
 
 jest.mock('src/apps/messenger/api/sunco')
 
@@ -24,7 +24,7 @@ describe('suncoConversation Store', () => {
     it('calls updateSession on link event', async () => {
       const store = createStore()
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
 
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
@@ -36,7 +36,7 @@ describe('suncoConversation Store', () => {
     it('does not call the link callback on another type of event', async () => {
       const store = createStore()
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
 
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
@@ -55,7 +55,7 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe(false)
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link', appUser: {}, client: { platform: 'messenger' } })
@@ -73,7 +73,7 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linkCancelled).toBe(false)
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link:cancelled', appUser: {}, client: { platform: 'messenger' } })
@@ -91,7 +91,7 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linkFailed).toBe(false)
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link:failed', appUser: {}, client: { platform: 'messenger' } })
@@ -112,7 +112,7 @@ describe('suncoConversation Store', () => {
 
         expect(selectIntegrationById(store.getState(), 'messenger').linkPending).toBe(false)
 
-        store.dispatch(startNewConversation())
+        store.dispatch(startConversation())
         await waitFor(() => expect(listeners['connected']).toBeTruthy())
         listeners['connected']()
         listeners['link']({ type: 'link:matched', appUser: {}, client: { platform: 'messenger' } })

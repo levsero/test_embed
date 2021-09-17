@@ -26,35 +26,23 @@ const waitForSocketToConnect = async (activeConversation, dispatch) => {
   return await socketIsConnected
 }
 
-export const startNewConversation = createAsyncThunk(
-  'startNewConversation',
-  async (_, { dispatch }) => {
-    const activeConversation = await getActiveConversation()
-    await waitForSocketToConnect(activeConversation, dispatch)
-    const messagesResponse = await fetchMessages()
-    return {
-      messages: Array.isArray(messagesResponse?.body?.messages)
-        ? messagesResponse?.body?.messages
-        : [],
-      conversationId: activeConversation.conversationId,
-      appUserId: activeConversation.appUserId,
-    }
-  }
-)
+export const startConversation = createAsyncThunk('startConversation', async (_, { dispatch }) => {
+  const activeConversation = await getActiveConversation()
 
-export const fetchExistingConversation = createAsyncThunk(
-  'fetchExistingConversation',
-  async (_, { dispatch }) => {
-    const activeConversation = await getActiveConversation()
-    await waitForSocketToConnect(activeConversation, dispatch)
-    const messagesResponse = await fetchMessages()
-    return {
-      lastRead: activeConversation.lastRead,
-      ...messagesResponse.body,
-      integrations: activeConversation.integrations,
-    }
+  await waitForSocketToConnect(activeConversation, dispatch)
+
+  const messagesResponse = await fetchMessages()
+
+  return {
+    messages: Array.isArray(messagesResponse?.body?.messages)
+      ? messagesResponse?.body?.messages
+      : [],
+    conversationId: activeConversation.conversationId,
+    appUserId: activeConversation.appUserId,
+    lastRead: activeConversation.lastRead,
+    integrations: activeConversation.integrations,
   }
-)
+})
 
 let conversationSocketHasAborted = false
 
@@ -70,7 +58,7 @@ const subscribeToConversationEvents = createAsyncThunk(
     activeConversation.socketClient.on('connected', async () => {
       if (conversationSocketHasAborted) {
         conversationSocketHasAborted = false
-        dispatch(fetchExistingConversation())
+        dispatch(startConversation())
       }
     })
 

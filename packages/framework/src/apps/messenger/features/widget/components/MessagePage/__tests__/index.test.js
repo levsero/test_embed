@@ -33,20 +33,20 @@ describe('MessagePage', () => {
     expect(getIsWidgetOpen(store.getState())).toBe(false)
   })
 
-  it('starts a new sunco conversation when there is no existing conversation', () => {
-    jest.spyOn(conversationStore, 'startNewConversation')
+  it('starts a sunco conversation when there is no existing conversation', () => {
+    jest.spyOn(conversationStore, 'startConversation')
 
     renderComponent()
 
-    expect(conversationStore.startNewConversation).toHaveBeenCalled()
+    expect(conversationStore.startConversation).toHaveBeenCalled()
   })
 
-  it('does not start a new conversation when there is an existing one', () => {
+  it('does not start a conversation when there is an existing one', () => {
     jest.spyOn(suncoApi, 'hasExistingConversation').mockReturnValue(true)
-    jest.spyOn(conversationStore, 'startNewConversation')
+    jest.spyOn(conversationStore, 'startConversation')
 
     renderComponent()
 
-    expect(conversationStore.startNewConversation).not.toHaveBeenCalled()
+    expect(conversationStore.startConversation).not.toHaveBeenCalled()
   })
 })

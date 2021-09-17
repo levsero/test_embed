@@ -9,7 +9,7 @@ import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store
 import MessageLog from 'src/apps/messenger/features/messageLog'
 import ConnectionStatusBanner from 'src/apps/messenger/features/onlineStatus'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
-import { startNewConversation } from 'src/apps/messenger/features/suncoConversation/store'
+import { startConversation } from 'src/apps/messenger/features/suncoConversation/store'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { Container } from './styles'
 
@@ -21,7 +21,7 @@ const MessagePage = forwardRef((_props, ref) => {
 
   useEffect(() => {
     if (!hasExistingConversation()) {
-      dispatch(startNewConversation())
+      dispatch(startConversation())
     }
   }, [])
 
