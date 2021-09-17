@@ -144,6 +144,9 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
 
   const addObserver = (eventType, callback) => {
     this.eventObservers[eventType].addObserver(callback)
+    return () => {
+      this.eventObservers[eventType].removeObserver(callback)
+    }
   }
 
   const subscribe = () => {
@@ -179,6 +182,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
     on: addObserver,
     subscribe: () => subscribe.call(this),
     unsubscribe: () => unsubscribe.call(this),
+    isConnected: () => this.socketClient.status === this.socketClient.CONNECTED,
   }
 }
 
