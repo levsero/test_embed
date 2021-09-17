@@ -284,9 +284,19 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
   height: 1rem !important;
 }
 
+.c5 svg,
+.c5 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c5:hover {
+  background: #195055 !important;
 }
 
 .c9 {
