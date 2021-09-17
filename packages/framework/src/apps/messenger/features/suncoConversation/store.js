@@ -24,7 +24,7 @@ const waitForSocketToConnect = async (activeConversation, dispatch) => {
       removeListener()
     }
     removeListener = activeConversation.socketClient.on('connected', onConnected)
-    if (activeConversation.socketClient.isConnected) {
+    if (activeConversation.socketClient.isConnected()) {
       onConnected()
     }
   })

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hasExistingConversation } from 'src/apps/messenger/api/sunco'
 import {
   getHasPrevious,
-  getHasFetchedConversation,
   fetchPaginatedMessages,
   getIsFetchingHistory,
 } from 'src/apps/messenger/features/messageLog/store'
@@ -14,7 +13,6 @@ const useFetchMessages = ({ messages, container }) => {
   const lastScrollTop = useRef(0)
   const dispatch = useDispatch()
   const hasPrevious = useSelector(getHasPrevious)
-  const hasFetchedConversations = useSelector(getHasFetchedConversation)
   const isFetchingHistory = useSelector(getIsFetchingHistory)
   const [scrollHeightOnHistoryFetch, setScrollHeightOnHistoryFetch] = useSafeState(null)
 
@@ -34,12 +32,6 @@ const useFetchMessages = ({ messages, container }) => {
       )
     }
   }
-
-  // Fetch existing conversations on initial load
-  useEffect(() => {
-    if (hasFetchedConversations) return
-    dispatch(fetchPaginatedMessages({}))
-  }, [])
 
   // Maintain scroll position on conversation load
   useEffect(() => {
