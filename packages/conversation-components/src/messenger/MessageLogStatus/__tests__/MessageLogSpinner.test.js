@@ -1,25 +1,20 @@
-import MessageLogError from 'src/messenger/MessageLogStatus/MessageLogError'
+import MessageLogSpinner from 'src/messenger/MessageLogStatus/MessageLogSpinner'
 import render from 'src/utils/test/render'
 
-describe('MessageLogError', () => {
-  const defaultProps = {
-    onRetry: jest.fn(),
-  }
+describe('MessageLogSpinner', () => {
+  const defaultProps = {}
 
-  const renderComponent = (props = {}) => render(<MessageLogError {...defaultProps} {...props} />)
+  const renderComponent = (props = {}) => render(<MessageLogSpinner {...defaultProps} {...props} />)
 
-  it('displays the reason why it errored', () => {
-    const { getByText } = renderComponent()
+  it('displays an accessible spinner', () => {
+    const { getByLabelText } = renderComponent()
 
-    expect(getByText('Couldn’t load messages')).toBeInTheDocument()
+    expect(getByLabelText('Loading conversation')).toBeInTheDocument()
   })
 
-  it('gives the ability to retry', () => {
-    const onRetry = jest.fn()
-    const { getByText } = renderComponent({ onRetry })
+  it('displays an visual spinner', () => {
+    const { getByRole } = renderComponent()
 
-    getByText('Tap to retry').click()
-
-    expect(onRetry).toHaveBeenCalled()
+    expect(getByRole('progressbar')).toBeInTheDocument()
   })
 })

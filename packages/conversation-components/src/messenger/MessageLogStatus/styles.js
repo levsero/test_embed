@@ -27,4 +27,27 @@ const ErrorTitle = styled.div`
   margin-bottom: ${(props) => props.theme.messenger.space.xxs};
 `
 
-export { SpinnerContainer, ErrorContainer, ErrorTitle }
+const HistoryErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: ${(props) => props.theme.messenger.space.sm};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sixteen};
+  &&& {
+    color: ${(props) => props.theme.palette.grey[800]};
+  }
+`
+
+const HistorySpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: ${(props) => props.theme.messenger.space.sm};
+  font-size: ${(props) => props.theme.messenger.fontSizes.xl};
+`
+
+export {
+  SpinnerContainer,
+  ErrorContainer,
+  ErrorTitle,
+  HistoryErrorContainer,
+  HistorySpinnerContainer,
+}

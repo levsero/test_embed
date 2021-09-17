@@ -182,6 +182,10 @@ const ThemeProvider = ({ children }) => {
           initialConversationSpinner: translate(
             'embeddable_framework.messenger.initial_conversation_spinner'
           ),
+          messageHistoryRetry: translate('embeddable_framework.messenger.previous_messages_retry'),
+          messageHistorySpinner: translate(
+            'embeddable_framework.messenger.previous_messages_spinner'
+          ),
         },
       }}
     >
