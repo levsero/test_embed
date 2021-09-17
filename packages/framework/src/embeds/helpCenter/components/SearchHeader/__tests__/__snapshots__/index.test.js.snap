@@ -249,9 +249,19 @@ exports[`renders correctly on desktop 1`] = `
   height: 1rem !important;
 }
 
+.c4 svg,
+.c4 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
 .c4:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c4:hover {
+  background: #195055 !important;
 }
 
 .c11 {

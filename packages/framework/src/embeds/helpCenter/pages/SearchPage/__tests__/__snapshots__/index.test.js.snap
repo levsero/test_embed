@@ -409,9 +409,19 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 1rem !important;
 }
 
+.c5 svg,
+.c5 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c5:hover {
+  background: #195055 !important;
 }
 
 .c18 {
@@ -1470,9 +1480,19 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 1rem !important;
 }
 
+.c5 svg,
+.c5 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c5:hover {
+  background: #195055 !important;
 }
 
 .c18 {
