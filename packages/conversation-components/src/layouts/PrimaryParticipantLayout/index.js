@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import Receipt from 'src/receipts/PrimaryParticipantReceipt'
 import { LayoutContainer, VerticalLayout } from './styles'
 
@@ -39,7 +39,7 @@ PrimaryParticipantLayout.propTypes = {
   children: PropTypes.node,
   onRetry: PropTypes.func,
   isRetryable: PropTypes.bool,
-  errorReason: PropTypes.string,
+  errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
 }
 
 export default PrimaryParticipantLayout

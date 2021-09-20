@@ -144,7 +144,7 @@ const Tail = styled.div`
     ${(props) =>
       props.status === MESSAGE_STATUS.sending &&
       `
-    opacity: 0.66;
+    opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
   `}
   }
 
@@ -157,7 +157,7 @@ const Tail = styled.div`
     ${(props) =>
       props.status === MESSAGE_STATUS.sending &&
       `
-    opacity: 0.66;
+    opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
   `}
   }
 
@@ -177,7 +177,7 @@ const Tail = styled.div`
 const RetryableFailedMessage = styled(Anchor)`
   &&& {
     border: 0;
-    color: ${(props) => props.theme.palette.red[700]};
+    color: ${(props) => props.theme.messenger.colors.failedMessageText};
     font-size: ${(props) => props.theme.messenger.fontSizes.sm};
     background-color: transparent;
 
@@ -188,7 +188,7 @@ const RetryableFailedMessage = styled(Anchor)`
 `
 
 const NonRetryableFailedMessage = styled.p`
-  color: ${(props) => props.theme.palette.red[700]};
+  color: ${(props) => props.theme.messenger.colors.failedMessageText};
   font-size: ${(props) => props.theme.messenger.fontSizes.sm};
 `
 

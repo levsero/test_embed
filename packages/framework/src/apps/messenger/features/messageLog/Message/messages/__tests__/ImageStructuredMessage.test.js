@@ -44,7 +44,7 @@ describe('ImageStructuredMessage', () => {
   })
 
   describe('when status is failed', () => {
-    it('allows file sending retries when reason is "unknown"', () => {
+    it('allows the user to retry sending the image when reason is "unknown"', () => {
       const { getByText } = renderComponent({
         message: {
           ...defaultProps.message,
@@ -61,7 +61,7 @@ describe('ImageStructuredMessage', () => {
       expect(messageLogStore.sendFile).toHaveBeenCalledWith({ messageId: 'ab13d4d55s4sc1232' })
     })
 
-    it('allows file sending retries when reason is "tooMany"', () => {
+    it('allows the user to retry sending the image when reason is "tooMany"', () => {
       const { getByText } = renderComponent({
         message: {
           ...defaultProps.message,
@@ -88,7 +88,11 @@ describe('ImageStructuredMessage', () => {
         },
       })
 
-      expect(getByText('Files must be 50 MB or less')).not.toBe(HTMLAnchorElement)
+      jest.spyOn(messageLogStore, 'sendFile')
+
+      userEvent.click(getByText('Files must be 50 MB or less'))
+
+      expect(messageLogStore.sendFile).not.toHaveBeenCalled()
     })
   })
 })

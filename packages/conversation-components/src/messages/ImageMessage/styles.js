@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { MESSAGE_STATUS } from 'src/constants'
 
 const Image = styled.img`
   height: ${(props) => props.theme.messenger.space.imageHeight};
@@ -6,9 +7,9 @@ const Image = styled.img`
   display: block;
 
   ${(props) =>
-    props.status === 'failed' &&
+    props.status === MESSAGE_STATUS.failed &&
     `
-      opacity: 0.66;
+      opacity: ${props.theme.messenger.opacity.failedImageMessageStatus};
     `}
 `
 

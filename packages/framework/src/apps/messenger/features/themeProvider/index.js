@@ -7,10 +7,10 @@ import {
   ThemeProvider as SuncoThemeProvider,
   MESSAGE_STATUS,
 } from '@zendesk/conversation-components'
+import { MAX_FILE_SIZE_IN_BYTES } from '@zendesk/sunco-js-client'
 import {
   baseFontSize,
   baseFontSizeFullScreen,
-  fileUploadSizeLimitInMb,
   fileUploadCountLimit,
 } from 'src/apps/messenger/constants'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
@@ -85,7 +85,7 @@ const ThemeProvider = ({ children }) => {
             fileSize: translate(
               'embeddable_framework.messenger.file_upload.error.file_size_limit',
               {
-                fileUploadSizeLimitInMb,
+                fileUploadSizeLimitInMb: MAX_FILE_SIZE_IN_BYTES / (1024 * 1024),
               }
             ),
             unknown: translate('embeddable_framework.messenger.file_upload.tap_to_retry'),

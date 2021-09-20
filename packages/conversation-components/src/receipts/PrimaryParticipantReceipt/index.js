@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useRef } from 'react'
-import { MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import AnimatedReceipt from 'src/receipts/AnimatedReceipt'
 import useParseTime from 'src/receipts/hooks/useParseTime'
@@ -54,7 +54,13 @@ const Receipt = ({
           </>
         )}
         {status === MESSAGE_STATUS.failed && (
-          <FailedMessage onClick={onRetry} tabIndex="0" onKeyDown={triggerOnEnter(onRetry)}>
+          <FailedMessage
+            tabIndex="0"
+            {...(isRetryable && {
+              onClick: onRetry,
+              onKeyDown: triggerOnEnter(onRetry),
+            })}
+          >
             {labels.errors[errorReason]}
             {` `}
             <AlertIcon />
@@ -71,7 +77,7 @@ Receipt.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
-  errorReason: PropTypes.string,
+  errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
   isRetryable: PropTypes.bool,
 }
 

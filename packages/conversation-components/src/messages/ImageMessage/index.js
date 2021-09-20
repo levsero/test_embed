@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 import NewWindowIcon from '@zendeskgarden/svg-icons/src/12/new-window-stroke.svg'
 import MessageBubble from 'src/MessageBubble'
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
@@ -99,7 +99,7 @@ ImageMessage.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
-  errorReason: PropTypes.string,
+  errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
   isRetryable: PropTypes.bool,
 }
 

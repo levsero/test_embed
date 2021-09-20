@@ -1,7 +1,7 @@
 import render from 'src/utils/test/render'
 import PrimaryParticipantReceipt from '../'
 
-const renderPrimaryParticipantReceipt = (props = {}) => {
+const renderComponent = (props = {}) => {
   const defaultProps = {
     status: 'sent',
   }
@@ -11,83 +11,85 @@ const renderPrimaryParticipantReceipt = (props = {}) => {
 describe('PrimaryParticipantReceipt', () => {
   describe('when receipt status is sent', () => {
     it('renders a receipt', () => {
-      const { getByText } = renderPrimaryParticipantReceipt()
+      const { queryByText } = renderComponent()
 
-      expect(getByText(/Sent/)).toBeInTheDocument
+      expect(queryByText(/Sent/)).toBeInTheDocument()
     })
 
     it('renders status text when message sent recently ', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({ timeReceived: Date.now() })
-      expect(getByText('Sent · Just now')).toBeInTheDocument
+      const { queryByText } = renderComponent({ timeReceived: Date.now() })
+      expect(queryByText('Sent · Just now')).toBeInTheDocument()
     })
 
     it('renders a timestamp when sent over a minute ago', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({ timeReceived: 1631150648 })
+      const { queryByText } = renderComponent({ timeReceived: 1631150648 })
 
-      expect(getByText(/Sent · September 9/)).toBeInTheDocument
+      expect(queryByText(/Sent · September 9/)).toBeInTheDocument()
     })
   })
 
   describe('when receipt status is sending', () => {
     it('renders status text for a sending message', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({ status: 'sending' })
+      const { queryByText } = renderComponent({ status: 'sending' })
 
-      expect(getByText('Sending')).toBeInTheDocument
+      expect(queryByText('Sending')).toBeInTheDocument()
     })
   })
 
   describe('when receipt status is failed', () => {
     it('renders an error message and retry button when reason is unknown', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({
+      const { queryByText } = renderComponent({
         status: 'failed',
         errorReason: 'unknown',
         isRetryable: true,
       })
 
-      const errorMessage = getByText('Tap to retry')
+      const errorMessage = queryByText('Tap to retry')
 
-      expect(errorMessage).toBeInTheDocument
+      expect(errorMessage).toBeInTheDocument()
       expect(errorMessage).toBeInstanceOf(HTMLAnchorElement)
     })
 
     it('fires onRetry when retry button is clicked', () => {
       const onRetry = jest.fn()
-      const { getByText } = renderPrimaryParticipantReceipt({
+      const { queryByText } = renderComponent({
         status: 'failed',
         errorReason: 'unknown',
         isRetryable: true,
         onRetry,
       })
 
-      getByText('Tap to retry').click()
+      queryByText('Tap to retry').click()
 
       expect(onRetry).toHaveBeenCalled()
     })
 
     it('renders an error message and retry button when too many files are uploaded', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({
+      const onRetry = jest.fn()
+      const { queryByText } = renderComponent({
         status: 'failed',
         errorReason: 'tooMany',
         isRetryable: true,
+        onRetry,
       })
 
-      const errorMessage = getByText('Limit of 25 files per upload. Tap to retry.')
+      queryByText('Limit of 25 files per upload. Tap to retry.').click()
 
-      expect(errorMessage).toBeInTheDocument
-      expect(errorMessage).toBeInstanceOf(HTMLAnchorElement)
+      expect(onRetry).toHaveBeenCalled()
     })
 
     it('renders an error message and no retry button when file size exceeds limit', () => {
-      const { getByText } = renderPrimaryParticipantReceipt({
+      const onRetry = jest.fn()
+      const { queryByText } = renderComponent({
         status: 'failed',
         errorReason: 'fileSize',
         isRetryable: false,
+        onRetry,
       })
 
-      const errorMessage = getByText('Files must be 50 MB or less')
+      queryByText('Files must be 50 MB or less').click()
 
-      expect(errorMessage).toBeInTheDocument
-      expect(errorMessage).toBeInstanceOf(HTMLParagraphElement)
+      expect(onRetry).not.toHaveBeenCalled()
     })
   })
 })

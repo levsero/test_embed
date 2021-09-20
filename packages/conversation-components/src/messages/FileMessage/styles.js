@@ -37,7 +37,11 @@ const Name = styled.a`
     props.isPrimaryParticipant
       ? props.theme.messenger.colors.messageText
       : props.theme.messenger.colors.otherParticipantMessageText};
-  ${(props) => props.status === MESSAGE_STATUS.failed && `color: ${props.theme.palette.red[700]};`}
+  ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    `
+    color: ${props.theme.messenger.colors.failedMessageText};
+    `}
   &:hover,
   &:visited,
   &:active,
@@ -50,7 +54,7 @@ const Name = styled.a`
     ${(props) =>
       props.status === MESSAGE_STATUS.failed &&
       `
-    color: ${props.theme.palette.red[700]};
+    color: ${props.theme.messenger.colors.failedMessageText};
     `}
   }
 `
