@@ -132,12 +132,6 @@ const LinkTickIcon = styled(CheckLGStroke)``
 
 const DisconnectContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`
-
-const ConnectionStatusInfo = styled.div`
-  display: flex;
 `
 
 const LoadingSpinner = styled(Spinner)``
@@ -176,7 +170,6 @@ export {
   Container,
   Content,
   DisconnectContainer,
-  ConnectionStatusInfo,
   ErrorContainer,
   IconPositioning,
   Instructions,
