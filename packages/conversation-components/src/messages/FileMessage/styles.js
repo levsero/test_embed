@@ -22,10 +22,10 @@ const Icon = styled(AttachmentIcon)`
   width: ${(props) => rem(20, props.theme.messenger.baseFontSize)};
   height: ${(props) => rem(20, props.theme.messenger.baseFontSize)};
   align-self: center;
-  margin-top: ${(props) => props.theme.messenger.space.xs};
-  margin-bottom: ${(props) => props.theme.messenger.space.xs};
-  margin-${dirStyles.left}: ${(props) => props.theme.messenger.space.xs};
-  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xxs};
+  margin-top: ${(props) => props.theme.messenger.space.sm};
+  margin-bottom: ${(props) => props.theme.messenger.space.sm};
+  margin-${dirStyles.left}: ${(props) => props.theme.messenger.space.sm};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xs};
 `
 
 const Name = styled.a`
