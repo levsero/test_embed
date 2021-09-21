@@ -59,15 +59,13 @@ const Receipt = ({
             isLink={true}
           >
             {labels.errors[errorReason]}
-            {` `}
-            <AlertIcon />
+            <AlertIcon role="presentation" />
           </RetryableFailedMessage>
         )}
         {status === MESSAGE_STATUS.failed && !isRetryable && (
           <NonRetryableFailedMessage tabIndex="0">
             {labels.errors[errorReason]}
-            {` `}
-            <AlertIcon />
+            <AlertIcon role="presentation" />
           </NonRetryableFailedMessage>
         )}
       </Layout>

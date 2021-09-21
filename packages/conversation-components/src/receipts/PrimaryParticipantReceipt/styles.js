@@ -180,6 +180,9 @@ const RetryableFailedMessage = styled(Button)`
     color: ${(props) => props.theme.messenger.colors.failedMessageText};
     font-size: ${(props) => props.theme.messenger.fontSizes.sm};
     background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:focus {
       text-decoration: underline;
@@ -187,17 +190,20 @@ const RetryableFailedMessage = styled(Button)`
   }
 `
 
-const NonRetryableFailedMessage = styled.p`
+const NonRetryableFailedMessage = styled.div`
   color: ${(props) => props.theme.messenger.colors.failedMessageText};
   font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const AlertIcon = styled(AlertSVG)`
   height: ${(props) => props.theme.messenger.iconSizes.sm};
   width: ${(props) => props.theme.messenger.iconSizes.sm};
   max-height: none;
+  margin-left: ${(props) => props.theme.messenger.space.xxs};
 `
-
 export {
   Layout,
   Tail,
