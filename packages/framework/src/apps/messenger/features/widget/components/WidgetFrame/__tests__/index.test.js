@@ -64,10 +64,8 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messaging window').parentNode).toHaveStyle(`
-        height: 500px
-        width: 300px
-        maxHeight: calc(100vh - 90px - 10px);
+      expect(getByTitle('Messaging window').parentNode).not.toHaveStyle(`
+        height: 100%;
       `)
     })
 

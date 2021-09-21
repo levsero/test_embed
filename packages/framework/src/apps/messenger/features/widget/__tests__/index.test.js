@@ -25,9 +25,9 @@ describe('Messenger', () => {
   it('is positioned in the bottom right of the screen above the launcher', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('Messaging window')).toHaveStyle(`
-      bottom: ${launcherSize + frameMarginFromPage + marginBetweenFrames};
-      right: ${frameMarginFromPage};
+    expect(getByTitle('Messaging window').parentNode).toHaveStyle(`
+      bottom: ${launcherSize + frameMarginFromPage + marginBetweenFrames}px;
+      right: ${frameMarginFromPage}px;
     `)
   })
 })

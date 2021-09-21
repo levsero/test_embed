@@ -39,7 +39,6 @@ describe('default parameters', () => {
   it('creates the iframe with the expected styles', () => {
     expect(webWidgetPreview()).toHaveStyle(`
         position: relative;
-        float: right;
         margin-top: 16px;
         margin-right: 16px;
         right: 0px;
@@ -68,14 +67,18 @@ describe('default parameters', () => {
       await waitFor(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
     })
 
-    it("preserves the widget's colour after changing it", () => {
+    it("preserves the widget's colour after changing it", async () => {
       preview.setColor('#174F87')
 
-      expect(webWidgetPreviewBody()).toMatch('background-color: #174F87 !important;')
+      await waitFor(() =>
+        expect(webWidgetPreviewBody()).toMatch('background-color: #174F87 !important;')
+      )
 
       preview.setTitle('message')
 
-      expect(webWidgetPreviewBody()).toMatch('background-color: #174F87 !important;')
+      await waitFor(() =>
+        expect(webWidgetPreviewBody()).toMatch('background-color: #174F87 !important;')
+      )
     })
   })
 
@@ -85,16 +88,20 @@ describe('default parameters', () => {
     await waitFor(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
   })
 
-  it('allows setting of color', () => {
+  it('allows setting of color', async () => {
     preview.setColor('#B81E34')
 
-    expect(webWidgetPreviewBody()).toMatch('background-color: #B81E34 !important;')
+    await waitFor(() =>
+      expect(webWidgetPreviewBody()).toMatch('background-color: #B81E34 !important;')
+    )
   })
 
-  it('sets it with default color', () => {
+  it('sets it with default color', async () => {
     preview.setColor()
 
-    expect(webWidgetPreviewBody()).toMatch(`background-color: ${DEFAULT_BASE_COLOR} !important;`)
+    await waitFor(() =>
+      expect(webWidgetPreviewBody()).toMatch(`background-color: ${DEFAULT_BASE_COLOR} !important;`)
+    )
   })
 })
 
@@ -130,7 +137,6 @@ test('styles can be customized', async () => {
 
   await waitFor(() =>
     expect(webWidgetPreview()).toHaveStyle(`
-        float: left;
         margin-top: 32px;
         margin-left: 32px;
         width: 112px;

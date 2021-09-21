@@ -34,7 +34,7 @@ describe('Dropdown', () => {
         },
       })
 
-      expect(queryByLabelText('Some title')).toBeInTheDocument()
+      expect(queryByLabelText('Some title', { selector: 'input' })).toBeInTheDocument()
     })
 
     it('displays the title with optional text when not required', () => {
@@ -46,7 +46,7 @@ describe('Dropdown', () => {
         },
       })
 
-      expect(queryByLabelText('Some title (optional)')).toBeInTheDocument()
+      expect(queryByLabelText('Some title (optional)', { selector: 'input' })).toBeInTheDocument()
     })
   })
 
@@ -257,7 +257,7 @@ describe('Dropdown', () => {
       { onKeyDown }
     )
 
-    fireEvent.keyDown(queryByLabelText('Some title'), {
+    fireEvent.keyDown(queryByLabelText('Some title', { selector: 'input' }), {
       key: 'Escape',
     })
 
@@ -277,9 +277,9 @@ describe('Dropdown', () => {
       onKeyDown
     )
 
-    queryByLabelText('Some title').click()
+    queryByLabelText('Some title', { selector: 'input' }).click()
 
-    fireEvent.keyDown(queryByLabelText('Some title'), {
+    fireEvent.keyDown(queryByLabelText('Some title', { selector: 'input' }), {
       key: 'Escape',
     })
 

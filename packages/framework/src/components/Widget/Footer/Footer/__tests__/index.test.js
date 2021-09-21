@@ -59,7 +59,7 @@ describe('Footer', () => {
     const { container } = renderComponent({ children: <div>children</div> })
 
     expect(find(container, FooterView)).toHaveStyle(`
-      padding: ${padding('large')}
+      padding: ${padding({ size: 'large' })}
     `)
   })
 
@@ -67,7 +67,7 @@ describe('Footer', () => {
     const { container } = renderComponent({ children: null })
 
     expect(find(container, FooterView)).toHaveStyle(`
-      padding: ${padding('small')}
+      padding: ${padding({ size: 'small' })}
     `)
   })
 

@@ -48,7 +48,6 @@ describe('rendered with default options', () => {
   it('creates the iframe with the expected styles', () => {
     expect(chatPreview()).toHaveStyle(`
         position: relative;
-        float: right;
         right: 0px;
         bottom: 0px;
         margin-right: 16px;
@@ -60,8 +59,8 @@ describe('rendered with default options', () => {
 
   it('can update to chatting screen', (done) => {
     preview.updateScreen(constants.CHATTING_SCREEN)
-    preview.waitForComponent(() => {
-      expect(chatPreviewBodyEl()).toHaveTextContent('Type a message here')
+    preview.waitForComponent(async () => {
+      await waitFor(() => expect(chatPreviewBodyEl()).toHaveTextContent('Type a message here'))
       done()
     })
   })
@@ -76,8 +75,10 @@ describe('rendered with default options', () => {
 
   it('can update to offline message screen', (done) => {
     preview.updateScreen(OFFLINE_FORM_SCREENS.MAIN)
-    preview.waitForComponent(() => {
-      expect(chatPreviewBodyEl()).toHaveTextContent('Sorry, we are not online at the moment')
+    preview.waitForComponent(async () => {
+      await waitFor(() =>
+        expect(chatPreviewBodyEl()).toHaveTextContent('Sorry, we are not online at the moment')
+      )
       done()
     })
   })
@@ -85,8 +86,10 @@ describe('rendered with default options', () => {
   it('allows setting of color', (done) => {
     preview.setColor('#FF1234')
 
-    preview.waitForComponent(() => {
-      expect(chatPreviewBody()).toMatch('background-color: #FF1234 !important;')
+    preview.waitForComponent(async () => {
+      await waitFor(() =>
+        expect(chatPreviewBody()).toMatch('background-color: #FF1234 !important;')
+      )
       done()
     })
   })
@@ -94,8 +97,10 @@ describe('rendered with default options', () => {
   it('sets it with default color', (done) => {
     preview.setColor()
 
-    preview.waitForComponent(() => {
-      expect(chatPreviewBody()).toMatch('background-color: #1F73B7 !important;')
+    preview.waitForComponent(async () => {
+      await waitFor(() =>
+        expect(chatPreviewBody()).toMatch('background-color: #1F73B7 !important;')
+      )
       done()
     })
   })
@@ -111,8 +116,8 @@ describe('rendered with default options', () => {
 
     preview.updateChatState(action)
 
-    preview.waitForComponent(() => {
-      expect(chatPreviewBodyEl()).toHaveTextContent('Chat with us')
+    preview.waitForComponent(async () => {
+      await waitFor(() => expect(chatPreviewBodyEl()).toHaveTextContent('Chat with us'))
       expect(chatPreviewBodyEl()).toHaveTextContent('Live Support')
       done()
     })
@@ -122,8 +127,8 @@ describe('rendered with default options', () => {
     preview.updateScreen(constants.CHATTING_SCREEN)
     preview.updateSettings({ concierge: { title: 'updated concierge title' } })
 
-    preview.waitForComponent(() => {
-      expect(chatPreviewBodyEl()).toHaveTextContent('updated concierge title')
+    preview.waitForComponent(async () => {
+      await waitFor(() => expect(chatPreviewBodyEl()).toHaveTextContent('updated concierge title'))
       done()
     })
   })
@@ -148,7 +153,6 @@ test('locale can be set', async () => {
 
 test('styles can be customized', async () => {
   const styles = {
-    float: 'left',
     marginTop: '32px',
     marginLeft: '32px',
     width: '100px',
@@ -161,7 +165,6 @@ test('styles can be customized', async () => {
 
   await waitFor(() =>
     expect(chatPreview()).toHaveStyle(`
-        float: left;
         margin-top: 32px;
         margin-left: 32px;
         width: 112px;

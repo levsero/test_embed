@@ -20,28 +20,15 @@
     "test:ci": "jest --ci"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.12.9",
-    "@babel/plugin-transform-react-jsx": "^7.12.10",
-    "@babel/preset-env": "^7.12.7",
-    "@babel/preset-react": "^7.12.7",
     "@storybook/addon-a11y": "^6.2.9",
     "@storybook/addon-actions": "^6.1.10",
     "@storybook/addon-essentials": "^6.1.10",
     "@storybook/addon-links": "^6.1.10",
     "@storybook/react": "^6.1.10",
-    "@testing-library/dom": "^7.29.0",
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
     "babel-plugin-inline-import-data-uri": "^1.0.1",
     "babel-plugin-inline-react-svg": "^2.0.1",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "babel-plugin-styled-components": "^1.12.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "jest": "^26.6.3",
-    "jest-styled-components": "^6.0.0"
+    "eslint-plugin-prettier": "^3.3.0"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
