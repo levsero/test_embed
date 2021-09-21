@@ -16,6 +16,8 @@ const articleViewed = (articleId, locale, params) => {
         results_count: params.resultsCount,
         search_id: params.searchId,
         origin: 'web_widget',
+        clicked_article_rank: params.rank,
+        clicked_article_url: params.url,
       },
       unique_search_result_click: params.uniqueSearchResultClick,
     },

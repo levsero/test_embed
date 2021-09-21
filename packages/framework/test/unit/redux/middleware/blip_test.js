@@ -376,6 +376,8 @@ describe('blip middleware', () => {
           searchTerm: 'i made a query...',
           resultsCount: 5,
           searchId: '1',
+          rank: 2,
+          url: 'url',
           articleClicked: false,
           hasContextuallySearched: false,
         }
@@ -388,7 +390,7 @@ describe('blip middleware', () => {
         beforeEach(() => {
           action = {
             type: ARTICLE_VIEWED,
-            payload: { id: 121212112, locale: 'US', search_id: '1' },
+            payload: { id: 121212112, locale: 'US', search_id: '1', url: 'url', rank: 2 },
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -399,6 +401,8 @@ describe('blip middleware', () => {
           searchId: '1',
           uniqueSearchResultClick: true,
           articleId: 121212112,
+          url: 'url',
+          rank: 2,
           locale: 'US',
           contextualSearch: false,
           answerBot: false,

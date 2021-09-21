@@ -119,6 +119,8 @@ const sendHelpCenterFirstSearchBlip = (state) => {
 const sendArticleClickedBlip = (state, latestArticle) => {
   if (latestArticle) {
     const values = getArticleClickValues(state, latestArticle.id)
+    Object.assign(values, { rank: latestArticle.rank, url: latestArticle.url })
+
     beacon.trackUserAction('helpCenter', 'click', {
       label: 'helpCenterForm',
       value: values,
