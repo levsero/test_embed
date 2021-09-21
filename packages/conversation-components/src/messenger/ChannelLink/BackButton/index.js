@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import ChevronIcon from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg'
+import ChevronIcon from '@zendeskgarden/svg-icons/src/16/chevron-left-fill.svg'
 import IconButton from 'src/IconButton'
 
 const BackButton = ({ onClick, ariaLabel }) => {

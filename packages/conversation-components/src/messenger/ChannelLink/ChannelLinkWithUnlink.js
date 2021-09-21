@@ -7,6 +7,7 @@ import {
   ChannelPillButton,
   Container,
   Content,
+  ConnectionStatusInfo,
   DisconnectContainer,
   IconPositioning,
   Instructions,
@@ -33,8 +34,10 @@ const ChannelLinkWithUnlink = ({ channelId, onDisconnect, pending, businessUsern
           {labels.button.mobile}
         </ChannelPillButton>
         <DisconnectContainer>
-          <IconPositioning>{pending ? <LoadingSpinner /> : <LinkTickIcon />}</IconPositioning>
-          <UnlinkText>{labels.disconnectButtonText}</UnlinkText>
+          <ConnectionStatusInfo>
+            <IconPositioning>{pending ? <LoadingSpinner /> : <LinkTickIcon />}</IconPositioning>
+            <UnlinkText>{labels.disconnectButtonText}</UnlinkText>
+          </ConnectionStatusInfo>
           <TextButton onClick={onDisconnect}>{labels.disconnectLinkText}</TextButton>
         </DisconnectContainer>
       </Content>
