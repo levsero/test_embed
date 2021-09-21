@@ -37,19 +37,6 @@ describe('PrimaryParticipantReceipt', () => {
   })
 
   describe('when receipt status is failed', () => {
-    it('renders an error message and retry button when reason is unknown', () => {
-      const { queryByText } = renderComponent({
-        status: 'failed',
-        errorReason: 'unknown',
-        isRetryable: true,
-      })
-
-      const errorMessage = queryByText('Tap to retry')
-
-      expect(errorMessage).toBeInTheDocument()
-      expect(errorMessage).toBeInstanceOf(HTMLAnchorElement)
-    })
-
     it('fires onRetry when retry button is clicked', () => {
       const onRetry = jest.fn()
       const { queryByText } = renderComponent({

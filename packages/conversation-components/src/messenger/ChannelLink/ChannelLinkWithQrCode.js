@@ -77,12 +77,7 @@ const ChannelLinkWithQrCode = ({
                     {qrCode ? (
                       <img src={qrCode} alt={labels.qrCodeAlt} />
                     ) : (
-                      <QRCode
-                        data-testid="generatedQRCode"
-                        value={url}
-                        renderAs="svg"
-                        aria-label={labels.qrCodeAlt}
-                      />
+                      <QRCode value={url} renderAs="svg" aria-label={labels.qrCodeAlt} />
                     )}
                   </QRCodeWrapper>
                   <TextButton href={url} onClick={onLinkAttempted}>

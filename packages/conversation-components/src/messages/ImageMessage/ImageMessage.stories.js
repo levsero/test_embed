@@ -1,4 +1,4 @@
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, MESSAGE_TYPES } from 'src/constants'
 import {
   MessageLogListDecorator,
   MessengerContainerDecorator,
@@ -40,7 +40,7 @@ const defaultProps = {
 const defaultPrimaryParticipantProps = {
   isPrimaryParticipant: true,
   errorReason: 'unknown',
-  type: 'image',
+  type: MESSAGE_TYPES.image,
 }
 
 export const PrimaryParticipantImageMessageWithNoText = Template.bind()

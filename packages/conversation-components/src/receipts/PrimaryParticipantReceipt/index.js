@@ -33,8 +33,6 @@ const Receipt = ({
     currentStatus.current = status
   }
 
-  const FailedMessage = isRetryable ? RetryableFailedMessage : NonRetryableFailedMessage
-
   return (
     <AnimatedReceipt isFreshMessage={isReceiptVisible} isReceiptVisible={isReceiptVisible}>
       <Layout isVisible={isReceiptVisible}>
@@ -53,18 +51,24 @@ const Receipt = ({
             </TailContainer>
           </>
         )}
-        {status === MESSAGE_STATUS.failed && (
-          <FailedMessage
+        {status === MESSAGE_STATUS.failed && isRetryable && (
+          <RetryableFailedMessage
+            onClick={onRetry}
             tabIndex="0"
-            {...(isRetryable && {
-              onClick: onRetry,
-              onKeyDown: triggerOnEnter(onRetry),
-            })}
+            onKeyDown={triggerOnEnter(onRetry)}
+            isLink={true}
           >
             {labels.errors[errorReason]}
             {` `}
             <AlertIcon />
-          </FailedMessage>
+          </RetryableFailedMessage>
+        )}
+        {status === MESSAGE_STATUS.failed && !isRetryable && (
+          <NonRetryableFailedMessage tabIndex="0">
+            {labels.errors[errorReason]}
+            {` `}
+            <AlertIcon />
+          </NonRetryableFailedMessage>
         )}
       </Layout>
     </AnimatedReceipt>

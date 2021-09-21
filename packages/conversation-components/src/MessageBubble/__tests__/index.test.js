@@ -5,57 +5,48 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     isPrimaryParticipant: true,
     status: 'sent',
+    children: 'nightcall',
   }
   return render(<MessageBubble {...defaultProps} {...props} />)
 }
-
-const PARTICIPANT_BUBBLE_TEST_ID = 'participant-bubble'
 
 describe('MessageBubble', () => {
   describe('for primary participant', () => {
     describe('when message status is sent', () => {
       it('renders a message bubble', () => {
-        const { getByTestId } = renderComponent()
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toBeInTheDocument()
+        const { getByText } = renderComponent()
+        expect(getByText('nightcall')).toBeInTheDocument()
+        expect(getByText('nightcall')).toBeInTheDocument()
       })
 
       it('displays color styles for a successful message', () => {
-        const { getByTestId } = renderComponent()
+        const { getByText } = renderComponent()
 
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule(
-          'background-color',
-          '#03363d'
-        )
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule('color', '#fff')
+        expect(getByText('nightcall')).toHaveStyleRule('background-color', '#03363d')
+        expect(getByText('nightcall')).toHaveStyleRule('color', '#fff')
       })
     })
 
     describe('when message status is sending', () => {
       it('displays color and opacity styles for a pending message', () => {
-        const { getByTestId } = renderComponent({ status: 'sending' })
+        const { getByText } = renderComponent({ status: 'sending' })
 
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule('opacity', '0.66')
+        expect(getByText('nightcall')).toHaveStyleRule('opacity', '0.66')
       })
     })
 
     describe('when message status is failed', () => {
       it('displays default color styles for a failed message', () => {
-        const { getByTestId } = renderComponent({ status: 'failed' })
+        const { getByText } = renderComponent({ status: 'failed' })
 
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule(
-          'background-color',
-          '#fff0f1'
-        )
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule('color', '#8c232c')
+        expect(getByText('nightcall')).toHaveStyleRule('background-color', '#fff0f1')
+        expect(getByText('nightcall')).toHaveStyleRule('color', '#8c232c')
       })
 
       it('displays color styles for a failed image message', () => {
-        const { getByTestId } = renderComponent({ status: 'failed', type: 'image' })
+        const { getByText } = renderComponent({ status: 'failed', type: 'image' })
 
-        expect(getByTestId(PARTICIPANT_BUBBLE_TEST_ID)).toHaveStyleRule(
-          'background-color',
-          '#8c232c'
-        )
+        expect(getByText('nightcall')).toHaveStyleRule('background-color', '#8c232c')
       })
     })
   })

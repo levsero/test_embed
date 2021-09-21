@@ -1,6 +1,6 @@
 import { rem } from 'polished'
 import styled, { css, keyframes } from 'styled-components'
-import { Anchor } from '@zendeskgarden/react-buttons'
+import { Button } from '@zendeskgarden/react-buttons'
 import AlertSVG from '@zendeskgarden/svg-icons/src/12/alert-error-stroke.svg'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import messageSteps, { transition } from 'src/animations/messageSteps'
@@ -174,7 +174,7 @@ const Tail = styled.div`
   ${disabledAnimationsCSS}
   `
 
-const RetryableFailedMessage = styled(Anchor)`
+const RetryableFailedMessage = styled(Button)`
   &&& {
     border: 0;
     color: ${(props) => props.theme.messenger.colors.failedMessageText};

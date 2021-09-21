@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-import { MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import {
   MessengerContainerDecorator,
   MessageLogListDecorator,
@@ -24,7 +24,7 @@ export default {
       defaultValue: 'unknown',
       control: {
         type: 'inline-radio',
-        options: ['unknown', 'tooMany', 'fileSize'],
+        options: Object.values(FILE_UPLOAD_ERROR_TYPES),
       },
     },
   },
