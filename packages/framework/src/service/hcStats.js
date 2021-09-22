@@ -19,6 +19,7 @@ const articleViewed = (articleId, locale, params) => {
         clicked_article_rank: params.rank,
         clicked_article_url: params.url,
       },
+      contextual_search: params.contextualSearch,
       unique_search_result_click: params.uniqueSearchResultClick,
     },
     authorization: token ? `Bearer ${token}` : '',

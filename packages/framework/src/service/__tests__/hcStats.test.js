@@ -14,6 +14,9 @@ describe('articleViewed', () => {
     resultsCount: 9,
     uniqueSearchResultClick: true,
     searchId: 1,
+    url: 'url',
+    rank: 2,
+    contextualSearch: false,
   }
 
   test('sends the expected params', () => {
@@ -29,8 +32,11 @@ describe('articleViewed', () => {
             results_count: params.resultsCount,
             search_id: params.searchId,
             origin: 'web_widget',
+            clicked_article_url: 'url',
+            clicked_article_rank: 2,
           },
           unique_search_result_click: params.uniqueSearchResultClick,
+          contextual_search: false,
         },
         authorization: '',
       })

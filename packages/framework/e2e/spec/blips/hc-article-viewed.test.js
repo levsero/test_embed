@@ -105,6 +105,7 @@ test('sends hc stat call in the correct format', async () => {
         'https://testing.zendesk.com/api/v2/help_center/en-us/articles/115002343711-Welcome-to-your-Help-Center-.json',
       origin: 'web_widget',
     },
+    contextual_search: false,
     unique_search_result_click: true,
   })
 })
