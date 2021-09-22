@@ -1,7 +1,7 @@
 import { rem } from 'polished'
 import styled, { keyframes } from 'styled-components'
 import messageSteps, { animation, transition } from 'src/animations/messageSteps'
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, MESSAGE_TYPES } from 'src/constants'
 import dirStyles from 'src/utils/dirStyles'
 
 const getRadius = (props) => props.theme.messenger.borderRadii.textMessage
@@ -55,16 +55,22 @@ const PrimaryParticipantBubble = styled(Bubble)`
   ${(props) =>
     props.status === MESSAGE_STATUS.sending &&
     `
-      opacity: 0.5;
-  `}
+      opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
+    `}
 
   ${(props) =>
     props.status === MESSAGE_STATUS.failed &&
     `
-      opacity: 0.5;
-      background-color: ${props.theme.palette.red[400]};
-      color: ${props.theme.palette.white};
+      background-color: ${props.theme.messenger.colors.failedMessage};
+      color: ${props.theme.messenger.colors.failedMessageText};
   `}
+
+    ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    props.type === MESSAGE_TYPES.image &&
+    `
+      background-color: ${props.theme.messenger.colors.failedImageMessage};
+    `}
 `
 
 const OtherParticipantBubble = styled(Bubble)`

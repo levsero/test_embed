@@ -1,4 +1,4 @@
-import { MAX_FILE_SIZE } from '../utils/constants'
+import { MAX_FILE_SIZE_IN_BYTES } from '../utils/constants'
 import { getClientInfo, getSessionId } from '../utils/device'
 import storage from '../utils/storage'
 import SuncoAPIError from './../utils/SuncoAPIError'
@@ -37,11 +37,11 @@ class MessagesApi extends BaseApi {
   }
 
   sendFile(appUserId, conversationId, file) {
-    if (file.size > MAX_FILE_SIZE) {
+    if (file.size > MAX_FILE_SIZE_IN_BYTES) {
       throw new SuncoAPIError('File size is too large', {
-        reason: 'file-size',
+        reason: 'fileSize',
         fileSize: file.size,
-        limit: MAX_FILE_SIZE,
+        limit: MAX_FILE_SIZE_IN_BYTES,
       })
     }
 

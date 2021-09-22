@@ -9,7 +9,8 @@ const defaultLabels = {
     sendButtonAriaLabel: 'Send a message',
   },
   fileUpload: {
-    fileUploadButtonAriaLabel: 'Upload file',
+    uploadButtonAriaLabel: 'Upload file',
+    messageBubbleHover: 'Open in new tab',
   },
   fileMessage: {
     sizeInMB: (size) => `${size} MB`,
@@ -105,6 +106,11 @@ const defaultLabels = {
       [MESSAGE_STATUS.failed]: 'Tap to retry',
     },
     receivedRecently: 'Just now',
+    errors: {
+      tooMany: 'Limit of 25 files per upload. Tap to retry.',
+      fileSize: 'Files must be 50 MB or less',
+      unknown: 'Tap to retry',
+    },
   },
   formatTimestamp,
   launcher: {

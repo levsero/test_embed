@@ -7,7 +7,12 @@ import {
   ThemeProvider as SuncoThemeProvider,
   MESSAGE_STATUS,
 } from '@zendesk/conversation-components'
-import { baseFontSize, baseFontSizeFullScreen } from 'src/apps/messenger/constants'
+import { MAX_FILE_SIZE_IN_BYTES } from '@zendesk/sunco-js-client'
+import {
+  baseFontSize,
+  baseFontSizeFullScreen,
+  fileUploadCountLimit,
+} from 'src/apps/messenger/constants'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/store'
@@ -70,6 +75,21 @@ const ThemeProvider = ({ children }) => {
             [MESSAGE_STATUS.sent]: translate('embeddable_framework.messenger.receipt.sent'),
             [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry'),
           },
+          errors: {
+            tooMany: translate(
+              'embeddable_framework.messenger.file_upload.error.file_count_limit',
+              {
+                fileUploadCountLimit,
+              }
+            ),
+            fileSize: translate(
+              'embeddable_framework.messenger.file_upload.error.file_size_limit',
+              {
+                fileUploadSizeLimitInMb: MAX_FILE_SIZE_IN_BYTES / (1024 * 1024),
+              }
+            ),
+            unknown: translate('embeddable_framework.messenger.file_upload.tap_to_retry'),
+          },
         },
         composer: {
           placeholder: translate('embeddable_framework.messenger.composer.placeholder'),
@@ -79,6 +99,14 @@ const ThemeProvider = ({ children }) => {
           ),
           sendButtonAriaLabel: translate(
             'embeddable_framework.messenger.composer.send_button_label'
+          ),
+        },
+        fileUpload: {
+          uploadButtonAriaLabel: translate(
+            'embeddable_framework.messenger.file_upload.upload_button'
+          ),
+          messageBubbleHover: translate(
+            'embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2'
           ),
         },
         fileMessage: {

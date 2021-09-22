@@ -1,4 +1,4 @@
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, MESSAGE_TYPES } from 'src/constants'
 import {
   MessageLogListDecorator,
   MessengerContainerDecorator,
@@ -32,32 +32,61 @@ const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
 const defaultProps = {
   label: 'Majestic Emus',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
+  mediaUrl:
+    'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
   timeReceived: timeNowInSeconds,
 }
 
-export const StandaloneImageWithText = Template.bind()
-StandaloneImageWithText.args = {
+const defaultPrimaryParticipantProps = {
+  isPrimaryParticipant: true,
+  errorReason: 'unknown',
+  type: MESSAGE_TYPES.image,
+}
+
+export const PrimaryParticipantImageMessageWithNoText = Template.bind()
+PrimaryParticipantImageMessageWithNoText.args = {
   ...defaultProps,
-  mediaUrl:
-    'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
+  ...defaultPrimaryParticipantProps,
+}
+
+export const PrimaryParticipantImageMessageWithText = Template.bind()
+PrimaryParticipantImageMessageWithText.args = {
+  ...defaultProps,
+  ...defaultPrimaryParticipantProps,
+  mediaSize: 1000,
   alt: 'Emu',
   text: 'Emus are lovely',
 }
 
-export const StandaloneImageWithLink = Template.bind()
-StandaloneImageWithLink.args = {
+export const PrimaryParticipantImageMessageWithLink = Template.bind()
+PrimaryParticipantImageMessageWithLink.args = {
   ...defaultProps,
-  mediaUrl:
-    'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
+  ...defaultPrimaryParticipantProps,
   alt: 'Emu',
   text:
     'Emus are lovely, for more information on the resilience of emus, go to https://en.wikipedia.org/wiki/Emu_War',
 }
 
-export const StandaloneImageWithNoText = Template.bind()
-StandaloneImageWithNoText.args = {
+export const OtherParticipantImageMessageWithText = Template.bind()
+OtherParticipantImageMessageWithText.args = {
   ...defaultProps,
-  mediaUrl:
-    'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
+  isPrimaryParticipant: false,
+  alt: 'Emu',
+  text: 'Emus are lovely',
+}
+
+export const OtherParticipantImageMessageWithLink = Template.bind()
+OtherParticipantImageMessageWithLink.args = {
+  ...defaultProps,
+  isPrimaryParticipant: false,
+  alt: 'Emu',
+  text:
+    'Emus are lovely, for more information on the resilience of emus, go to https://en.wikipedia.org/wiki/Emu_War',
+}
+
+export const OtherParticipantImageMessageWithNoText = Template.bind()
+OtherParticipantImageMessageWithNoText.args = {
+  ...defaultProps,
+  isPrimaryParticipant: false,
   alt: 'Emu',
 }

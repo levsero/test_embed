@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import MessageBubble from 'src/MessageBubble'
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
@@ -39,13 +39,14 @@ const FileMessage = ({
   mediaSize,
   timeReceived,
   shape = 'standalone',
-  status = 'sent',
+  status,
+  errorReason,
+  isRetryable,
   isPrimaryParticipant = false,
   isFirstInGroup = true,
   isReceiptVisible = true,
   isFreshMessage = true,
   onRetry = () => {},
-  fileName,
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
@@ -62,9 +63,11 @@ const FileMessage = ({
       timeReceived={timeReceived}
       isReceiptVisible={isReceiptVisible}
       status={status}
+      errorReason={errorReason}
+      isRetryable={isRetryable}
       isFreshMessage={isFreshMessage}
     >
-      <MessageBubble isPrimaryParticipant={isPrimaryParticipant} shape={shape}>
+      <MessageBubble isPrimaryParticipant={isPrimaryParticipant} shape={shape} status={status}>
         <Container>
           <Icon />
           <Content>
@@ -75,8 +78,9 @@ const FileMessage = ({
               target="_blank"
               isPill={false}
               isPrimaryParticipant={isPrimaryParticipant}
+              status={status}
             >
-              {fileName || altText || abbreviatedName}
+              {altText || abbreviatedName}
             </Name>
             <Size>{size}</Size>
           </Content>
@@ -89,7 +93,6 @@ const FileMessage = ({
 FileMessage.propTypes = {
   avatar: PropTypes.string,
   label: PropTypes.string,
-  fileName: PropTypes.string,
   altText: PropTypes.string,
   isPrimaryParticipant: PropTypes.bool,
   mediaUrl: PropTypes.string,
@@ -101,6 +104,8 @@ FileMessage.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
+  errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
+  isRetryable: PropTypes.bool,
 }
 
 export default FileMessage

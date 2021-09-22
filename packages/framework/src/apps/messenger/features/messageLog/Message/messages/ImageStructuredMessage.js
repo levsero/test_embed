@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
-import { ImageMessage } from '@zendesk/conversation-components'
+import { useDispatch } from 'react-redux'
+import { ImageMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
+import { sendFile } from 'src/apps/messenger/features/messageLog/store'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const ImageStructuredMessage = ({
   message: {
+    _id,
     role,
     text,
     mediaUrl,
@@ -12,25 +15,37 @@ const ImageStructuredMessage = ({
     isLastInGroup,
     isFirstMessageInAuthorGroup,
     isLastMessageInAuthorGroup,
+    isLastMessageThatHasntFailed,
     avatarUrl,
     name,
     received,
-    isLastMessageThatHasntFailed,
+    type,
+    status,
+    errorReason,
+    isRetryable,
   },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
+  const dispatch = useDispatch()
+  const messageStatus = status ?? MESSAGE_STATUS.sent
+
   return (
     <ImageMessage
       isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
-      isReceiptVisible={isLastMessageThatHasntFailed}
       timeReceived={received}
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
       mediaUrl={mediaUrl}
       text={text}
       alt={altText}
+      type={type}
+      status={status}
+      errorReason={errorReason}
+      isRetryable={isRetryable}
+      onRetry={() => dispatch(sendFile({ messageId: _id }))}
     />
   )
 }
@@ -47,6 +62,7 @@ ImageStructuredMessage.propTypes = {
     avatarUrl: PropTypes.string,
     name: PropTypes.string,
     received: PropTypes.number,
+    isRetryable: PropTypes.bool,
   }),
 }
 

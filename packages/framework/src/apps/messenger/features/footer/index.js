@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
 import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
+import { fileUploadCountLimit } from 'src/apps/messenger/constants'
 import {
   getComposerDraft,
   getIsComposerEnabled,
@@ -21,7 +22,7 @@ const Footer = () => {
   const composerDraft = useSelector(getComposerDraft)
   const onFilesSelected = (files) => {
     Array.from(files).forEach((file, index) => {
-      dispatch(sendFile({ file, failDueToTooMany: index >= 25 }))
+      dispatch(sendFile({ file, failDueToTooMany: index >= fileUploadCountLimit }))
     })
   }
 

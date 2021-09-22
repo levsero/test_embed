@@ -1,6 +1,7 @@
 import { rem } from 'polished'
 import styled from 'styled-components'
 import AttachmentIcon from '@zendeskgarden/svg-icons/src/12/paperclip.svg'
+import { MESSAGE_STATUS } from 'src/constants'
 import dirStyles from 'src/utils/dirStyles'
 
 const Container = styled.div`
@@ -36,6 +37,11 @@ const Name = styled.a`
     props.isPrimaryParticipant
       ? props.theme.messenger.colors.messageText
       : props.theme.messenger.colors.otherParticipantMessageText};
+  ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    `
+    color: ${props.theme.messenger.colors.failedMessageText};
+    `}
   &:hover,
   &:visited,
   &:active,
@@ -44,6 +50,12 @@ const Name = styled.a`
       props.isPrimaryParticipant
         ? props.theme.messenger.colors.messageText
         : props.theme.messenger.colors.otherParticipantMessageText};
+
+    ${(props) =>
+      props.status === MESSAGE_STATUS.failed &&
+      `
+    color: ${props.theme.messenger.colors.failedMessageText};
+    `}
   }
 `
 

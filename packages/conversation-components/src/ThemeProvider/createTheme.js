@@ -34,6 +34,14 @@ const createTheme = ({
         otherParticipantMessageBorder: DEFAULT_THEME.palette.grey[200],
         frameBackground: DEFAULT_THEME.palette.white,
         frameText: DEFAULT_THEME.palette.grey[800],
+        failedMessage: DEFAULT_THEME.palette.red[100],
+        failedImageMessage: DEFAULT_THEME.palette.red[700],
+        failedMessageText: DEFAULT_THEME.palette.red[700],
+      },
+      opacity: {
+        sentMessageStatus: 1,
+        sendingMessageStatus: 0.66,
+        failedImageMessageStatus: 0.66,
       },
       fontSizes: {
         xs: rem(DEFAULT_THEME.fontSizes.xs, baseFontSize),

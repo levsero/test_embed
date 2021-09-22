@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import Receipt from 'src/receipts/PrimaryParticipantReceipt'
 import { LayoutContainer, VerticalLayout } from './styles'
 
@@ -7,18 +7,21 @@ const PrimaryParticipantLayout = ({
   isReceiptVisible,
   timeReceived,
   status = MESSAGE_STATUS.sent,
+  errorReason,
   isFirstInGroup,
   isFreshMessage,
   children,
+  isRetryable,
   onRetry,
 }) => {
   return (
     <VerticalLayout>
       <LayoutContainer isFirstInGroup={isFirstInGroup}>{children}</LayoutContainer>
-
       <Receipt
         timeReceived={timeReceived}
         status={status}
+        errorReason={errorReason}
+        isRetryable={isRetryable}
         onRetry={onRetry}
         isReceiptVisible={isReceiptVisible}
         isFreshMessage={isFreshMessage}
@@ -35,6 +38,8 @@ PrimaryParticipantLayout.propTypes = {
   isFreshMessage: PropTypes.bool,
   children: PropTypes.node,
   onRetry: PropTypes.func,
+  isRetryable: PropTypes.bool,
+  errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
 }
 
 export default PrimaryParticipantLayout

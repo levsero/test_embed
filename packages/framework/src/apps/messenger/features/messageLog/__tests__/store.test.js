@@ -971,7 +971,7 @@ describe('messages store', () => {
       )
     })
 
-    it('updates the status to failed with reason "too-many" failDueToTooMany is true', async () => {
+    it('updates the status to failed with reason "tooMany" failDueToTooMany is true', async () => {
       const mockSendFile = async () => {
         throw new Error('something failed for some reason')
       }
@@ -989,7 +989,7 @@ describe('messages store', () => {
             type: 'image',
             status: 'failed',
             name: 'filename.img',
-            errorReason: 'too-many',
+            errorReason: 'tooMany',
           }),
         ])
       )

@@ -1,4 +1,4 @@
-import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import {
   MessageLogListDecorator,
   MessengerContainerDecorator,
@@ -15,6 +15,13 @@ export default {
       control: {
         type: 'inline-radio',
         options: Object.values(MESSAGE_BUBBLE_SHAPES),
+      },
+    },
+    status: {
+      defaultValue: MESSAGE_STATUS.sent,
+      control: {
+        type: 'inline-radio',
+        options: Object.values(MESSAGE_STATUS),
       },
     },
   },
@@ -42,7 +49,6 @@ PrimaryParticipantFileMessageWithSetFileName.args = {
   isPrimaryParticipant: true,
   mediaUrl: 'https://testEndpoint.test/attachments/abc123.pdf',
   mediaSize: 1000,
-  fileName: 'Another name.pdf',
 }
 
 export const OtherParticipantFileMessage = Template.bind()

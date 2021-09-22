@@ -57,6 +57,10 @@ ThemeProvider.propTypes = {
       sendButtonTooltip: PropTypes.string,
       sendButtonAriaLabel: PropTypes.string,
     }),
+    fileUpload: PropTypes.shape({
+      uploadButtonAriaLabel: PropTypes.string,
+      messageBubbleHover: PropTypes.string,
+    }),
     fileMessage: PropTypes.shape({
       sizeInMB: PropTypes.func,
       sizeInKB: PropTypes.func,
@@ -84,6 +88,11 @@ ThemeProvider.propTypes = {
         [MESSAGE_STATUS.sending]: PropTypes.string,
         [MESSAGE_STATUS.sent]: PropTypes.string,
         [MESSAGE_STATUS.failed]: PropTypes.string,
+      }),
+      errors: PropTypes.shape({
+        tooMany: PropTypes.string,
+        fileSize: PropTypes.string,
+        unknown: PropTypes.string,
       }),
       receivedRecently: PropTypes.string,
     }),

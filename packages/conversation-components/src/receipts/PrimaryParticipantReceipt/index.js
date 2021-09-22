@@ -1,17 +1,27 @@
 import PropTypes from 'prop-types'
 import { useRef } from 'react'
-import { MESSAGE_STATUS } from 'src/constants'
+import { MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import AnimatedReceipt from 'src/receipts/AnimatedReceipt'
 import useParseTime from 'src/receipts/hooks/useParseTime'
 import { triggerOnEnter } from 'src/utils/keyboard'
-import { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer } from './styles'
+import {
+  Layout,
+  Tail,
+  Time,
+  RetryableFailedMessage,
+  NonRetryableFailedMessage,
+  AlertIcon,
+  TailContainer,
+} from './styles'
 
 const Receipt = ({
   timeReceived,
   status = MESSAGE_STATUS.sent,
   isReceiptVisible = true,
   isFreshMessage = true,
+  errorReason = 'unknown',
+  isRetryable = true,
   onRetry = () => {},
 }) => {
   const parsedTime = useParseTime(timeReceived)
@@ -41,12 +51,24 @@ const Receipt = ({
             </TailContainer>
           </>
         )}
-        {status === MESSAGE_STATUS.failed && (
-          <FailedMessage onClick={onRetry} tabIndex="0" onKeyDown={triggerOnEnter(onRetry)}>
-            {labels.status[status]}
+        {status === MESSAGE_STATUS.failed && isRetryable && (
+          <RetryableFailedMessage
+            onClick={onRetry}
+            tabIndex="0"
+            onKeyDown={triggerOnEnter(onRetry)}
+            isLink={true}
+          >
+            {labels.errors[errorReason]}
             {` `}
             <AlertIcon />
-          </FailedMessage>
+          </RetryableFailedMessage>
+        )}
+        {status === MESSAGE_STATUS.failed && !isRetryable && (
+          <NonRetryableFailedMessage tabIndex="0">
+            {labels.errors[errorReason]}
+            {` `}
+            <AlertIcon />
+          </NonRetryableFailedMessage>
         )}
       </Layout>
     </AnimatedReceipt>
@@ -59,6 +81,8 @@ Receipt.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
+  errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
+  isRetryable: PropTypes.bool,
 }
 
 export default Receipt

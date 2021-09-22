@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
 import ChannelLinkWithButton from '../ChannelLinkWithButton'
 
-const renderChannelLinkWithButton = (props = {}) => {
+const renderComponent = (props = {}) => {
   const defaultProps = {
     channelId: 'messenger',
     url: 'www.awesomeurl.com',
@@ -15,7 +15,7 @@ const renderChannelLinkWithButton = (props = {}) => {
 describe('<ChannelLinkWithButton>', () => {
   describe('when the status is success', () => {
     it('renders a button with channel link url', () => {
-      const { getByText } = renderChannelLinkWithButton()
+      const { getByText } = renderComponent()
 
       expect(getByText('Open Messenger')).toBeInTheDocument()
 
@@ -25,7 +25,7 @@ describe('<ChannelLinkWithButton>', () => {
     })
 
     it('opens a new window when clicked', () => {
-      const { getByText } = renderChannelLinkWithButton()
+      const { getByText } = renderComponent()
 
       window.open = jest.fn()
       getByText('Open Messenger').click()
@@ -39,7 +39,7 @@ describe('<ChannelLinkWithButton>', () => {
 
   describe('when the status is error', () => {
     it('renders an error message and retry button', () => {
-      const { getByText } = renderChannelLinkWithButton({ status: 'error' })
+      const { getByText } = renderComponent({ status: 'error' })
 
       expect(getByText("Link couldn't be loaded")).toBeInTheDocument()
       expect(getByText('Click to retry')).toBeInTheDocument()
@@ -47,7 +47,7 @@ describe('<ChannelLinkWithButton>', () => {
 
     it('fires onRetry when retry button is clicked', () => {
       const onRetry = jest.fn()
-      const { getByText } = renderChannelLinkWithButton({ onRetry, status: 'error' })
+      const { getByText } = renderComponent({ onRetry, status: 'error' })
 
       getByText('Click to retry').click()
 
@@ -57,7 +57,7 @@ describe('<ChannelLinkWithButton>', () => {
 
   describe('when the status is loading', () => {
     it('renders a loading spinner', () => {
-      const { getByRole } = renderChannelLinkWithButton({ status: 'loading' })
+      const { getByRole } = renderComponent({ status: 'loading' })
 
       expect(getByRole('progressbar')).toBeInTheDocument()
     })
@@ -65,14 +65,14 @@ describe('<ChannelLinkWithButton>', () => {
 
   describe('when the status is pending', () => {
     it('renders a loading spinner', () => {
-      const { getByRole } = renderChannelLinkWithButton({ status: 'pending' })
+      const { getByRole } = renderComponent({ status: 'pending' })
 
       expect(getByRole('progressbar')).toBeInTheDocument()
     })
 
     it('gives the user the ability to generate a new link', () => {
       const onRetry = jest.fn()
-      const { getByText } = renderChannelLinkWithButton({ status: 'pending', onRetry })
+      const { getByText } = renderComponent({ status: 'pending', onRetry })
 
       userEvent.click(getByText('Generate new link'))
 
@@ -80,7 +80,7 @@ describe('<ChannelLinkWithButton>', () => {
     })
 
     it('displays hidden text inside the button so its width does not change when spinner is displayed', () => {
-      const { getByText } = renderChannelLinkWithButton({ status: 'pending' })
+      const { getByText } = renderComponent({ status: 'pending' })
 
       expect(getByText('Open Messenger')).toHaveStyleRule('visibility', 'hidden')
       expect(getByText('Open Messenger')).toHaveAttribute('aria-hidden', 'true')
@@ -89,7 +89,7 @@ describe('<ChannelLinkWithButton>', () => {
 
   describe('when an integration with an account tag is included', () => {
     it('updates the instructions to point to that @tag', () => {
-      const { getByText } = renderChannelLinkWithButton({
+      const { getByText } = renderComponent({
         channelId: 'instagram',
         url: 'https://instagram.com/totallycoolthing',
         businessUsername: 'totallycoolthing',

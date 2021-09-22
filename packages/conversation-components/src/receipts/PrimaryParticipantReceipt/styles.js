@@ -1,6 +1,6 @@
 import { rem } from 'polished'
 import styled, { css, keyframes } from 'styled-components'
-import { Anchor } from '@zendeskgarden/react-buttons'
+import { Button } from '@zendeskgarden/react-buttons'
 import AlertSVG from '@zendeskgarden/svg-icons/src/12/alert-error-stroke.svg'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import messageSteps, { transition } from 'src/animations/messageSteps'
@@ -142,9 +142,9 @@ const Tail = styled.div`
     opacity: 1;
 
     ${(props) =>
-      props.status === 'sending' &&
+      props.status === MESSAGE_STATUS.sending &&
       `
-    opacity: 0.5;
+    opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
   `}
   }
 
@@ -155,14 +155,14 @@ const Tail = styled.div`
     transform: translateY(-105%) scale(0);
     opacity: 1;
     ${(props) =>
-      props.status === 'sending' &&
+      props.status === MESSAGE_STATUS.sending &&
       `
-    opacity: 0.5;
+    opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
   `}
   }
 
   ${(props) =>
-    props.status === 'sending' &&
+    props.status === MESSAGE_STATUS.sending &&
     css`
       animation: ${sendingAnimation};
     `}
@@ -172,12 +172,12 @@ const Tail = styled.div`
   `)}
 
   ${disabledAnimationsCSS}
-`
+  `
 
-const FailedMessage = styled(Anchor)`
+const RetryableFailedMessage = styled(Button)`
   &&& {
     border: 0;
-    color: ${(props) => props.theme.palette.red[400]};
+    color: ${(props) => props.theme.messenger.colors.failedMessageText};
     font-size: ${(props) => props.theme.messenger.fontSizes.sm};
     background-color: transparent;
 
@@ -187,10 +187,23 @@ const FailedMessage = styled(Anchor)`
   }
 `
 
+const NonRetryableFailedMessage = styled.p`
+  color: ${(props) => props.theme.messenger.colors.failedMessageText};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+`
+
 const AlertIcon = styled(AlertSVG)`
   height: ${(props) => props.theme.messenger.iconSizes.sm};
   width: ${(props) => props.theme.messenger.iconSizes.sm};
   max-height: none;
 `
 
-export { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer }
+export {
+  Layout,
+  Tail,
+  Time,
+  RetryableFailedMessage,
+  NonRetryableFailedMessage,
+  AlertIcon,
+  TailContainer,
+}

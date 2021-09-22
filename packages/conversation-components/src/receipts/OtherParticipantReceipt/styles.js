@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import messageSteps, { transition } from 'src/animations/messageSteps'
+import { MESSAGE_STATUS } from 'src/constants'
 import dirStyles from 'src/utils/dirStyles'
 
 const enter = `
@@ -77,9 +78,9 @@ const Tail = styled.div`
     opacity: 1;
 
     ${(props) =>
-      props.status === 'sending' &&
+      props.status === MESSAGE_STATUS.sending &&
       `
-    opacity: 0.5;
+      opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
   `}
   }
 
@@ -89,9 +90,9 @@ const Tail = styled.div`
     transform: translateY(-105%) scale(0);
     opacity: 1;
     ${(props) =>
-      props.status === 'sending' &&
+      props.status === MESSAGE_STATUS.sending &&
       `
-    opacity: 0.5;
+      opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
   `}
 
   ${disabledAnimationsCSS}

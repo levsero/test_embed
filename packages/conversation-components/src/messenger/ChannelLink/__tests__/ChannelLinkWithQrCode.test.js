@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
 import ChannelLinkWithQrCode from '../ChannelLinkWithQrCode'
 
-const renderChannelLinkWithQrCode = (props = {}) => {
+const renderComponent = (props = {}) => {
   const defaultProps = {
     channelId: 'messenger',
     url: 'www.awesomeurl.com',
@@ -16,14 +16,14 @@ describe('<ChannelLinkWithQrCode>', () => {
   describe('when the status is success', () => {
     describe('when a QR code is supplied as a prop', () => {
       it('renders a QR code as an image', () => {
-        const { getByAltText } = renderChannelLinkWithQrCode({ qrCode: 'path/to/qrCode.png' })
+        const { getByAltText } = renderComponent({ qrCode: 'path/to/qrCode.png' })
 
         expect(getByAltText('QR code to open Messenger on this device')).toBeInTheDocument()
       })
     })
 
     it('renders a link with channel link url', () => {
-      const { getByText } = renderChannelLinkWithQrCode()
+      const { getByText } = renderComponent()
 
       expect(getByText('Open Messenger on this device')).toBeInTheDocument()
     })
@@ -31,7 +31,7 @@ describe('<ChannelLinkWithQrCode>', () => {
 
   describe('when the status is error', () => {
     it('renders an error message and retry button', () => {
-      const { getByText } = renderChannelLinkWithQrCode({ status: 'error' })
+      const { getByText } = renderComponent({ status: 'error' })
 
       expect(getByText("QR code couldn't be loaded")).toBeInTheDocument()
       expect(getByText('Click to retry')).toBeInTheDocument()
@@ -39,7 +39,7 @@ describe('<ChannelLinkWithQrCode>', () => {
 
     it('fires onRetry when retry button is clicked', () => {
       const onRetry = jest.fn()
-      const { getByText } = renderChannelLinkWithQrCode({ onRetry, status: 'error' })
+      const { getByText } = renderComponent({ onRetry, status: 'error' })
 
       getByText('Click to retry').click()
 
@@ -49,7 +49,7 @@ describe('<ChannelLinkWithQrCode>', () => {
 
   describe('when the status is loading', () => {
     it('renders a loading spinner', () => {
-      const { getByRole } = renderChannelLinkWithQrCode({ status: 'loading' })
+      const { getByRole } = renderComponent({ status: 'loading' })
 
       expect(getByRole('progressbar')).toBeInTheDocument()
     })
@@ -57,14 +57,14 @@ describe('<ChannelLinkWithQrCode>', () => {
 
   describe('when the status is pending', () => {
     it('renders a loading spinner', () => {
-      const { getByRole } = renderChannelLinkWithQrCode({ status: 'pending' })
+      const { getByRole } = renderComponent({ status: 'pending' })
 
       expect(getByRole('progressbar')).toBeInTheDocument()
     })
 
     it('gives the user the ability to generate a new link', () => {
       const onRetry = jest.fn()
-      const { getByText } = renderChannelLinkWithQrCode({ status: 'pending', onRetry })
+      const { getByText } = renderComponent({ status: 'pending', onRetry })
 
       userEvent.click(getByText('Generate new QR code'))
 
@@ -74,7 +74,7 @@ describe('<ChannelLinkWithQrCode>', () => {
 
   describe('when an integration with an account tag is included', () => {
     it('updates the instructions to point to that @tag', () => {
-      const { getByText } = renderChannelLinkWithQrCode({
+      const { getByText } = renderComponent({
         channelId: 'instagram',
         url: 'https://instagram.com/totallycoolthing',
         businessUsername: 'totallycoolthing',

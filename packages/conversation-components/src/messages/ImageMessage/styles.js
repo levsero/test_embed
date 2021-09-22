@@ -1,9 +1,16 @@
 import styled from 'styled-components'
+import { MESSAGE_STATUS } from 'src/constants'
 
 const Image = styled.img`
   height: ${(props) => props.theme.messenger.space.imageHeight};
   object-fit: cover;
   display: block;
+
+  ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    `
+      opacity: ${props.theme.messenger.opacity.failedImageMessageStatus};
+    `}
 `
 
 const PrimaryParticipantImage = styled(Image)`
@@ -22,7 +29,6 @@ const OpenImageText = styled.div`
   color: #fff;
   width: 100%;
   z-index: 1;
-
   font-size: ${(props) => props.theme.messenger.fontSizes.md};
   line-height: ${(props) => props.theme.messenger.lineHeights.sm};
 `
