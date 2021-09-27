@@ -103,7 +103,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
         callback(message)
       },
       incoming: (message, request, callback) => {
-        if (message.channel === '/meta/connect' && message.successful) {
+        if (message.channel === '/meta/subscribe' && message.successful) {
           this.connected = true
           this.eventObservers['connected'].notify()
         }
