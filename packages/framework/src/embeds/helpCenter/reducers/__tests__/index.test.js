@@ -32,6 +32,7 @@ test('includes all expected substates', () => {
       "searchAttempted": false,
       "searchFailed": false,
       "searchFieldValue": "",
+      "searchId": 0,
       "searchLoading": false,
       "searchTerm": Object {
         "current": "",

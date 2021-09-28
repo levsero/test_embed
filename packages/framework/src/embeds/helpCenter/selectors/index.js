@@ -23,6 +23,7 @@ export const getTotalUserSearches = (state) => state.helpCenter.totalUserSearche
 export const getArticleViewActive = (state) => !!getCurrentActiveArticle(state)
 export const getArticles = (state) => state.helpCenter.articles
 export const getResultsCount = (state) => state.helpCenter.resultsCount
+export const getSearchId = (state) => state.helpCenter.searchId
 export const getResultsLocale = (state) => state.helpCenter.resultsLocale
 export const getArticleDisplayed = (state) => state.helpCenter.articleDisplayed
 export const getRestrictedImages = (state) => state.helpCenter.restrictedImages

@@ -46,6 +46,7 @@ describe('blip middleware', () => {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
         getSearchTerm: (prevState) => prevState.searchTerm,
         getResultsCount: (prevState) => prevState.resultsCount,
+        getSearchId: (prevState) => prevState.searchId,
         getArticleClicked: (prevState) => prevState.articleClicked,
         getCurrentActiveArticle: (prevState) => prevState.activeArticle,
         getHasContextuallySearched: (prevState) => prevState.hasContextuallySearched,
@@ -374,6 +375,9 @@ describe('blip middleware', () => {
         flatState = {
           searchTerm: 'i made a query...',
           resultsCount: 5,
+          searchId: '1',
+          rank: 2,
+          url: 'url',
           articleClicked: false,
           hasContextuallySearched: false,
         }
@@ -386,7 +390,7 @@ describe('blip middleware', () => {
         beforeEach(() => {
           action = {
             type: ARTICLE_VIEWED,
-            payload: { id: 121212112, locale: 'US' },
+            payload: { id: 121212112, locale: 'US', search_id: '1', url: 'url', rank: 2 },
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -394,8 +398,11 @@ describe('blip middleware', () => {
         const expectedValue = {
           query: 'i made a query...',
           resultsCount: 3,
+          searchId: '1',
           uniqueSearchResultClick: true,
           articleId: 121212112,
+          url: 'url',
+          rank: 2,
           locale: 'US',
           contextualSearch: false,
           answerBot: false,
@@ -529,6 +536,7 @@ describe('blip middleware', () => {
         flatState = {
           activeArticle: 1213211232123,
           resultsCount: 1,
+          searchId: '1',
           searchTerm: 'i made a query...',
           articleClicked: true,
           hasContextuallySearched: true,
@@ -543,6 +551,7 @@ describe('blip middleware', () => {
         const expectedValue = {
           query: 'i made a query...',
           resultsCount: 1,
+          searchId: '1',
           uniqueSearchResultClick: false,
           articleId: 1213211232123,
           locale: 'US',
