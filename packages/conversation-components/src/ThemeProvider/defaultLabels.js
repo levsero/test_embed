@@ -119,6 +119,13 @@ const defaultLabels = {
   launcherLabel: {
     ariaLabel: 'Close',
   },
+  messageLog: {
+    initialConversationRequestFailed: 'Couldn’t load messages',
+    initialConversationRetry: 'Tap to retry',
+    initialConversationSpinner: 'Loading conversation',
+    messageHistoryRetry: 'Tap to retry',
+    messageHistorySpinner: 'Loading previous messages',
+  },
 }
 
 export default defaultLabels

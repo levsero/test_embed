@@ -79,6 +79,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
   this.appUserId = appUserId
   this.sessionToken = sessionToken
   this.hasSocketAborted = false
+  this.connected = false
 
   const setupFayeClient = () => {
     const fayeClient = new Client(baseUrl, {
@@ -101,14 +102,19 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
 
         callback(message)
       },
+      incoming: (message, request, callback) => {
+        if (message.channel === '/meta/subscribe' && message.successful) {
+          this.connected = true
+          this.eventObservers['connected'].notify()
+        }
+
+        callback(message)
+      },
     })
 
     fayeClient.on('transport:down', () => {
+      this.connected = false
       this.eventObservers['disconnected'].notify()
-    })
-
-    fayeClient.on('transport:up', () => {
-      this.eventObservers['connected'].notify()
     })
 
     return fayeClient
@@ -144,6 +150,9 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
 
   const addObserver = (eventType, callback) => {
     this.eventObservers[eventType].addObserver(callback)
+    return () => {
+      this.eventObservers[eventType].removeObserver(callback)
+    }
   }
 
   const subscribe = () => {
@@ -179,6 +188,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
     on: addObserver,
     subscribe: () => subscribe.call(this),
     unsubscribe: () => unsubscribe.call(this),
+    isConnected: () => this.connected,
   }
 }
 

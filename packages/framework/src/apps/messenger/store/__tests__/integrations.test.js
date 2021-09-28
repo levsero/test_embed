@@ -1,5 +1,5 @@
 import {
-  fetchExistingConversation,
+  startConversation,
   integrationLinkCancelled,
   integrationLinked,
   integrationLinkFailed,
@@ -574,7 +574,7 @@ testReducer(reducer, [
       },
       ids: ['messenger'],
     },
-    action: fetchExistingConversation.fulfilled({
+    action: startConversation.fulfilled({
       integrations: [{ platform: 'messenger', id: 'client-id' }],
     }),
     expected: {
@@ -605,7 +605,7 @@ testReducer(reducer, [
       },
       ids: ['messenger'],
     },
-    action: fetchExistingConversation.fulfilled({
+    action: startConversation.fulfilled({
       integrations: null,
     }),
     expected: {

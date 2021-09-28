@@ -2,7 +2,7 @@ import { waitFor } from '@testing-library/dom'
 import * as suncoApi from 'src/apps/messenger/api/sunco'
 import createStore from 'src/apps/messenger/store/index'
 import { fetchIntegrations, selectIntegrationById } from 'src/apps/messenger/store/integrations'
-import { startNewConversation } from '../store'
+import { startConversation, reducer, getConversationStatus } from '../store'
 
 jest.mock('src/apps/messenger/api/sunco')
 
@@ -24,7 +24,7 @@ describe('suncoConversation Store', () => {
     it('calls updateSession on link event', async () => {
       const store = createStore()
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
 
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
@@ -36,7 +36,7 @@ describe('suncoConversation Store', () => {
     it('does not call the link callback on another type of event', async () => {
       const store = createStore()
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
 
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
@@ -55,7 +55,7 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linked).toBe(false)
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link', appUser: {}, client: { platform: 'messenger' } })
@@ -73,7 +73,7 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linkCancelled).toBe(false)
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link:cancelled', appUser: {}, client: { platform: 'messenger' } })
@@ -91,7 +91,7 @@ describe('suncoConversation Store', () => {
 
       expect(selectIntegrationById(store.getState(), 'messenger').linkFailed).toBe(false)
 
-      store.dispatch(startNewConversation())
+      store.dispatch(startConversation())
       await waitFor(() => expect(listeners['connected']).toBeTruthy())
       listeners['connected']()
       listeners['link']({ type: 'link:failed', appUser: {}, client: { platform: 'messenger' } })
@@ -112,13 +112,41 @@ describe('suncoConversation Store', () => {
 
         expect(selectIntegrationById(store.getState(), 'messenger').linkPending).toBe(false)
 
-        store.dispatch(startNewConversation())
+        store.dispatch(startConversation())
         await waitFor(() => expect(listeners['connected']).toBeTruthy())
         listeners['connected']()
         listeners['link']({ type: 'link:matched', appUser: {}, client: { platform: 'messenger' } })
 
         expect(selectIntegrationById(store.getState(), 'messenger').linkPending).toBe(true)
       })
+    })
+  })
+})
+
+describe('conversation state', () => {
+  it('defaults to not-connected', () => {
+    const result = reducer(undefined, { type: 'some-action' })
+    expect(result).toEqual({ status: 'not-connected' })
+  })
+
+  it('is pending when a conversation begins connecting', () => {
+    const result = reducer(undefined, startConversation.pending())
+    expect(result).toEqual({ status: 'pending' })
+  })
+  it('is connection when a conversation successfully starts', () => {
+    const result = reducer(undefined, startConversation.fulfilled())
+    expect(result).toEqual({ status: 'connected' })
+  })
+  it('is failed when a conversation fails to start', () => {
+    const result = reducer(undefined, startConversation.rejected())
+    expect(result).toEqual({ status: 'failed' })
+  })
+
+  describe('getConversationStatus', () => {
+    it('returns the status of the conversation', () => {
+      expect(getConversationStatus({ conversation: { status: 'some-fancy-status' } })).toBe(
+        'some-fancy-status'
+      )
     })
   })
 })

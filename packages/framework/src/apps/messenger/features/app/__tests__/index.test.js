@@ -1,6 +1,7 @@
 import { waitFor, within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import { startConversation } from 'src/apps/messenger/features/suncoConversation/store'
 import createStore from 'src/apps/messenger/store'
 import { cookiesDisabled } from 'src/apps/messenger/store/cookies'
 import { widgetOpened } from 'src/apps/messenger/store/visibility'
@@ -58,7 +59,8 @@ describe('Messenger app', () => {
   })
 
   it('focuses the launcher when the messenger frame is closed when pressing the escape key', async () => {
-    const { getByTitle } = renderComponent()
+    const { getByTitle, store } = renderComponent()
+    store.dispatch(startConversation.fulfilled({ messages: [] }))
 
     const launcher = within(getByTitle('Button to launch messaging window').contentDocument.body)
 
@@ -83,6 +85,7 @@ describe('Messenger app', () => {
         isVerticallySmallScreen: true,
       })
     )
+    store.dispatch(startConversation.fulfilled({ messages: [] }))
 
     let launcher = within(getByTitle('Button to launch messaging window').contentDocument.body)
     await waitFor(() =>
@@ -105,7 +108,8 @@ describe('Messenger app', () => {
   })
 
   it('focuses the composer when the messenger frame is opened', async () => {
-    const { getByTitle } = renderComponent()
+    const { getByTitle, store } = renderComponent()
+    store.dispatch(startConversation.fulfilled({ messages: [] }))
 
     const launcher = within(getByTitle('Button to launch messaging window').contentDocument.body)
 

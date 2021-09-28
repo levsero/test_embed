@@ -172,6 +172,21 @@ const ThemeProvider = ({ children }) => {
           ariaLabel: translate('embeddable_framework.messenger.launcher_label.close'),
         },
         formatTimestamp: parseTimestamp,
+        messageLog: {
+          initialConversationRequestFailed: translate(
+            'embeddable_framework.messenger.initial_conversation_request_failed'
+          ),
+          initialConversationRetry: translate(
+            'embeddable_framework.messenger.initial_conversation_retry'
+          ),
+          initialConversationSpinner: translate(
+            'embeddable_framework.messenger.initial_conversation_spinner'
+          ),
+          messageHistoryRetry: translate('embeddable_framework.messenger.previous_messages_retry'),
+          messageHistorySpinner: translate(
+            'embeddable_framework.messenger.previous_messages_spinner'
+          ),
+        },
       }}
     >
       <>

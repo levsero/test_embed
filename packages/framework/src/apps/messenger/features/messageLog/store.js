@@ -7,9 +7,8 @@ import {
 } from 'src/apps/messenger/api/sunco'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import {
-  fetchExistingConversation,
-  startNewConversation,
   messageReceived,
+  startConversation,
 } from 'src/apps/messenger/features/suncoConversation/store'
 
 const fetchPaginatedMessages = createAsyncThunk(
@@ -96,9 +95,10 @@ const messagesSlice = createSlice({
     [messageReceived](state, action) {
       messagesAdapter.addOne(state, action.payload.message)
     },
-    [startNewConversation.fulfilled](state, action) {
+    [startConversation.fulfilled](state, action) {
       state.errorFetchingHistory = false
       state.hasFetchedConversation = true
+      state.hasPrevious = Boolean(action.payload.hasPrevious)
       messagesAdapter.addMany(state, action.payload.messages)
     },
     [fetchPaginatedMessages.fulfilled](state, action) {
@@ -117,11 +117,6 @@ const messagesSlice = createSlice({
       state.errorFetchingHistory = true
     },
     [submitForm.fulfilled](state, action) {
-      messagesAdapter.addMany(state, action.payload.messages)
-    },
-    [fetchExistingConversation.fulfilled](state, action) {
-      state.hasFetchedConversation = true
-      state.hasPrevious = Boolean(action.payload.hasPrevious)
       messagesAdapter.addMany(state, action.payload.messages)
     },
     [sendMessage.pending](state, action) {

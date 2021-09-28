@@ -1,15 +1,10 @@
 import PropTypes from 'prop-types'
-import { Spinner } from '@zendeskgarden/react-loaders'
-import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
-import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import {
-  CenterSpinnerContainer,
-  TopSpinnerContainer,
-  CenterLoadingErrorTitle,
-  CenterLoadingErrorContainer,
-  TopLoadingErrorContainer,
-  LoadingErrorButton,
-} from './styles'
+  MessageLogError,
+  MessageLogSpinner,
+  MessageLogHistoryError,
+  MessageLogHistorySpinner,
+} from '@zendesk/conversation-components'
 
 const HistoryLoader = ({
   hasFetchedConversation,
@@ -17,45 +12,21 @@ const HistoryLoader = ({
   errorFetchingHistory,
   retryFetchMessages,
 }) => {
-  const translate = useTranslate()
-  if (hasFetchedConversation && isFetchingHistory)
-    return (
-      <TopSpinnerContainer
-        aria-label={translate('embeddable_framework.messenger.previous_messages_spinner')}
-      >
-        <Spinner />
-      </TopSpinnerContainer>
-    )
+  if (hasFetchedConversation && isFetchingHistory) {
+    return <MessageLogHistorySpinner />
+  }
 
-  if (!hasFetchedConversation && isFetchingHistory)
-    return (
-      <CenterSpinnerContainer
-        aria-label={translate('embeddable_framework.messenger.initial_conversation_spinner')}
-      >
-        <Spinner />
-      </CenterSpinnerContainer>
-    )
+  if (!hasFetchedConversation && isFetchingHistory) {
+    return <MessageLogSpinner />
+  }
 
-  if (errorFetchingHistory && hasFetchedConversation && !isFetchingHistory)
-    return (
-      <TopLoadingErrorContainer>
-        <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-          {translate('embeddable_framework.messenger.previous_messages_retry')} <ReloadStroke />
-        </LoadingErrorButton>
-      </TopLoadingErrorContainer>
-    )
+  if (errorFetchingHistory && hasFetchedConversation && !isFetchingHistory) {
+    return <MessageLogHistoryError onRetry={retryFetchMessages} />
+  }
 
-  if (errorFetchingHistory && !hasFetchedConversation)
-    return (
-      <CenterLoadingErrorContainer>
-        <CenterLoadingErrorTitle>
-          {translate('embeddable_framework.messenger.initial_conversation_request_failed')}
-        </CenterLoadingErrorTitle>
-        <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-          {translate('embeddable_framework.messenger.initial_conversation_retry')} <ReloadStroke />
-        </LoadingErrorButton>
-      </CenterLoadingErrorContainer>
-    )
+  if (errorFetchingHistory && !hasFetchedConversation) {
+    return <MessageLogError onRetry={retryFetchMessages} />
+  }
   return null
 }
 

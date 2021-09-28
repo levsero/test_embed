@@ -6,10 +6,10 @@ import {
 } from 'src/apps/messenger/api/sunco'
 import {
   attemptedChannelLink,
-  fetchExistingConversation,
   integrationLinkCancelled,
   integrationLinked,
   integrationLinkFailed,
+  startConversation,
 } from 'src/apps/messenger/features/suncoConversation/store'
 
 const integrationsAdapter = createEntityAdapter({
@@ -127,7 +127,7 @@ const integrations = createSlice({
         },
       })
     },
-    [fetchExistingConversation.fulfilled]: (state, { payload }) => {
+    [startConversation.fulfilled]: (state, { payload }) => {
       const { integrations } = payload
 
       if (!integrations) {

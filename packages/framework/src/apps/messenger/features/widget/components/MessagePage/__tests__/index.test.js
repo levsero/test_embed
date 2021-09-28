@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event'
-import * as suncoApi from 'src/apps/messenger/api/sunco'
 import * as conversationStore from 'src/apps/messenger/features/suncoConversation/store'
 import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
+import createStore from 'src/apps/messenger/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
 import { render } from 'src/apps/messenger/utils/testHelpers'
@@ -15,7 +15,7 @@ jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', ()
 }))
 
 describe('MessagePage', () => {
-  const renderComponent = () => render(<MessagePage />)
+  const renderComponent = (options) => render(<MessagePage />, options)
 
   it('renders the header', () => {
     const { getByText, store } = renderComponent()
@@ -27,26 +27,102 @@ describe('MessagePage', () => {
   it('closes the widget when the escape key is pressed', () => {
     const { store, getByPlaceholderText } = renderComponent()
     store.dispatch(widgetOpened())
+    store.dispatch(conversationStore.startConversation.fulfilled({ messages: [] }))
 
     userEvent.type(getByPlaceholderText('Type a message'), '{esc}')
 
     expect(getIsWidgetOpen(store.getState())).toBe(false)
   })
 
-  it('starts a new sunco conversation when there is no existing conversation', () => {
-    jest.spyOn(conversationStore, 'startNewConversation')
+  it('starts a sunco conversation if one is not active', () => {
+    jest.spyOn(conversationStore, 'startConversation')
 
     renderComponent()
 
-    expect(conversationStore.startNewConversation).toHaveBeenCalled()
+    expect(conversationStore.startConversation).toHaveBeenCalled()
   })
 
-  it('does not start a new conversation when there is an existing one', () => {
-    jest.spyOn(suncoApi, 'hasExistingConversation').mockReturnValue(true)
-    jest.spyOn(conversationStore, 'startNewConversation')
+  it('does not start a conversation if one is already connected/connecting', () => {
+    const store = createStore()
+    store.dispatch(conversationStore.startConversation.pending())
+    jest.spyOn(conversationStore, 'startConversation')
 
-    renderComponent()
+    renderComponent({ store })
 
-    expect(conversationStore.startNewConversation).not.toHaveBeenCalled()
+    expect(conversationStore.startConversation).not.toHaveBeenCalled()
+  })
+
+  describe('when the conversation is active', () => {
+    it('displays the message log', () => {
+      const { store, queryByRole } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.fulfilled({ messages: [] }))
+
+      expect(queryByRole('log')).toBeInTheDocument()
+    })
+
+    it('displays the footer', () => {
+      const { store, queryByLabelText } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.fulfilled({ messages: [] }))
+
+      expect(queryByLabelText('Type a message')).toBeInTheDocument()
+    })
+  })
+
+  describe('when conversation is initiating', () => {
+    it('does not display the message log', () => {
+      const { store, queryByRole } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.pending())
+
+      expect(queryByRole('log')).not.toBeInTheDocument()
+    })
+
+    it('does not display the footer', () => {
+      const { store, queryByLabelText } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.pending())
+
+      expect(queryByLabelText('Type a message')).not.toBeInTheDocument()
+    })
+
+    it('displays a loading spinner', () => {
+      const { store, queryByRole } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.pending())
+
+      expect(queryByRole('progressbar')).toBeInTheDocument()
+    })
+  })
+
+  describe('when conversation has failed to initiate', () => {
+    it('does not display the message log', () => {
+      const { store, queryByRole } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.rejected())
+
+      expect(queryByRole('log')).not.toBeInTheDocument()
+    })
+
+    it('does not display the footer', () => {
+      const { store, queryByLabelText } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.rejected())
+
+      expect(queryByLabelText('Type a message')).not.toBeInTheDocument()
+    })
+
+    it('displays a button to retry starting the conversation', () => {
+      const { store, queryByText } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.rejected())
+
+      jest.spyOn(conversationStore, 'startConversation')
+
+      userEvent.click(queryByText('Tap to retry'))
+
+      expect(conversationStore.startConversation).toHaveBeenCalled()
+    })
   })
 })
