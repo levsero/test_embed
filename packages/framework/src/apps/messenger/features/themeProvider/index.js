@@ -23,7 +23,8 @@ const GlobalStyles = createGlobalStyle`
   ${bedrockCSS}
 
   html {
-     font-size: initial;
+    overflow-y: hidden;
+    font-size: initial;
   }
 `
 
