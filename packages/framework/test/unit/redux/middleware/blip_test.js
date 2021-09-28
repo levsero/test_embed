@@ -397,8 +397,8 @@ describe('blip middleware', () => {
 
         const expectedValue = {
           query: 'i made a query...',
-          resultsCount: 3,
           searchId: '1',
+          resultsCount: 5,
           uniqueSearchResultClick: true,
           articleId: 121212112,
           url: 'url',
