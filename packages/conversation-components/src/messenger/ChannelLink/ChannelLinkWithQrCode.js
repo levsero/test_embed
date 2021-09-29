@@ -30,7 +30,7 @@ const ChannelLinkWithQrCode = ({
   businessUsername,
 }) => {
   const labels = useLabels().channelLink[channelId]
-  const genericlabels = useLabels().channelLink.linkError
+  const genericlabels = useLabels().channelLink
   const ChannelLogo = channelIcons[channelId]
 
   return (
@@ -47,10 +47,10 @@ const ChannelLinkWithQrCode = ({
             case 'error':
               return (
                 <ErrorContainer>
-                  <LinkErrorText>{genericlabels.qrError}</LinkErrorText>
+                  <LinkErrorText>{genericlabels.linkError.qrError}</LinkErrorText>
                   <TextButton onClick={onRetry}>
                     <RetryPositioning>
-                      {genericlabels.retry}
+                      {genericlabels.linkError.retry}
                       <ReloadStroke />
                     </RetryPositioning>
                   </TextButton>
@@ -65,7 +65,7 @@ const ChannelLinkWithQrCode = ({
                     <LoadingSpinner size="24" />
                   </QRSpaceContainer>
                   <RetryPositioning>
-                    <TextButton onClick={onRetry}>Generate new QR code</TextButton>
+                    <TextButton onClick={onRetry}>{genericlabels.generateNewQrCode}</TextButton>
                     <ReloadStroke />
                   </RetryPositioning>
                 </>

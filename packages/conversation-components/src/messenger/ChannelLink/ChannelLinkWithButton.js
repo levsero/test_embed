@@ -29,7 +29,7 @@ const ChannelLinkWithButton = ({
   businessUsername,
 }) => {
   const labels = useLabels().channelLink[channelId]
-  const genericlabels = useLabels().channelLink.linkError
+  const genericlabels = useLabels().channelLink
   const ChannelLogo = channelIcons[channelId]
 
   return (
@@ -46,10 +46,10 @@ const ChannelLinkWithButton = ({
             case 'error':
               return (
                 <ErrorContainer>
-                  <LinkErrorText>{genericlabels.buttonError}</LinkErrorText>
+                  <LinkErrorText>{genericlabels.linkError.buttonError}</LinkErrorText>
                   <TextButton onClick={onRetry}>
                     <RetryPositioning>
-                      {genericlabels.retry}
+                      {genericlabels.linkError.retry}
                       <ReloadStroke />
                     </RetryPositioning>
                   </TextButton>
@@ -67,7 +67,7 @@ const ChannelLinkWithButton = ({
                     </ButtonSpinnerContainer>
                   </ChannelPillButton>
                   <RetryPositioning>
-                    <TextButton onClick={onRetry}>Generate new link</TextButton>
+                    <TextButton onClick={onRetry}>{genericlabels.generateNewLink}</TextButton>
                     <ReloadStroke />
                   </RetryPositioning>
                 </div>

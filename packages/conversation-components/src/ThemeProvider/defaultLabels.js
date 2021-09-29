@@ -52,6 +52,8 @@ const defaultLabels = {
       buttonError: "Link couldn't be loaded",
       retry: 'Click to retry',
     },
+    generateNewQrCode: 'Generate new QR code',
+    generateNewLink: 'Generate new link',
     whatsapp: {
       title: 'Continue on WhatsApp',
       subtitle: 'Take the conversation to your WhatsApp account. You can return anytime.',

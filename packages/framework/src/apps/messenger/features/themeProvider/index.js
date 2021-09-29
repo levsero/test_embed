@@ -187,6 +187,134 @@ const ThemeProvider = ({ children }) => {
             'embeddable_framework.messenger.previous_messages_spinner'
           ),
         },
+        notification: {
+          connectError: translate(
+            'embeddable_framework.messenger.notification.channel_linking.link.failed'
+          ),
+          disconnectError: translate(
+            'embeddable_framework.messenger.notification.channel_linking.unlink.fail'
+          ),
+        },
+        channelLink: {
+          linkError: {
+            qrError: translate(
+              'embeddable_framework.messenger.channel_link.link_error.qr_code_error'
+            ),
+            buttonError: translate(
+              'embeddable_framework.messenger.channel_link.link_error.button_error'
+            ),
+            retry: translate('embeddable_framework.messenger.file_upload.tap_to_retry'),
+          },
+          generateNewQrCode: translate(
+            'embeddable_framework.messenger.channel_linking.generate_new_qr_code'
+          ),
+          generateNewLink: translate(
+            'embeddable_framework.messenger.channel_linking.generate_new_link'
+          ),
+          whatsapp: {
+            title: translate('embeddable_framework.messenger.channel_linking.page.title.whatsapp'),
+            subtitle: translate(
+              'embeddable_framework.messenger.channel_linking.page.subtitle.whatsapp'
+            ),
+            instructions: {
+              desktop: () =>
+                translate(
+                  'embeddable_framework.messenger.channel_linking.page.instructions_desktop.whatsapp'
+                ),
+              mobile: () =>
+                translate(
+                  'embeddable_framework.messenger.channel_linking.page.instructions_mobile.whatsapp'
+                ),
+            },
+            qrCodeAlt: translate(
+              'embeddable_framework.messenger.channel_linking.page.qr_code.whatsapp'
+            ),
+            button: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.whatsapp'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.whatsapp'
+              ),
+            },
+            disconnectButtonText: translate(
+              'embeddable_framework.messenger.channel_link.whatsapp.disconnect_button_text'
+            ),
+            disconnectLinkText: translate(
+              'embeddable_framework.messenger.channel_link.whatsapp.disconnect_link_text'
+            ),
+          },
+          messenger: {
+            title: translate(
+              'embeddable_framework.messenger.channel_linking.page.title.fb_messenger'
+            ),
+            subtitle: translate(
+              'embeddable_framework.messenger.channel_linking.page.subtitle.fb_messenger'
+            ),
+            instructions: {
+              desktop: () =>
+                translate(
+                  'embeddable_framework.messenger.channel_linking.page.instructions_desktop.fb_messenger'
+                ),
+              mobile: () =>
+                translate(
+                  'embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger'
+                ),
+            },
+            qrCodeAlt: translate(
+              'embeddable_framework.messenger.channel_linking.page.qr_code.fb_messenger'
+            ),
+            button: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.fb_messenger'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.fb_messenger'
+              ),
+            },
+            disconnectButtonText: translate(
+              'embeddable_framework.messenger.channel_link.messenger.disconnect_button_text'
+            ),
+            disconnectLinkText: translate(
+              'embeddable_framework.messenger.channel_link.messenger.disconnect_link_text'
+            ),
+          },
+          instagram: {
+            title: translate('embeddable_framework.messenger.channel_linking.page.title.instagram'),
+            subtitle: translate(
+              'embeddable_framework.messenger.channel_linking.page.subtitle.instagram'
+            ),
+            instructions: {
+              desktop: (businessUsername) =>
+                translate(
+                  'embeddable_framework.messenger.channel_linking.page.instructions_desktop.instagram',
+                  { instagramHandle: businessUsername }
+                ),
+              mobile: (businessUsername) =>
+                translate(
+                  'embeddable_framework.messenger.channel_linking.page.instructions_mobile.fb_messenger',
+                  { instagramHandle: businessUsername }
+                ),
+            },
+            qrCodeAlt: translate(
+              'embeddable_framework.messenger.channel_linking.page.qr_code.instagram'
+            ),
+            button: {
+              desktop: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_desktop.instagram'
+              ),
+              mobile: translate(
+                'embeddable_framework.messenger.channel_linking.page.button_mobile.instagram'
+              ),
+            },
+            disconnectButtonText: translate(
+              'embeddable_framework.messenger.channel_link.instagram.disconnect_button_text'
+            ),
+            disconnectLinkText: translate(
+              'embeddable_framework.messenger.channel_link.instagram.disconnect_link_text'
+            ),
+          },
+        },
       }}
     >
       <>

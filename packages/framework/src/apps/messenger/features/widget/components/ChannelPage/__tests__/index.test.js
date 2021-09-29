@@ -67,7 +67,7 @@ describe('ChannelPage', () => {
           const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
           expect(getByText("QR code couldn't be loaded")).toBeInTheDocument()
-          expect(getByText('Click to retry')).toBeInTheDocument()
+          expect(getByText('Tap to retry')).toBeInTheDocument()
         })
       })
 
@@ -85,7 +85,7 @@ describe('ChannelPage', () => {
           const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
           expect(getByText("Link couldn't be loaded")).toBeInTheDocument()
-          expect(getByText('Click to retry')).toBeInTheDocument()
+          expect(getByText('Tap to retry')).toBeInTheDocument()
         })
       })
 
@@ -104,7 +104,7 @@ describe('ChannelPage', () => {
           const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
           expect(linkRequestSpy).toHaveBeenCalledTimes(1)
 
-          getByText('Click to retry').click()
+          getByText('Tap to retry').click()
           expect(linkRequestSpy).toHaveBeenCalledTimes(2)
         })
       })
