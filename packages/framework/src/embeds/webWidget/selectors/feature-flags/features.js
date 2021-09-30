@@ -35,6 +35,10 @@ export default {
     defaultValue: false,
     getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,
   },
+  chat_flush_queue_order: {
+    defaultValue: false,
+    getArturoValue: () => features.chat_flush_queue_order,
+  },
   web_widget_set_department_queue: {
     defaultValue: false,
     getArturoValue: () => features.setDepartmentQueue,

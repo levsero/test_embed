@@ -1,3 +1,5 @@
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+
 let chatConnected = false
 let chatSDKInitialized = false
 
@@ -21,11 +23,18 @@ export const onChatSDKInitialized = (cb) => {
 }
 
 export const handleChatConnected = () => {
+  if (isFeatureEnabled(undefined, 'chat_flush_queue_order')) {
+    chatConnected = true
+  }
+
   flushQueue(onChatConnectedQueue)
   chatConnected = true
 }
 
 export const handleChatSDKInitialized = () => {
+  if (isFeatureEnabled(undefined, 'chat_flush_queue_order')) {
+    chatSDKInitialized = true
+  }
   flushQueue(onChatSDKInitializedQueue)
   chatSDKInitialized = true
 }
