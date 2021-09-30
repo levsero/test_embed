@@ -35,4 +35,8 @@ export default {
     defaultValue: false,
     getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,
   },
+  web_widget_set_department_queue: {
+    defaultValue: false,
+    getArturoValue: () => features.setDepartmentQueue,
+  },
 }

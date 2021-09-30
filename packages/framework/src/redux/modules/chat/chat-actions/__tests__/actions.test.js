@@ -7,12 +7,13 @@ import {
   CHAT_STARTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
 } from 'src/constants/event'
+import * as reselectors from 'src/embeds/chat/selectors/reselectors'
+import * as selectors from 'src/embeds/chat/selectors/selectors'
+import { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/routing-actions'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types'
-import * as reselectors from 'src/embeds/chat/selectors/reselectors'
-import * as selectors from 'src/embeds/chat/selectors/selectors'
 import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as formActionTypes from 'src/redux/modules/form/action-types'
 import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
@@ -26,6 +27,11 @@ import {
 } from 'src/service/api/zopimApi/callbacks'
 import { isMobileBrowser } from 'src/util/devices'
 import * as actions from '../actions'
+import {
+  setDepartmentComplete,
+  setDepartmentPending,
+  resetDepartmentQueue,
+} from '../setDepartmentQueue'
 
 const mockTimestamp = 1234
 Date.now = jest.fn(() => mockTimestamp)
@@ -224,11 +230,13 @@ describe('setVisitorInfo', () => {
   }
 
   beforeEach(() => {
+    updateFeatures({ setDepartmentQueue: true })
     handleChatSDKInitialized()
   })
 
   afterEach(() => {
     resetChatSDKInitializedQueue()
+    resetDepartmentQueue()
   })
 
   describe('if authenticated', () => {
@@ -338,21 +346,36 @@ describe('setVisitorInfo', () => {
     })
 
     describe('when there are no errors', () => {
-      it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
-        const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo({ visitor: mockVisitor })
-        )
-
-        expect(store.getActions()).toContainEqual(mockRequestSuccessAction)
-      })
-
-      describe('when an on-success action "callback" is passed', () => {
-        it('dispatches the on-success action', () => {
+      describe('when set department is complete', () => {
+        it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
+          setDepartmentComplete()
           const { store } = dispatchZChatWithTimeoutAction(
-            actions.setVisitorInfo({ visitor: mockVisitor, successAction: { type: 'COOL_ACTION' } })
+            actions.setVisitorInfo({ visitor: mockVisitor })
           )
 
-          expect(store.getActions()).toContainEqual({ type: 'COOL_ACTION' })
+          expect(store.getActions()).toContainEqual(mockRequestSuccessAction)
+        })
+
+        describe('when an on-success action "callback" is passed', () => {
+          it('dispatches the on-success action', () => {
+            const { store } = dispatchZChatWithTimeoutAction(
+              actions.setVisitorInfo({
+                visitor: mockVisitor,
+                successAction: { type: 'COOL_ACTION' },
+              })
+            )
+
+            expect(store.getActions()).toContainEqual({ type: 'COOL_ACTION' })
+          })
+        })
+
+        describe('when set department is not yet complete', () => {
+          it('does not dispatch SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
+            setDepartmentPending()
+            const storeActions = dispatchAction(actions.setVisitorInfo({ visitor: mockVisitor }))
+
+            expect(storeActions).not.toContainEqual(mockRequestSuccessAction)
+          })
         })
       })
     })
@@ -586,6 +609,10 @@ describe('setDepartment', () => {
   const mockDeptId = 1
   const mockSuccessCallback = jest.fn()
   const mockErrCallback = jest.fn()
+
+  beforeEach(() => {
+    updateFeatures({ setDepartmentQueue: true })
+  })
 
   it('dispatches VISITOR_DEFAULT_DEPARTMENT_SELECTED', () => {
     const { store } = dispatchZChatWithTimeoutAction(
@@ -1192,13 +1219,29 @@ describe('sendMsg', () => {
 
   afterEach(() => {
     resetChatSDKInitializedQueue()
+    resetDepartmentQueue()
   })
 
   describe('when chat is connected', () => {
-    it('fires off a CHAT_MSG_REQUEST_SENT action', () => {
+    beforeEach(() => {
+      updateFeatures({ setDepartmentQueue: true })
       handleChatConnected()
-      const result = dispatchAction(actions.sendMsg('boop'))
-      expect(result[0].type).toEqual('widget/chat/CHAT_MSG_REQUEST_SENT')
+    })
+
+    describe('and set department is complete', () => {
+      it('fires off a CHAT_MSG_REQUEST_SENT action', () => {
+        setDepartmentComplete()
+        const result = dispatchAction(actions.sendMsg('boop'))
+        expect(result[0].type).toEqual('widget/chat/CHAT_MSG_REQUEST_SENT')
+      })
+    })
+
+    describe('and set department is not yet complete', () => {
+      it('does not fire any actions', () => {
+        setDepartmentPending()
+        const result = dispatchAction(actions.sendMsg('boop'))
+        expect(result).toEqual([])
+      })
     })
   })
 

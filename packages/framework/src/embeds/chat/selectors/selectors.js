@@ -1,5 +1,5 @@
-import createCachedSelector from 're-reselect'
 import _ from 'lodash'
+import createCachedSelector from 're-reselect'
 import { createSelector } from 'reselect'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
