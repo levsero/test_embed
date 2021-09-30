@@ -2,16 +2,16 @@ import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 import NewWindowIcon from '@zendeskgarden/svg-icons/src/12/new-window-stroke.svg'
 import MessageBubble from 'src/MessageBubble'
-import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, FILE_UPLOAD_ERROR_TYPES } from 'src/constants'
+import { FILE_UPLOAD_ERROR_TYPES, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import {
+  ImageContainerLink,
+  OpenImageText,
   OtherParticipantImage,
   PrimaryParticipantImage,
   Text,
-  OpenImageText,
-  ImageContainerLink,
 } from './styles'
 
 const ImageMessage = ({
@@ -31,6 +31,7 @@ const ImageMessage = ({
   isFreshMessage = true,
   isRetryable,
   onRetry = () => {},
+  onError = () => {},
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const ParticipantImage = isPrimaryParticipant ? PrimaryParticipantImage : OtherParticipantImage
@@ -66,6 +67,7 @@ const ImageMessage = ({
             alt={alt}
             isPrimaryParticipant={isPrimaryParticipant}
             status={status}
+            onError={onError}
           />
           <OpenImageText>
             <span>
@@ -99,6 +101,7 @@ ImageMessage.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   onRetry: PropTypes.func,
+  onError: PropTypes.func,
   errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
   isRetryable: PropTypes.bool,
 }
