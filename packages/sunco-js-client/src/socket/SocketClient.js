@@ -79,7 +79,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
   this.appUserId = appUserId
   this.sessionToken = sessionToken
   this.hasSocketAborted = false
-  this.connected = false
+  this.subscriptions = {}
 
   const setupFayeClient = () => {
     const fayeClient = new Client(baseUrl, {
@@ -103,9 +103,8 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
         callback(message)
       },
       incoming: (message, request, callback) => {
-        if (message.channel === '/meta/subscribe' && message.successful) {
-          this.connected = true
-          this.eventObservers['connected'].notify()
+        if (message.channel === '/meta/subscribe') {
+          this.eventObservers['subscription'].notify({ successful: message.successful })
         }
 
         callback(message)
@@ -113,7 +112,6 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
     })
 
     fayeClient.on('transport:down', () => {
-      this.connected = false
       this.eventObservers['disconnected'].notify()
     })
 
@@ -141,6 +139,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
     message: new ObserverList(),
     activity: new ObserverList(),
     link: new ObserverList(),
+    subscription: new ObserverList(),
   }
 
   this.triggerSocketAborted = () => {
@@ -156,28 +155,46 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
   }
 
   const subscribe = () => {
-    this.subscription = this.fayeClient.subscribe.call(
-      this.fayeClient,
-      `/sdk/apps/${this.appId}/appusers/${this.appUserId}`,
-      ({ events }) => {
-        for (const event of events) {
-          switch (event.type) {
-            case 'message':
-              this.eventObservers['message'].notify(event.message)
-              break
-            case 'activity':
-              this.eventObservers['activity'].notify(event.activity)
-              break
-            case 'link:cancelled':
-            case 'link:failed':
-            case 'link:matched':
-            case 'link':
-              this.eventObservers['link'].notify(event)
-              break
-          }
+    // If its already subscribed, resolve immediately
+    const channel = `/sdk/apps/${this.appId}/appusers/${this.appUserId}`
+
+    if (this.subscriptions[channel]) {
+      return new Promise((res) => res())
+    }
+
+    const subscriptionPromise = new Promise((resolve, reject) => {
+      const unsubscribe = addObserver('subscription', (result) => {
+        this.subscriptions[channel] = result.successful
+
+        if (result.successful) {
+          resolve()
+        } else {
+          reject(new Error('Subscription was not successful'))
+        }
+        unsubscribe()
+      })
+    })
+
+    this.subscription = this.fayeClient.subscribe.call(this.fayeClient, channel, ({ events }) => {
+      for (const event of events) {
+        switch (event.type) {
+          case 'message':
+            this.eventObservers['message'].notify(event.message)
+            break
+          case 'activity':
+            this.eventObservers['activity'].notify(event.activity)
+            break
+          case 'link:cancelled':
+          case 'link:failed':
+          case 'link:matched':
+          case 'link':
+            this.eventObservers['link'].notify(event)
+            break
         }
       }
-    )
+    })
+
+    return subscriptionPromise
   }
 
   const unsubscribe = () => {
@@ -188,7 +205,6 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
     on: addObserver,
     subscribe: () => subscribe.call(this),
     unsubscribe: () => unsubscribe.call(this),
-    isConnected: () => this.connected,
   }
 }
 
