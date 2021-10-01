@@ -85,6 +85,8 @@ const ChannelLinkWithQrCode = ({
                   </TextButton>
                 </>
               )
+            default:
+              return null
           }
         })()}
       </Content>
