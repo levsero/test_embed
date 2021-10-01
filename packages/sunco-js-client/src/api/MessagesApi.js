@@ -46,9 +46,12 @@ class MessagesApi extends BaseApi {
     }
 
     const data = new FormData()
+
+    const castFile = new File([file], file.name, { type: file.type })
+
     data.append('author', JSON.stringify(this.getAuthorInformation(appUserId)))
     data.append('message', JSON.stringify({}))
-    data.append('source', file)
+    data.append('source', castFile)
 
     return this.request({
       method: 'POST',
