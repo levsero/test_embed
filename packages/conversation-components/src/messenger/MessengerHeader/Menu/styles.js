@@ -37,9 +37,14 @@ const ChannelIcon = styled.div`
   align-items: center;
   justify-content: center;
 
-  svg, img {
+  svg {
     height: ${(props) => props.theme.messenger.iconSizes.md};
     width: ${(props) => props.theme.messenger.iconSizes.md};
+  }
+
+  img {
+    height: ${(props) => rem(14, props.theme.baseFontSize)};
+    width: ${(props) => rem(14, props.theme.baseFontSize)};
   }
 `
 
