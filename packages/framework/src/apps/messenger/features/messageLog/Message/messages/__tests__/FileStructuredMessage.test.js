@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
+import { MESSAGE_STATUS } from '@zendesk/conversation-components'
 import * as messageLogStore from 'src/apps/messenger/features/messageLog/store'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import FileStructuredMessage from '../FileStructuredMessage'
@@ -37,36 +38,30 @@ describe('FileStructuredMessage', () => {
     return render(<FileStructuredMessage {...expectedProps} />)
   }
 
-  describe('displays file name', () => {
-    describe('when given altText', () => {
-      it('renders the altText', () => {
-        renderComponent({ message: { altText: 'Alt.pdf' } })
-
-        expect(screen.getByText('Alt.pdf')).toBeInTheDocument()
-      })
+  it('displays the file name', () => {
+    renderComponent({
+      message: {
+        mediaUrl: 'https://support.zendesk.com/attachments/token/abc123/some%20file.pdf',
+        status: MESSAGE_STATUS.sent,
+      },
     })
 
-    describe('when given no altText', () => {
-      it('shortens the mediaUrl into a legible filename as far as possible', () => {
-        renderComponent()
-
-        expect(screen.getByText('Ship-Information.pdf')).toBeInTheDocument()
-      })
-
-      it('shortens the given filename if it is 24 characters or longer', () => {
-        renderComponent({
-          message: {
-            mediaUrl:
-              'https://z3ntpatullock.zendesk.com/attachments/token/abc123/?name=A-Really-Long-Name-That-Should-Be-Reduced.pdf',
-          },
-        })
-
-        expect(screen.getByText('A-Really-Lo...-Reduced.pdf')).toBeInTheDocument()
-      })
-    })
+    expect(screen.getByText('some file.pdf')).toBeInTheDocument()
   })
 
   describe('when status is pending', () => {
+    it('uses the alt text for the file name', () => {
+      renderComponent({
+        message: {
+          mediaUrl: 'https://support.zendesk.com/attachments/token/abc123/some%20file.pdf',
+          altText: 'some%20file.pdf',
+          isOptimistic: true,
+        },
+      })
+
+      expect(screen.getByText('some file.pdf')).toBeInTheDocument()
+    })
+
     it('shows sending status in receipt', () => {
       const { getByText } = renderComponent({
         message: {

@@ -3,7 +3,10 @@ import { MESSAGE_STATUS } from '@zendesk/conversation-components'
 import { SuncoAPIError } from '@zendesk/sunco-js-client'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
-import { messageReceived } from 'src/apps/messenger/features/suncoConversation/store'
+import {
+  fileUploadMessageReceived,
+  messageReceived,
+} from 'src/apps/messenger/features/suncoConversation/store'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import reducer, { sendMessage, sendFile } from '../store'
@@ -23,6 +26,7 @@ describe('messages store', () => {
           hasFetchedConversation: false,
           errorFetchingHistory: false,
           isFetchingHistory: false,
+          tempFiles: {},
         },
       },
       {
@@ -40,6 +44,7 @@ describe('messages store', () => {
           hasFetchedConversation: false,
           errorFetchingHistory: false,
           isFetchingHistory: false,
+          tempFiles: {},
           entities: {
             1: {
               _id: 1,
@@ -922,28 +927,7 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'image',
             status: 'sending',
-            name: 'filename.img',
-          }),
-        ])
-      )
-    })
-
-    it('updates the status to sent on success', async () => {
-      const mockSendFile = async () => {
-        return { body: { messageId: 'messageId' } }
-      }
-      jest.spyOn(suncoClient, 'sendFile').mockImplementation(mockSendFile)
-      URL.createObjectURL = () => 'mockurl'
-      const store = createStore()
-
-      await store.dispatch(sendFile({ file: { type: 'image/png', name: 'filename.img' } }))
-
-      expect(getMessageLog(store.getState())).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            type: 'image',
-            status: 'sent',
-            name: 'filename.img',
+            altText: 'filename.img',
           }),
         ])
       )
@@ -964,7 +948,7 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'image',
             status: 'failed',
-            name: 'filename.img',
+            altText: 'filename.img',
             errorReason: 'unknown',
           }),
         ])
@@ -988,7 +972,7 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'image',
             status: 'failed',
-            name: 'filename.img',
+            altText: 'filename.img',
             errorReason: 'tooMany',
           }),
         ])
@@ -1013,12 +997,157 @@ describe('messages store', () => {
             expect.objectContaining({
               type: 'image',
               status: 'failed',
-              name: 'filename.img',
+              altText: 'filename.img',
               errorReason: 'some fake reason',
             }),
           ])
         )
       )
+    })
+
+    describe('marking a file as successfully uploaded', () => {
+      describe('fileUploadMessageReceived', () => {
+        it('stores the file temporarily when socket event received before sendFile APi completes', async () => {
+          const store = createStore()
+          store.dispatch(
+            sendFile.pending('request-id', {
+              file: { type: 'pdf', name: 'filename.pdf' },
+            })
+          )
+          store.dispatch(
+            fileUploadMessageReceived({
+              message: {
+                _id: 123,
+              },
+            })
+          )
+
+          expect(getMessageLog(store.getState())).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                _id: 'request-id',
+                type: 'file',
+                status: MESSAGE_STATUS.sending,
+              }),
+            ])
+          )
+          expect(store.getState().messages.tempFiles[123]).toEqual({
+            _id: 123,
+          })
+        })
+
+        it('updates the status to success if sendFile completed before fileUploadMessageReceived is dispatched', () => {
+          const store = createStore()
+          store.dispatch(
+            sendFile.pending('request-id', {
+              file: { type: 'pdf', name: 'filename.pdf' },
+            })
+          )
+          store.dispatch(
+            sendFile.fulfilled(
+              {
+                messageId: '123',
+              },
+              'request-id'
+            )
+          )
+
+          expect(getMessageLog(store.getState())).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                _id: 'request-id',
+                type: 'file',
+                status: MESSAGE_STATUS.sending,
+              }),
+            ])
+          )
+
+          store.dispatch(
+            fileUploadMessageReceived({
+              message: {
+                _id: '123',
+              },
+            })
+          )
+
+          expect(getMessageLog(store.getState())).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                _id: 'request-id',
+                type: 'file',
+                status: MESSAGE_STATUS.sent,
+              }),
+            ])
+          )
+        })
+      })
+
+      describe('sendFile fulfilled', () => {
+        it("if completed before fileUploadMessageReceived is received, updates the file object to store a reference to sunco's id", () => {
+          const store = createStore()
+          store.dispatch(
+            sendFile.pending('request-id', {
+              file: { type: 'pdf', name: 'filename.pdf' },
+            })
+          )
+          store.dispatch(
+            sendFile.fulfilled(
+              {
+                messageId: '123',
+              },
+              'request-id'
+            )
+          )
+
+          expect(getMessageLog(store.getState())).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                _id: 'request-id',
+                type: 'file',
+                status: MESSAGE_STATUS.sending,
+                externalId: '123',
+              }),
+            ])
+          )
+        })
+
+        it('updates the status to success if a temp file with the id already exists', () => {
+          const store = createStore()
+          store.dispatch(
+            sendFile.pending('request-id', {
+              file: { type: 'pdf', name: 'filename.pdf' },
+            })
+          )
+          store.dispatch(
+            fileUploadMessageReceived({
+              message: {
+                _id: '123',
+              },
+            })
+          )
+
+          store.dispatch(
+            sendFile.fulfilled(
+              {
+                messageId: '123',
+              },
+              'request-id',
+              {}
+            )
+          )
+
+          expect(getMessageLog(store.getState())).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                _id: 'request-id',
+                type: 'file',
+                status: MESSAGE_STATUS.sent,
+                externalId: '123',
+              }),
+            ])
+          )
+        })
+      })
     })
   })
 })
