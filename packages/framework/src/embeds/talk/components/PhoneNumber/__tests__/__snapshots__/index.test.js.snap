@@ -17,6 +17,7 @@ exports[`renders the component 1`] = `
   <a
     class="c0"
     data-testid="talk-phone-number"
+    dir="ltr"
     href="tel:95556666"
     target="_blank"
   >

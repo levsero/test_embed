@@ -223,6 +223,7 @@ class PhoneField extends ControlledComponent {
                           required={this.props.required}
                           isBare={true}
                           data-testid={TEST_IDS.PHONE_FIELD}
+                          dir="ltr"
                         />
                       </FauxInput>
                     </Field>

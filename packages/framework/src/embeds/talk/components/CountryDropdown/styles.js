@@ -18,4 +18,15 @@ const StyledSelect = styled(Select)`
   max-width: none;
 `
 
-export { StyledItem as Item, StyledMenu as Menu, StyledSelect as Select }
+const CountryData = styled.p.attrs(() => ({
+  dir: 'ltr',
+}))`
+  ${(props) =>
+    props.rtl &&
+    `
+    text-align: right;
+
+`}
+`
+
+export { StyledItem as Item, StyledMenu as Menu, StyledSelect as Select, CountryData }

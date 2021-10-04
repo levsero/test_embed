@@ -1,6 +1,6 @@
-import { act, render } from '@testing-library/react'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { act } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
+import { render } from 'src/util/testHelpers'
 import CountryDropdown from '../'
 
 describe('CountryDropdown', () => {
@@ -31,8 +31,7 @@ describe('CountryDropdown', () => {
     document.body.appendChild(defaultProps.appendToNode)
   })
 
-  const renderComponent = (props = {}) =>
-    render(<ThemeProvider>{<CountryDropdown {...defaultProps} {...props} />}</ThemeProvider>)
+  const renderComponent = (props = {}) => render(<CountryDropdown {...defaultProps} {...props} />)
 
   it('renders an option for each country', () => {
     const { queryByText } = renderComponent({ isOpen: true })

@@ -3,7 +3,12 @@ import { TEST_IDS } from 'src/constants/shared'
 import { PhoneLink } from './styles'
 
 const PhoneNumber = ({ phoneNumber, formattedPhoneNumber }) => (
-  <PhoneLink href={`tel:${phoneNumber}`} target="_blank" data-testid={TEST_IDS.TALK_PHONE_NUMBER}>
+  <PhoneLink
+    href={`tel:${phoneNumber}`}
+    target="_blank"
+    data-testid={TEST_IDS.TALK_PHONE_NUMBER}
+    dir="ltr"
+  >
     {formattedPhoneNumber}
   </PhoneLink>
 )
