@@ -28,6 +28,8 @@ const OpenImageText = styled.div`
   line-height: ${(props) => props.theme.messenger.lineHeights.sm};
 `
 
+const ImageContainer = styled.div``
+
 const ImageContainerLink = styled.a`
   &:hover,
   &:focus {
@@ -116,4 +118,5 @@ export {
   OpenImageText,
   ImageContainerLink,
   ImageMessageBubble,
+  ImageContainer,
 }

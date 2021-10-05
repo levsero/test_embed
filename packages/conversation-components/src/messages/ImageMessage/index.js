@@ -12,6 +12,7 @@ import {
   PrimaryParticipantImage,
   Text,
   ImageMessageBubble,
+  ImageContainer,
 } from './styles'
 
 const ImageMessage = ({
@@ -19,6 +20,7 @@ const ImageMessage = ({
   label,
   text,
   mediaUrl,
+  src = mediaUrl,
   alt,
   timeReceived,
   shape = 'standalone',
@@ -37,6 +39,13 @@ const ImageMessage = ({
   const ParticipantImage = isPrimaryParticipant ? PrimaryParticipantImage : OtherParticipantImage
   const hasText = text && text.trim().length > 0
   const labels = useLabels().imageMessage
+
+  const linkProps = {
+    as: ImageContainerLink,
+    href: mediaUrl,
+    target: '_blank',
+    isPrimaryParticipant: isPrimaryParticipant,
+  }
 
   return (
     <Layout
@@ -57,24 +66,22 @@ const ImageMessage = ({
         type={type}
         status={status}
       >
-        <ImageContainerLink
-          href={mediaUrl}
-          target="_blank"
-          isPrimaryParticipant={isPrimaryParticipant}
-        >
+        <ImageContainer {...(status === MESSAGE_STATUS.sent ? linkProps : {})}>
           <ParticipantImage
-            src={mediaUrl}
+            src={src}
             alt={alt}
             isPrimaryParticipant={isPrimaryParticipant}
             onError={onError}
           />
-          <OpenImageText>
-            <span>
-              {labels.openImage}&nbsp;
-              <NewWindowIcon />
-            </span>
-          </OpenImageText>
-        </ImageContainerLink>
+          {status === MESSAGE_STATUS.sent && (
+            <OpenImageText>
+              <span>
+                {labels.openImage}&nbsp;
+                <NewWindowIcon />
+              </span>
+            </OpenImageText>
+          )}
+        </ImageContainer>
         {hasText && (
           <Linkify properties={{ target: '_blank' }}>
             <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
@@ -103,6 +110,7 @@ ImageMessage.propTypes = {
   onError: PropTypes.func,
   errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
   isRetryable: PropTypes.bool,
+  src: PropTypes.string,
 }
 
 export default ImageMessage
