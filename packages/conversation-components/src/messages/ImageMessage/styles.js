@@ -49,7 +49,10 @@ const ImageContainerLink = styled.a`
       bottom: 0;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 1;
-      height: ${(props) => props.theme.messenger.space.imageHeight};
+
+      // hack to get safari to respect the overflow: hidden on the
+      // message bubble
+      transform: translateZ(0);
     }
   }
 `
