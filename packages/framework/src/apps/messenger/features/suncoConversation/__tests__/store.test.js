@@ -2,11 +2,101 @@ import { waitFor } from '@testing-library/dom'
 import * as suncoApi from 'src/apps/messenger/api/sunco'
 import createStore from 'src/apps/messenger/store/index'
 import { fetchIntegrations, selectIntegrationById } from 'src/apps/messenger/store/integrations'
-import { startConversation, reducer, getConversationStatus } from '../store'
+import { createMockStore } from 'src/util/testHelpers'
+import {
+  startConversation,
+  reducer,
+  getConversationStatus,
+  messageReceived,
+  fileUploadMessageReceived,
+} from '../store'
 
 jest.mock('src/apps/messenger/api/sunco')
 
 describe('suncoConversation Store', () => {
+  describe('message events', () => {
+    let listeners
+    let mockWasMessageSentFromThisTab
+
+    beforeEach(() => {
+      listeners = {}
+      mockWasMessageSentFromThisTab = jest.fn()
+      jest.spyOn(suncoApi, 'getActiveConversation').mockImplementation(async () => ({
+        socketClient: {
+          on: (eventType, callback) => {
+            listeners[eventType] = callback
+          },
+        },
+      }))
+      jest.spyOn(suncoApi, 'getClient').mockImplementation(() => ({
+        wasMessageSentFromThisTab: mockWasMessageSentFromThisTab,
+      }))
+    })
+
+    it('dispatches messageReceived for each message', async () => {
+      const store = createMockStore()
+
+      const message = { type: 'text', _id: '123' }
+
+      store.dispatch(startConversation())
+
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['message'](message)
+
+      expect(store.getActions()).toEqual(expect.arrayContaining([messageReceived({ message })]))
+    })
+
+    it('ignores messages sent from same browser tab', async () => {
+      const store = createMockStore()
+      mockWasMessageSentFromThisTab.mockReturnValue(true)
+
+      const message = { type: 'text', _id: '123' }
+
+      store.dispatch(startConversation())
+
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['message'](message)
+
+      expect(store.getActions()).not.toEqual(expect.arrayContaining([messageReceived({ message })]))
+    })
+
+    it('dispatches fileUploadMessageReceived for files sent from same browser tab', async () => {
+      const store = createMockStore()
+      mockWasMessageSentFromThisTab.mockReturnValue(true)
+
+      const message = { type: 'file', _id: '123' }
+
+      store.dispatch(startConversation())
+
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['message'](message)
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([fileUploadMessageReceived({ message })])
+      )
+    })
+
+    it('dispatches fileUploadMessageReceived for images sent from same browser tab', async () => {
+      const store = createMockStore()
+      mockWasMessageSentFromThisTab.mockReturnValue(true)
+
+      const message = { type: 'image', _id: '123' }
+
+      store.dispatch(startConversation())
+
+      await waitFor(() => expect(listeners['connected']).toBeTruthy())
+      listeners['connected']()
+      listeners['message'](message)
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([fileUploadMessageReceived({ message })])
+      )
+    })
+  })
+
   describe('linkEvent', () => {
     let listeners
 

@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { MESSAGE_STATUS } from '@zendesk/conversation-components'
 import { SuncoAPIError } from '@zendesk/sunco-js-client'
 import {
   sendMessage as sendSuncoMessage,
@@ -7,6 +8,7 @@ import {
 } from 'src/apps/messenger/api/sunco'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import {
+  fileUploadMessageReceived,
   messageReceived,
   startConversation,
 } from 'src/apps/messenger/features/suncoConversation/store'
@@ -67,6 +69,10 @@ const sendFile = createAsyncThunk(
       }
 
       delete retryFileStorage[messageId || requestId]
+
+      return {
+        messageId: response.body.messageId,
+      }
     } catch (err) {
       if (err instanceof SuncoAPIError) {
         return rejectWithValue({ errorReason: err.suncoErrorInfo?.reason || 'unknown' })
@@ -90,6 +96,7 @@ const messagesSlice = createSlice({
     hasFetchedConversation: false,
     errorFetchingHistory: false,
     isFetchingHistory: false,
+    tempFiles: {},
   }),
   extraReducers: {
     [messageReceived](state, action) {
@@ -181,7 +188,7 @@ const messagesSlice = createSlice({
         status: 'sending',
         mediaSize: file.size,
         mediaUrl: URL.createObjectURL(file),
-        name: file.name,
+        altText: file.name,
       })
     },
     [sendFile.rejected](state, action) {
@@ -193,9 +200,42 @@ const messagesSlice = createSlice({
       })
     },
     [sendFile.fulfilled](state, action) {
+      // if the socket event for the file came through before the API fulfilled
+      // get the media url from the stored file
+      if (state.tempFiles[action.payload.messageId]) {
+        messagesAdapter.upsertOne(state, {
+          _id: action.meta.arg.messageId ?? action.meta.requestId,
+          externalId: action.payload.messageId,
+          mediaUrl: state.tempFiles[action.payload.messageId].mediaUrl,
+          status: MESSAGE_STATUS.sent,
+        })
+
+        delete state.tempFiles[action.payload.messageId]
+        return
+      }
+
       messagesAdapter.upsertOne(state, {
-        _id: action.meta.arg.messageId ?? action.meta.requestId,
-        status: 'sent',
+        _id: action.meta?.arg?.messageId ?? action.meta.requestId,
+        externalId: action.payload.messageId,
+        // don't mark file as sent until we have the mediaUrl from the socket event
+      })
+    },
+    [fileUploadMessageReceived](state, action) {
+      const fileMessage = Object.values(state.entities).find(
+        (message) => message.externalId === action.payload.message._id
+      )
+
+      // If theres no file message this suggests that the socket event
+      // came through before the send file API fulfilled
+      if (!fileMessage) {
+        state.tempFiles[action.payload.message._id] = action.payload.message
+        return
+      }
+
+      messagesAdapter.upsertOne(state, {
+        _id: fileMessage._id,
+        status: MESSAGE_STATUS.sent,
+        mediaUrl: action.payload.message.mediaUrl,
       })
     },
   },

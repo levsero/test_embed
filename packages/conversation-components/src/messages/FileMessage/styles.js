@@ -28,7 +28,7 @@ const Icon = styled(AttachmentIcon)`
   margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xs};
 `
 
-const Name = styled.a`
+const Name = styled.div`
   font-size: ${(props) => props.theme.messenger.fontSizes.sm};
   line-height: ${(props) => props.theme.messenger.lineHeights.sm};
   overflow-wrap: anywhere;
@@ -42,20 +42,23 @@ const Name = styled.a`
     `
     color: ${props.theme.messenger.colors.failedMessageText};
     `}
-  &:hover,
-  &:visited,
-  &:active,
-  &:focus {
-    color: ${(props) =>
-      props.isPrimaryParticipant
-        ? props.theme.messenger.colors.messageText
-        : props.theme.messenger.colors.otherParticipantMessageText};
 
-    ${(props) =>
-      props.status === MESSAGE_STATUS.failed &&
-      `
+  a& {
+    &:hover,
+    &:visited,
+    &:active,
+    &:focus {
+      color: ${(props) =>
+        props.isPrimaryParticipant
+          ? props.theme.messenger.colors.messageText
+          : props.theme.messenger.colors.otherParticipantMessageText};
+
+      ${(props) =>
+        props.status === MESSAGE_STATUS.failed &&
+        `
     color: ${props.theme.messenger.colors.failedMessageText};
     `}
+    }
   }
 `
 

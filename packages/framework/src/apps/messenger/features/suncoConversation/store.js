@@ -7,6 +7,7 @@ import {
 } from 'src/apps/messenger/api/sunco'
 
 export const messageReceived = createAction('message-received')
+export const fileUploadMessageReceived = createAction('file-upload-message-received')
 export const activityReceived = createAction('activity-received')
 export const integrationLinked = createAction('integration-linked')
 export const integrationLinkCancelled = createAction('integration-link-cancelled')
@@ -71,6 +72,9 @@ const subscribeToConversationEvents = createAsyncThunk(
 
     activeConversation.socketClient.on('message', (message) => {
       if (getClient().wasMessageSentFromThisTab(message)) {
+        if (message.type === 'file' || message.type === 'image') {
+          dispatch(fileUploadMessageReceived({ message }))
+        }
         return
       }
       dispatch(messageReceived({ message }))

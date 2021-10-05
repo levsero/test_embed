@@ -1,3 +1,4 @@
+import { MESSAGE_STATUS } from 'src/constants'
 import render from 'src/utils/test/render'
 import FileMessage from '../'
 
@@ -11,6 +12,14 @@ const renderComponent = (props = {}) => {
 }
 
 describe('FileMessage', () => {
+  it('renders abbreviated link text when filename is too long', () => {
+    const { getByText } = renderComponent({
+      mediaUrl: 'https://books.io/alexander-and-the-terrible-horrible-no-good-very-bad-day.pdf',
+    })
+
+    expect(getByText('alexander-a...-bad-day.pdf')).toBeInTheDocument()
+  })
+
   describe('for primary participant', () => {
     describe('when message status is sent', () => {
       it('renders a link with parsed filename as link text', () => {
@@ -39,19 +48,22 @@ describe('FileMessage', () => {
 
         expect(getByText('1 KB')).toBeInTheDocument()
       })
+    })
 
-      it('renders abbreviated link text when filename is too long', () => {
-        const { getByText } = renderComponent({
-          mediaUrl: 'https://books.io/alexander-and-the-terrible-horrible-no-good-very-bad-day.pdf',
-        })
+    describe('when message is pending', () => {
+      it('does not render a link to the file', () => {
+        const { getByText } = renderComponent({ status: MESSAGE_STATUS.sending })
 
-        expect(getByText('alexander-a...-bad-day.pdf')).toBeInTheDocument()
+        expect(getByText('pawesome-pups.pdf')).not.toHaveAttribute(
+          'href',
+          'http://ulti-mutt.com/pawesome-pups.pdf'
+        )
       })
     })
 
     describe('when message status is failed', () => {
-      it('renders link text with color styles for file link', () => {
-        const { getByText } = renderComponent({ status: 'failed' })
+      it('visually appears as failed', () => {
+        const { getByText } = renderComponent({ status: MESSAGE_STATUS.failed })
 
         expect(getByText('pawesome-pups.pdf')).toHaveStyleRule('color', '#8c232c')
       })

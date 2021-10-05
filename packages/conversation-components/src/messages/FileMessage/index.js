@@ -6,22 +6,6 @@ import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import { Container, Icon, Name, Size, Content } from './styles'
 
-const parseFileNameFromUrl = (url) => {
-  const splitUrl = url.split('/')
-
-  const params = splitUrl[splitUrl.length - 1]
-  const queryParamPair = params.split('=')
-  const queryParamValue = queryParamPair[queryParamPair.length - 1]
-
-  return queryParamValue ?? url
-}
-
-const abbreviateFileName = (fileName) => {
-  if (fileName.length <= 24) return fileName
-
-  return `${fileName.slice(0, 11)}...${fileName.slice(-12)}`
-}
-
 const calculateMediaSize = (bytes, labels) => {
   const minFileSize = 1000
   const size = isNaN(bytes) || bytes < minFileSize ? minFileSize : bytes
@@ -29,6 +13,28 @@ const calculateMediaSize = (bytes, labels) => {
   return size >= 1000000
     ? labels.sizeInMB(Math.floor(size / 1000000))
     : labels.sizeInKB(Math.floor(size / 1000))
+}
+
+const getFileNameToDisplay = (mediaUrl) => {
+  let fileName = mediaUrl
+
+  try {
+    fileName = new URL(mediaUrl).pathname.split('/').pop()
+  } catch (ignored) {
+    // before file becomes a full url the above will fail (while uploading)
+  }
+
+  try {
+    fileName = decodeURIComponent(fileName)
+  } catch (e) {
+    // do nothing, use fileName as-is
+  }
+
+  if (fileName.length > 24) {
+    fileName = `${fileName.slice(0, 11)}...${fileName.slice(-12)}`
+  }
+
+  return fileName
 }
 
 const FileMessage = ({
@@ -39,7 +45,7 @@ const FileMessage = ({
   mediaSize,
   timeReceived,
   shape = 'standalone',
-  status,
+  status = MESSAGE_STATUS.sent,
   errorReason,
   isRetryable,
   isPrimaryParticipant = false,
@@ -50,9 +56,14 @@ const FileMessage = ({
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-  const parsedFilename = parseFileNameFromUrl(mediaUrl)
-  const abbreviatedName = abbreviateFileName(parsedFilename)
+  const fileName = getFileNameToDisplay(mediaUrl)
   const size = calculateMediaSize(mediaSize, labels)
+
+  const linkAttributes = {
+    as: 'a',
+    href: mediaUrl,
+    target: '_blank',
+  }
 
   return (
     <Layout
@@ -74,13 +85,11 @@ const FileMessage = ({
             <Name
               aria-label={labels.downloadAriaLabel}
               title={altText}
-              href={mediaUrl}
-              target="_blank"
-              isPill={false}
               isPrimaryParticipant={isPrimaryParticipant}
               status={status}
+              {...(status === 'sent' ? { ...linkAttributes } : {})}
             >
-              {altText || abbreviatedName}
+              {fileName}
             </Name>
             <Size>{size}</Size>
           </Content>
