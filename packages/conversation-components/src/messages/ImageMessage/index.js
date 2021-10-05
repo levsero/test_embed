@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 import NewWindowIcon from '@zendeskgarden/svg-icons/src/12/new-window-stroke.svg'
-import MessageBubble from 'src/MessageBubble'
 import { FILE_UPLOAD_ERROR_TYPES, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
@@ -12,6 +11,7 @@ import {
   OtherParticipantImage,
   PrimaryParticipantImage,
   Text,
+  ImageMessageBubble,
 } from './styles'
 
 const ImageMessage = ({
@@ -22,7 +22,7 @@ const ImageMessage = ({
   alt,
   timeReceived,
   shape = 'standalone',
-  status,
+  status = MESSAGE_STATUS.sent,
   errorReason,
   type,
   isPrimaryParticipant = false,
@@ -51,7 +51,7 @@ const ImageMessage = ({
       isFreshMessage={isFreshMessage}
       isRetryable={isRetryable}
     >
-      <MessageBubble
+      <ImageMessageBubble
         shape={shape}
         isPrimaryParticipant={isPrimaryParticipant}
         type={type}
@@ -66,7 +66,6 @@ const ImageMessage = ({
             src={mediaUrl}
             alt={alt}
             isPrimaryParticipant={isPrimaryParticipant}
-            status={status}
             onError={onError}
           />
           <OpenImageText>
@@ -81,7 +80,7 @@ const ImageMessage = ({
             <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
           </Linkify>
         )}
-      </MessageBubble>
+      </ImageMessageBubble>
     </Layout>
   )
 }

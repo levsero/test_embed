@@ -1,16 +1,11 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import MessageBubble from 'src/MessageBubble'
 import { MESSAGE_STATUS } from 'src/constants'
 
 const Image = styled.img`
   height: ${(props) => props.theme.messenger.space.imageHeight};
   object-fit: cover;
   display: block;
-
-  ${(props) =>
-    props.status === MESSAGE_STATUS.failed &&
-    `
-      opacity: ${props.theme.messenger.opacity.failedImageMessageStatus};
-    `}
 `
 
 const PrimaryParticipantImage = styled(Image)`
@@ -74,9 +69,51 @@ const Text = styled.p`
         ? props.theme.messenger.colors.messageText
         : props.theme.messenger.colors.otherParticipantMessageText};
   }
+
   a &hover {
     text-decoration: underline;
   }
 `
 
-export { PrimaryParticipantImage, OtherParticipantImage, Text, OpenImageText, ImageContainerLink }
+const ImageMessageBubble = styled(MessageBubble)`
+  ${(props) =>
+    props.status === MESSAGE_STATUS.sent &&
+    css`
+      && {
+        background-color: transparent;
+      }
+    `}
+
+  ${(props) =>
+    props.status === MESSAGE_STATUS.sending &&
+    css`
+      && {
+        opacity: 1;
+
+        ${Image} {
+          opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
+        }
+      }
+    `}
+
+  ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    css`
+      && {
+        opacity: 1;
+
+        ${Image} {
+          opacity: ${props.theme.messenger.opacity.failedImageMessageStatus};
+        }
+      }
+    `}
+`
+
+export {
+  PrimaryParticipantImage,
+  OtherParticipantImage,
+  Text,
+  OpenImageText,
+  ImageContainerLink,
+  ImageMessageBubble,
+}

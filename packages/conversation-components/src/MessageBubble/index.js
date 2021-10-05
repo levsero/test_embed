@@ -9,6 +9,7 @@ const MessageBubble = ({
   isPrimaryParticipant = true,
   isFreshMessage = true,
   type,
+  className,
 }) => {
   const ParticipantBubble = isPrimaryParticipant ? PrimaryParticipantBubble : OtherParticipantBubble
 
@@ -19,6 +20,7 @@ const MessageBubble = ({
       isFreshMessage={isFreshMessage}
       data-testid={'participant-bubble'}
       type={type}
+      className={className}
     >
       {children}
     </ParticipantBubble>
@@ -32,6 +34,7 @@ MessageBubble.propTypes = {
   isPrimaryParticipant: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   type: PropTypes.oneOf(Object.values(MESSAGE_TYPES)),
+  className: PropTypes.string,
 }
 
 export default MessageBubble
