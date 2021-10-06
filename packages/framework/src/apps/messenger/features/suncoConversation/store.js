@@ -15,23 +15,9 @@ export const integrationLinkFailed = createAction('integration-link-failed')
 export const attemptedChannelLink = createAction('attempted-channel-link')
 
 const waitForSocketToConnect = async (activeConversation, dispatch) => {
-  const socketIsConnected = new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => reject('Timed out waiting for socket to connect'), 3000)
+  await dispatch(subscribeToConversationEvents())
 
-    let removeListener
-    const onConnected = () => {
-      clearTimeout(timeout)
-      resolve(true)
-      removeListener()
-    }
-    removeListener = activeConversation.socketClient.on('connected', onConnected)
-    if (activeConversation.socketClient.isConnected()) {
-      onConnected()
-    }
-  })
-
-  dispatch(subscribeToConversationEvents())
-  return await socketIsConnected
+  await activeConversation.socketClient.subscribe()
 }
 
 export const startConversation = createAsyncThunk('startConversation', async (_, { dispatch }) => {
@@ -111,8 +97,6 @@ const subscribeToConversationEvents = createAsyncThunk(
         }
       }
     })
-
-    activeConversation.socketClient.subscribe()
   }
 )
 
