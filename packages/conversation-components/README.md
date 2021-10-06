@@ -39,17 +39,13 @@ yarn workspace @zendesk/conversation-components storybook
 
 ### Release a new version
 
-The steps to release are as follows
+The steps to release are as follows:
 
-Create a PR bumping the version to the release you would like. There should be no other code changes in the pr.
-
-Since we are still pre v1.0, each version bump should just be a patch (e.g. 0.0.2 -> 0.0.3).
-
-Once your PR has been thumbed and merged, run the following commands
+Update the version in `package.json`, since we are still pre v1.0, each version bump should just be a patch (e.g. 0.0.2 -> 0.0.3).
 
 ```shell
 # First make sure all tests are still passing
-yarn workspace @zendesk/conversation-components test
+yarn test packages/conversation-components
 
 # Build the latest version
 yarn workspace @zendesk/conversation-components build
@@ -58,8 +54,39 @@ yarn workspace @zendesk/conversation-components build
 yarn workspace @zendesk/conversation-components publish
 ```
 
-When it asks you for the version, enter the version you put through in the PR.
+The `publish` script will display the current version (which is the version you entered in `package.json`),
+then it will ask you for the "new version", just key in the same number as the "current version"
 
-When it asks you for login details, use your Artifactory username and API Key found here https://zdrepo.jfrog.io/ui/admin/artifactory/user_profile
+Next you will be asked for your Artifactory
+
+1. username (User Profile)
+2. email (Zendesk email)
+3. password (API Key)
+   Which can be found here https://zdrepo.jfrog.io/ui/admin/artifactory/user_profile
 
 Verify your release exists here https://zdrepo.jfrog.io/ui/repos/tree/General/npm%2F@zendesk%2Fconversation-components
+
+- expand the conversation-components folder all the way to the @zendesk folder
+- in the @zendesk folder search for the `.tgz` file that contains the new version number
+- e.g. `conversation-components-0.0.18.tgz`
+
+Verify the release is working with `create-react-app`
+
+- create a React app with `create-react-app`
+- in `Appjs` import conversation components and render one of the components
+
+Example:
+
+```javascript
+import { MessengerHeader, ThemeProvider } from '@zendesk/conversation-components'
+.
+.
+.
+<ThemeProvider>
+  <MessengerHeader isCompact={false}>
+    Conversation Components
+  </MessengerHeader>
+</ThemeProvider>
+```
+
+Once verified that it's working n the React app, create a PR bumping the version to the release you would like. There should be no other code changes in the pr.
