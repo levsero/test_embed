@@ -200,13 +200,16 @@ const messagesSlice = createSlice({
       })
     },
     [sendFile.fulfilled](state, action) {
+      const id = action.meta?.arg?.messageId ?? action.meta.requestId
+
       // if the socket event for the file came through before the API fulfilled
       // get the media url from the stored file
       if (state.tempFiles[action.payload.messageId]) {
         messagesAdapter.upsertOne(state, {
-          _id: action.meta.arg.messageId ?? action.meta.requestId,
+          _id: id,
           externalId: action.payload.messageId,
           mediaUrl: state.tempFiles[action.payload.messageId].mediaUrl,
+          blobMediaUrl: state.entities[id]?.mediaUrl,
           status: MESSAGE_STATUS.sent,
         })
 
@@ -215,7 +218,7 @@ const messagesSlice = createSlice({
       }
 
       messagesAdapter.upsertOne(state, {
-        _id: action.meta?.arg?.messageId ?? action.meta.requestId,
+        _id: id,
         externalId: action.payload.messageId,
         // don't mark file as sent until we have the mediaUrl from the socket event
       })
@@ -236,6 +239,7 @@ const messagesSlice = createSlice({
         _id: fileMessage._id,
         status: MESSAGE_STATUS.sent,
         mediaUrl: action.payload.message.mediaUrl,
+        blobMediaUrl: state.entities[fileMessage._id]?.mediaUrl,
       })
     },
   },

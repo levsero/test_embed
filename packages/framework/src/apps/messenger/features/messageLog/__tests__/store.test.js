@@ -1037,6 +1037,7 @@ describe('messages store', () => {
         })
 
         it('updates the status to success if sendFile completed before fileUploadMessageReceived is dispatched', () => {
+          jest.spyOn(URL, 'createObjectURL').mockReturnValue('mockurl')
           const store = createStore()
           store.dispatch(
             sendFile.pending('request-id', {
@@ -1058,6 +1059,7 @@ describe('messages store', () => {
                 _id: 'request-id',
                 type: 'file',
                 status: MESSAGE_STATUS.sending,
+                mediaUrl: 'mockurl',
               }),
             ])
           )
@@ -1066,6 +1068,7 @@ describe('messages store', () => {
             fileUploadMessageReceived({
               message: {
                 _id: '123',
+                mediaUrl: 'www.example.com/cat.jpg',
               },
             })
           )
@@ -1076,6 +1079,8 @@ describe('messages store', () => {
                 _id: 'request-id',
                 type: 'file',
                 status: MESSAGE_STATUS.sent,
+                mediaUrl: 'www.example.com/cat.jpg',
+                blobMediaUrl: 'mockurl',
               }),
             ])
           )
@@ -1112,6 +1117,8 @@ describe('messages store', () => {
         })
 
         it('updates the status to success if a temp file with the id already exists', () => {
+          jest.spyOn(URL, 'createObjectURL').mockReturnValue('mockurl')
+
           const store = createStore()
           store.dispatch(
             sendFile.pending('request-id', {
@@ -1122,6 +1129,7 @@ describe('messages store', () => {
             fileUploadMessageReceived({
               message: {
                 _id: '123',
+                mediaUrl: 'www.example.com/cat.jpg',
               },
             })
           )
@@ -1143,6 +1151,8 @@ describe('messages store', () => {
                 type: 'file',
                 status: MESSAGE_STATUS.sent,
                 externalId: '123',
+                mediaUrl: 'www.example.com/cat.jpg',
+                blobMediaUrl: 'mockurl',
               }),
             ])
           )

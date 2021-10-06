@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 import NewWindowIcon from '@zendeskgarden/svg-icons/src/12/new-window-stroke.svg'
-import MessageBubble from 'src/MessageBubble'
 import { FILE_UPLOAD_ERROR_TYPES, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import useLabels from 'src/hooks/useLabels'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
@@ -12,6 +11,7 @@ import {
   OtherParticipantImage,
   PrimaryParticipantImage,
   Text,
+  ImageMessageBubble,
 } from './styles'
 
 const ImageMessage = ({
@@ -19,10 +19,11 @@ const ImageMessage = ({
   label,
   text,
   mediaUrl,
+  src = mediaUrl,
   alt,
   timeReceived,
   shape = 'standalone',
-  status,
+  status = MESSAGE_STATUS.sent,
   errorReason,
   type,
   isPrimaryParticipant = false,
@@ -38,6 +39,12 @@ const ImageMessage = ({
   const hasText = text && text.trim().length > 0
   const labels = useLabels().imageMessage
 
+  const linkProps = {
+    href: mediaUrl,
+    target: '_blank',
+    isPrimaryParticipant: isPrimaryParticipant,
+  }
+
   return (
     <Layout
       isFirstInGroup={isFirstInGroup}
@@ -51,37 +58,29 @@ const ImageMessage = ({
       isFreshMessage={isFreshMessage}
       isRetryable={isRetryable}
     >
-      <MessageBubble
+      <ImageMessageBubble
         shape={shape}
         isPrimaryParticipant={isPrimaryParticipant}
         type={type}
         status={status}
       >
-        <ImageContainerLink
-          href={mediaUrl}
-          target="_blank"
-          isPrimaryParticipant={isPrimaryParticipant}
-        >
-          <ParticipantImage
-            src={mediaUrl}
-            alt={alt}
-            isPrimaryParticipant={isPrimaryParticipant}
-            status={status}
-            onError={onError}
-          />
-          <OpenImageText>
-            <span>
-              {labels.openImage}&nbsp;
-              <NewWindowIcon />
-            </span>
-          </OpenImageText>
+        <ImageContainerLink {...(status === MESSAGE_STATUS.sent ? linkProps : {})}>
+          <ParticipantImage src={src} alt={alt} isPrimaryParticipant={isPrimaryParticipant} onError={onError} />
+          {status === MESSAGE_STATUS.sent && (
+            <OpenImageText>
+              <span>
+                {labels.openImage}&nbsp;
+                <NewWindowIcon />
+              </span>
+            </OpenImageText>
+          )}
         </ImageContainerLink>
         {hasText && (
           <Linkify properties={{ target: '_blank' }}>
             <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
           </Linkify>
         )}
-      </MessageBubble>
+      </ImageMessageBubble>
     </Layout>
   )
 }
@@ -104,6 +103,7 @@ ImageMessage.propTypes = {
   onError: PropTypes.func,
   errorReason: PropTypes.oneOf(Object.values(FILE_UPLOAD_ERROR_TYPES)),
   isRetryable: PropTypes.bool,
+  src: PropTypes.string,
 }
 
 export default ImageMessage

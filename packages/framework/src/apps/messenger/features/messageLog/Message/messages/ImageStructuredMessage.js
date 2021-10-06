@@ -12,6 +12,7 @@ const ImageStructuredMessage = ({ message }) => {
     role,
     text,
     mediaUrl,
+    blobMediaUrl,
     altText,
     isFirstInGroup,
     isLastInGroup,
@@ -46,6 +47,7 @@ const ImageStructuredMessage = ({ message }) => {
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
       isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
       mediaUrl={mediaUrl}
+      src={blobMediaUrl}
       text={text}
       alt={altText}
       type={type}

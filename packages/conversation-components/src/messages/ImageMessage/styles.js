@@ -1,16 +1,13 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import MessageBubble from 'src/MessageBubble'
+import messageSteps, { transition } from 'src/animations/messageSteps'
 import { MESSAGE_STATUS } from 'src/constants'
 
 const Image = styled.img`
   height: ${(props) => props.theme.messenger.space.imageHeight};
   object-fit: cover;
   display: block;
-
-  ${(props) =>
-    props.status === MESSAGE_STATUS.failed &&
-    `
-      opacity: ${props.theme.messenger.opacity.failedImageMessageStatus};
-    `}
+  transition: ${transition(messageSteps.messageColor, 'opacity')};
 `
 
 const PrimaryParticipantImage = styled(Image)`
@@ -34,27 +31,31 @@ const OpenImageText = styled.div`
 `
 
 const ImageContainerLink = styled.a`
-  &:hover,
-  &:focus {
-    ${OpenImageText} {
-      display: flex;
-    }
+  ${(props) =>
+    props.href &&
+    css`
+      &:hover,
+      &:focus {
+        ${OpenImageText} {
+          display: flex;
+        }
 
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1;
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1;
 
-      // hack to get safari to respect the overflow: hidden on the
-      // message bubble
-      transform: translateZ(0);
-    }
-  }
+          // hack to get safari to respect the overflow: hidden on the
+          // message bubble
+          transform: translateZ(0);
+        }
+      }
+    `}
 `
 
 const Text = styled.p`
@@ -74,9 +75,51 @@ const Text = styled.p`
         ? props.theme.messenger.colors.messageText
         : props.theme.messenger.colors.otherParticipantMessageText};
   }
+
   a &hover {
     text-decoration: underline;
   }
 `
 
-export { PrimaryParticipantImage, OtherParticipantImage, Text, OpenImageText, ImageContainerLink }
+const ImageMessageBubble = styled(MessageBubble)`
+  ${(props) =>
+    props.status === MESSAGE_STATUS.sent &&
+    css`
+      && {
+        background-color: transparent;
+      }
+    `}
+
+  ${(props) =>
+    props.status === MESSAGE_STATUS.sending &&
+    css`
+      && {
+        opacity: 1;
+
+        ${Image} {
+          opacity: ${props.theme.messenger.opacity.sendingMessageStatus};
+        }
+      }
+    `}
+
+  ${(props) =>
+    props.status === MESSAGE_STATUS.failed &&
+    css`
+      && {
+        opacity: 1;
+
+        ${Image} {
+          opacity: ${props.theme.messenger.opacity.failedImageMessageStatus};
+        }
+      }
+    `}
+`
+
+export {
+  PrimaryParticipantImage,
+  OtherParticipantImage,
+  Text,
+  OpenImageText,
+  ImageContainerLink,
+  ImageMessageBubble,
+}
