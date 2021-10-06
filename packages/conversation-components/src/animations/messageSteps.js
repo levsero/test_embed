@@ -16,6 +16,7 @@ const existingRepliesEnter = createStep({ delay, duration: 0 })
 const repliesExit = createStep({ delay, duration: 0 })
 const receiptEnter = createStep({ delay, duration: 0 })
 const messageStatusOpacity = createStep({ delay })
+const messageColor = createStep({ delay, duration: 0.2, timing: 'linear' })
 
 delay = 0.15
 const messageBorder = createStep({ delay, duration: 0.15 })
@@ -56,6 +57,7 @@ const messageSteps = {
   messageBorder,
   messageEnter,
   messageStatusOpacity,
+  messageColor,
   existingRepliesEnter,
   freshRepliesEnter,
   repliesExit,

@@ -22,7 +22,8 @@ const Bubble = styled.div`
   min-width: ${(props) => props.theme.messenger.space.messageBubbleWidth};
 
   transition: ${transition(messageSteps.messageBorder, 'border-radius')},
-    ${transition(messageSteps.messageStatusOpacity, 'opacity')};
+    ${transition(messageSteps.messageStatusOpacity, 'opacity')},
+    ${transition(messageSteps.messageColor, 'background-color')};
   overflow: hidden;
 `
 

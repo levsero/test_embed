@@ -12,7 +12,6 @@ import {
   PrimaryParticipantImage,
   Text,
   ImageMessageBubble,
-  ImageContainer,
 } from './styles'
 
 const ImageMessage = ({
@@ -41,7 +40,6 @@ const ImageMessage = ({
   const labels = useLabels().imageMessage
 
   const linkProps = {
-    as: ImageContainerLink,
     href: mediaUrl,
     target: '_blank',
     isPrimaryParticipant: isPrimaryParticipant,
@@ -66,13 +64,8 @@ const ImageMessage = ({
         type={type}
         status={status}
       >
-        <ImageContainer {...(status === MESSAGE_STATUS.sent ? linkProps : {})}>
-          <ParticipantImage
-            src={src}
-            alt={alt}
-            isPrimaryParticipant={isPrimaryParticipant}
-            onError={onError}
-          />
+        <ImageContainerLink {...(status === MESSAGE_STATUS.sent ? linkProps : {})}>
+          <ParticipantImage src={src} alt={alt} isPrimaryParticipant={isPrimaryParticipant} onError={onError} />
           {status === MESSAGE_STATUS.sent && (
             <OpenImageText>
               <span>
@@ -81,7 +74,7 @@ const ImageMessage = ({
               </span>
             </OpenImageText>
           )}
-        </ImageContainer>
+        </ImageContainerLink>
         {hasText && (
           <Linkify properties={{ target: '_blank' }}>
             <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
