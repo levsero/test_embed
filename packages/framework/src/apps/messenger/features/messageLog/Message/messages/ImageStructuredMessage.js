@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ImageMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import { sendFile } from 'src/apps/messenger/features/messageLog/store'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
+import FileStructuredMessage from './FileStructuredMessage'
 
-const ImageStructuredMessage = ({
-  message: {
+const ImageStructuredMessage = ({ message }) => {
+  const {
     _id,
     role,
     text,
@@ -23,11 +25,16 @@ const ImageStructuredMessage = ({
     status,
     errorReason,
     isRetryable,
-  },
-}) => {
+  } = message
+  const [hasFailedLoadingImage, setHasFailedLoadingImage] = useState(false)
+  const handleImageLoadError = () => {
+    setHasFailedLoadingImage(true)
+  }
   const isPrimaryParticipant = role === 'appUser'
   const dispatch = useDispatch()
   const messageStatus = status ?? MESSAGE_STATUS.sent
+
+  if (hasFailedLoadingImage) return <FileStructuredMessage message={message} />
 
   return (
     <ImageMessage
@@ -46,6 +53,7 @@ const ImageStructuredMessage = ({
       errorReason={errorReason}
       isRetryable={isRetryable}
       onRetry={() => dispatch(sendFile({ messageId: _id }))}
+      onError={handleImageLoadError}
     />
   )
 }

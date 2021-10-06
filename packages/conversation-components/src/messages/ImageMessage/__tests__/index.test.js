@@ -1,3 +1,4 @@
+import { fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import render from 'src/utils/test/render'
 import ImageMessage from '../'
@@ -41,5 +42,12 @@ describe('ImageMessage', () => {
     expect(imageText).toHaveStyleRule('display, none')
     userEvent.hover(imageText)
     expect(imageText).toHaveStyleRule('display, flex')
+  })
+
+  it("calls the onError callback when it can't load the image", () => {
+    const onError = jest.fn()
+    const { getByAltText } = renderComponent({ onError, alt: 'img alt', mediaUrl: 'blahurl.com' })
+    fireEvent.error(getByAltText('img alt'))
+    expect(onError).toHaveBeenCalled()
   })
 })
