@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { zdColorGrey800 } from '@zendeskgarden/css-variables'
 
 const SpinnerContainer = styled.div`
   display: flex;
@@ -18,7 +17,7 @@ const ErrorContainer = styled.div`
   height: 100%;
   font-size: ${(props) => props.theme.messenger.fontSizes.sixteen};
   &&& {
-    color: ${zdColorGrey800};
+    color: ${(props) => props.theme.palette.grey[800]};
   }
 `
 
