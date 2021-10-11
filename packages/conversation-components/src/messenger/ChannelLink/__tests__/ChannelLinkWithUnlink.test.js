@@ -36,4 +36,18 @@ describe('ChannelLinkWithUnlink', () => {
 
     expect(getByRole('progressbar')).toBeInTheDocument()
   })
+
+  it('opens the channel "Open <channel>" is clicked', () => {
+    const { getByText } = renderComponent({
+      url: 'www.example.com/fancy-cats.jpg',
+    })
+    const windowOpen = jest.spyOn(window, 'open').mockImplementation(() => null)
+    getByText('Open Messenger').click()
+
+    expect(windowOpen).toHaveBeenCalledWith(
+      'www.example.com/fancy-cats.jpg',
+      '_blank',
+      'noopener,noreferrer'
+    )
+  })
 })

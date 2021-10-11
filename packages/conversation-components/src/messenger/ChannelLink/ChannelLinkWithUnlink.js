@@ -18,7 +18,7 @@ import {
   UnlinkText,
 } from './styles'
 
-const ChannelLinkWithUnlink = ({ channelId, onDisconnect, pending, businessUsername }) => {
+const ChannelLinkWithUnlink = ({ channelId, onDisconnect, pending, businessUsername, url }) => {
   const labels = useLabels().channelLink[channelId]
   const ChannelLogo = channelIcons[channelId]
   return (
@@ -30,7 +30,13 @@ const ChannelLinkWithUnlink = ({ channelId, onDisconnect, pending, businessUsern
       <Subtitle>{labels.subtitle}</Subtitle>
       <Content>
         <Instructions>{labels.instructions.mobile(businessUsername)}</Instructions>
-        <ChannelPillButton isPrimary={true} isPill={true} target="_blank" rel="noopener noreferrer">
+        <ChannelPillButton
+          isPrimary={true}
+          isPill={true}
+          onClick={() => {
+            window.open(url, '_blank', 'noopener,noreferrer')
+          }}
+        >
           {labels.button.mobile}
         </ChannelPillButton>
         <DisconnectContainer>
@@ -50,6 +56,7 @@ ChannelLinkWithUnlink.propTypes = {
   onDisconnect: PropTypes.func.isRequired,
   pending: PropTypes.bool,
   businessUsername: PropTypes.string,
+  url: PropTypes.string,
 }
 
 export default ChannelLinkWithUnlink
