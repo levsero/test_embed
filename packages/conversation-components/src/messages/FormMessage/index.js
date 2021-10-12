@@ -29,6 +29,7 @@ const FormMessage = ({
   onChange = (_fieldId, _value) => {},
   onSubmit = (_formValues) => {},
   onRetry = () => {},
+  canFocus = true,
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const [activeStep, setActiveStep] = useState(initialStep)
@@ -115,6 +116,7 @@ const FormMessage = ({
                       error={validationErrors[field._id]}
                       onChange={(newValue) => handleOnChange(field._id, newValue)}
                       lastSubmittedTimestamp={lastSubmittedTimestamp}
+                      canFocus={canFocus}
                     />
                   </Field>
                 )
@@ -172,6 +174,7 @@ FormMessage.propTypes = {
   onValidate: PropTypes.func,
   onSubmit: PropTypes.func,
   onRetry: PropTypes.func,
+  canFocus: PropTypes.bool,
 }
 
 export default FormMessage

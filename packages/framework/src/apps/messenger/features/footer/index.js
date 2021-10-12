@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
 import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
@@ -11,8 +11,9 @@ import {
 import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 import { sendMessage, sendFile } from 'src/apps/messenger/features/messageLog/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { AnimationContext } from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
-import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
+import { isSafari } from 'src/framework/utils/hostPageWindow'
 
 const Footer = () => {
   const dispatch = useDispatch()
@@ -20,6 +21,7 @@ const Footer = () => {
   const isComposerEnabled = useSelector(getIsComposerEnabled)
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
+  const isAnimationComplete = useContext(AnimationContext)
   const onFilesSelected = (files) => {
     Array.from(files).forEach((file, index) => {
       dispatch(sendFile({ file, failDueToTooMany: index >= fileUploadCountLimit }))
@@ -40,10 +42,10 @@ const Footer = () => {
 
   useEffect(() => {
     if (isFullScreen) return
-    if (isComposerEnabled && composerRef.current) {
-      restoreHostPageScrollPositionIfSafari(() => {
-        composerRef.current.focus()
-      })
+    if (isComposerEnabled && composerRef.current && isAnimationComplete) {
+      if (!isSafari) {
+        composerRef.current?.focus()
+      }
 
       // Make sure the cursor is at the end of the input
       if (typeof composerRef.current?.selectionStart == 'number') {
@@ -57,7 +59,7 @@ const Footer = () => {
         dispatch(saveDraft({ message: composerRef.current.value }))
       }
     }
-  }, [isFullScreen, isComposerEnabled, composerRef])
+  }, [isFullScreen, isComposerEnabled, composerRef, isAnimationComplete])
 
   return (
     <MessengerFooter

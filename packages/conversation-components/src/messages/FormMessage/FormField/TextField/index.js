@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types'
 import { useRef, useEffect } from 'react'
 import Message from 'src/messages/FormMessage/FormField/Message'
-import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
 import { Input, Label, Field } from './styles'
 
-const TextField = ({ field, value = '', onChange, error, lastSubmittedTimestamp }) => {
+const TextField = ({ field, value = '', onChange, error, lastSubmittedTimestamp, canFocus }) => {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    restoreHostPageScrollPositionIfSafari(() => {
+    if (canFocus) {
       inputRef.current?.focus()
-    })
-  }, [])
+    }
+  }, [canFocus])
 
   return (
     <Field>
@@ -46,6 +45,7 @@ TextField.propTypes = {
   onChange: PropTypes.func,
   lastSubmittedTimestamp: PropTypes.number,
   error: PropTypes.string,
+  canFocus: PropTypes.bool,
 }
 
 export default TextField
