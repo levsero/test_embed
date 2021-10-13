@@ -643,6 +643,10 @@ describe('setDepartment', () => {
 
   describe('when there is an error', () => {
     it('calls the error callback', () => {
+      updateFeatures({
+        web_widget_set_department_queue: false,
+      })
+
       dispatchZChatWithTimeoutAction(
         actions.setDepartment(mockDeptId, mockSuccessCallback, mockErrCallback),
         timeoutError

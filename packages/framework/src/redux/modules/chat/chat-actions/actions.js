@@ -17,6 +17,7 @@ import {
   getPrechatFormRequired,
   getChatBanned,
 } from 'src/embeds/chat/selectors'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import errorTracker from 'src/framework/services/errorTracker'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
@@ -553,18 +554,38 @@ export function chatOfflineFormChanged(formState) {
 }
 
 export function setDepartment(departmentId, successCallback = noop, errCallback = noop) {
+  let attempts = 0
+
   return (dispatch, getState) => {
     setDepartmentPending()
-    zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, (err) => {
-      dispatch(setDefaultDepartment(departmentId, Date.now()))
 
-      if (!err) {
-        successCallback()
-      } else {
-        errCallback(err)
-      }
-      setDepartmentComplete()
-    })
+    const attemptSettingDepartment = () => {
+      zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, (err) => {
+        dispatch(setDefaultDepartment(departmentId, Date.now()))
+
+        if (!err) {
+          successCallback()
+        } else {
+          if (attempts < 2 && isFeatureEnabled(undefined, 'web_widget_set_department_queue')) {
+            attempts += 1
+            attemptSettingDepartment()
+            return
+          }
+
+          if (isFeatureEnabled(undefined, 'web_widget_set_department_queue')) {
+            errorTracker.warn(err, {
+              rollbarFingerprint: 'Failed setting department after multiple attempts',
+              rollbarTitle: 'Failed setting department after multiple attempts',
+            })
+          }
+
+          errCallback(err)
+        }
+        setDepartmentComplete()
+      })
+    }
+
+    attemptSettingDepartment()
   }
 }
 
