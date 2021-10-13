@@ -9,13 +9,21 @@ const Container = styled.div`
   flex-direction: row;
   flex-shrink: 0;
   font-family: ${(props) => props.theme.messenger.fontFamily};
-  padding: ${(props) => props.theme.messenger.space.sixteen};
+  padding: ${(props) => props.theme.messenger.space.sm};
+  padding-${dirStyles.left}: ${(props) => props.theme.messenger.space.xs};
   background-color: ${(props) => props.theme.messenger.colors.primary};
   color: ${(props) => props.theme.messenger.colors.primaryText};
   word-break: break-word;
 `
 
 const CompactContainer = styled(Container)``
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  min-height: ${(props) => rem(40, props.theme.messenger.baseFontSize)};
+`
 
 const Details = styled.div`
   display: flex;
@@ -24,19 +32,22 @@ const Details = styled.div`
   flex: 1;
   color: ${(props) => props.theme.messenger.colors.primaryText};
   min-width: 0;
+  margin-bottom: ${(props) => props.theme.messenger.space.xxs};
+  margin-top: ${(props) => props.theme.messenger.space.xxs};
 
-  &:not(:first-child) {
-    padding-${dirStyles.left}: ${(props) => props.theme.messenger.space.sixteen};
+  > div:only-child {
+    margin-bottom: 0;
+    margin-top: 0;
   }
 `
 
 const Avatar = styled(GardenAvatar)`
   && {
-    height: ${(props) => rem(36, props.theme.messenger.baseFontSize)} !important;
-    width: ${(props) => rem(36, props.theme.messenger.baseFontSize)} !important;
+    height: ${(props) => rem(40, props.theme.messenger.baseFontSize)} !important;
+    width: ${(props) => rem(40, props.theme.messenger.baseFontSize)} !important;
+    margin-${dirStyles.left}: ${(props) => props.theme.messenger.space.xs};
     flex-shrink: 0;
     border-radius: 50%;
-    margin-top: ${(props) => rem(4, props.theme.messenger.baseFontSize)} !important;
   }
 `
 
@@ -71,10 +82,9 @@ const HeaderControl = styled.div`
 
   & + & {
     margin-${dirStyles.left}: 3px;
-
   }
   justify-content: center;
-  height: ${(props) => props.theme.messenger.space.xxl};
+  min-height: ${(props) => rem(32, props.theme.messenger.baseFontSize)};
 `
 
 export {
@@ -82,6 +92,7 @@ export {
   Title,
   Description,
   Container,
+  ContentContainer,
   CompactContainer,
   Details,
   CloseIcon,
