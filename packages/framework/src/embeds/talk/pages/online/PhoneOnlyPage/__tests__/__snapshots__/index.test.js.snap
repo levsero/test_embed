@@ -530,6 +530,8 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           >
             Call us
           </h1>
@@ -552,6 +554,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
       >

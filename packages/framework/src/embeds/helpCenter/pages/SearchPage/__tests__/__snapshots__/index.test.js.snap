@@ -943,6 +943,8 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           >
             pageTitle
           </h1>
@@ -1016,6 +1018,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c18"
         data-testid="scroll-container-content"
       >
@@ -2021,6 +2024,8 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           >
             pageTitle
           </h1>
@@ -2094,6 +2099,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c18"
         data-testid="scroll-container-content"
       >

@@ -514,6 +514,8 @@ exports[`ArticlePage default render matches snapshot 1`] = `
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           >
             pageTitle
           </h1>
@@ -536,6 +538,7 @@ exports[`ArticlePage default render matches snapshot 1`] = `
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
       >

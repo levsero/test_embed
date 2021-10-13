@@ -7,11 +7,11 @@ import { i18n } from 'src/apps/webWidget/services/i18n'
 import Messages from 'src/embeds/answerBot/components/Messages'
 import AnswerBotIcon from 'src/embeds/answerBot/icons/answerBot.svg'
 import {
-  makeGetGroupMessages,
   getLastScreenClosed,
+  makeGetGroupMessages,
 } from 'src/embeds/answerBot/selectors/conversation'
 import { getBrandLogoUrl, getLocale } from 'src/redux/modules/base/base-selectors'
-import { Container, Name, Avatar, IconContainer } from './styles'
+import { Avatar, Container, IconContainer, Name } from './styles'
 
 const makeMapStateToProps = () => {
   const getGroupMessages = makeGetGroupMessages()
@@ -180,7 +180,7 @@ class MessageGroup extends Component {
 
   renderName = () => {
     return !this.props.isVisitor ? (
-      <Name shouldAnimate={this.shouldAnimate()}>
+      <Name shouldAnimate={this.shouldAnimate()} aria-hidden={'true'}>
         <span>{this.props.agentAvatarName}</span>
         &nbsp; &middot; &nbsp;
         <span>{i18n.t('embeddable_framework.answerBot.tag.bot')}</span>

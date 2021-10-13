@@ -1,10 +1,10 @@
 const keyCodes = {
-  ENTER: 13,
-  SPACE: 32,
+  ENTER: 'Enter',
+  SPACE: 'Space',
 }
 
 const triggerOnEnter = (callback) => (e) => {
-  if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+  if ((e.key === keyCodes.ENTER && !e.shiftKey) || (e.key === keyCodes.SPACE && !e.shiftKey)) {
     e.preventDefault()
     callback(e)
   }

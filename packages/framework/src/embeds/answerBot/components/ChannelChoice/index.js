@@ -5,21 +5,20 @@ import { bindActionCreators } from 'redux'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { ICONS, TEST_IDS } from 'src/constants/shared'
 import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleChoices'
-import { getCapability } from 'src/embeds/talk/selectors'
+import { getCapability, isCallbackEnabled } from 'src/embeds/talk/selectors'
+import { CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
-  getSubmitTicketAvailable,
   getChatAvailable,
   getChatOfflineAvailable,
-  getTalkOnline,
   getContactOptionsChatLabelOnline,
   getContactOptionsContactFormLabel,
+  getSubmitTicketAvailable,
+  getTalkOnline,
 } from 'src/redux/modules/selectors'
-import { CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
-import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import { triggerOnEnter } from 'src/util/keyboard'
-import { Item, Label, ChannelIcon } from './styles'
+import { ChannelIcon, Item, Label } from './styles'
 
 class ChannelChoice extends Component {
   static propTypes = {
@@ -84,10 +83,8 @@ class ChannelChoice extends Component {
   }
 
   handleClick = (channel) => {
-    return () => {
-      this.props.actions.updateBackButtonVisibility(true)
-      this.props.actions.updateActiveEmbed(channel)
-    }
+    this.props.actions.updateBackButtonVisibility(true)
+    this.props.actions.updateActiveEmbed(channel)
   }
 
   leadingMessage = () => {
@@ -112,8 +109,10 @@ class ChannelChoice extends Component {
         single={this.state.availableChannels.length === 1}
         tabIndex="0"
         role="button"
-        onClick={this.handleClick(channel)}
-        onKeyPress={triggerOnEnter(() => this.handleClick(channel))}
+        onClick={() => this.handleClick(channel)}
+        onKeyPress={triggerOnEnter(() => {
+          this.handleClick(channel)
+        })}
         data-testid={TEST_IDS.LIST_ITEM}
       >
         <ChannelIcon type={icon} />

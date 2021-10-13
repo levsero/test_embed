@@ -15,7 +15,7 @@ const InputBox = ({
   onBlur,
 }) => {
   const handleKeyDown = (e) => {
-    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+    if (e.key === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault()
       handleSendInputValue()
     }

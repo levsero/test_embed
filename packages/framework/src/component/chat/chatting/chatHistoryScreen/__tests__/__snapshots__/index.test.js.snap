@@ -10,7 +10,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -40,5 +40,5 @@
+@@ -43,5 +43,5 @@
         >
           <div
 -           class="chatLogContainer"
@@ -412,6 +412,8 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
           <h1
             class="c3 c4"
             data-testid="widget-title"
+            id="widgetHeaderTitle"
+            role="alert"
           >
             this is the title
           </h1>
@@ -434,6 +436,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         </div>
       </div>
       <div
+        aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
       >

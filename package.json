@@ -17,7 +17,8 @@
     "lint:js": "eslint *.js config script packages --fix",
     "lint:other": "prettier --check \"**/*.{css,scss,json,md}\" --write",
     "lint": "npm run lint:js && npm run lint:other",
-    "test": "TZ=utc jest"
+    "test": "TZ=utc jest",
+    "test:updateSnapshots": "TZ=utc jest --updateSnapshot"
   },
   "husky": {
     "hooks": {

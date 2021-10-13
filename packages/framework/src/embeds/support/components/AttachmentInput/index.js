@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import FileInput from 'src/components/FileInput'
 import useTranslate from 'src/hooks/useTranslate'
 import { isMobileBrowser } from 'src/util/devices'
-import { AttachmentButton, Description, Label, Icon } from './styles'
+import { AttachmentButton, Description, Icon, Label } from './styles'
 
 const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {
   const translate = useTranslate()
@@ -13,10 +13,15 @@ const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {
 
   return (
     <FileInput onFileSelect={onFileSelect} data-testid={attachmentInputId} name={name}>
-      <AttachmentButton id={attachmentInputId}>
+      <AttachmentButton
+        id={attachmentInputId}
+        role={'button'}
+        aria-label={'Attachments'}
+        aria-describedby={'attachmentButtonDescription'}
+      >
         <Description>
           <Icon />
-          <Label>{label}</Label>
+          <Label id={'attachmentButtonDescription'}>{label}</Label>
         </Description>
       </AttachmentButton>
     </FileInput>
