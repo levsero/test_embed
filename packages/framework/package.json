@@ -78,7 +78,7 @@
     "IE 11"
   ],
   "dependencies": {
-    "@reduxjs/toolkit": "^1.4.0",
+    "@reduxjs/toolkit": "^1.6.2",
     "@zendesk/client-i18n-tools": "^17.2.0",
     "@zendesk/conversation-components": "*",
     "@zendesk/sunco-js-client": "*",

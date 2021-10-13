@@ -29,18 +29,29 @@ const getLinkStatus = (integration) => {
   return 'success'
 }
 
-const getUrl = (integration, channelId, translate) => {
-  if (channelId === 'whatsapp')
+const getLinkingUrl = (channel, channelType, translate) => {
+  if (channelType === 'whatsapp')
     return encodeURI(
       `https://wa.me/${
-        integration.phoneNumber
+        channel.phoneNumber
       }?text=${translate(
         'embeddable_framework.messenger.channel_linking.whatsapp.custom_linking_message',
-        { whatsappCode: integration.linkRequest.code }
+        { whatsappCode: channel.linkRequest.code }
       )}`
     )
 
-  return integration.linkRequest.url
+  return channel.linkRequest.url
+}
+
+const getUrlToLinkedChannel = (channel, channelType) => {
+  switch (channelType) {
+    case 'whatsapp':
+      return `https://wa.me/${channel.phoneNumber}`
+    case 'messenger':
+      return `https://m.me/${channel.pageId}`
+    default:
+      return ''
+  }
 }
 
 const ChannelPage = forwardRef((_props, ref) => {
@@ -58,7 +69,6 @@ const ChannelPage = forwardRef((_props, ref) => {
   }, [integration.linked, integration.ignoreLinkRequest])
 
   const linkStatus = getLinkStatus(integration)
-  const url = getUrl(integration, channelId, translate)
 
   return (
     <ChannelLinkContainer ref={ref}>
@@ -73,6 +83,7 @@ const ChannelPage = forwardRef((_props, ref) => {
       </Header>
       {integration.linked && (
         <ChannelLinkWithUnlink
+          url={getUrlToLinkedChannel(integration, channelId)}
           channelId={channelId}
           pending={integration.unlinkPending}
           businessUsername={integration.businessUsername}
@@ -86,7 +97,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           {isFullScreen ? (
             <ChannelLinkWithButton
               channelId={channelId}
-              url={integration.linkRequest.url}
+              url={getLinkingUrl(integration, channelId, translate)}
               businessUsername={integration.businessUsername}
               status={linkStatus}
               onRetry={() => dispatch(fetchLinkRequest({ channelId }))}
@@ -97,7 +108,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           ) : (
             <ChannelLinkWithQrCode
               channelId={channelId}
-              url={url}
+              url={getLinkingUrl(integration, channelId, translate)}
               qrCode={integration.linkRequest.qrCode}
               businessUsername={integration.businessUsername}
               status={linkStatus}

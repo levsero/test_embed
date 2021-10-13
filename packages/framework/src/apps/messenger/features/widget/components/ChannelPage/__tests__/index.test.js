@@ -256,5 +256,53 @@ describe('ChannelPage', () => {
         expect(getByText("Couldn't disconnect. Try again.")).toBeInTheDocument()
       })
     })
+
+    describe('open already linked channel', () => {
+      it('opens Facebook Messenger in a new tab', () => {
+        const channelId = 'messenger'
+
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          linkRequest: { channelId: 'messenger', url: 'http://some.url/' },
+          linked: 'linked',
+          unlinkFailed: true,
+          pageId: '123',
+        }))
+
+        const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+
+        const windowOpen = jest.spyOn(window, 'open').mockImplementation(() => null)
+        getByText('Open Messenger').click()
+
+        expect(windowOpen).toHaveBeenCalledWith('https://m.me/123', '_blank', 'noopener,noreferrer')
+      })
+
+      it('opens WhatsApp in a new tab', () => {
+        const channelId = 'whatsapp'
+
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          linked: 'linked',
+          unlinkFailed: true,
+          phoneNumber: '123123123',
+          linkRequest: {},
+        }))
+
+        const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
+
+        const windowOpen = jest.spyOn(window, 'open').mockImplementation(() => null)
+        getByText('Open WhatsApp').click()
+
+        expect(windowOpen).toHaveBeenCalledWith(
+          'https://wa.me/123123123',
+          '_blank',
+          'noopener,noreferrer'
+        )
+      })
+    })
   })
 })
