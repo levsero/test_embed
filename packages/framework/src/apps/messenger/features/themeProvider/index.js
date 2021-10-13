@@ -105,7 +105,9 @@ const ThemeProvider = ({ children }) => {
           uploadButtonAriaLabel: translate(
             'embeddable_framework.messenger.file_upload.upload_button'
           ),
-          messageBubbleHover: translate(
+        },
+        imageMessage: {
+          openImage: translate(
             'embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2'
           ),
         },
