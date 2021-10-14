@@ -51,7 +51,7 @@ describe('setLocale', () => {
 describe('translate', () => {
   it('returns the translated string', async () => {
     await i18n.setLocale('en-US')
-    expect(i18n.translate('embeddable_framework.common.button.chat')).toBe('Live chat')
+    expect(i18n.translate('embeddable_framework.messenger.frame.title')).toBe('Messaging window')
   })
 
   it('returns a missing translation string when translation was not found', async () => {
