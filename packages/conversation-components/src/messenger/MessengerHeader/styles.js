@@ -21,7 +21,7 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: auto;
+  flex: 1;
   color: ${(props) => props.theme.messenger.colors.primaryText};
   min-width: 0;
 
