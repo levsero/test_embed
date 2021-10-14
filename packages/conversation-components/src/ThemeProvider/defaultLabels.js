@@ -10,7 +10,6 @@ const defaultLabels = {
   },
   fileUpload: {
     uploadButtonAriaLabel: 'Upload file',
-    messageBubbleHover: 'Open in new tab',
   },
   fileMessage: {
     sizeInMB: (size) => `${size} MB`,
