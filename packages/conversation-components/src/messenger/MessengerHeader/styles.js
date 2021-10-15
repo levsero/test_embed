@@ -44,6 +44,10 @@ const Details = styled.div`
   &:not(:first-child) {
     padding-${dirStyles.left}: ${(props) => props.theme.messenger.space.sixteen};
   }
+
+  &:first-child {
+    margin-${dirStyles.left}: ${(props) => props.theme.messenger.space.sixteen};
+  }
 `
 
 const Avatar = styled(GardenAvatar)`
