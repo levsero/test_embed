@@ -39,6 +39,10 @@ const Details = styled.div`
     margin-bottom: 0;
     margin-top: 0;
   }
+
+  &:not(:first-child) {
+    padding-${dirStyles.left}: ${(props) => props.theme.messenger.space.sixteen};
+  }
 `
 
 const Avatar = styled(GardenAvatar)`
