@@ -7,7 +7,8 @@ import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
-  max-width: ${(props) => rem(640, props.theme.baseFontSize)};
+  width: ${(props) => rem(640, props.theme.baseFontSize)};
+  max-width: 100%;
   display: flex;
   align-items: center;
   text-align: center;
@@ -21,12 +22,14 @@ const Title = styled.h1`
   line-height: ${(props) => props.theme.messenger.lineHeights.lg};
   margin-bottom: ${(props) => props.theme.messenger.space.xs};
   font-weight: normal;
+  max-width: 100%;
 `
 
 const Subtitle = styled.p`
   font-size: ${(props) => props.theme.messenger.fontSizes.md};
   line-height: ${(props) => props.theme.messenger.lineHeights.md};
   margin-bottom: ${(props) => props.theme.messenger.space.md};
+  max-width: 100%;
 `
 
 const ChannelIcon = styled.div`
@@ -49,10 +52,13 @@ const Content = styled.div`
   align-items: center;
   font-size: ${(props) => props.theme.messenger.fontSizes.md};
   line-height: ${(props) => props.theme.messenger.lineHeights.md};
+  width: 100%;
 `
 
 const Instructions = styled.p`
   margin-bottom: ${(props) => props.theme.messenger.space.lg};
+  word-wrap: break-word;
+  max-width: 100%;
 `
 
 const QRSpaceContainer = styled.div`

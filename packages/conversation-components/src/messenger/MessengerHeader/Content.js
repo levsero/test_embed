@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types'
 import useLabels from 'src/hooks/useLabels'
-import { Avatar, Description, Details, Title } from 'src/messenger/MessengerHeader/styles'
+import {
+  Avatar,
+  ContentContainer,
+  Description,
+  Details,
+  Title,
+} from 'src/messenger/MessengerHeader/styles'
 
 const Content = ({ title, description, avatar }) => {
   const labels = useLabels().messengerHeader
 
   return (
-    <>
+    <ContentContainer>
       {avatar && (
         <Avatar isSystem={true}>
           <img src={avatar} alt={labels.avatarAltTag} />
@@ -16,7 +22,7 @@ const Content = ({ title, description, avatar }) => {
         {title && <Title>{title}</Title>}
         {description && <Description>{description}</Description>}
       </Details>
-    </>
+    </ContentContainer>
   )
 }
 
