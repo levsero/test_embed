@@ -23,6 +23,7 @@ const ContentContainer = styled.div`
   flex-grow: 1;
   align-items: center;
   min-height: ${(props) => rem(40, props.theme.messenger.baseFontSize)};
+  min-width: 0;
 `
 
 const Details = styled.div`
