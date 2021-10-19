@@ -65,7 +65,12 @@ const ImageMessage = ({
         status={status}
       >
         <ImageContainerLink {...(status === MESSAGE_STATUS.sent ? linkProps : {})}>
-          <ParticipantImage src={src} alt={alt} isPrimaryParticipant={isPrimaryParticipant} onError={onError} />
+          <ParticipantImage
+            src={src}
+            alt={alt}
+            isPrimaryParticipant={isPrimaryParticipant}
+            onError={onError}
+          />
           {status === MESSAGE_STATUS.sent && (
             <OpenImageText>
               <span>
