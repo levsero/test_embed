@@ -12,14 +12,6 @@ const renderComponent = (props = {}) => {
 }
 
 describe('FileMessage', () => {
-  it('renders abbreviated link text when filename is too long', () => {
-    const { getByText } = renderComponent({
-      mediaUrl: 'https://books.io/alexander-and-the-terrible-horrible-no-good-very-bad-day.pdf',
-    })
-
-    expect(getByText('alexander-a...-bad-day.pdf')).toBeInTheDocument()
-  })
-
   describe('for primary participant', () => {
     describe('when message status is sent', () => {
       it('renders a link with parsed filename as link text', () => {
@@ -29,6 +21,14 @@ describe('FileMessage', () => {
           'href',
           'http://ulti-mutt.com/pawesome-pups.pdf'
         )
+      })
+
+      it('renders abbreviated link text when filename is too long', () => {
+        const { getByText } = renderComponent({
+          mediaUrl: 'https://books.io/alexander-and-the-terrible-horrible-no-good-very-bad-day.pdf',
+        })
+
+        expect(getByText('alexander-a...-bad-day.pdf')).toBeInTheDocument()
       })
 
       it('calculates and renders the size for large files in MB', () => {
@@ -66,6 +66,37 @@ describe('FileMessage', () => {
         const { getByText } = renderComponent({ status: MESSAGE_STATUS.failed })
 
         expect(getByText('pawesome-pups.pdf')).toHaveStyleRule('color', '#8c232c')
+      })
+    })
+  })
+
+  describe('for other participant', () => {
+    describe('when message status is sent', () => {
+      it('renders a link with a parsed long filename as link text', () => {
+        const { getByText } = renderComponent({
+          isPrimaryParticipant: false,
+          mediaUrl: 'https://spotify.com/?song=I-Bet-You-Look-Good-On-The-Dancefloor.mp3',
+        })
+
+        expect(getByText('I-Bet-You-L...ncefloor.mp3')).toBeInTheDocument()
+      })
+
+      it('renders a link with a parsed short filename as link text', () => {
+        const { getByText } = renderComponent({
+          isPrimaryParticipant: false,
+          mediaUrl: 'https://spotify.com/?song=Dancing-Shoes.mp3',
+        })
+
+        expect(getByText('Dancing-Shoes.mp3')).toBeInTheDocument()
+      })
+
+      it('calculates and renders the file size', () => {
+        const { getByText } = renderComponent({
+          isPrimaryParticipant: false,
+          mediaSize: 10538473,
+        })
+
+        expect(getByText('10 MB')).toBeInTheDocument()
       })
     })
   })
