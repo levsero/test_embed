@@ -1,9 +1,9 @@
-import { render, fireEvent, queryByAltText } from '@testing-library/react'
+import { fireEvent, queryByAltText } from '@testing-library/react'
 import * as libphonenumber from 'libphonenumber-js'
-import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'src/constants/shared'
 import countriesByIso from 'src/translation/ze_countries'
+import { render } from 'src/util/testHelpers'
 import { Component as PhoneField } from '../'
 
 jest.mock('libphonenumber-js')
@@ -46,15 +46,13 @@ describe('PhoneField', () => {
   })
 
   it('focuses the input when dropdown is open', () => {
-    const withOpenDropdown = renderComponent()
+    const { queryByText, getByTestId } = renderComponent()
 
-    fireEvent.click(withOpenDropdown.queryByTestId(TEST_IDS.DROPDOWN_FIELD))
+    expect(queryByText('United States (+1)')).not.toBeInTheDocument()
 
-    const withClosedDropdown = renderComponent()
+    fireEvent.click(getByTestId(TEST_IDS.DROPDOWN_FIELD))
 
-    expect(
-      snapshotDiff(withClosedDropdown, withOpenDropdown, { contextLines: 0 })
-    ).toMatchSnapshot()
+    expect(queryByText('United States (+1)')).toBeInTheDocument()
   })
 
   describe('text field', () => {

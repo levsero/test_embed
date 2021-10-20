@@ -582,6 +582,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             <a
               class="c15"
               data-testid="talk-phone-number"
+              dir="ltr"
               href="tel:+61412345678"
               target="_blank"
             >

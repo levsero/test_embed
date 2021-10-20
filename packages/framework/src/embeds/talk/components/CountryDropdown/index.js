@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 import { Dropdown, Field } from '@zendeskgarden/react-dropdowns'
+import useIsRTL from 'src/apps/webWidget/hooks/useIsRTL'
 import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import { Item, Menu, Select } from './styles'
+import { Item, Menu, Select, CountryData } from './styles'
 
 const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onToggleOpen }) => {
   const frame = useCurrentFrame()
+  const isRtl = useIsRTL()
 
   return (
     <Dropdown
@@ -40,7 +42,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
           return (
             <Item key={iso} value={iso}>
               <Flag country={iso} />
-              {`${name} (${code})`}
+              <CountryData rtl={isRtl}>{`${name} (${code})`}</CountryData>
             </Item>
           )
         })}
