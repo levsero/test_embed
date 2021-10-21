@@ -58,7 +58,7 @@ const FileMessage = ({
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-  const fileName = getFileNameToDisplay(mediaUrl, isPrimaryParticipant)
+  const fileName = altText || getFileNameToDisplay(mediaUrl, isPrimaryParticipant)
   const size = calculateMediaSize(mediaSize, labels)
 
   const linkAttributes = {

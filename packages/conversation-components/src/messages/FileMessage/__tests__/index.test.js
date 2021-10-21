@@ -31,6 +31,15 @@ describe('FileMessage', () => {
         expect(getByText('alexander-a...-bad-day.pdf')).toBeInTheDocument()
       })
 
+      it('renders the alt tag as the filename instead of media url as link text', () => {
+        const { getByText } = renderComponent({
+          altText: 'book1',
+          mediaUrl: 'https://books.io/alexander-and-the-terrible-horrible-no-good-very-bad-day.pdf',
+        })
+
+        expect(getByText('book1')).toBeInTheDocument()
+      })
+
       it('calculates and renders the size for large files in MB', () => {
         const { getByText } = renderComponent({ mediaSize: 45638473 })
 
@@ -88,6 +97,15 @@ describe('FileMessage', () => {
         })
 
         expect(getByText('Dancing-Shoes.mp3')).toBeInTheDocument()
+      })
+
+      it('renders the alt tag as the filename instead of media url as link text', () => {
+        const { getByText } = renderComponent({
+          altText: 'A song by the Arctic Monkeys',
+          mediaUrl: 'https://spotify.com/?song=Dancing-Shoes.mp3',
+        })
+
+        expect(getByText('A song by the Arctic Monkeys')).toBeInTheDocument()
       })
 
       it('calculates and renders the file size', () => {
