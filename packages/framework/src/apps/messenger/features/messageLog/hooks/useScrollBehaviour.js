@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
 import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
+import { AnimationContext } from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
 import {
   getLastReadTimestamp,
   getLastUnreadTimestamp,
@@ -11,9 +12,7 @@ import {
 } from 'src/apps/messenger/store/unreadIndicator'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import hostPageWindow, {
-  restoreHostPageScrollPositionIfSafari,
-} from 'src/framework/utils/hostPageWindow'
+import hostPageWindow from 'src/framework/utils/hostPageWindow'
 
 const scrollOffsetInRems = 3
 
@@ -27,17 +26,20 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   const theme = useContext(ThemeContext)
   const animationsDisabled = useShouldDisableAnimations()
   const frame = useCurrentFrame()
+  const isAnimationComplete = useContext(AnimationContext)
 
   const scrollToBottom = useCallback(
     ({ smooth = true } = {}) => {
-      anchor.current?.scrollIntoView({
-        behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
-        block: 'nearest',
-      })
+      if (isAnimationComplete) {
+        anchor.current?.scrollIntoView({
+          behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
+          block: 'nearest',
+        })
 
-      isScrollAtBottom.current = true
+        isScrollAtBottom.current = true
+      }
     },
-    [animationsDisabled]
+    [animationsDisabled, isAnimationComplete]
   )
 
   const scrollToBottomIfNeeded = useCallback(
@@ -74,9 +76,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     }
     let input = frame.document.querySelector(`[data-id="${firstFieldToError._id}"]`)
     if (input) {
-      restoreHostPageScrollPositionIfSafari(() => {
-        input.focus()
-      })
+      input.focus()
     }
     scrollToBottomIfNeeded()
     const label = frame.document.querySelector(`[data-label-id="${firstFieldToError._id}"]`)

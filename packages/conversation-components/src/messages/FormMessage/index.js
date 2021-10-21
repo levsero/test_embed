@@ -29,6 +29,7 @@ const FormMessage = ({
   onChange = (_fieldId, _value) => {},
   onSubmit = (_formValues) => {},
   onRetry = () => {},
+  focusOnInitialRender = true,
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const [activeStep, setActiveStep] = useState(initialStep)
@@ -115,6 +116,7 @@ const FormMessage = ({
                       error={validationErrors[field._id]}
                       onChange={(newValue) => handleOnChange(field._id, newValue)}
                       lastSubmittedTimestamp={lastSubmittedTimestamp}
+                      focusOnInitialRender={focusOnInitialRender}
                     />
                   </Field>
                 )
@@ -172,6 +174,7 @@ FormMessage.propTypes = {
   onValidate: PropTypes.func,
   onSubmit: PropTypes.func,
   onRetry: PropTypes.func,
+  focusOnInitialRender: PropTypes.bool,
 }
 
 export default FormMessage

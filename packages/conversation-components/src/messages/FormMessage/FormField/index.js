@@ -9,7 +9,14 @@ const fields = {
   select: SelectField,
 }
 
-const FormField = ({ field, onChange, value, error, lastSubmittedTimestamp }) => {
+const FormField = ({
+  field,
+  onChange,
+  value,
+  error,
+  lastSubmittedTimestamp,
+  focusOnInitialRender = false,
+}) => {
   const FieldComponent = fields[field.type]
 
   if (!FieldComponent) {
@@ -23,6 +30,7 @@ const FormField = ({ field, onChange, value, error, lastSubmittedTimestamp }) =>
       onChange={onChange}
       error={error}
       lastSubmittedTimestamp={lastSubmittedTimestamp}
+      focusOnInitialRender={focusOnInitialRender}
     />
   )
 }
@@ -35,6 +43,7 @@ FormField.propTypes = {
   value: PropTypes.any,
   error: PropTypes.string,
   lastSubmittedTimestamp: PropTypes.number,
+  focusOnInitialRender: PropTypes.bool,
 }
 
 export default FormField

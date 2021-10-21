@@ -4,10 +4,16 @@ import { ThemeContext } from 'styled-components'
 import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
 import { Dropdown, Select, Item, Label, Menu } from 'src/Dropdown'
 import Message from 'src/messages/FormMessage/FormField/Message'
-import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
 import { Container } from './styles'
 
-const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
+const SelectField = ({
+  field,
+  value,
+  onChange,
+  error,
+  lastSubmittedTimestamp,
+  focusOnInitialRender = false,
+}) => {
   const {
     messenger: { currentFrame },
   } = useContext(ThemeContext)
@@ -15,15 +21,15 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
   const inputRef = useRef(null)
 
   useEffect(() => {
-    restoreHostPageScrollPositionIfSafari(() => {
+    if (focusOnInitialRender) {
       inputRef.current?.focus()
-    })
+    }
 
     // Default to the first option if none already selected
     if (!value) {
       onChange([field.options[0]])
     }
-  }, [])
+  }, [focusOnInitialRender])
 
   return (
     <Container
@@ -96,6 +102,7 @@ SelectField.propTypes = {
   onChange: PropTypes.func,
   lastSubmittedTimestamp: PropTypes.number,
   error: PropTypes.string,
+  focusOnInitialRender: PropTypes.bool,
 }
 
 export default SelectField

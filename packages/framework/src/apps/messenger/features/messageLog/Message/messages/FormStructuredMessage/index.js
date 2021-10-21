@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types'
+import { useContext } from 'react'
 import { FormMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
+import { AnimationContext } from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
 
 const FormStructuredMessage = ({
   message: {
@@ -15,6 +17,7 @@ const FormStructuredMessage = ({
     name,
   },
 }) => {
+  const isAnimationComplete = useContext(AnimationContext)
   const messageStatus = status ?? MESSAGE_STATUS.sent
   const { onChange, onSubmit, values, formSubmissionStatus, step, onStepChange } = useForm({
     formId: _id,
@@ -68,6 +71,7 @@ const FormStructuredMessage = ({
           [fieldId]: newValue,
         })
       }}
+      focusOnInitialRender={isAnimationComplete}
     />
   )
 }
