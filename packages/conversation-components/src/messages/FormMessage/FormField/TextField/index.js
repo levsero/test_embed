@@ -3,14 +3,21 @@ import { useRef, useEffect } from 'react'
 import Message from 'src/messages/FormMessage/FormField/Message'
 import { Input, Label, Field } from './styles'
 
-const TextField = ({ field, value = '', onChange, error, lastSubmittedTimestamp, canFocus }) => {
+const TextField = ({
+  field,
+  value = '',
+  onChange,
+  error,
+  lastSubmittedTimestamp,
+  focusOnInitialRender = false,
+}) => {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    if (canFocus) {
+    if (focusOnInitialRender) {
       inputRef.current?.focus()
     }
-  }, [canFocus])
+  }, [focusOnInitialRender])
 
   return (
     <Field>
@@ -45,7 +52,7 @@ TextField.propTypes = {
   onChange: PropTypes.func,
   lastSubmittedTimestamp: PropTypes.number,
   error: PropTypes.string,
-  canFocus: PropTypes.bool,
+  focusOnInitialRender: PropTypes.bool,
 }
 
 export default TextField

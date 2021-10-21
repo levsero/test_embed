@@ -71,7 +71,7 @@ const FormStructuredMessage = ({
           [fieldId]: newValue,
         })
       }}
-      canFocus={isAnimationComplete}
+      focusOnInitialRender={isAnimationComplete}
     />
   )
 }

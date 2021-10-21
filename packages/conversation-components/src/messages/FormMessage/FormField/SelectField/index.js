@@ -6,7 +6,14 @@ import { Dropdown, Select, Item, Label, Menu } from 'src/Dropdown'
 import Message from 'src/messages/FormMessage/FormField/Message'
 import { Container } from './styles'
 
-const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp, canFocus }) => {
+const SelectField = ({
+  field,
+  value,
+  onChange,
+  error,
+  lastSubmittedTimestamp,
+  focusOnInitialRender = false,
+}) => {
   const {
     messenger: { currentFrame },
   } = useContext(ThemeContext)
@@ -14,7 +21,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp, ca
   const inputRef = useRef(null)
 
   useEffect(() => {
-    if (canFocus) {
+    if (focusOnInitialRender) {
       inputRef.current?.focus()
     }
 
@@ -22,7 +29,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp, ca
     if (!value) {
       onChange([field.options[0]])
     }
-  }, [canFocus])
+  }, [focusOnInitialRender])
 
   return (
     <Container
@@ -95,7 +102,7 @@ SelectField.propTypes = {
   onChange: PropTypes.func,
   lastSubmittedTimestamp: PropTypes.number,
   error: PropTypes.string,
-  canFocus: PropTypes.bool,
+  focusOnInitialRender: PropTypes.bool,
 }
 
 export default SelectField
