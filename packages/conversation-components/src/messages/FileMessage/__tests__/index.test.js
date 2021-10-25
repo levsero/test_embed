@@ -25,10 +25,11 @@ describe('FileMessage', () => {
 
       it('renders abbreviated link text when filename is too long', () => {
         const { getByText } = renderComponent({
-          mediaUrl: 'https://books.io/alexander-and-the-terrible-horrible-no-good-very-bad-day.pdf',
+          mediaUrl:
+            'https://books.io/alexander%20and%20the%20terrible%20horrible%20no%20good%20very%20bad%20day.pdf',
         })
 
-        expect(getByText('alexander-a...-bad-day.pdf')).toBeInTheDocument()
+        expect(getByText('alexander a... bad day.pdf')).toBeInTheDocument()
       })
 
       it('renders the alt tag as the filename instead of media url as link text', () => {
@@ -84,10 +85,11 @@ describe('FileMessage', () => {
       it('renders a link with a parsed long filename as link text', () => {
         const { getByText } = renderComponent({
           isPrimaryParticipant: false,
-          mediaUrl: 'https://spotify.com/?song=I-Bet-You-Look-Good-On-The-Dancefloor.mp3',
+          mediaUrl:
+            'https://spotify.com/?song=I%20Bet%20You%20Look%20Good%20On%20The%20Dancefloor.mp3',
         })
 
-        expect(getByText('I-Bet-You-L...ncefloor.mp3')).toBeInTheDocument()
+        expect(getByText('I Bet You L...ncefloor.mp3')).toBeInTheDocument()
       })
 
       it('renders a link with a parsed short filename as link text', () => {
@@ -105,7 +107,7 @@ describe('FileMessage', () => {
           mediaUrl: 'https://spotify.com/?song=Dancing-Shoes.mp3',
         })
 
-        expect(getByText('A song by the Arctic Monkeys')).toBeInTheDocument()
+        expect(getByText('A song by t...ctic Monkeys')).toBeInTheDocument()
       })
 
       it('calculates and renders the file size', () => {

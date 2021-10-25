@@ -38,7 +38,7 @@ const FileStructuredMessage = ({
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
       isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
       mediaSize={mediaSize}
-      mediaUrl={messageStatus !== MESSAGE_STATUS.sent ? undefined : mediaUrl}
+      mediaUrl={messageStatus !== MESSAGE_STATUS.sent ? altText : mediaUrl}
       altText={altText}
       status={status}
       errorReason={errorReason}
