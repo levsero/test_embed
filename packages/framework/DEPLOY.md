@@ -7,6 +7,7 @@
 | Jenkins        | https://jenkins.zende.sk/view/Web-Widget-Staging-Health/       |
 | Datadog        | https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget |
 | Rollbar        | https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/   |
+| Smoke Tests    | https://jenkins-smoke.zende.sk/view/Web%20Widget%20Monitor/    |
 
 ## Rules
 
