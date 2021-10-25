@@ -15,15 +15,19 @@ const calculateMediaSize = (bytes, labels) => {
     : labels.sizeInKB(Math.floor(size / 1000))
 }
 
-const getFileNameToDisplay = (mediaUrl) => {
+const getFileNameFromURL = (mediaUrl, isPrimaryParticipant) => {
   let fileName = mediaUrl
-
   try {
-    fileName = new URL(mediaUrl).pathname.split('/').pop()
+    isPrimaryParticipant
+      ? (fileName = new URL(mediaUrl).pathname.split('/').pop())
+      : (fileName = new URL(mediaUrl).search.split('=').pop())
   } catch (ignored) {
     // before file becomes a full url the above will fail (while uploading)
   }
+  return fileName
+}
 
+const formatFileNameToDisplay = (fileName) => {
   try {
     fileName = decodeURIComponent(fileName)
   } catch (e) {
@@ -56,7 +60,9 @@ const FileMessage = ({
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-  const fileName = getFileNameToDisplay(mediaUrl)
+  const fileName = formatFileNameToDisplay(
+    altText || getFileNameFromURL(mediaUrl, isPrimaryParticipant)
+  )
   const size = calculateMediaSize(mediaSize, labels)
 
   const linkAttributes = {
