@@ -149,7 +149,7 @@ jobs:
           -Dsonar.sources=packages/conversation-components/src \
           -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
-          -Dsonar.javascript.lcov.reportPaths=packages/conversation-components/coverage/lcov.info
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
       - name: SonarQube scan master - conversation-components
         if: matrix.task == 'test' && github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
@@ -163,7 +163,7 @@ jobs:
           -Dsonar.sources=packages/conversation-components/src \
           -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
-          -Dsonar.javascript.lcov.reportPaths=packages/conversation-components/coverage/lcov.info
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
       - name: SonarQube scan PR - framework
         if: matrix.task == 'test' && github.event_name == 'pull_request'
         run: |
@@ -181,7 +181,7 @@ jobs:
           -Dsonar.sources=packages/framework/src \
           -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
-          -Dsonar.javascript.lcov.reportPaths="$(pwd)/packages/framework/coverage/lcov.info"
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
       - name: SonarQube scan master - framework
         if: matrix.task == 'test' && github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
@@ -195,7 +195,7 @@ jobs:
           -Dsonar.sources=packages/framework/src \
           -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
-          -Dsonar.javascript.lcov.reportPaths=packages/framework/coverage/lcov.info
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
   slack:
     name: Slack
     runs-on: [self-hosted, zendesk-stable]

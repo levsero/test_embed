@@ -1,6 +1,4 @@
 module.exports = {
-  projects: ['<rootDir>/packages/*/jest.config.js'],
-
   clearMocks: true,
   collectCoverage: true,
 
