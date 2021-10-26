@@ -49,7 +49,7 @@
   "bundlesize": [
     {
       "path": "./dist/public/web-widget-preload-*.js",
-      "maxSize": "33 KB"
+      "maxSize": "39 KB"
     },
     {
       "path": "./dist/public/web-widget-framework-*.js",
