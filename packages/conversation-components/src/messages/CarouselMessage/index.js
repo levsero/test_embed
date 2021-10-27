@@ -54,7 +54,7 @@ const CarouselMessage = ({ items, label, avatar }) => {
           <Slide
             onFocus={onFocus}
             isFirstSlide={index === 0}
-            isLastSlide={index === items.length - 1}
+            isOnlySlide={items.length === 1}
             key={item._id}
           >
             <Content>
