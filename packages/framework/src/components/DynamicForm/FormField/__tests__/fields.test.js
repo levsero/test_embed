@@ -10,6 +10,7 @@ import getField from '../fields'
 describe('getField', () => {
   const expectedFieldTypes = [
     ['text', Text],
+    ['email', Text],
     ['subject', Text],
     ['textarea', Textarea],
     ['description', Textarea],

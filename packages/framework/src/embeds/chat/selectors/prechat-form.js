@@ -81,7 +81,7 @@ export const getVisiblePrechatFields = (state, options = {}) => {
       title: i18n.t('embeddable_framework.common.textLabel.email'),
       required: Boolean(prechatFormFields.email?.required || isDepartmentOffline),
       visible: loginSettings.enabled && !isAuthenticated && !isSociallyLoggedIn,
-      type: 'text',
+      type: 'email',
     },
     {
       id: 'department',

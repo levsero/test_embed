@@ -25,6 +25,7 @@ export const supportedFields = {
   select: Dropdown,
   tagger: Dropdown,
   attachments: AttachmentField,
+  email: Text,
 }
 
 const getField = (type, extraFieldOptions = {}) => {
