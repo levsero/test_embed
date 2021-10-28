@@ -1,10 +1,12 @@
 import { render as rtlRender } from '@testing-library/react'
-import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
+import t from '@zendesk/client-i18n-tools'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import createStore from 'src/apps/messenger/store'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import { createMemoryHistory } from 'history'
+import usTranslations from 'src/translation/messenger/en-us.json'
 
 export const render = (
   ui,
@@ -12,6 +14,7 @@ export const render = (
 ) => {
   const reduxStore = store || createStore()
   const renderFn = render || rtlRender
+  t.set(usTranslations.locale)
   return {
     store: reduxStore,
     history,

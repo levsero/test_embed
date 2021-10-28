@@ -2,23 +2,16 @@ import '@testing-library/jest-dom/extend-expect'
 import 'jest-styled-components'
 import 'mutationobserver-shim'
 import 'regenerator-runtime/runtime'
+import t from '@zendesk/client-i18n-tools'
+import classicUSTranslations from 'src/translation/classic/en-us.json'
 
-jest.mock(
-  'src/translation/ze_localeIdMap',
-  () => require('src/translation/__mocks__/ze_localeIdMap'),
-  {
-    virtual: true,
-  }
-)
-
-jest.mock('src/translation/ze_countries', () => require('src/translation/__mocks__/ze_countries'), {
-  virtual: true,
+beforeAll(() => {
+  t.set(classicUSTranslations.locale)
 })
 
 jest.mock('src/redux/middleware/preventLoops/index')
 jest.mock('src/embed/webWidget/webWidgetStyles')
 jest.mock('src/embed/sharedStyles')
-jest.mock('@zendesk/client-i18n-tools')
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WWI18N'
 global.noop = () => {}

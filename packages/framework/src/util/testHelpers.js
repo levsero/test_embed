@@ -8,6 +8,7 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming'
+import t from '@zendesk/client-i18n-tools'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
 import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
@@ -15,6 +16,7 @@ import { updateTalkEmbeddableConfig } from 'src/embeds/talk/actions'
 import createStore from 'src/redux/createStore'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import reducer from 'src/redux/modules/reducer'
+import usTranslations from 'src/translation/classic/en-us.json'
 
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({
@@ -128,6 +130,7 @@ export function render(
   IdManager.setIdCounter(0)
   const reduxStore = store || createStore()
   const renderFn = render || rtlRender
+  t.set(usTranslations.locale)
   return {
     ...renderFn(
       <Provider store={reduxStore}>

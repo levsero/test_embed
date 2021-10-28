@@ -84,7 +84,7 @@ describe('ChannelPage', () => {
 
           const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
-          expect(getByText("Link couldn't be loaded")).toBeInTheDocument()
+          expect(getByText("Link code couldn't be loaded")).toBeInTheDocument()
           expect(getByText('Tap to retry')).toBeInTheDocument()
         })
       })
@@ -178,7 +178,7 @@ describe('ChannelPage', () => {
 
         const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
 
-        expect(getByText("Couldn't connect. Try again.")).toBeInTheDocument()
+        expect(getByText('Couldn’t connect. Try again.')).toBeInTheDocument()
       })
     })
 
@@ -202,7 +202,7 @@ describe('ChannelPage', () => {
 
         const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
 
-        expect(getByText("Couldn't connect. Try again.")).toBeInTheDocument()
+        expect(getByText('Couldn’t connect. Try again.')).toBeInTheDocument()
       })
     })
   })
@@ -253,7 +253,7 @@ describe('ChannelPage', () => {
 
         const { getByText } = renderChannelPage(<ChannelPage />, { channelId, history })
 
-        expect(getByText("Couldn't disconnect. Try again.")).toBeInTheDocument()
+        expect(getByText('Couldn’t disconnect. Try again.')).toBeInTheDocument()
       })
     })
 

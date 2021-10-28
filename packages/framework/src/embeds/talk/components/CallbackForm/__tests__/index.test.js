@@ -69,7 +69,7 @@ describe('CallbackForm', () => {
 
   it('displays an error message the phone number is invalid', () => {
     const message = 'invalid_phone_number'
-    const expectedErrorMessage = 'Please enter a valid phone number.'
+    const expectedErrorMessage = 'Enter a valid phone number.'
 
     const { queryByText, queryByTestId } = renderComponent({ callback: { error: { message } } })
 

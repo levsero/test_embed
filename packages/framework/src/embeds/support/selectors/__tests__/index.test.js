@@ -1,3 +1,4 @@
+import t from '@zendesk/client-i18n-tools'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import {
@@ -16,7 +17,10 @@ import createKeyID from 'src/embeds/support/utils/createKeyID'
 import createStore from 'src/redux/createStore'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import classicUSTranslations from 'src/translation/classic/en-us.json'
 import * as selectors from '..'
+
+t.set(classicUSTranslations.locale)
 
 const expectedNameField = {
   id: 'name',

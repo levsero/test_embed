@@ -20,10 +20,11 @@ jest.mock('../../../../../../../config/locales/translations/web_widget_classic.y
 let store
 
 describe('i18n', () => {
-  beforeEach(() => {
+  beforeEach((done) => {
     i18n.reset()
     store = createStore(reducer)
     i18n.init(store)
+    i18n.setLocale('en-us', done)
   })
   describe('getClientLocale', () => {
     describe('languages array', () => {
@@ -86,6 +87,8 @@ describe('i18n', () => {
       })
       describe('and a configLocale is passed in', () => {
         it('uses the configLocale', (done) => {
+          i18n.reset()
+          i18n.init(store)
           i18n.setLocale(
             undefined,
             () => {
