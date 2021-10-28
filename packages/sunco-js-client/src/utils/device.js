@@ -2,7 +2,12 @@ import { v4 as uuidv4 } from 'uuid'
 import { VENDOR_ID, VERSION } from './constants'
 import storage from './storage'
 
-export function getClientId(integrationId) {
+export function setClientId(integrationId, clientId) {
+  const key = `${integrationId}.clientId`
+  storage.setItem(key, clientId)
+}
+
+export function getOrCreateClientId(integrationId) {
   const key = `${integrationId}.clientId`
 
   const clientId = storage.getItem(key) || uuidv4().replace(/-/g, '')
@@ -24,7 +29,7 @@ export function getClientInfo(integrationId) {
 
   return {
     platform: 'web', //required
-    id: getClientId(integrationId), //required
+    id: getOrCreateClientId(integrationId), //required
     integrationId, //required
     info: {
       vendor: `${VENDOR_ID}`,

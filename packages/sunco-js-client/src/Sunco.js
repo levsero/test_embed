@@ -4,8 +4,13 @@ import ConversationsApi from './api/ConversationsApi'
 import IntegrationsApi from './api/IntegrationsApi'
 import MessagesApi from './api/MessagesApi'
 import SocketClient from './socket/SocketClient'
-import { getCurrentUserIfAny, storeAppUser, removeAppUser } from './utils/context'
-import { getClientId, getSessionId, removeClientId } from './utils/device'
+import { getCurrentUserIfAny, removeAppUser, storeAppUser } from './utils/context'
+import {
+  getOrCreateClientId,
+  getSessionId,
+  removeClientId,
+  setClientId as setClientIdInStorage,
+} from './utils/device'
 import retryWrapper from './utils/retries'
 import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
 
@@ -29,12 +34,13 @@ export default class Sunco {
     storage.setStorageType({ type: storageType })
     this.locale = null
     this.debug = debug
-
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
     this.activity = new ActivityAPI(this)
     this.integrations = new IntegrationsApi(this)
+
+    getOrCreateClientId(integrationId)
   }
 
   get hasExistingAppUser() {
@@ -99,10 +105,6 @@ export default class Sunco {
         socketClient.unsubscribe()
         this._activeConversation = null
         this.conversationPromise = null
-      },
-      forgetUser: () => {
-        removeAppUser({ integrationId: this.integrationId })
-        removeClientId(this.integrationId)
       },
       getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
       unlinkIntegration: (clientId) => this.appUsers.unlinkIntegration(appUserId, clientId),
@@ -200,12 +202,25 @@ export default class Sunco {
   }
 
   wasMessageSentFromThisTab(message) {
-    if (message.source.id !== getClientId(this.integrationId)) return false
+    if (message.source.id !== getOrCreateClientId(this.integrationId)) return false
     return message.source.sessionId === getSessionId(this.integrationId)
   }
 
   updateSession(appUser) {
     const { _id: appUserId, sessionToken } = appUser
     storeAppUser({ appUserId, sessionToken, integrationId: this.integrationId })
+  }
+
+  setClientId(clientId) {
+    setClientIdInStorage(this.integrationId, clientId)
+  }
+
+  forgetUser() {
+    removeAppUser({ integrationId: this.integrationId })
+    removeClientId(this.integrationId)
+  }
+
+  getClientId(integrationId) {
+    return getOrCreateClientId(integrationId)
   }
 }

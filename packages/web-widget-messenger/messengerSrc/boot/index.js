@@ -6,6 +6,7 @@ import errorTracker from 'src/framework/services/errorTracker'
 import { store as persistence } from 'src/framework/services/persistence'
 import publicApi from 'src/framework/services/publicApi'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
+import { identity } from 'src/service/identity'
 import { hasExistingConversation, setupSuncoClient } from 'messengerSrc/api/sunco'
 import App from 'messengerSrc/features/app'
 import { subscribeToI18n } from 'messengerSrc/features/i18n/store'
@@ -51,7 +52,12 @@ const init = async ({ config }) => {
   store.dispatch(initialiseLauncherLabel())
   trackNoMessageReceived(store)
 
-  setupSuncoClient(config.messenger)
+  const suncoClient = setupSuncoClient(config.messenger)
+  const clientId = suncoClient.getClientId(config.messenger.integrationId)
+
+  if (clientId !== identity.getBuid()) {
+    identity.setBuid(clientId)
+  }
 
   return {
     store,

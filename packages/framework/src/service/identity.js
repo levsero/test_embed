@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 import { store } from 'src/framework/services/persistence'
 import { onBrowserTabHidden } from 'src/framework/utils/browser'
 
@@ -11,12 +11,7 @@ let userIdentity = {
   phone: null,
 }
 
-const hex = () =>
-  Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1)
-
-const generateUid = () => _.times(8, () => hex()).join('')
+const generateUid = () => uuidv4().replace(/-/g, '')
 
 const setSuid = (id, expiry, tabCount, tabExpiry) => {
   return store.set('suid', {
@@ -46,6 +41,10 @@ function init() {
     : setSuid(generateUid(), expiry, 1, 0)
 
   onBrowserTabHidden(identity.unload)
+}
+
+function setBuid(buid) {
+  store.set('buid', buid)
 }
 
 function getBuid() {
@@ -84,6 +83,7 @@ function unload() {
 }
 
 export const identity = {
+  setBuid: setBuid,
   getBuid: getBuid,
   getSuid: getSuid,
   setUserIdentity: setUserIdentity,

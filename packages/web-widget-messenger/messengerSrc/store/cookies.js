@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { store as persistence } from 'src/framework/services/persistence'
-import { forgetUserAndDisconnect } from 'messengerSrc/api/sunco'
+import { identity } from 'src/service/identity'
+import { forgetUserAndDisconnect, getClient } from 'messengerSrc/api/sunco'
 
 const cookiesDisabled = createAsyncThunk('cookies/disabled', () => {
   try {
@@ -17,6 +18,8 @@ const cookies = createSlice({
   reducers: {
     cookiesEnabled(state) {
       state.enabled = true
+      persistence.enable()
+      getClient()?.setClientId(identity.getBuid())
     },
   },
   extraReducers: {
