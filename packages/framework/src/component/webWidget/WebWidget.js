@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types'
 import { Component, lazy } from 'react'
 import { connect } from 'react-redux'
-import Chat from 'src/component/chat/Chat'
 import { Container } from 'src/component/container/Container'
 import OnBackProvider from 'src/component/webWidget/OnBackProvider'
 import ChatNotificationPopup from 'src/components/NotificationPopup'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 import { screenChanged as updateAnswerBotScreen } from 'src/embeds/answerBot/actions/root'
 import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
+import {
+  getStandaloneMobileNotificationVisible,
+  getShowChatHistory,
+} from 'src/embeds/chat/selectors'
 import { closeCurrentArticle } from 'src/embeds/helpCenter/actions'
 import ChannelChoicePage from 'src/embeds/webWidget/pages/ChannelChoicePage'
 import {
@@ -16,11 +19,7 @@ import {
   updateBackButtonVisibility,
   onChannelChoiceNextClick,
 } from 'src/redux/modules/base'
-import {
-  getActiveEmbed,
-  getChatStandalone,
-  getWebWidgetOpen,
-} from 'src/redux/modules/base/base-selectors'
+import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import {
   proactiveChatNotificationDismissed,
   updateChatScreen,
@@ -28,12 +27,6 @@ import {
   closedChatHistory,
 } from 'src/redux/modules/chat'
 import {
-  getStandaloneMobileNotificationVisible,
-  getShowChatHistory,
-} from 'src/embeds/chat/selectors'
-import {
-  getChatEnabled,
-  getHideZendeskLogo,
   getHelpCenterAvailable,
   getChannelChoiceAvailable,
   getSubmitTicketAvailable,
@@ -41,7 +34,6 @@ import {
 } from 'src/redux/modules/selectors'
 import { getChatNotification } from 'src/redux/modules/selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
-import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import history from 'src/service/history'
 import { isMobileBrowser } from 'src/util/devices'
 import { isPopout } from 'src/util/globals'
@@ -55,6 +47,7 @@ const Support = lazy(() => import(/* webpackChunkName: 'lazy/support' */ 'src/em
 const AnswerBot = lazy(() =>
   import(/* webpackChunkName: 'lazy/answerBot' */ 'src/embeds/answerBot')
 )
+const Chat = lazy(() => import(/* webpackChunkName: 'lazy/chat' */ 'src/component/chat/Chat'))
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -69,14 +62,10 @@ const mapStateToProps = (state) => {
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
-    callbackEnabled: isCallbackEnabled(state),
-    chatEnabled: getChatEnabled(state),
-    chatStandalone: getChatStandalone(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
     channelChoiceAvailable: getChannelChoiceAvailable(state),
     submitTicketAvailable: getSubmitTicketAvailable(state),
-    hideZendeskLogo: getHideZendeskLogo(state),
     webWidgetOpen: getWebWidgetOpen(state),
     answerBotAvailable: getAnswerBotAvailable(state),
     showChatHistory: getShowChatHistory(state),
@@ -97,19 +86,16 @@ class WebWidget extends Component {
       show: PropTypes.bool,
     }).isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
-    hideZendeskLogo: PropTypes.bool,
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     }),
-    onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     closeCurrentArticle: PropTypes.func.isRequired,
-    chatStandalone: PropTypes.bool.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
     mobileNotificationsDisabled: PropTypes.bool,
     helpCenterAvailable: PropTypes.bool.isRequired,
@@ -126,7 +112,6 @@ class WebWidget extends Component {
   static defaultProps = {
     chatNotification: { show: false, playSound: false },
     helpCenterAvailable: false,
-    hideZendeskLogo: false,
     style: null,
     ticketFieldSettings: [],
     ticketFormSettings: [],
@@ -201,23 +186,10 @@ class WebWidget extends Component {
   renderChat = () => {
     if (this.props.activeEmbed !== chat) return
 
-    const updateChatBackButtonVisibility = () => {
-      if (this.props.chatStandalone) return
-
-      this.props.updateBackButtonVisibility(
-        this.props.helpCenterAvailable || this.props.channelChoiceAvailable
-      )
-    }
-
     return (
-      <Chat
-        ref={chat}
-        forwardRef={chat}
-        isMobile={this.props.isMobile}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        updateChatBackButtonVisibility={updateChatBackButtonVisibility}
-        onBackButtonClick={this.props.onBackButtonClick}
-      />
+      <SuspensePage>
+        <Chat />
+      </SuspensePage>
     )
   }
 

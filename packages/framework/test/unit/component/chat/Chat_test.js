@@ -21,6 +21,17 @@ describe('Chat component', () => {
         cancelButtonClicked: noop,
       },
       'src/component/chat/chatting/chatHistoryScreen': {},
+      'src/util/devices': {
+        isMobileBrowser: noop,
+      },
+      'src/redux/modules/selectors': {
+        getHideZendeskLogo: noop,
+      },
+      'src/redux/modules/base/base-selectors': {
+        getChannelChoiceAvailable: noop,
+        getHelpCenterAvailable: noop,
+        getHideZendeskLogo: noop,
+      },
     })
 
     mockery.registerAllowable(ChatPath)
