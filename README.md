@@ -38,8 +38,6 @@ The bootstrap file will do the following:
 - Run `./script/setup_node_env` to install the correct versions of nvm, node, npm and yarn, as well as all npm dependencies.
 - Run `bundle install` to get ruby dependencies
 - Run `yarn workspace @zendesk/embeddable-framework build` to generate snippet, framework and example files
-- Download rosetta translation and mappings into `packages/framework/src/translation/ze_translations.js` and `packages/framework/src/translation/ze_localeIdMap.js`
-- Download countries translation into `packages/framework/src/translation/ze_countries.js`
 
 ### Running packages
 

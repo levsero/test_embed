@@ -10,7 +10,6 @@ npm-debug.log
 dist/
 build/
 REVISION
-src/translation/*
 
 # Dev config
 dev/configs/*.json
