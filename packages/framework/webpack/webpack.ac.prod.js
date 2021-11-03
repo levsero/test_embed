@@ -73,7 +73,6 @@ if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
         rollbarEndpoint: process.env.ROLLBAR_ENDPOINT,
         includeChunks: [
           'messenger',
-          'preload',
           'talk-sdk',
           'vendors~lazy/talk',
           'vendors~lazy/web_widget',

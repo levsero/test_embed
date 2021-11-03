@@ -8,7 +8,7 @@ const projectRoot = path.resolve(__dirname, '../')
 
 module.exports = merge(common, {
   entry: {
-    preload: path.join(projectRoot, '/src/framework/preload.js'),
+    framework: path.join(projectRoot, '/src/framework/index.js'),
   },
   output: {
     filename: 'web-widget-[name]-[contenthash].js',
@@ -27,13 +27,17 @@ module.exports = merge(common, {
       fileName: 'asset_manifest.json',
       publicPath: '',
       filter: (file) => {
+        if (file.isInitial) {
+          return true
+        }
+
         if (!file.isChunk) return false
 
         return Boolean(chunks.http2Chunks(file.chunk.name))
       },
       sort: function (a, b) {
-        const priorityA = chunks.priority(a.chunk.name)
-        const priorityB = chunks.priority(b.chunk.name)
+        const priorityA = chunks.priority(a.chunk.name) || 10
+        const priorityB = chunks.priority(b.chunk.name) || 10
 
         return priorityA - priorityB
       },

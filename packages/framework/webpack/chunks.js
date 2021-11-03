@@ -1,7 +1,6 @@
 const http2Chunks = {
   runtime: 'common',
   framework: 'common',
-  preload: 'common',
   'chat-sdk': 'chat',
   'talk-sdk': 'talk',
 }
@@ -11,13 +10,11 @@ const excludeFromVendoring = {
   'talk-sdk': true,
   webWidgetPreview: true,
   chatPreview: true,
-  preload: true,
 }
 
 const priority = {
   runtime: 1,
-  preload: 2,
-  framework: 4,
+  framework: 2,
 }
 
 const get = (chunkName, thing) => {
