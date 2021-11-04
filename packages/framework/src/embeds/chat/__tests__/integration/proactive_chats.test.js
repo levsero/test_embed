@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, waitFor } from '@testing-library/react'
 import WebWidget from 'src/component/webWidget/WebWidget'
 import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, chatConnected } from 'src/redux/modules/chat/chat-actions'
@@ -33,7 +33,7 @@ const sendAgentMessage = (store) => {
 
 describe('proactive chat', () => {
   describe('desktop', () => {
-    it('opens the widget to the chat embed', () => {
+    it('opens the widget to the chat embed', async () => {
       const { store, queryByText } = render(<WebWidget isMobile={false} />)
       turnChatOnline(store)
       expect(getWebWidgetOpen(store.getState())).toBeFalsy()
@@ -41,7 +41,7 @@ describe('proactive chat', () => {
 
       sendAgentMessage(store)
 
-      expect(queryByText('Chat with us')).toBeInTheDocument()
+      await waitFor(() => expect(queryByText('Chat with us')).toBeInTheDocument())
       expect(getWebWidgetOpen(store.getState())).toBeTruthy()
       expect(getActiveEmbed(store.getState())).toEqual('chat')
     })

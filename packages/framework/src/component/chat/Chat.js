@@ -10,12 +10,25 @@ import {
   getShowChatHistory,
   getHasChatSdkConnected,
 } from 'src/embeds/chat/selectors'
+import { updateBackButtonVisibility } from 'src/redux/modules/base'
+import { getChatStandalone } from 'src/redux/modules/base/base-selectors'
+import {
+  getChannelChoiceAvailable,
+  getHelpCenterAvailable,
+  getHideZendeskLogo,
+} from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'src/util/devices'
 
 const mapStateToProps = (state) => {
   return {
     showOfflineChat: getShowOfflineChat(state),
     showChatHistory: getShowChatHistory(state),
     hasSdkConnected: getHasChatSdkConnected(state),
+    isMobile: isMobileBrowser(),
+    hideZendeskLogo: getHideZendeskLogo(state),
+    chatStandalone: getChatStandalone(state),
+    helpCenterAvailable: getHelpCenterAvailable(state),
+    channelChoiceAvailable: getChannelChoiceAvailable(state),
   }
 }
 
@@ -24,11 +37,13 @@ class Chat extends Component {
     hasSdkConnected: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
-    updateChatBackButtonVisibility: PropTypes.func.isRequired,
     showChatHistory: PropTypes.bool.isRequired,
     isPreview: PropTypes.bool,
+    chatStandalone: PropTypes.bool,
+    helpCenterAvailable: PropTypes.bool,
+    channelChoiceAvailable: PropTypes.bool,
+    updateBackButtonVisibility: PropTypes.func,
   }
 
   static defaultProps = {
@@ -59,8 +74,13 @@ class Chat extends Component {
           this.online = el
         }}
         isMobile={this.props.isMobile}
-        updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
-        onBackButtonClick={this.props.onBackButtonClick}
+        updateChatBackButtonVisibility={() => {
+          if (this.props.chatStandalone) return
+
+          this.props.updateBackButtonVisibility(
+            this.props.helpCenterAvailable || this.props.channelChoiceAvailable
+          )
+        }}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isPreview={this.props.isPreview}
       />
@@ -85,4 +105,6 @@ class Chat extends Component {
   }
 }
 
-export default connect(mapStateToProps, null, null, { forwardRef: true })(Chat)
+export default connect(mapStateToProps, { updateBackButtonVisibility }, null, { forwardRef: true })(
+  Chat
+)
