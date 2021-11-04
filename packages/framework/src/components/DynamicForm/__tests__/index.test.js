@@ -175,7 +175,7 @@ describe('DynamicForm', () => {
 
       await wait()
 
-      expect(getByText('Please enter a value.')).toBeInTheDocument()
+      expect(getByText('Enter a value.')).toBeInTheDocument()
     })
 
     it('does not display error messages until the form has been submitted', async () => {
@@ -198,7 +198,7 @@ describe('DynamicForm', () => {
         },
       })
 
-      const getErrorMessage = () => queryByText('Please enter a value.')
+      const getErrorMessage = () => queryByText('Enter a value.')
       const field = getByLabelText('testInputB')
 
       expect(getErrorMessage()).not.toBeInTheDocument()

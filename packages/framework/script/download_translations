@@ -1,9 +1,0 @@
-#!/bin/sh
-# cd in root framework directory
-SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-cd "$SCRIPT_DIR" || exit
-cd ..
-
-# run script from i18n library to download translations
-yarn download-locales --destination='./src/translation/messenger' --packages='web_widget_messenger' --locales="./src/translation/locales.json"
-yarn download-locales --destination='./src/translation/classic' --packages='web_widget_classic' --locales="./src/translation/locales.json"

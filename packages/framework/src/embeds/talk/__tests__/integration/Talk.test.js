@@ -53,10 +53,10 @@ const checkForForm = (utils) => {
   expect(utils.queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
 }
 const checkForErrorMessage = (utils) => {
-  expect(utils.queryByText('Please enter a valid phone number.')).toBeInTheDocument()
+  expect(utils.queryByText('Enter a valid phone number.')).toBeInTheDocument()
 }
 const checkForNoErrorMessage = (utils) => {
-  expect(utils.queryByText('Please enter a valid phone number.')).not.toBeInTheDocument()
+  expect(utils.queryByText('Enter a valid phone number.')).not.toBeInTheDocument()
 }
 const checkForFlag = (utils) => {
   expect(getSelectedCountry(utils, 'US')).toBeInTheDocument()

@@ -105,7 +105,7 @@ describe('Contact Details Form', () => {
             rerender
           )
 
-          expect(getByText('Please enter a valid email address.')).toBeInTheDocument()
+          expect(getByText('Enter a valid email address.')).toBeInTheDocument()
         })
       })
 

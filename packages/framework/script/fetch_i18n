@@ -1,8 +1,0 @@
-#!/bin/sh
-set -e
-SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-node $SCRIPT_DIR/i18n.js
-
-$SCRIPT_DIR/download_translations
-
-bundle exec ruby $SCRIPT_DIR/fetch_countries.rb

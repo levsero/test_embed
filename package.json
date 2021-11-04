@@ -6,7 +6,6 @@
   "private": true,
   "description": "3rd party embeddable framework and API",
   "engines": {
-    "nvm": ">= 0.35.2",
     "node": ">= 12.21.0",
     "npm": ">= 6.13.4"
   },
@@ -18,7 +17,8 @@
     "lint:other": "prettier --check \"**/*.{css,scss,json,md}\" --write",
     "lint": "npm run lint:js && npm run lint:other",
     "test": "TZ=utc jest",
-    "test:updateSnapshots": "TZ=utc jest --updateSnapshot"
+    "test:updateSnapshots": "TZ=utc jest --updateSnapshot",
+    "translations:update": "node ./packages/framework/script/translations/index.js"
   },
   "husky": {
     "hooks": {

@@ -4,7 +4,7 @@ import useTranslate from '../useTranslate'
 describe('useTranslate', () => {
   const SomeComponent = () => {
     const translate = useTranslate()
-    const result = translate('embeddable_framework.chat.options.emailTranscript')
+    const result = translate('embeddable_framework.messenger.frame.title')
 
     return <div>{result}</div>
   }
@@ -12,6 +12,6 @@ describe('useTranslate', () => {
   it('returns the translation function which then uses the provided key', () => {
     const { queryByText } = render(<SomeComponent />)
 
-    expect(queryByText('Email transcript')).toBeInTheDocument()
+    expect(queryByText('Messaging window')).toBeInTheDocument()
   })
 })
