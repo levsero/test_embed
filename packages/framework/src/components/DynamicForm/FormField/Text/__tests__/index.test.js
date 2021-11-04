@@ -104,4 +104,32 @@ describe('Text', () => {
 
     expect(onChange).toHaveBeenCalledWith('New value')
   })
+
+  it('sets self as email type when the field type is email', () => {
+    const { queryByLabelText } = renderComponent({
+      field: {
+        ...defaultProps.field,
+        title: 'Email',
+        required: true,
+        type: 'email',
+      },
+      value: 'some@email.com',
+    })
+
+    expect(queryByLabelText('Email')).toHaveAttribute('type', 'email')
+  })
+
+  it('does not set self as email when type is text', () => {
+    const { queryByLabelText } = renderComponent({
+      field: {
+        ...defaultProps.field,
+        title: 'Email',
+        required: true,
+        type: 'text',
+      },
+      value: 'some@email.com',
+    })
+
+    expect(queryByLabelText('Email')).toHaveAttribute('type', 'text')
+  })
 })

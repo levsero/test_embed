@@ -22,6 +22,7 @@ const Text = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnl
         value={value || ''}
         required={Boolean(field.required)}
         readOnly={isReadOnly}
+        type={field.type === 'email' ? 'email' : 'text'}
         onChange={(e) => {
           onChange(e.target.value)
         }}
