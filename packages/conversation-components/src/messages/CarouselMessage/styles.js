@@ -43,10 +43,11 @@ const Slide = styled.div`
   scroll-snap-align: start;
   margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xs};
 
+
   ${(props) =>
-    props.isLastSlide &&
+    props.isOnlySlide &&
     css`
-    margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.md};
+    margin-${dirStyles.right}: 0;
   `}
 `
 
@@ -54,6 +55,7 @@ const BufferSlide = styled(Slide)`
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 12.5%;
+  margin-${dirStyles.right}: 0;
 `
 
 const AvatarSlide = styled(Slide)`
@@ -78,6 +80,12 @@ const Content = styled.div`
   border-radius: ${(props) =>
     `${props.theme.messenger.borderRadii.textMessage} ${props.theme.messenger.borderRadii.textMessage} 0 0`};
   border: ${(props) => `${props.theme.borders.sm} ${props.theme.palette.grey[300]}`};
+
+  &,
+  * {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
 `
 
 const Title = styled.div`
