@@ -1,6 +1,7 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { http } from 'src/service/transport/http'
+import { render } from 'src/util/testHelpers'
 import HelpCenterArticle from '../index'
 
 const renderComponent = (props) => {

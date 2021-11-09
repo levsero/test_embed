@@ -39,6 +39,7 @@ function getWidgetColorVariables(color) {
     headerFocusRingColorStr,
     headerBackgroundColorStr,
     iconColor,
+    frameBackgroundColor: '#ffffff',
   }
 }
 

@@ -24,7 +24,6 @@ const icons = {
   'Icon--close': require('@zendeskgarden/svg-icons/src/16/x-stroke.svg'),
   'Icon--launcher-talk': require('src/asset/icons/widget-icon_launcher-talk.svg'),
   'Icon--image-stroke': require('@zendeskgarden/svg-icons/src/16/image-stroke.svg'),
-  [ICONS.LINK_EXTERNAL]: require('@zendeskgarden/svg-icons/src/14/link-external.svg'),
   'Icon--mini-tick': require('@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg'),
   'Icon--preview-default': require('@zendeskgarden/svg-icons/src/26/file.svg'),
   'Icon--preview-document': require('@zendeskgarden/svg-icons/src/26/file-document.svg'),

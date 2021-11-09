@@ -3,8 +3,8 @@
   "results": [
     {
       "id": 115002343711,
-      "url": "https://testing.zendesk.com/api/v2/help_center/en-us/articles/115002343711-Welcome-to-your-Help-Center-.json",
-      "html_url": "https://testing.zendesk.com/hc/en-us/articles/115002343711-Welcome-to-your-Help-Center-",
+      "url": "https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ",
+      "html_url": "https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ",
       "author_id": 115806148031,
       "comments_disabled": false,
       "label_names": [],
