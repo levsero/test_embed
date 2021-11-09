@@ -37,22 +37,25 @@ Snapshot Diff:
 - .c17 {
 + .c18 {
 @@ -320,1 +320,1 @@
+- .c17[data-garden-focus-visible] {
++ .c18[data-garden-focus-visible] {
+@@ -328,1 +328,1 @@
 - .c17 svg {
 + .c18 svg {
-@@ -326,3 +326,3 @@
+@@ -334,3 +334,3 @@
 - .c17 svg:hover path,
 - .c17 svg:active path,
 - .c17 svg:focus path {
 + .c18 svg:hover path,
 + .c18 svg:active path,
 + .c18 svg:focus path {
-@@ -332,1 +332,1 @@
+@@ -340,1 +340,1 @@
 - .c17 svg path {
 + .c18 svg path {
-@@ -336,1 +336,1 @@
+@@ -344,1 +344,1 @@
 - .c16 {
 + .c17 {
-@@ -359,1 +359,6 @@
+@@ -367,1 +367,6 @@
 - .c14 {
 + .c13 {
 +   margin-bottom: 1.0714285714285714rem;
@@ -60,22 +63,22 @@ Snapshot Diff:
 + }
 + 
 + .c15 {
-@@ -365,3 +370,3 @@
+@@ -373,3 +378,3 @@
 - .c14:hover,
 - .c14:focus,
 - .c14:active {
 + .c15:hover,
 + .c15:focus,
 + .c15:active {
-@@ -416,1 +421,1 @@
+@@ -424,1 +429,1 @@
 - .c13 {
 + .c14 {
-@@ -421,2 +426,2 @@
+@@ -429,2 +434,2 @@
 - .c13 a,
 - .c13 a span {
 + .c14 a,
 + .c14 a span {
-@@ -426,1 +431,1 @@
+@@ -434,1 +439,1 @@
 - .c13 a:hover {
 + .c14 a:hover {
 `;
@@ -400,6 +403,14 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   display: inline-block;
 }
 
+.c18[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
+  border-radius: 4px;
+  background-color: 0 0 0 3px rgba(25,80,85,0.2);
+  padding: 0.2857142857142857rem;
+  margin: -0.2857142857142857rem;
+}
+
 .c18 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
@@ -409,11 +420,11 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 .c18 svg:hover path,
 .c18 svg:active path,
 .c18 svg:focus path {
-  fill: #68737d;
+  fill: #2f3941;
 }
 
 .c18 svg path {
-  fill: #87929d;
+  fill: #68737d;
 }
 
 .c17 {
@@ -601,7 +612,6 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             class="c18"
             data-testid="Icon--zendesk"
             href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-            tabindex="-1"
             target="_blank"
           >
             <svg
@@ -648,22 +658,25 @@ Snapshot Diff:
 - .c18 {
 + .c17 {
 @@ -320,1 +320,1 @@
+- .c18[data-garden-focus-visible] {
++ .c17[data-garden-focus-visible] {
+@@ -328,1 +328,1 @@
 - .c18 svg {
 + .c17 svg {
-@@ -326,3 +326,3 @@
+@@ -334,3 +334,3 @@
 - .c18 svg:hover path,
 - .c18 svg:active path,
 - .c18 svg:focus path {
 + .c17 svg:hover path,
 + .c17 svg:active path,
 + .c17 svg:focus path {
-@@ -332,1 +332,1 @@
+@@ -340,1 +340,1 @@
 - .c18 svg path {
 + .c17 svg path {
-@@ -336,1 +336,1 @@
+@@ -344,1 +344,1 @@
 - .c17 {
 + .c16 {
-@@ -359,6 +359,1 @@
+@@ -367,6 +367,1 @@
 - .c13 {
 -   margin-bottom: 1.0714285714285714rem;
 -   data-testid: talk--averageWaitTime;
@@ -671,22 +684,22 @@ Snapshot Diff:
 - 
 - .c15 {
 + .c14 {
-@@ -370,3 +365,3 @@
+@@ -378,3 +373,3 @@
 - .c15:hover,
 - .c15:focus,
 - .c15:active {
 + .c14:hover,
 + .c14:focus,
 + .c14:active {
-@@ -421,1 +416,1 @@
+@@ -429,1 +424,1 @@
 - .c14 {
 + .c13 {
-@@ -426,2 +421,2 @@
+@@ -434,2 +429,2 @@
 - .c14 a,
 - .c14 a span {
 + .c13 a,
 + .c13 a span {
-@@ -431,1 +426,1 @@
+@@ -439,1 +434,1 @@
 - .c14 a:hover {
 + .c13 a:hover {
 `;
