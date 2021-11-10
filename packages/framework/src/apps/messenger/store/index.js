@@ -13,6 +13,7 @@ import responsiveDesign from 'src/apps/messenger/features/responsiveDesign/store
 import { reducer as conversation } from 'src/apps/messenger/features/suncoConversation/store'
 import theme from 'src/apps/messenger/features/themeProvider/store'
 import integrations from 'src/apps/messenger/store/integrations'
+import errorLoggerMiddleware from 'src/apps/messenger/store/middleware/errorLoggerMiddleware'
 import rememberConversationHistory from 'src/apps/messenger/store/rememberConversationHistory'
 import unreadIndicator from 'src/apps/messenger/store/unreadIndicator'
 import createResettableReducer from 'src/apps/messenger/utils/createResettableReducer'
@@ -30,11 +31,15 @@ const createStore = () => {
           }
         : undefined,
     middleware: (getDefaultMiddleware) => {
+      let middleware = getDefaultMiddleware()
+
       if (!__DEV__ && persistence.get('debug')) {
-        return getDefaultMiddleware().concat(logger)
+        middleware = middleware.concat(logger)
       }
 
-      return getDefaultMiddleware()
+      middleware = middleware.concat(errorLoggerMiddleware)
+
+      return middleware
     },
 
     reducer: combineReducers({
