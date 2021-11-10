@@ -3,6 +3,7 @@ import logger from 'redux-logger'
 import composer from 'src/apps/messenger/features/footer/store'
 import header from 'src/apps/messenger/features/header/store'
 import i18n from 'src/apps/messenger/features/i18n/store'
+import launcherConfig from 'src/apps/messenger/features/launcher/store'
 import launcherLabelConfig from 'src/apps/messenger/features/launcherLabel/store/config'
 import launcherLabelVisibility from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import forms from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
@@ -46,6 +47,7 @@ const createStore = () => {
       messages: createResettableReducer(messages),
       header,
       forms: createResettableReducer(forms),
+      launcher: launcherConfig,
       launcherLabel: combineReducers({
         config: launcherLabelConfig,
         visibility: createResettableReducer(launcherLabelVisibility),

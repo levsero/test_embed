@@ -10,3 +10,11 @@ export const bezierCurve = 'cubic-bezier(0.66, 0, 0.12, 1)'
 export const baseFontSize = '16px'
 export const baseFontSizeFullScreen = '14px'
 export const fileUploadCountLimit = 25
+export const frameBorderRadius = Object.freeze({
+  square: '0',
+  circle: '50%',
+})
+export const launcherShapes = Object.freeze({
+  square: 'square',
+  circle: 'circle',
+})

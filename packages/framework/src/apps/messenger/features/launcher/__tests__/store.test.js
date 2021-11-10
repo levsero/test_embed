@@ -1,7 +1,8 @@
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import createStore from 'src/apps/messenger/store'
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { widgetClosed, widgetOpened } from 'src/apps/messenger/store/visibility'
-import { getIsLauncherVisible } from '../store'
+import { getIsLauncherVisible, getLauncherShape } from '../store'
 
 describe('launcher store', () => {
   describe('getIsLauncherVisible', () => {
@@ -46,6 +47,23 @@ describe('launcher store', () => {
       )
 
       expect(getIsLauncherVisible(store.getState())).toBe(true)
+    })
+  })
+
+  describe('getLauncherShape', () => {
+    it('updates launcher shape correctly ', () => {
+      const store = createStore()
+      const shape = 'circle'
+
+      store.dispatch(
+        messengerConfigReceived({
+          launcher: {
+            shape,
+          },
+        })
+      )
+
+      expect(getLauncherShape(store.getState())).toBe(shape)
     })
   })
 })
