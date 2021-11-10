@@ -29,9 +29,9 @@ const start = async () => {
     // Load the embeddable
 
     if (config.messenger) {
-      await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger').then((messenger) =>
-        messenger.default.start(config, configLoadEnd)
-      )
+      await import(
+        /* webpackChunkName: "messenger" */ '@zendesk/web-widget-messenger'
+      ).then((messenger) => messenger.default.start(config, configLoadEnd))
     } else {
       await import(
         /* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget'
