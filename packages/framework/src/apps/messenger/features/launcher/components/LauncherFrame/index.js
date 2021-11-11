@@ -6,9 +6,10 @@ import {
   frameBoxShadow,
   frameMarginFromPage,
   launcherSize,
+  frameBorderRadius,
 } from 'src/apps/messenger/constants'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+import { getIsLauncherVisible, getLauncherShape } from 'src/apps/messenger/features/launcher/store'
 import {
   getIsFullScreen,
   getIsVerticallySmallScreen,
@@ -26,6 +27,7 @@ const LauncherFrame = ({ children }) => {
   const position = useSelector(getPosition)
   const isVisible = useSelector(getIsLauncherVisible)
   const zIndex = useSelector(getZIndex)
+  const shape = useSelector(getLauncherShape)
   const translate = useTranslate()
 
   const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
@@ -54,6 +56,7 @@ const LauncherFrame = ({ children }) => {
               : undefined
           }`,
           zIndex,
+          borderRadius: frameBorderRadius[shape],
         }}
       >
         <ThemeProvider>{children}</ThemeProvider>
