@@ -5,6 +5,7 @@ import {
   getClient,
   updateSession,
 } from 'src/apps/messenger/api/sunco'
+import errorTracker from 'src/framework/services/errorTracker'
 
 export const messageReceived = createAction('message-received')
 export const fileUploadMessageReceived = createAction('file-upload-message-received')
@@ -21,20 +22,28 @@ const waitForSocketToConnect = async (activeConversation, dispatch) => {
 }
 
 export const startConversation = createAsyncThunk('startConversation', async (_, { dispatch }) => {
-  const activeConversation = await getActiveConversation()
+  try {
+    const activeConversation = await getActiveConversation()
 
-  await waitForSocketToConnect(activeConversation, dispatch)
+    await waitForSocketToConnect(activeConversation, dispatch)
 
-  const messagesResponse = await fetchMessages()
+    const messagesResponse = await fetchMessages()
 
-  return {
-    messages: Array.isArray(messagesResponse?.body?.messages)
-      ? messagesResponse?.body?.messages
-      : [],
-    conversationId: activeConversation.conversationId,
-    appUserId: activeConversation.appUserId,
-    lastRead: activeConversation.lastRead,
-    integrations: activeConversation.integrations,
+    return {
+      messages: Array.isArray(messagesResponse?.body?.messages)
+        ? messagesResponse?.body?.messages
+        : [],
+      conversationId: activeConversation.conversationId,
+      appUserId: activeConversation.appUserId,
+      lastRead: activeConversation.lastRead,
+      integrations: activeConversation.integrations,
+    }
+  } catch (err) {
+    errorTracker.error(err || new Error('Unknown reason'), {
+      rollbarFingerprint: 'Failed to start conversation',
+      rollbarTitle: 'Failed to start conversation',
+    })
+    throw err
   }
 })
 
