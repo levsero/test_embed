@@ -1,14 +1,19 @@
+import React, { Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import Launcher from 'src/apps/messenger/features/launcher'
-import LauncherLabel from 'src/apps/messenger/features/launcherLabel'
-import LauncherUnreadIndicator from 'src/apps/messenger/features/launcherUnreadIndicator'
+import { getLauncherShape } from 'src/apps/messenger/features/launcher/store'
 import Widget from 'src/apps/messenger/features/widget'
 import { getAreCookiesEnabled } from 'src/apps/messenger/store/cookies'
 import { useFocusJail } from './hooks/focusJail'
 
+const Launcher = React.lazy(() => import('src/apps/messenger/features/launcher'))
+const LauncherLabel = React.lazy(() => import('src/apps/messenger/features/launcherLabel'))
+const LauncherUnreadIndicator = React.lazy(() =>
+  import('src/apps/messenger/features/launcherUnreadIndicator')
+)
 const App = () => {
   const { refLauncher, refWidget, refLauncherLabel, onKeyDownForContainer } = useFocusJail()
   const cookiesEnabled = useSelector(getAreCookiesEnabled)
+  const launcherShape = useSelector(getLauncherShape)
 
   if (!cookiesEnabled) {
     return null
@@ -17,12 +22,15 @@ const App = () => {
   return (
     <div style={{ fontSize: 'initial' }} onKeyDown={onKeyDownForContainer} role="presentation">
       <Widget ref={refWidget} />
+      {launcherShape !== 'none' && (
+        <Suspense fallback={null}>
+          <LauncherLabel ref={refLauncherLabel} />
 
-      <LauncherLabel ref={refLauncherLabel} />
+          <Launcher ref={refLauncher} />
 
-      <Launcher ref={refLauncher} />
-
-      <LauncherUnreadIndicator />
+          <LauncherUnreadIndicator />
+        </Suspense>
+      )}
     </div>
   )
 }
