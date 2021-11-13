@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Trimitere mesaj",
       "embeddable_framework.messenger.connection_status.now_online": "Acum sunteți online",
       "embeddable_framework.messenger.connection_status.offline": "Sunteți offline. Nu veți primi mesaje.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Trimitere",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limită de {{fileUploadCountLimit}} fișiere per încărcare. Atingeți pentru a încerca din nou.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Fișierele trebuie să aibă {{fileUploadSizeLimitInMb}} MB sau mai puțin",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Deschideți imaginea într-o filă nouă",
@@ -83,7 +84,7 @@
       "embeddable_framework.messenger.previous_messages_spinner": "Se încarcă mesajele anterioare",
       "embeddable_framework.messenger.receipt.retry": "Atingeți pentru a reîncerca",
       "embeddable_framework.messenger.receipt.sending": "Se trimite",
-      "embeddable_framework.messenger.receipt.sent": "Trimise",
+      "embeddable_framework.messenger.receipt.sent": "Trimis",
       "embeddable_framework.messenger.see_latest": "Vezi ultimele",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} tastează...",
       "embeddable_framework.messenger.unread_indicator.frame.title": "Număr de mesaje necitite"

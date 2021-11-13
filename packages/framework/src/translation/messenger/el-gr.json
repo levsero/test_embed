@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Αποστολή μηνύματος",
       "embeddable_framework.messenger.connection_status.now_online": "Είστε online",
       "embeddable_framework.messenger.connection_status.offline": "Offline. Δεν θα λαμβάνετε μηνύματα.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Αποστολή",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Όριο {{fileUploadCountLimit}} αρχείων ανά αποστολή. Πατήστε για να προσπαθήσετε ξανά.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Το μέγεθος των αρχείων πρέπει να είναι {{fileUploadSizeLimitInMb}} MB ή μικρότερο",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Άνοιγμα εικόνας σε νέα καρτέλα",

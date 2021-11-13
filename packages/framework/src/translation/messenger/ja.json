@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "メッセージの送信",
       "embeddable_framework.messenger.connection_status.now_online": "現在オンラインです",
       "embeddable_framework.messenger.connection_status.offline": "オフラインです。メッセージは着信しません。",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "送信",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "一度にアップロードできるファイルは{{fileUploadCountLimit}}個までです。タップしてもう一度やり直してください。",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "ファイルは{{fileUploadSizeLimitInMb}}MB以下でなければなりません",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "新しいタブで画像を開く",

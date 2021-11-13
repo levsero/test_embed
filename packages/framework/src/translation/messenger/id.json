@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Kirim pesan",
       "embeddable_framework.messenger.connection_status.now_online": "Anda kini online",
       "embeddable_framework.messenger.connection_status.offline": "Offline. Anda tidak akan menerima pesan.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Kirim",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Batas {{fileUploadCountLimit}} file per unggahan. Sentuh untuk mencoba lagi.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "File harus {{fileUploadSizeLimitInMb}} MB atau kurang",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Buka gambar di tab baru",

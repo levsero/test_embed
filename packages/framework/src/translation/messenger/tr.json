@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Mesaj gönder",
       "embeddable_framework.messenger.connection_status.now_online": "Şimdi çevrimiçisiniz",
       "embeddable_framework.messenger.connection_status.offline": "Çevrimdışı. Mesajları almayacaksınız.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Gönder",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Yükleme başına {{fileUploadCountLimit}} dosya sınırı. Yeniden denemek için buraya dokunun.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Dosyalar {{fileUploadSizeLimitInMb}} MB veya daha küçük olmalıdır ",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Resmi yeni sekmede aç",

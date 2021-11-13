@@ -10,6 +10,7 @@ const defaultLabels = {
   },
   fileUpload: {
     uploadButtonAriaLabel: 'Upload file',
+    dragDropOverlayText: 'Send',
   },
   fileMessage: {
     sizeInMB: (size) => `${size} MB`,

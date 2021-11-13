@@ -1,4 +1,5 @@
 import userEvent from '@testing-library/user-event'
+import { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
 import * as conversationStore from 'messengerSrc/features/suncoConversation/store'
 import MessagePage from 'messengerSrc/features/widget/components/MessagePage'
 import createStore from 'messengerSrc/store'
@@ -53,6 +54,12 @@ describe('MessagePage', () => {
   })
 
   describe('when the conversation is active', () => {
+    beforeEach(() => {
+      updateFeatures({
+        dragDropFileUpload: true,
+      })
+    })
+
     it('displays the message log', () => {
       const { store, queryByRole } = renderComponent()
       store.dispatch(widgetOpened())
@@ -67,6 +74,14 @@ describe('MessagePage', () => {
       store.dispatch(conversationStore.startConversation.fulfilled({ messages: [] }))
 
       expect(queryByLabelText('Type a message')).toBeInTheDocument()
+    })
+
+    it('renders Dropzone', async () => {
+      const { store, getByTestId } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(conversationStore.startConversation.fulfilled({ messages: [] }))
+
+      expect(getByTestId('dropzone-container')).toBeInTheDocument()
     })
   })
 

@@ -59,6 +59,7 @@ ThemeProvider.propTypes = {
     }),
     fileUpload: PropTypes.shape({
       uploadButtonAriaLabel: PropTypes.string,
+      dragDropOverlayText: PropTypes.string,
       messageBubbleHover: PropTypes.string,
     }),
     fileMessage: PropTypes.shape({

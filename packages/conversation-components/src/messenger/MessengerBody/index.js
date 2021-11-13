@@ -5,6 +5,7 @@ const MessengerBody = styled.div`
   flex-shrink: 1;
   flex-grow: 1;
   overflow-y: auto;
+  position: relative;
 `
 
 export default MessengerBody

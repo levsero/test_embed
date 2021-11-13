@@ -33,6 +33,7 @@ import ChannelLinkWithButton from './messenger/ChannelLink/ChannelLinkWithButton
 import ChannelLinkWithQrCode from './messenger/ChannelLink/ChannelLinkWithQrCode'
 import ChannelLinkWithUnlink from './messenger/ChannelLink/ChannelLinkWithUnlink'
 import ChannelLinkContainer from './messenger/ChannelLinkContainer'
+import Dropzone from './messenger/Dropzone'
 import Launcher from './messenger/Launcher'
 import LauncherLabel from './messenger/LauncherLabel'
 import MessageLogList from './messenger/MessageLogList'
@@ -92,6 +93,7 @@ export {
   dirStyles,
   LauncherLabel,
   Previewer,
+  Dropzone,
 }
 
 export {
