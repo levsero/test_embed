@@ -43,6 +43,19 @@ describe('user calls zopim api', () => {
           expect(callbackSpy).toHaveBeenCalled()
         })
       })
+
+      it('flushes the queue so the functions do not run a second time', () => {
+        callbackSpies.forEach((callbackSpy) => {
+          expect(callbackSpy).toHaveBeenCalled()
+          callbackSpy.mockReset()
+        })
+
+        callbacks.handleChatSDKInitialized()
+
+        callbackSpies.forEach((callbackSpy) => {
+          expect(callbackSpy).not.toHaveBeenCalled()
+        })
+      })
     })
   })
 
