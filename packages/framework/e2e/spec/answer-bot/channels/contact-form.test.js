@@ -10,6 +10,10 @@ beforeEach(async () => {
   await waitForGetInTouchButton()
 })
 
+afterEach(async () => {
+  await expect(page).toPassAxeTests()
+})
+
 test('clicking contact us channel goes to contact form embed', async () => {
   await widget.clickButton('Get in touch')
   await widget.waitForText('How do you want to get in touch?')

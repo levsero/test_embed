@@ -23,4 +23,5 @@ test('updates the title', async () => {
     zE('webWidget', 'setLocale', 'fr')
   })
   await widget.waitForText('french ab title')
+  await expect(page).toPassAxeTests()
 })

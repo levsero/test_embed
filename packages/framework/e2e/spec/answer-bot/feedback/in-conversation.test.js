@@ -33,6 +33,10 @@ beforeEach(async () => {
   await goToArticle('The second article')
 })
 
+afterEach(async () => {
+  await expect(page).toPassAxeTests()
+})
+
 describe('clicking yes', () => {
   it('shows the expected messages after', async () => {
     await widget.clickBack()

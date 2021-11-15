@@ -26,6 +26,7 @@ test('searches interaction endpoint with expected parameters', async () => {
       labels: [],
     })
   )
+  await expect(page).toPassAxeTests()
 })
 
 test('displays expected components in the conversation', async () => {
@@ -38,6 +39,7 @@ test('displays expected components in the conversation', async () => {
     await queryAllByText(['The first article', 'The second article', 'The third article'])
   ).toAppearInOrder()
   expect(await widget.zendeskLogoVisible()).toEqual(true)
+  await expect(page).toPassAxeTests()
 })
 
 test('sending messages in quick succession will batch it into a single query', async () => {
@@ -54,6 +56,7 @@ test('sending messages in quick succession will batch it into a single query', a
       enquiry: 'First message Second message Third message',
     })
   )
+  await expect(page).toPassAxeTests()
 })
 
 test('empty result will display expected message', async () => {
@@ -69,4 +72,5 @@ test('empty result will display expected message', async () => {
   await waitForAnswerBot()
   await search('Help')
   await widget.waitForText("I couldn't find any relevant articles.")
+  await expect(page).toPassAxeTests()
 })

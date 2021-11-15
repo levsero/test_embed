@@ -23,6 +23,7 @@ test('article displayed with expected properties', async () => {
     'https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ'
   )
   expect(await widget.zendeskLogoVisible()).toBeTruthy()
+  await expect(page).toPassAxeTests()
 })
 
 test('sends article viewed request when article is viewed', async () => {
@@ -44,4 +45,5 @@ test('sends article viewed request when article is viewed', async () => {
     article_id: 360002874213,
     resolution_channel_id: 67,
   })
+  await expect(page).toPassAxeTests()
 })

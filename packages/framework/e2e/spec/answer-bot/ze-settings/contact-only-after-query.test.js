@@ -29,4 +29,5 @@ test('only show get in touch button after query', async () => {
   await widget.waitForText('Here are some articles that may help:')
   await waitForGetInTouchButton()
   await widget.expectToSeeText('Get in touch')
+  await expect(page).toPassAxeTests()
 })

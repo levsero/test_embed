@@ -33,4 +33,5 @@ test('uses the supplied avatar values', async () => {
   await widget.expectToSeeText('Wildcard name')
   await page.evaluate(() => zE('webWidget', 'setLocale', 'fr'))
   await widget.waitForText('French name')
+  await expect(page).toPassAxeTests()
 })

@@ -19,6 +19,10 @@ const waitForArticleSuggestions = async () => {
 
 describe('contextual search', () => {
   describe('no results', () => {
+    afterEach(async () => {
+      await expect(page).toPassAxeTests()
+    })
+
     it('shows fallback message and get in touch button', async () => {
       await loadWidget()
         .withPresets('answerBotWithContextualHelp', 'contactForm')
@@ -55,10 +59,15 @@ describe('contextual search', () => {
         .load()
       await widget.openByKeyboard()
       await waitForArticleSuggestions()
+      await expect(page).toPassAxeTests()
     })
   })
 
   describe('via api', () => {
+    afterEach(async () => {
+      await expect(page).toPassAxeTests()
+    })
+
     it('displays the contextual search results on open of widget', async () => {
       const endpoint = jest.fn()
       await loadWidget()
@@ -101,6 +110,7 @@ describe('contextual search', () => {
       await launcher.click()
       await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /label_names=credit%20card%2Chelp/)
+      await expect(page).toPassAxeTests()
     })
   })
 })

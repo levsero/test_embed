@@ -48,6 +48,7 @@ describe('clicking yes', () => {
       interaction_access_token: 'eyJ0eXAi',
       resolution_channel_id: 67,
     })
+    await expect(page).toPassAxeTests()
   })
 
   describe('after resolution', () => {
@@ -55,6 +56,10 @@ describe('clicking yes', () => {
       await buildWidget().intercept(mockResolutionEndpoint()).load()
       await goToArticle('The second article')
       await answerFeedback('Yes')
+    })
+
+    afterEach(async () => {
+      await expect(page).toPassAxeTests()
     })
 
     it('shows expected message in coversation', async () => {
@@ -88,6 +93,7 @@ describe('clicking no', () => {
         reason_id: 1,
       })
     })
+    await expect(page).toPassAxeTests()
   })
 
   describe('after rejection', () => {
@@ -97,6 +103,10 @@ describe('clicking no', () => {
       await answerFeedback('No')
       await widget.waitForText('Please tell us why.')
       await widget.clickText("It's related, but it didn't answer my question")
+    })
+
+    afterEach(async () => {
+      await expect(page).toPassAxeTests()
     })
 
     it('shows expected message in conversation', async () => {

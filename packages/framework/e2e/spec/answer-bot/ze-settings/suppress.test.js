@@ -38,4 +38,5 @@ test('shows other embed when help center and answer bot are both suppressed', as
     .load()
   await widget.openByKeyboard()
   await waitForContactForm()
+  await expect(page).toPassAxeTests()
 })

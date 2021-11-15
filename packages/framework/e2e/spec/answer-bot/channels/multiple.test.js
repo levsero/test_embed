@@ -14,4 +14,5 @@ test('displays all channels available', async () => {
   await widget.waitForText('How do you want to get in touch?')
   const buttons = await queryAllByText(['Live chat', 'Leave a message'])
   expect(buttons).toHaveLength(2)
+  await expect(page).toPassAxeTests()
 })

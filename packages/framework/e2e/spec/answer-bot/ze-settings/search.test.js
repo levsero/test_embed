@@ -31,4 +31,5 @@ test('includes labels in query', async () => {
       labels: ['testing', 'I would like help.'],
     })
   )
+  await expect(page).toPassAxeTests()
 })

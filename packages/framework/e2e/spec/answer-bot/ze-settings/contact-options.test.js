@@ -29,6 +29,7 @@ test('override contact form label', async () => {
   await widget.expectToSeeText('submit tix')
   await page.evaluate(() => zE('webWidget', 'setLocale', 'fr'))
   await widget.waitForText('the french')
+  await expect(page).toPassAxeTests()
 })
 
 test('override chat online label', async () => {
@@ -56,4 +57,5 @@ test('override chat online label', async () => {
   await widget.expectToSeeText('start chat')
   await page.evaluate(() => zE('webWidget', 'setLocale', 'fr'))
   await widget.waitForText('french start chat')
+  await expect(page).toPassAxeTests()
 })
