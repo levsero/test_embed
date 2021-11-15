@@ -408,6 +408,11 @@ parts:
       screenshot: 'https://drive.google.com/file/d/1bawlh1Eyg8Xr866E7suwZaOdXl3kbcgA/view?usp=sharing'
       value: 'Upload file'
   - translation:
+      key: 'embeddable_framework.messenger.file_upload.drag_drop_overlay_text'
+      title: 'When a file is dragged and dropped into the messenger for file upload, an overlay will appear to display this text, indicating to users that they are about to upload a file.'
+      screenshot: 'https://drive.google.com/file/d/1KsDrTh0yoyOKDmj-cjzQdrWNAOnzkV43/view?usp=sharing'
+      value: 'Send'
+  - translation:
       key: 'embeddable_framework.messenger.channel_link.link_error.qr_code_error'
       title: 'When the link request fails on a desktop view and we cannot display the QR Code, we show this error'
       value: "QR code couldn't be loaded"
