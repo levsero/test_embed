@@ -4,7 +4,7 @@ module.exports = {
 
   coverageReporters: ['lcov'],
 
-  modulePathIgnorePatterns: ['<rootDir>/e2e/'],
+  modulePathIgnorePatterns: ['<rootDir>/e2e/', '<rootDir>/*/dist/'],
 
   restoreMocks: true,
 
