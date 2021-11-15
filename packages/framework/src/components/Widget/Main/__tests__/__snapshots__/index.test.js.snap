@@ -31,12 +31,12 @@ exports[`Main matches default snapshot 1`] = `
 }
 
 <div>
-  <div
+  <main
     aria-live="polite"
     class="c0"
     data-testid="scroll-container-content"
   >
     Hallo
-  </div>
+  </main>
 </div>
 `;

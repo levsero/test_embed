@@ -652,7 +652,7 @@ exports[`renders correctly on desktop 1`] = `
 
 <div>
   <div>
-    <div
+    <header
       class="c0"
       data-testid="widget-header-view"
     >
@@ -663,7 +663,7 @@ exports[`renders correctly on desktop 1`] = `
           class="c2 c3"
           data-testid="widget-title"
           id="widgetHeaderTitle"
-          role="alert"
+          role="presentation"
         >
           Search
         </h1>
@@ -735,7 +735,7 @@ exports[`renders correctly on desktop 1`] = `
           </form>
         </div>
       </div>
-    </div>
+    </header>
   </div>
 </div>
 `;

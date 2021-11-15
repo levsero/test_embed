@@ -1,4 +1,4 @@
-import { AxePuppeteer } from '@axe-core/puppeteer'
+// import { AxePuppeteer } from '@axe-core/puppeteer'
 import { waitForAnswerBot, waitForGetInTouchButton } from 'e2e/helpers/answer-bot-embed'
 import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
@@ -16,9 +16,13 @@ test('clicking chat channel goes to chat embed', async () => {
   await widget.expectToSeeText('Chat with us')
 
   /* eslint no-console:0 */
-  const results = await new AxePuppeteer(page).analyze()
-  results.violations.forEach((v) => {
-    console.log(v)
-    v.nodes.forEach((n) => console.log(n))
+  // const results = await new AxePuppeteer(page).analyze()
+  // results.violations.forEach((v) => {
+  //   console.log(v)
+  //   v.nodes.forEach((n) => console.log(n))
+  // })
+
+  await expect(page).toPassAxeTests({
+    exclude: ['#webWidget', '#widgetHeaderTitle'],
   })
 })
