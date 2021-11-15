@@ -7,6 +7,6 @@ module.exports = {
   preset: 'jest-puppeteer',
   globalSetup: './puppeteer.setup.js',
   globalTeardown: './puppeteer.teardown.js',
-  setupFilesAfterEnv: ['expect-puppeteer', './setup.js'],
+  setupFilesAfterEnv: ['expect-puppeteer', '@wordpress/jest-puppeteer-axe', './setup.js'],
   ...jestConfig(),
 }

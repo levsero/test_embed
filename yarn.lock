@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@axe-core/puppeteer@^4.3.1":
+"@axe-core/puppeteer@^4.0.0", "@axe-core/puppeteer@^4.3.1":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@axe-core/puppeteer/-/puppeteer-4.3.1.tgz#02479f27e9da9c4579435dcadd21f331f026016b"
   integrity sha512-ojZzd2koeMFj4Crz842g54gU9MEosZA2Vzq8zoRBsT7lQ+EwjASNUfNKQHDhJaO53oEMC7xZv9Y2bhDrAhJRlg==
@@ -2093,6 +2093,13 @@
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.13.10":
+  version "7.16.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
+  integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -4986,6 +4993,14 @@
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.5.1.tgz#b5fde2f0f79c1e120307c415a4c1d5eb15a6f278"
   integrity sha512-4vSVUiOPJLmr45S8rMGy7WDvpWxfFxfP/Qx/cxZFCfvoypTYpPPL1X8VIZMe0WTA+Jr7blUxwUSEZNkjoMTgSw==
+
+"@wordpress/jest-puppeteer-axe@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/jest-puppeteer-axe/-/jest-puppeteer-axe-3.1.0.tgz#9cdb102225158b88f2a5f216f531d400b08de546"
+  integrity sha512-XdxXI9nKSAyPWMMjWObfEuumcbZG0wSvlGzNl/qlTjcxwVNaCIxzBBfMxbcxNLcXHasNr/PowbxVqMCEaMfpcA==
+  dependencies:
+    "@axe-core/puppeteer" "^4.0.0"
+    "@babel/runtime" "^7.13.10"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -12912,7 +12927,7 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-json-loader@^0.5.7:
+"json-loader@^0.5.7  ":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
   integrity sha512-QLPs8Dj7lnf3e3QYS1zkCo+4ZwqOiF9d/nZnYozTISxXWCfNs9yuky5rJw4/W34s7POaNlbZmQGaB5NiXCbP4w==
