@@ -14,8 +14,8 @@ const turnChatOnline = (store) => {
   store.dispatch(setStatusForcefully('online'))
   store.dispatch(chatConnected())
 }
-const sendAgentMessage = (store) => {
-  store.dispatch({
+const sendAgentMessage = async (store) => {
+  await store.dispatch({
     type: 'websdk/chat.msg',
     payload: {
       type: 'chat',
@@ -39,9 +39,10 @@ describe('proactive chat', () => {
       expect(getWebWidgetOpen(store.getState())).toBeFalsy()
       expect(queryByText('Chat with us')).not.toBeInTheDocument()
 
-      sendAgentMessage(store)
+      await sendAgentMessage(store)
 
       await waitFor(() => expect(queryByText('Chat with us')).toBeInTheDocument())
+
       expect(getWebWidgetOpen(store.getState())).toBeTruthy()
       expect(getActiveEmbed(store.getState())).toEqual('chat')
     })
