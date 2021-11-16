@@ -1,9 +1,10 @@
 import { send } from 'src/service/transport/http-base'
+import { win } from 'src/util/globals'
 
 const isRequestFromLivePreview = () => {
   const livePreviewHosts = ['static-staging.zdassets.com', 'static.zdassets.com']
-  const isAcceptableHost = livePreviewHosts.includes(window.location.host)
-  const optedIn = !!window.zESettings?.preview
+  const isAcceptableHost = livePreviewHosts.includes(win.location.host)
+  const optedIn = !!win.zESettings?.preview
   return isAcceptableHost && optedIn
 }
 
