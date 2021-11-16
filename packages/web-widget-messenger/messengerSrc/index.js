@@ -1,4 +1,3 @@
-import { init, run } from 'messengerSrc/boot'
 import 'src/framework/polyfills'
 import errorTracker from 'src/framework/services/errorTracker'
 import publicApi from 'src/framework/services/publicApi'
@@ -6,6 +5,7 @@ import setupIframe from 'src/framework/setupIframe'
 import { beacon } from 'src/service/beacon'
 import { identity } from 'src/service/identity'
 import tracker from 'src/service/tracker'
+import { init, run } from 'messengerSrc/boot'
 
 const frameworkServices = [identity, beacon, publicApi, tracker]
 
