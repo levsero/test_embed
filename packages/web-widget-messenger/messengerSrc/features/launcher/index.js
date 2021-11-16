@@ -1,18 +1,18 @@
 import { forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SquareLauncher } from '@zendesk/conversation-components'
+import { Launcher } from '@zendesk/conversation-components'
 import { getPosition } from 'messengerSrc/features/themeProvider/store'
 import { getIsWidgetOpen, widgetToggled } from 'messengerSrc/store/visibility'
 import LauncherFrame from './components/LauncherFrame'
 
-const Launcher = forwardRef((_props, ref) => {
+const LauncherSection = forwardRef((_props, ref) => {
   const dispatch = useDispatch()
   const isWidgetOpen = useSelector(getIsWidgetOpen)
   const position = useSelector(getPosition)
 
   return (
     <LauncherFrame>
-      <SquareLauncher
+      <Launcher
         ref={ref}
         isOpen={isWidgetOpen}
         onClick={() => {
@@ -23,4 +23,4 @@ const Launcher = forwardRef((_props, ref) => {
     </LauncherFrame>
   )
 })
-export default Launcher
+export default LauncherSection
