@@ -33,6 +33,7 @@ module.exports = {
     '\\.(jpg|jpeg|png|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.js',
     '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
     '^src/(.*)': '<rootDir>/src/$1',
+    '@zendesk/web-widget-messenger': '<rootDir>/src/__mocks__/messengerMock.js',
   },
 
   // The path to a module that runs some code to configure or set up the testing framework before each test

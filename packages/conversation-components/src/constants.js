@@ -46,6 +46,13 @@ const NOTIFICATION_TYPES = Object.freeze({
 const FRAME_MARGIN_FROM_PAGE = 16
 const FRAME_ANIMATION_DURATION = 0.7
 
+const LAUNCHER_SHAPES = Object.freeze({
+  square: 'square',
+  circle: 'circle',
+})
+
+const LAUNCHER_POSITION = ['left', 'right']
+
 export {
   BANNER_STATUS,
   FORM_MESSAGE_STATUS,
@@ -56,4 +63,6 @@ export {
   FRAME_ANIMATION_DURATION,
   NOTIFICATION_TYPES,
   FILE_UPLOAD_ERROR_TYPES,
+  LAUNCHER_SHAPES,
+  LAUNCHER_POSITION,
 }

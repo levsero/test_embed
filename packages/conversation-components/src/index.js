@@ -20,6 +20,7 @@ import {
   MESSAGE_STATUS,
   FRAME_ANIMATION_DURATION,
   NOTIFICATION_TYPES,
+  LAUNCHER_SHAPES,
 } from './constants'
 import CarouselMessage from './messages/CarouselMessage'
 import FileMessage from './messages/FileMessage'
@@ -32,7 +33,7 @@ import ChannelLinkWithButton from './messenger/ChannelLink/ChannelLinkWithButton
 import ChannelLinkWithQrCode from './messenger/ChannelLink/ChannelLinkWithQrCode'
 import ChannelLinkWithUnlink from './messenger/ChannelLink/ChannelLinkWithUnlink'
 import ChannelLinkContainer from './messenger/ChannelLinkContainer'
-import SquareLauncher from './messenger/Launcher/SquareLauncher'
+import Launcher from './messenger/Launcher'
 import LauncherLabel from './messenger/LauncherLabel'
 import MessageLogList from './messenger/MessageLogList'
 import MessageLogError from './messenger/MessageLogStatus/MessageLogError'
@@ -83,7 +84,7 @@ export {
   PrimaryParticipantReceipt,
   Replies,
   ScrollProvider,
-  SquareLauncher,
+  Launcher,
   TextMessage,
   Timestamp,
   ThemeProvider,
@@ -100,4 +101,5 @@ export {
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS,
   NOTIFICATION_TYPES,
+  LAUNCHER_SHAPES,
 }

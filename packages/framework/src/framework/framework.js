@@ -1,47 +1,8 @@
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
+import { isBlacklisted } from 'src/framework/isBlacklisted'
 import errorTracker from 'src/framework/services/errorTracker'
-import publicApi from 'src/framework/services/publicApi'
-import { beacon } from 'src/service/beacon'
-import { identity } from 'src/service/identity'
-import tracker from 'src/service/tracker'
-import { isBlacklisted } from 'src/util/devices'
-import { setReferrerMetas, win, document as doc } from 'src/util/globals'
-import './polyfills'
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
-
-const setupIframe = (iframe, doc) => {
-  // Firefox has an issue with calculating computed styles from within a iframe
-  // with display:none. If getComputedStyle returns null we adjust the styles on
-  // the iframe so when we need to query the parent document it will work.
-  // http://bugzil.la/548397
-  if (getComputedStyle(doc.documentElement) === null) {
-    const newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px'
-
-    iframe.removeAttribute('style')
-    iframe.setAttribute('style', newStyle)
-  }
-
-  // Honour any no-referrer policies on the host page by dynamically
-  // injecting the appropriate meta tags on the iframe.
-  // TODO: When main.js refactor is complete, test this.
-  if (iframe) {
-    setReferrerMetas(iframe, doc)
-  }
-}
-
-const embeddables = {
-  messenger: () =>
-    import(/* webpackChunkName: "messenger" */ 'src/apps/messenger').then(
-      (messenger) => messenger.default
-    ),
-  webWidget: () =>
-    import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget').then(
-      (webWidget) => webWidget.default
-    ),
-}
-
-const frameworkServices = [identity, beacon, publicApi, tracker]
 
 const start = async () => {
   try {
@@ -49,19 +10,15 @@ const start = async () => {
       return
     }
 
-    if (win.zESkipWebWidget) {
+    if (window.parent.zESkipWebWidget) {
       return
     }
 
-    framework.setupIframe(window.frameElement, doc)
-
     const configLoadStart = Date.now()
     const config = await fetchEmbeddableConfig()
-    beacon.setConfigLoadTime(Date.now() - configLoadStart)
-
-    // Load the embeddable
+    const configLoadEnd = Date.now() - configLoadStart
     const embeddableName = config.messenger ? 'messenger' : 'webWidget'
-    const embeddable = await embeddables[embeddableName]()
+
     errorTracker.configure({
       payload: {
         embeddableName: embeddableName,
@@ -69,20 +26,16 @@ const start = async () => {
       },
     })
 
-    const serviceData = { config, embeddableName }
+    // Load the embeddable
 
-    // Initialise all framework services and then initialise the embeddable
-    frameworkServices.forEach((service) => service.init?.(serviceData))
-    const embeddableData = await embeddable.init?.(serviceData)
-
-    // Start running all framework services and then start running the embeddable
-    frameworkServices.forEach((service) => service.run?.(serviceData))
-    embeddable.run?.({ ...serviceData, embeddableData })
-
-    beacon.sendPageView(embeddableName === 'messenger' ? 'web_messenger' : 'web_widget')
-
-    if (Math.random() <= 0.1) {
-      beacon.sendWidgetInitInterval()
+    if (config.messenger) {
+      await import(
+        /* webpackChunkName: "messenger" */ '@zendesk/web-widget-messenger'
+      ).then((messenger) => messenger.default.start(config, configLoadEnd))
+    } else {
+      await import(
+        /* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget'
+      ).then((webWidget) => webWidget.default.start(config, configLoadEnd))
     }
   } catch (err) {
     errorTracker.error(err, {
@@ -94,9 +47,6 @@ const start = async () => {
 
 const framework = {
   start,
-
-  // Exported for testing only.
-  setupIframe,
 }
 
 export default framework

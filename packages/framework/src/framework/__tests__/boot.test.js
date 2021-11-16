@@ -1,98 +1,61 @@
-import { waitFor } from '@testing-library/dom'
-import messenger from 'src/apps/messenger'
+import messenger from '@zendesk/web-widget-messenger'
 import webWidget from 'src/apps/webWidget'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import framework from 'src/framework/framework'
+import * as blacklist from 'src/framework/isBlacklisted'
 import errorTracker from 'src/framework/services/errorTracker'
-import publicApi from 'src/framework/services/publicApi'
-import { beacon } from 'src/service/beacon'
-import tracker from 'src/service/tracker'
-import { isBlacklisted } from 'src/util/devices'
-import * as globals from 'src/util/globals'
 
 jest.mock('src/framework/api/embeddableConfig')
-jest.mock('src/util/devices')
 jest.mock('src/framework/services/errorTracker')
-jest.mock('src/service/beacon')
-jest.mock('src/framework/services/publicApi')
-jest.mock('src/service/tracker')
-jest.mock('src/apps/messenger')
+jest.mock('@zendesk/web-widget-messenger')
 jest.mock('src/apps/webWidget')
-
-describe('setupIframe', () => {
-  let mockComputedStyle = {},
-    mockDoc = {
-      documentElement: {},
-    }
-
-  beforeEach(() => {
-    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => mockComputedStyle)
-    jest.spyOn(globals, 'setReferrerMetas').mockImplementation(() => {})
-  })
-
-  afterEach(() => {
-    window.getComputedStyle.mockRestore()
-    globals.setReferrerMetas.mockRestore()
-  })
-
-  describe('when Iframe is provied', () => {
-    beforeEach(() => {
-      framework.setupIframe({}, mockDoc)
-    })
-
-    it('expect setReferrerMetas to have been called', () => {
-      expect(globals.setReferrerMetas).toHaveBeenCalled()
-    })
-  })
-
-  describe('when Iframe has not been provided', () => {
-    beforeEach(() => {
-      framework.setupIframe(null, mockDoc)
-    })
-
-    it('expect setReferrerMetas not to have been called', () => {
-      expect(globals.setReferrerMetas).not.toHaveBeenCalled()
-    })
-  })
-})
+jest.mock('src/framework/isBlacklisted')
 
 describe('start', () => {
   const mockMessengerConfig = {
     messenger: {},
   }
-  const mockWebWidgetConfig = {}
+  const mockWebWidgetConfig = {
+    talk: {},
+  }
 
-  beforeEach(() => {
-    jest.spyOn(Date, 'now').mockReturnValue(123)
-  })
-
-  it('does not boot if the end user is blacklisted', () => {
-    isBlacklisted.mockReturnValueOnce(true)
-
-    framework.start()
-
-    expect(fetchEmbeddableConfig).not.toHaveBeenCalled()
-  })
-
-  it('does not boot if window.zESkipWebWidget is true', () => {
-    window.zESkipWebWidget = true
-
-    framework.start()
-
-    expect(fetchEmbeddableConfig).not.toHaveBeenCalled()
-    window.zESkipWebWidget = false
-  })
-
-  it('initialises the iframe to respects the referrer policy of host page', async () => {
-    framework.setupIframe = jest.fn()
+  it('does not boot if the end user is blacklisted', async () => {
+    blacklist.isBlacklisted.mockReturnValue(true)
 
     await framework.start()
 
-    await waitFor(() => expect(framework.setupIframe).toHaveBeenCalled())
+    expect(fetchEmbeddableConfig).not.toHaveBeenCalled()
+    blacklist.isBlacklisted.mockReturnValue(false)
   })
 
+  it('does not boot if window.zESkipWebWidget is true', async () => {
+    window.parent.zESkipWebWidget = true
+
+    await framework.start()
+
+    expect(fetchEmbeddableConfig).not.toHaveBeenCalled()
+    window.parent.zESkipWebWidget = false
+  })
+
+  it('does boot if window.zESkipWebWidget is false and user is not blacklisted', async () => {
+    window.parent.zESkipWebWidget = false
+
+    await framework.start()
+
+    expect(fetchEmbeddableConfig).toHaveBeenCalled()
+  })
+
+  it('configures errorTracker', async () => {
+    fetchEmbeddableConfig.mockReturnValue(mockWebWidgetConfig)
+
+    await framework.start()
+
+    expect(errorTracker.configure).toHaveBeenCalled()
+  })
   it('logs an error to rollbar when failed to fetch embeddable config', async () => {
     const mockError = new Error('Network error')
+
+    jest.spyOn(errorTracker, 'error')
 
     fetchEmbeddableConfig.mockImplementation(() => {
       throw mockError
@@ -106,104 +69,28 @@ describe('start', () => {
     })
   })
 
-  it('initialises all framework services that have an init function with the same values', async () => {
-    fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
-
-    await framework.start()
-
-    const expectedServiceData = {
-      config: mockMessengerConfig,
-      embeddableName: 'messenger',
-    }
-
-    expect(beacon.init).toHaveBeenCalledWith(expectedServiceData)
-    expect(tracker.init).toHaveBeenCalledWith(expectedServiceData)
-  })
-
-  it('runs all framework services that have a run function', async () => {
-    fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
-
-    await framework.start()
-
-    const expectedServiceData = {
-      config: mockMessengerConfig,
-      embeddableName: 'messenger',
-    }
-
-    expect(publicApi.run).toHaveBeenCalledWith(expectedServiceData)
-  })
-
   // Simple helper function to check that mockFunction1 was called before mockFunction2
-  const expectToBeCalledBefore = (mockFunction1, mockFunction2) => {
-    expect(mockFunction1.mock.invocationCallOrder[0]).toBeLessThan(
-      mockFunction2.mock.invocationCallOrder[0]
-    )
-  }
-
-  it('boots the embeddable in the expected order', async () => {
-    fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
-
-    await framework.start()
-
-    // inits services before embeddable
-    expectToBeCalledBefore(beacon.init, messenger.init)
-
-    // inits embeddable before services run
-    expectToBeCalledBefore(messenger.init, publicApi.run)
-
-    // runs services before running embeddable
-    expectToBeCalledBefore(publicApi.run, messenger.run)
-  })
-
-  it('sends init time blip 10% of the time', async () => {
-    fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
-
-    jest.spyOn(Math, 'random').mockReturnValue(0.08)
-
-    await framework.start()
-
-    expect(beacon.sendWidgetInitInterval).toHaveBeenCalled()
-  })
-
-  it('does not send init time blip 90% of the time', async () => {
-    fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
-
-    jest.spyOn(Math, 'random').mockReturnValue(22)
-
-    await framework.start()
-
-    expect(beacon.sendWidgetInitInterval).not.toHaveBeenCalled()
-  })
 
   describe('when config is for the messenger', () => {
-    it('initialises the messenger', async () => {
+    it('starts the messenger', async () => {
       fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
 
       await framework.start()
 
-      expect(messenger.init).toHaveBeenCalledWith({
-        config: mockMessengerConfig,
-        embeddableName: 'messenger',
-      })
+      expect(messenger.start).toHaveBeenCalledWith(mockMessengerConfig, 0)
     })
 
-    it('runs the messenger', async () => {
+    it('configures ErrorTracker for the Messenger', async () => {
       fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
 
       await framework.start()
 
-      expect(messenger.run).toHaveBeenCalledWith({
-        config: mockMessengerConfig,
-        embeddableName: 'messenger',
+      expect(errorTracker.configure).toHaveBeenCalledWith({
+        payload: {
+          embeddableName: 'messenger',
+          environment: 'messenger-test',
+        },
       })
-    })
-
-    it('sends a page view blip for the messenger', async () => {
-      fetchEmbeddableConfig.mockReturnValue(mockMessengerConfig)
-
-      await framework.start()
-
-      expect(beacon.sendPageView).toHaveBeenCalledWith('web_messenger')
     })
   })
 
@@ -213,29 +100,20 @@ describe('start', () => {
 
       await framework.start()
 
-      expect(webWidget.init).toHaveBeenCalledWith({
-        config: mockWebWidgetConfig,
-        embeddableName: 'webWidget',
-      })
+      expect(webWidget.start).toHaveBeenCalledWith(mockWebWidgetConfig, 0)
     })
 
-    it('runs the web widget', async () => {
+    it('configures ErrorTracker for the Web Widget', async () => {
       fetchEmbeddableConfig.mockReturnValue(mockWebWidgetConfig)
 
       await framework.start()
 
-      expect(webWidget.run).toHaveBeenCalledWith({
-        config: mockWebWidgetConfig,
-        embeddableName: 'webWidget',
+      expect(errorTracker.configure).toHaveBeenCalledWith({
+        payload: {
+          embeddableName: 'webWidget',
+          environment: 'webWidget-test',
+        },
       })
-    })
-
-    it('sends a page view blip for the web widget', async () => {
-      fetchEmbeddableConfig.mockReturnValue(mockWebWidgetConfig)
-
-      await framework.start()
-
-      expect(beacon.sendPageView).toHaveBeenCalledWith('web_widget')
     })
   })
 })
