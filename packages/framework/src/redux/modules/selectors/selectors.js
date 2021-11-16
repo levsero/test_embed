@@ -623,8 +623,9 @@ export const getDeferredTalkApiUrl = createSelector(
   [getTalkServiceUrl, getTalkNickname],
   (talkServiceUrl, nickname) => {
     const subdomain = getZendeskHost(document).split('.')[0]
+    const encNickname = encodeURIComponent(nickname)
 
-    return `${talkServiceUrl}/talk_embeddables_service/web/status?subdomain=${subdomain}&nickname=${nickname}`
+    return `${talkServiceUrl}/talk_embeddables_service/web/status?subdomain=${subdomain}&nickname=${encNickname}`
   }
 )
 

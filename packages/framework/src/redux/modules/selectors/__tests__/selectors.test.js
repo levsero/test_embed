@@ -3,9 +3,9 @@ import _ from 'lodash'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { LAUNCHER } from 'src/constants/shared'
-import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import * as chatReselectors from 'src/embeds/chat/selectors/reselectors'
 import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
+import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import * as devices from 'src/util/devices'
 import * as globals from 'src/util/globals'
@@ -567,6 +567,16 @@ describe('getDeferredTalkApiUrl', () => {
     ).toEqual(
       'http://z3n.zendesk.com/talk_embeddables_service/web/status?subdomain=testingHost&nickname=talkNickname'
     )
+  })
+
+  describe('when nickname has surrounding whitespaces', () => {
+    it('returns the encoded url', () => {
+      expect(
+        selectors.getDeferredTalkApiUrl.resultFunc('http://z3n.zendesk.com', ' Call us ')
+      ).toEqual(
+        'http://z3n.zendesk.com/talk_embeddables_service/web/status?subdomain=testingHost&nickname=%20Call%20us%20'
+      )
+    })
   })
 })
 
