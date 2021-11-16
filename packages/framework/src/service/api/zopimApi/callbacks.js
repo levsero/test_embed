@@ -28,6 +28,7 @@ export const handleChatConnected = () => {
   }
 
   flushQueue(onChatConnectedQueue)
+  onChatConnectedQueue = []
   chatConnected = true
 }
 
@@ -36,6 +37,7 @@ export const handleChatSDKInitialized = () => {
     chatSDKInitialized = true
   }
   flushQueue(onChatSDKInitializedQueue)
+  onChatSDKInitializedQueue = []
   chatSDKInitialized = true
 }
 
@@ -49,5 +51,4 @@ export const reset = () => {
 
 const flushQueue = (queue) => {
   queue.forEach((cb) => cb())
-  queue = []
 }

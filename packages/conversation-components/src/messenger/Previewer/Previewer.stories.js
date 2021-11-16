@@ -9,7 +9,7 @@ import {
   TextMessage,
 } from 'src/'
 import Previewer from 'src/messenger/Previewer'
-import SquareLauncher from '../Launcher/SquareLauncher'
+import Launcher from '../Launcher'
 
 const flatWhiteItem = {
   _id: '1',
@@ -152,7 +152,7 @@ export const Basic = (args) => {
         </MessengerBody>
         <MessengerFooter />
       </MessengerContainer>
-      <SquareLauncher isOpen={true} position={args.position} />
+      <Launcher isOpen={true} position={args.position} />
     </Previewer>
   )
 }

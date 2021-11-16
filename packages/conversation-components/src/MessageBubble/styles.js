@@ -28,6 +28,15 @@ const Bubble = styled.div`
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`
+  margin-top: ${(props) => {
+    switch (props.shape) {
+      case MESSAGE_BUBBLE_SHAPES.first:
+      case MESSAGE_BUBBLE_SHAPES.standalone:
+        return props.theme.messenger.space.sm
+      default:
+        return props.theme.messenger.space.xxxs
+    }
+  }};
   font-family: ${(props) => props.theme.messenger.fontFamily};
   background-color: ${(props) => props.theme.messenger.colors.message};
   color: ${(props) => props.theme.messenger.colors.messageText};

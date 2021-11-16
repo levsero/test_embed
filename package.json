@@ -13,10 +13,11 @@
     "packages/*"
   ],
   "scripts": {
+    "build:testSetup": "yarn workspace @zendesk/sunco-js-client build && yarn workspace @zendesk/conversation-components build",
     "lint:js": "eslint *.js config script packages --fix",
     "lint:other": "prettier --check \"**/*.{css,scss,json,md}\" --write",
     "lint": "npm run lint:js && npm run lint:other",
-    "test": "TZ=utc jest",
+    "test": "yarn build:testSetup && TZ=utc jest",
     "test:updateSnapshots": "TZ=utc jest --updateSnapshot",
     "translations:update": "node ./packages/framework/script/translations/index.js"
   },

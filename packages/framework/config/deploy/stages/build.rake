@@ -51,6 +51,11 @@ def build_previewer
 end
 
 def upload_previewer
+  default_options = {
+    ignore_extensions: ['.map'],
+    key_transform: -> (key) { key.gsub('public/', '') }
+  }
+
   s3_deployer.upload_files(
     ASSETS_DIR,
     PREVIEWER_DIRECTORY_VERSIONED,
@@ -60,10 +65,11 @@ def upload_previewer
       expires: nil # we don't want to send the expires header
     }
   )
-  s3_deployer.upload_files(
-    'dist/public/locales',
-    S3_RELEASE_DIRECTORY_LATEST + '/locales',
-    Dir['dist/public/locales/*.js'].map { |f| File.basename(f) }
+
+  s3_deployer.upload_directory(
+    ASSETS_DIR,
+    S3_RELEASE_DIRECTORY_LATEST,
+    default_options
   )
 end
 

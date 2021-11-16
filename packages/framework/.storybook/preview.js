@@ -1,13 +1,14 @@
+import { rem } from 'polished'
+import { Provider } from 'react-redux'
+import { createGlobalStyle } from 'styled-components'
+import { baseFontSize } from '@zendesk/web-widget-messenger/constants'
+import ThemeProvider from '@zendesk/web-widget-messenger/features/themeProvider'
+import createStore from '@zendesk/web-widget-messenger/store'
+import { i18n } from 'src/apps/webWidget/services/i18n'
+
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
 }
-import { Provider } from 'react-redux'
-import createStore from 'src/apps/messenger/store'
-import ThemeProvider from 'src/apps/messenger/features/themeProvider'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { createGlobalStyle } from 'styled-components'
-import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/constants'
 
 i18n.setLocale()
 const ScrollOverride = createGlobalStyle`
