@@ -1,4 +1,5 @@
 import { Client, Scheduler as FayeScheduler } from 'faye'
+import SuncoAPIError from 'src/utils/SuncoAPIError'
 import ObserverList from '../utils/ObserverList'
 import { onBrowserComingBackOnline, onBrowserTabFocus, isBrowserOnline } from '../utils/browser'
 
@@ -8,6 +9,11 @@ import { onBrowserComingBackOnline, onBrowserTabFocus, isBrowserOnline } from '.
 // Faye.logger = window.console
 const log = (..._args) => {
   // console.log(..._args)
+}
+
+const defaultOptions = {
+  retryInterval: 15,
+  maxConnectionAttempts: 5,
 }
 
 const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAttempts = 5 }) => {
@@ -162,43 +168,82 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
       return new Promise((res) => res())
     }
 
-    const subscriptionPromise = new Promise((resolve, reject) => {
-      const unsubscribe = addObserver('subscription', (result) => {
-        this.subscriptions[channel] = result.successful
+    return new Promise((resolve, reject) => {
+      let reattemptCount = 0
+      let cancelled = false
 
-        if (result.successful) {
-          resolve()
-        } else {
-          reject(new Error('Subscription was not successful'))
-        }
-        unsubscribe()
-      })
-    })
-
-    this.subscription = this.fayeClient.subscribe.call(this.fayeClient, channel, ({ events }) => {
-      for (const event of events) {
-        switch (event.type) {
-          case 'message':
-            this.eventObservers['message'].notify(event.message)
-            break
-          case 'activity':
-            this.eventObservers['activity'].notify(event.activity)
-            break
-          case 'link:cancelled':
-          case 'link:failed':
-          case 'link:matched':
-          case 'link':
-            this.eventObservers['link'].notify(event)
-            break
-        }
+      this.cancelPendingSubscription = () => {
+        reject(new SuncoAPIError('Subscription cancelled', { subscriptionCancelled: true }))
+        cancelled = true
+        this.cancelPendingSubscription = null
       }
-    })
 
-    return subscriptionPromise
+      const subscribeToChannel = () => {
+        if (cancelled) {
+          return
+        }
+        this.subscription = this.fayeClient
+          .subscribe(channel, ({ events }) => {
+            for (const event of events) {
+              switch (event.type) {
+                case 'message':
+                  this.eventObservers['message'].notify(event.message)
+                  break
+                case 'activity':
+                  this.eventObservers['activity'].notify(event.activity)
+                  break
+                case 'link:cancelled':
+                case 'link:failed':
+                case 'link:matched':
+                case 'link':
+                  this.eventObservers['link'].notify(event)
+                  break
+              }
+            }
+          })
+          .then(
+            () => {
+              if (cancelled) {
+                return
+              }
+              resolve()
+            },
+            (err) => {
+              if (cancelled) {
+                return
+              }
+
+              const { retryInterval, maxConnectionAttempts } = defaultOptions
+              const canReattempt =
+                reattemptCount < maxConnectionAttempts - 1 &&
+                err.code === 401 &&
+                err.message === 'Unknown client'
+
+              if (!canReattempt) {
+                reject(
+                  new SuncoAPIError('Subscription was not successful', {
+                    subscriptionError: err,
+                    reattemptCount,
+                  })
+                )
+                return
+              }
+
+              const delay = reattemptCount === 0 ? 0 : retryInterval * 1000
+
+              reattemptCount += 1
+              setTimeout(subscribeToChannel, delay)
+            }
+          )
+      }
+
+      subscribeToChannel()
+    })
   }
 
   const unsubscribe = () => {
-    this.subscription?.cancel()
+    this.subscription?.cancel?.()
+    this.cancelPendingSubscription?.()
   }
 
   return {
