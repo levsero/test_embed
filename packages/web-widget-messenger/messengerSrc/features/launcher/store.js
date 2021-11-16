@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { launcherShapes } from 'src/apps/messenger/constants'
+import { launcherShapes } from 'messengerSrc/constants'
 import {
   getIsFullScreen,
   getIsVerticallySmallScreen,
-} from 'src/apps/messenger/features/responsiveDesign/store'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+} from 'messengerSrc/features/responsiveDesign/store'
+import { messengerConfigReceived } from 'messengerSrc/store/actions'
+import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 
 const launcherConfig = createSlice({
   name: 'launcherConfig',

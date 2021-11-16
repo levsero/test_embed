@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Launcher } from '@zendesk/conversation-components'
-import { getLauncherShape } from 'src/apps/messenger/features/launcher/store'
+import { getLauncherShape } from 'messengerSrc/features/launcher/store'
 import { getPosition } from 'messengerSrc/features/themeProvider/store'
 import { getIsWidgetOpen, widgetToggled } from 'messengerSrc/store/visibility'
 import LauncherFrame from './components/LauncherFrame'

@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { FRAME_ANIMATION_DURATION } from '@zendesk/conversation-components'
+import Frame from 'src/framework/components/Frame'
 import {
   bezierCurve,
   frameBoxShadow,
   frameMarginFromPage,
   launcherSize,
   frameBorderRadius,
-} from 'src/apps/messenger/constants'
-import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
-import { getIsLauncherVisible, getLauncherShape } from 'src/apps/messenger/features/launcher/store'
-import Frame from 'src/framework/components/Frame'
+} from 'messengerSrc/constants'
+import useTranslate from 'messengerSrc/features/i18n/useTranslate'
+import { getIsLauncherVisible, getLauncherShape } from 'messengerSrc/features/launcher/store'
 import {
   getIsFullScreen,
   getIsVerticallySmallScreen,
@@ -29,7 +29,6 @@ const LauncherFrame = ({ children }) => {
   const zIndex = useSelector(getZIndex)
   const launcherShape = useSelector(getLauncherShape)
   const translate = useTranslate()
-
   const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
   return (
     <>
