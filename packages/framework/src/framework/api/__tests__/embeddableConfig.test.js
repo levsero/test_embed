@@ -1,24 +1,26 @@
 import { isRequestFromLivePreview } from 'src/framework/api/embeddableConfig'
+import { win } from 'src/util/globals'
 
 describe('isRequestFromLivePreview', () => {
-  const mockHost = (host, optInData) => {
-    return { ...optInData, location: { host } }
+  const mockHost = (host) => {
+    return { host }
   }
-  let windowSpy
+  let hostSpy
 
   beforeEach(() => {
-    windowSpy = jest.spyOn(global, 'window', 'get')
+    hostSpy = jest.spyOn(win, 'location', 'get')
   })
 
   afterEach(() => {
-    windowSpy.mockRestore()
+    hostSpy.mockRestore()
+    delete win.zESettings
   })
 
   describe('when origin is admin using live previewer', () => {
     describe('when admin has opted into preview', () => {
       it('returns true', () => {
-        const optInData = { zESettings: { preview: true } }
-        windowSpy.mockImplementation(() => mockHost('static-staging.zdassets.com', optInData))
+        win.zESettings = { preview: true }
+        hostSpy.mockImplementation(() => mockHost('static-staging.zdassets.com'))
         expect(isRequestFromLivePreview()).toEqual(true)
       })
     })
@@ -26,24 +28,23 @@ describe('isRequestFromLivePreview', () => {
     describe('when admin has not opted into preview', () => {
       describe('when explicitly opted out', () => {
         it('returns false', () => {
-          const optInData = { zESettings: { preview: false } }
-          windowSpy.mockImplementation(() => mockHost('static-staging.zdassets.com', optInData))
+          win.zESettings = { preview: false }
+          hostSpy.mockImplementation(() => mockHost('static-staging.zdassets.com'))
           expect(isRequestFromLivePreview()).toEqual(false)
         })
       })
 
       describe('when preview in zESettings is not defined', () => {
         it('returns false', () => {
-          const optInData = { zESettings: {} }
-          windowSpy.mockImplementation(() => mockHost('static-staging.zdassets.com', optInData))
+          win.zESettings = {}
+          hostSpy.mockImplementation(() => mockHost('static-staging.zdassets.com'))
           expect(isRequestFromLivePreview()).toEqual(false)
         })
       })
 
       describe('when zESettings is not defined', () => {
         it('returns false', () => {
-          const optInData = {}
-          windowSpy.mockImplementation(() => mockHost('static-staging.zdassets.com', optInData))
+          hostSpy.mockImplementation(() => mockHost('static-staging.zdassets.com'))
           expect(isRequestFromLivePreview()).toEqual(false)
         })
       })
@@ -53,14 +54,15 @@ describe('isRequestFromLivePreview', () => {
   describe('when origin is not admin using live previewer', () => {
     describe('when user has opted into preview', () => {
       it('returns false', () => {
-        windowSpy.mockImplementation(() => mockHost('z3nmsrikumar.zendesk-staging.com', true))
+        win.zESettings = { preview: true }
+        hostSpy.mockImplementation(() => mockHost('z3nmsrikumar.zendesk-staging.com'))
         expect(isRequestFromLivePreview()).toEqual(false)
       })
     })
 
     describe('when user has not opted into preview', () => {
       it('returns false', () => {
-        windowSpy.mockImplementation(() => mockHost('z3nmsrikumar.zendesk-staging.com', false))
+        hostSpy.mockImplementation(() => mockHost('z3nmsrikumar.zendesk-staging.com'))
         expect(isRequestFromLivePreview()).toEqual(false)
       })
     })
