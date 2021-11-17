@@ -14,7 +14,3 @@ export const frameBorderRadius = Object.freeze({
   square: '0',
   circle: '50%',
 })
-export const launcherShapes = Object.freeze({
-  square: 'square',
-  circle: 'circle',
-})

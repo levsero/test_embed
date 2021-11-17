@@ -51,7 +51,7 @@ describe('launcher store', () => {
   })
 
   describe('getLauncherShape', () => {
-    it('updates launcher shape correctly ', () => {
+    it('sets the launcher shape to match whats in the embeddable config ', () => {
       const store = createStore()
       const shape = 'circle'
 

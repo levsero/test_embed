@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { launcherShapes } from 'messengerSrc/constants'
+import { LAUNCHER_SHAPES } from '@zendesk/conversation-components'
 import {
   getIsFullScreen,
   getIsVerticallySmallScreen,
@@ -10,7 +10,7 @@ import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 const launcherConfig = createSlice({
   name: 'launcherConfig',
   initialState: {
-    shape: launcherShapes.square,
+    shape: LAUNCHER_SHAPES.square,
   },
   extraReducers: {
     [messengerConfigReceived](state, action) {
