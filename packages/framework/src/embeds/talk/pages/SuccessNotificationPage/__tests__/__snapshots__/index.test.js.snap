@@ -491,6 +491,14 @@ exports[`SuccessNotificationPage renders 1`] = `
   display: inline-block;
 }
 
+.c18[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
+  border-radius: 4px;
+  background-color: 0 0 0 3px rgba(25,80,85,0.2);
+  padding: 0.2857142857142857rem;
+  margin: -0.2857142857142857rem;
+}
+
 .c18 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
@@ -500,11 +508,11 @@ exports[`SuccessNotificationPage renders 1`] = `
 .c18 svg:hover path,
 .c18 svg:active path,
 .c18 svg:focus path {
-  fill: #68737d;
+  fill: #2f3941;
 }
 
 .c18 svg path {
-  fill: #87929d;
+  fill: #68737d;
 }
 
 .c17 {
@@ -618,7 +626,6 @@ exports[`SuccessNotificationPage renders 1`] = `
             class="c18"
             data-testid="Icon--zendesk"
             href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-            tabindex="-1"
             target="_blank"
           >
             <svg

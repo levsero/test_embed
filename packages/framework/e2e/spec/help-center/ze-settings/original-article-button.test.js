@@ -1,4 +1,8 @@
-import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import {
+  assertOriginalArticleLink,
+  mockSearchEndpoint,
+  waitForHelpCenter,
+} from 'e2e/helpers/help-center-embed'
 import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
 import { queries } from 'pptr-testing-library'
@@ -16,11 +20,8 @@ test('displays the original article button', async () => {
   const title = await queries.getByText(doc, 'Welcome to your Help Center!')
   await title.click()
   await queries.getByText(doc, 'This is the body.')
-  const link = await queries.queryByTitle(doc, 'View original article')
-  expect(link).toBeTruthy()
-  const href = await link.getProperty('href')
-  expect(await href.jsonValue()).toEqual(
-    'https://testing.zendesk.com/hc/en-us/articles/115002343711-Welcome-to-your-Help-Center-'
+  await assertOriginalArticleLink(
+    'https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ'
   )
 })
 

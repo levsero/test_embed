@@ -1,324 +1,748 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
+.c4 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  padding: 0 1.0714285714285714em;
+  height: 40px;
+  line-height: 38px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #1f73b7;
+  border: none;
+  padding: 0;
+  width: 40px;
+  color: #68737d;
+}
+
+.c2::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.c2:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c2:focus {
+  outline: none;
+}
+
+.c2[data-garden-focus-visible] {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
+  -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c2:hover {
+  background-color: rgba(31,115,183,0.08);
+  color: #144a75;
+}
+
+.c2[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
+  background-color: rgba(31,115,183,0.2);
+  color: #0f3554;
+}
+
+.c2:disabled {
+  border-color: transparent;
+  background-color: #cee2f2;
+  color: #5293c7;
+}
+
+.c2:disabled {
+  cursor: default;
+}
+
+.c2 .c3 {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+}
+
+.c5 .c2 {
+  position: relative;
+  margin-left: -1px;
+}
+
+.c5 .c2:hover,
+.c5 .c2:active {
+  z-index: 1;
+}
+
+.c5 .c2:disabled {
+  z-index: -1;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-color: #fff;
+  border-left-color: #fff;
+}
+
+.c5 .c2:first-of-type:not(:last-of-type) {
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c5 .c2:last-of-type:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c5 .c2:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+}
+
+.c5 .c2:first-of-type:not(:last-of-type) .c3 {
+  margin-right: -2px;
+}
+
+.c5 .c2:last-of-type:not(:first-of-type) .c3 {
+  margin-left: -2px;
+}
+
+.c2:hover {
+  color: #49545c;
+}
+
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
+  color: #2f3941;
+}
+
+.c2 .c3 {
+  width: 16px;
+  height: 16px;
+}
+
+.c1.c1.c1 {
+  width: 2rem;
+  height: 2rem !important;
+  background-color: #ffffff;
+  color: #2f3941;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c1.c1.c1:hover {
+  background-color: rgba(25,80,85,0.08);
+  color: #2f3941;
+}
+
+.c1.c1.c1:active,
+.c1.c1.c1[aria-pressed='true'],
+.c1.c1.c1[aria-pressed='mixed'] {
+  background-color: rgba(25,80,85,0.2);
+}
+
+.c1.c1.c1[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
+}
+
+.c1.c1.c1 svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.c0.c0.c0 a {
+  color: #17494D;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c0.c0.c0 a:hover,
+.c0.c0.c0 a:focus {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #2e939c;
+}
+
 <div>
-  <div
-    class="content "
-    data-testid="hc-article"
-  >
-    <h2
-      class="title"
-      data-testid="hc-article-title"
-    />
+  <div>
     <div
-      class="originalArticleButton"
+      class="content  c0"
+      data-testid="hc-article"
     >
-      <a
-        aria-label="View original article"
-        target="_blank"
-        title="View original article"
+      <h2
+        class="title"
+        data-testid="hc-article-title"
+      />
+      <div
+        class="originalArticleButton"
       >
-        <span
-          class="container Icon--link-external"
-          data-testid="Icon--link-external"
-          type="Icon--link-external"
+        <button
+          aria-label="View original article"
+          class="c1 c2"
+          data-garden-id="buttons.icon_button"
+          data-garden-version="8.13.0"
+          title="View original article"
+          type="button"
         >
           <svg
-            aria-hidden="true"
+            class="c3 c4"
+            data-garden-id="buttons.icon"
+            data-garden-version="8.13.0"
             realfilename="link-external.svg"
+            theme="[object Object]"
           />
-        </span>
-      </a>
-    </div>
-    <div
-      class="article"
-      data-testid="hc-article-body"
-      role="presentation"
-    >
-      
-    
-      <h1
-        id="foo"
-      >
-        Foobar
-      </h1>
-      
-    
-      <h2>
-        Baz
-      </h2>
-      
-    
-      <a
-        href="#foo"
-      >
-        inpage link
-      </a>
-      
-    
-      <a
-        href="#1"
-      >
-        inpage link 2
-      </a>
-      
-    
-      <a
-        href="https://testingHost/relative/link"
-        id="relative"
-        name="bar"
-      >
-        relative link
-      </a>
-      
-    
-      <a
-        href="//youtube/embed/xyz"
-        id="protocol-relative"
-        name="pbar"
-      >
-        protcol relative link
-      </a>
-      
-    
+        </button>
+      </div>
       <div
-        id="preserved"
+        class="article"
+        data-testid="hc-article-body"
+        role="presentation"
       >
         
-      This text contains a sub-note
-        <sub>
-          1
-        </sub>
+    
+        <h1
+          id="foo"
+        >
+          Foobar
+        </h1>
         
     
-      </div>
-      
+        <h2>
+          Baz
+        </h2>
+        
     
-      <div
-        id="notes"
-      >
-        <sup>
-          1
-        </sup>
-        This explains the note
-      </div>
-      
+        <a
+          href="#foo"
+        >
+          inpage link
+        </a>
+        
     
-      <div
-        class="table-wrap"
-      >
-        <table>
+        <a
+          href="#1"
+        >
+          inpage link 2
+        </a>
+        
+    
+        <a
+          href="https://testingHost/relative/link"
+          id="relative"
+          name="bar"
+        >
+          relative link
+        </a>
+        
+    
+        <a
+          href="//youtube/embed/xyz"
+          id="protocol-relative"
+          name="pbar"
+        >
+          protcol relative link
+        </a>
+        
+    
+        <div
+          id="preserved"
+        >
           
-      
-          <tbody>
-            <tr>
-              
+      This text contains a sub-note
+          <sub>
+            1
+          </sub>
+          
+    
+        </div>
         
-              <td>
-                <p>
-                  Zombocom
-                </p>
+    
+        <div
+          id="notes"
+        >
+          <sup>
+            1
+          </sup>
+          This explains the note
+        </div>
+        
+    
+        <div
+          class="table-wrap"
+        >
+          <table>
+            
+      
+            <tbody>
+              <tr>
+                
+        
+                <td>
+                  <p>
+                    Zombocom
+                  </p>
+                  
+      
+                </td>
+              </tr>
+              
+    
+            </tbody>
+          </table>
+        </div>
+        
+    
+        <p>
+          Whoa!
+        </p>
+        
+    
+        <div
+          class="table-wrap"
+        >
+          <table>
+            
+      
+            <tbody>
+              <tr>
+                
+        
+                <td>
+                  OMGWTFBBQ!!1! wat? another table? but why??
+                </td>
                 
       
-              </td>
-            </tr>
-            
-    
-          </tbody>
-        </table>
-      </div>
-      
-    
-      <p>
-        Whoa!
-      </p>
-      
-    
-      <div
-        class="table-wrap"
-      >
-        <table>
-          
-      
-          <tbody>
-            <tr>
+              </tr>
               
+    
+            </tbody>
+          </table>
+        </div>
         
-              <td>
-                OMGWTFBBQ!!1! wat? another table? but why??
-              </td>
-              
-      
-            </tr>
-            
-    
-          </tbody>
-        </table>
-      </div>
-      
   
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`renders the expected mobile classes 1`] = `
+.c4 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  padding: 0 1.0714285714285714em;
+  height: 40px;
+  line-height: 38px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #1f73b7;
+  border: none;
+  padding: 0;
+  width: 40px;
+  color: #68737d;
+}
+
+.c2::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.c2:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c2:focus {
+  outline: none;
+}
+
+.c2[data-garden-focus-visible] {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
+  -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c2:hover {
+  background-color: rgba(31,115,183,0.08);
+  color: #144a75;
+}
+
+.c2[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
+  background-color: rgba(31,115,183,0.2);
+  color: #0f3554;
+}
+
+.c2:disabled {
+  border-color: transparent;
+  background-color: #cee2f2;
+  color: #5293c7;
+}
+
+.c2:disabled {
+  cursor: default;
+}
+
+.c2 .c3 {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+}
+
+.c5 .c2 {
+  position: relative;
+  margin-left: -1px;
+}
+
+.c5 .c2:hover,
+.c5 .c2:active {
+  z-index: 1;
+}
+
+.c5 .c2:disabled {
+  z-index: -1;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-color: #fff;
+  border-left-color: #fff;
+}
+
+.c5 .c2:first-of-type:not(:last-of-type) {
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c5 .c2:last-of-type:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c5 .c2:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+}
+
+.c5 .c2:first-of-type:not(:last-of-type) .c3 {
+  margin-right: -2px;
+}
+
+.c5 .c2:last-of-type:not(:first-of-type) .c3 {
+  margin-left: -2px;
+}
+
+.c2:hover {
+  color: #49545c;
+}
+
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
+  color: #2f3941;
+}
+
+.c2 .c3 {
+  width: 16px;
+  height: 16px;
+}
+
+.c1.c1.c1 {
+  width: 2rem;
+  height: 2rem !important;
+  background-color: #ffffff;
+  color: #2f3941;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c1.c1.c1:hover {
+  background-color: rgba(25,80,85,0.08);
+  color: #2f3941;
+}
+
+.c1.c1.c1:active,
+.c1.c1.c1[aria-pressed='true'],
+.c1.c1.c1[aria-pressed='mixed'] {
+  background-color: rgba(25,80,85,0.2);
+}
+
+.c1.c1.c1[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
+}
+
+.c1.c1.c1 svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.c0.c0.c0 a {
+  color: #17494D;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c0.c0.c0 a:hover,
+.c0.c0.c0 a:focus {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #2e939c;
+}
+
 <div>
-  <div
-    class="content contentMobile"
-    data-testid="hc-article"
-  >
-    <h2
-      class="title"
-      data-testid="hc-article-title"
-    />
+  <div>
     <div
-      class="originalArticleButton"
+      class="content contentMobile c0"
+      data-testid="hc-article"
     >
-      <a
-        aria-label="View original article"
-        target="_blank"
-        title="View original article"
+      <h2
+        class="title"
+        data-testid="hc-article-title"
+      />
+      <div
+        class="originalArticleButton"
       >
-        <span
-          class="container Icon--link-external mobile"
-          data-testid="Icon--link-external"
-          type="Icon--link-external"
+        <button
+          aria-label="View original article"
+          class="c1 c2"
+          data-garden-id="buttons.icon_button"
+          data-garden-version="8.13.0"
+          title="View original article"
+          type="button"
         >
           <svg
-            aria-hidden="true"
+            class="c3 c4"
+            data-garden-id="buttons.icon"
+            data-garden-version="8.13.0"
             realfilename="link-external.svg"
+            theme="[object Object]"
           />
-        </span>
-      </a>
-    </div>
-    <div
-      class="article"
-      data-testid="hc-article-body"
-      role="presentation"
-    >
-      
-    
-      <h1
-        id="foo"
-      >
-        Foobar
-      </h1>
-      
-    
-      <h2>
-        Baz
-      </h2>
-      
-    
-      <a
-        href="#foo"
-      >
-        inpage link
-      </a>
-      
-    
-      <a
-        href="#1"
-      >
-        inpage link 2
-      </a>
-      
-    
-      <a
-        href="https://testingHost/relative/link"
-        id="relative"
-        name="bar"
-      >
-        relative link
-      </a>
-      
-    
-      <a
-        href="//youtube/embed/xyz"
-        id="protocol-relative"
-        name="pbar"
-      >
-        protcol relative link
-      </a>
-      
-    
+        </button>
+      </div>
       <div
-        id="preserved"
+        class="article"
+        data-testid="hc-article-body"
+        role="presentation"
       >
         
-      This text contains a sub-note
-        <sub>
-          1
-        </sub>
+    
+        <h1
+          id="foo"
+        >
+          Foobar
+        </h1>
         
     
-      </div>
-      
+        <h2>
+          Baz
+        </h2>
+        
     
-      <div
-        id="notes"
-      >
-        <sup>
-          1
-        </sup>
-        This explains the note
-      </div>
-      
+        <a
+          href="#foo"
+        >
+          inpage link
+        </a>
+        
     
-      <div
-        class="table-wrap"
-      >
-        <table>
+        <a
+          href="#1"
+        >
+          inpage link 2
+        </a>
+        
+    
+        <a
+          href="https://testingHost/relative/link"
+          id="relative"
+          name="bar"
+        >
+          relative link
+        </a>
+        
+    
+        <a
+          href="//youtube/embed/xyz"
+          id="protocol-relative"
+          name="pbar"
+        >
+          protcol relative link
+        </a>
+        
+    
+        <div
+          id="preserved"
+        >
           
-      
-          <tbody>
-            <tr>
-              
+      This text contains a sub-note
+          <sub>
+            1
+          </sub>
+          
+    
+        </div>
         
-              <td>
-                <p>
-                  Zombocom
-                </p>
+    
+        <div
+          id="notes"
+        >
+          <sup>
+            1
+          </sup>
+          This explains the note
+        </div>
+        
+    
+        <div
+          class="table-wrap"
+        >
+          <table>
+            
+      
+            <tbody>
+              <tr>
+                
+        
+                <td>
+                  <p>
+                    Zombocom
+                  </p>
+                  
+      
+                </td>
+              </tr>
+              
+    
+            </tbody>
+          </table>
+        </div>
+        
+    
+        <p>
+          Whoa!
+        </p>
+        
+    
+        <div
+          class="table-wrap"
+        >
+          <table>
+            
+      
+            <tbody>
+              <tr>
+                
+        
+                <td>
+                  OMGWTFBBQ!!1! wat? another table? but why??
+                </td>
                 
       
-              </td>
-            </tr>
-            
-    
-          </tbody>
-        </table>
-      </div>
-      
-    
-      <p>
-        Whoa!
-      </p>
-      
-    
-      <div
-        class="table-wrap"
-      >
-        <table>
-          
-      
-          <tbody>
-            <tr>
+              </tr>
               
+    
+            </tbody>
+          </table>
+        </div>
         
-              <td>
-                OMGWTFBBQ!!1! wat? another table? but why??
-              </td>
-              
-      
-            </tr>
-            
-    
-          </tbody>
-        </table>
-      </div>
-      
   
+      </div>
     </div>
   </div>
 </div>

@@ -20,8 +20,7 @@ export const assertHCArticleViewedPayload = (url) => {
         searchId: '1',
         resultsCount: 5,
         uniqueSearchResultClick: true,
-        url:
-          'https://testing.zendesk.com/api/v2/help_center/en-us/articles/115002343711-Welcome-to-your-Help-Center-.json',
+        url: 'https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ',
         rank: 1,
         articleId: expect.any(Number),
         locale: 'en-gb',
@@ -102,7 +101,7 @@ test('sends hc stat call in the correct format', async () => {
       search_id: '1',
       clicked_article_rank: 1,
       clicked_article_url:
-        'https://testing.zendesk.com/api/v2/help_center/en-us/articles/115002343711-Welcome-to-your-Help-Center-.json',
+        'https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ',
       origin: 'web_widget',
     },
     contextual_search: false,

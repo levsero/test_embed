@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import { Component } from 'react'
 import ReactDOM from 'react-dom'
 import sanitizeHtml from 'sanitize-html'
+import ExternalLinkIcon from '@zendeskgarden/svg-icons/src/14/link-external.svg'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { Icon } from 'src/component/Icon'
-import { TEST_IDS, ICONS } from 'src/constants/shared'
+import IconButton from 'src/components/IconButton'
+import { TEST_IDS } from 'src/constants/shared'
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
 import { http } from 'src/service/transport'
 import { parseUrl } from 'src/util/utils'
+import { Container } from './styles'
 import { locals as styles } from './styles.scss'
 
 const allowedIframeAttribs = [
@@ -345,15 +347,16 @@ export default class HelpCenterArticle extends Component {
 
     return (
       <div className={styles.originalArticleButton}>
-        <a
-          href={this.props.activeArticle.html_url}
-          target="_blank"
-          onClick={this.props.handleOriginalArticleClick}
+        <IconButton
+          onClick={() => {
+            window.open(this.props.activeArticle.html_url, '_blank', 'noopener,noreferrer')
+            this.props.handleOriginalArticleClick()
+          }}
           aria-label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
           title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
         >
-          <Icon type={ICONS.LINK_EXTERNAL} isMobile={this.props.isMobile} />
-        </a>
+          <ExternalLinkIcon />
+        </IconButton>
       </div>
     )
   }
@@ -362,7 +365,7 @@ export default class HelpCenterArticle extends Component {
     const mobileClasses = this.props.isMobile ? styles.contentMobile : ''
 
     return (
-      <div
+      <Container
         className={`${styles.content} ${mobileClasses}`}
         lang={this.props.locale}
         ref="userContent"
@@ -379,7 +382,7 @@ export default class HelpCenterArticle extends Component {
           onClick={this.handleClick}
           data-testid={TEST_IDS.HC_ARTICLE_BODY}
         />
-      </div>
+      </Container>
     )
   }
 }

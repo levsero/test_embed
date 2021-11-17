@@ -1,90 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ArticlePage default render matches snapshot 1`] = `
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  box-sizing: border-box;
-  color: #2f3941;
-  height: 100%;
-  width: 100%;
-  max-width: 100vw;
-  position: relative;
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
-  border-radius: 0.5714285714285714rem;
-}
-
-.c1 {
-  padding: 0.5714285714285714rem 1rem;
-  background: #17494D !important;
-  color: #FFFFFF !important;
-}
-
-.c4 {
-  font-weight: 700;
-  text-align: center;
-  -webkit-letter-spacing: 0.02142857142857143rem;
-  -moz-letter-spacing: 0.02142857142857143rem;
-  -ms-letter-spacing: 0.02142857142857143rem;
-  letter-spacing: 0.02142857142857143rem;
-  line-height: 1.5;
-  font-size: 1.0714285714285714rem;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  margin-bottom: 2px;
-}
-
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-content: stretch;
-  -ms-flex-line-pack: stretch;
-  align-content: stretch;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  min-height: 2rem;
-}
-
-.c2:not(:first-child) {
-  margin-top: 0.2857142857142857rem;
-}
-
-.c2 .c3:first-child {
-  margin-left: 4rem;
-}
-
-.c2 .c3:nth-child(2) {
-  margin-left: 2rem;
-}
-
-.c2 .c3:last-child {
-  margin-right: 4rem;
-}
-
-.c2 .c3:nth-last-child(2) {
-  margin-right: 2rem;
-}
-
 .c8 {
   -webkit-transition: -webkit-transform 0.25s ease-in-out;
   -webkit-transition: transform 0.25s ease-in-out;
   transition: transform 0.25s ease-in-out;
 }
 
-.c15 {
+.c18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -125,67 +48,67 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   color: #fff;
 }
 
-.c15::-moz-focus-inner {
+.c18::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-.c15:hover {
+.c18:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c15:focus {
+.c18:focus {
   outline: none;
 }
 
-.c15[data-garden-focus-visible] {
+.c18[data-garden-focus-visible] {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c15:active,
-.c15[aria-pressed='true'],
-.c15[aria-pressed='mixed'] {
+.c18:active,
+.c18[aria-pressed='true'],
+.c18[aria-pressed='mixed'] {
   -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c15:hover {
+.c18:hover {
   background-color: #144a75;
 }
 
-.c15[data-garden-focus-visible] {
+.c18[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
 }
 
-.c15:active {
+.c18:active {
   background-color: #0f3554;
 }
 
-.c15[aria-pressed='true'],
-.c15[aria-pressed='mixed'] {
+.c18[aria-pressed='true'],
+.c18[aria-pressed='mixed'] {
   background-color: #0f3554;
 }
 
-.c15:disabled {
+.c18:disabled {
   background-color: #cee2f2;
   color: #5293c7;
 }
 
-.c15:disabled {
+.c18:disabled {
   cursor: default;
 }
 
-.c15 .c7 {
+.c18 .c7 {
   width: 16px;
   min-width: 16px;
   height: 16px;
 }
 
-.c16 .c15 {
+.c19 .c18 {
   position: relative;
   margin-left: -1px;
   border-top-width: 0;
@@ -194,12 +117,12 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   border-left-color: #fff;
 }
 
-.c16 .c15:hover,
-.c16 .c15:active {
+.c19 .c18:hover,
+.c19 .c18:active {
   z-index: 1;
 }
 
-.c16 .c15:disabled {
+.c19 .c18:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -207,20 +130,20 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   border-left-color: #fff;
 }
 
-.c16 .c15:first-of-type:not(:last-of-type) {
+.c19 .c18:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-left-width: 0;
 }
 
-.c16 .c15:last-of-type:not(:first-of-type) {
+.c19 .c18:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-right-width: 0;
 }
 
-.c16 .c15:not(:first-of-type):not(:last-of-type) {
+.c19 .c18:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -329,17 +252,17 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   height: 12px;
 }
 
-.c16 .c6 {
+.c19 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c16 .c6:hover,
-.c16 .c6:active {
+.c19 .c6:hover,
+.c19 .c6:active {
   z-index: 1;
 }
 
-.c16 .c6:disabled {
+.c19 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -347,18 +270,18 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   border-left-color: #fff;
 }
 
-.c16 .c6:first-of-type:not(:last-of-type) {
+.c19 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c16 .c6:last-of-type:not(:first-of-type) {
+.c19 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c16 .c6:not(:first-of-type):not(:last-of-type) {
+.c19 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -375,6 +298,287 @@ exports[`ArticlePage default render matches snapshot 1`] = `
 .c6 .c7 {
   width: 16px;
   height: 16px;
+}
+
+.c12 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  padding: 0 1.0714285714285714em;
+  height: 40px;
+  line-height: 38px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #1f73b7;
+  border: none;
+  padding: 0;
+  width: 40px;
+  color: #68737d;
+}
+
+.c12::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.c12:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c12:focus {
+  outline: none;
+}
+
+.c12[data-garden-focus-visible] {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c12:active,
+.c12[aria-pressed='true'],
+.c12[aria-pressed='mixed'] {
+  -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c12:hover {
+  background-color: rgba(31,115,183,0.08);
+  color: #144a75;
+}
+
+.c12[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c12:active,
+.c12[aria-pressed='true'],
+.c12[aria-pressed='mixed'] {
+  background-color: rgba(31,115,183,0.2);
+  color: #0f3554;
+}
+
+.c12:disabled {
+  border-color: transparent;
+  background-color: #cee2f2;
+  color: #5293c7;
+}
+
+.c12:disabled {
+  cursor: default;
+}
+
+.c12 .c7 {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+}
+
+.c19 .c12 {
+  position: relative;
+  margin-left: -1px;
+}
+
+.c19 .c12:hover,
+.c19 .c12:active {
+  z-index: 1;
+}
+
+.c19 .c12:disabled {
+  z-index: -1;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-color: #fff;
+  border-left-color: #fff;
+}
+
+.c19 .c12:first-of-type:not(:last-of-type) {
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c19 .c12:last-of-type:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c19 .c12:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+}
+
+.c19 .c12:first-of-type:not(:last-of-type) .c7 {
+  margin-right: -2px;
+}
+
+.c19 .c12:last-of-type:not(:first-of-type) .c7 {
+  margin-left: -2px;
+}
+
+.c12:hover {
+  color: #49545c;
+}
+
+.c12:active,
+.c12[aria-pressed='true'],
+.c12[aria-pressed='mixed'] {
+  color: #2f3941;
+}
+
+.c12 .c7 {
+  width: 16px;
+  height: 16px;
+}
+
+.c11.c11.c11 {
+  width: 2rem;
+  height: 2rem !important;
+  background-color: #ffffff;
+  color: #2f3941;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c11.c11.c11:hover {
+  background-color: rgba(25,80,85,0.08);
+  color: #2f3941;
+}
+
+.c11.c11.c11:active,
+.c11.c11.c11[aria-pressed='true'],
+.c11.c11.c11[aria-pressed='mixed'] {
+  background-color: rgba(25,80,85,0.2);
+}
+
+.c11.c11.c11[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
+}
+
+.c11.c11.c11 svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.c10.c10.c10 a {
+  color: #17494D;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c10.c10.c10 a:hover,
+.c10.c10.c10 a:focus {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #2e939c;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
+}
+
+.c1 {
+  padding: 0.5714285714285714rem 1rem;
+  background: #17494D !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
 }
 
 .c5 {
@@ -449,34 +653,42 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   border-radius: 0.21428571428571427rem;
 }
 
-.c10 {
+.c13 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c12 {
+.c15 {
   position: relative;
   display: inline-block;
 }
 
-.c12 svg {
+.c15[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
+  border-radius: 4px;
+  background-color: 0 0 0 3px rgba(25,80,85,0.2);
+  padding: 0.2857142857142857rem;
+  margin: -0.2857142857142857rem;
+}
+
+.c15 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
   height: 0.7142857142857143rem;
 }
 
-.c12 svg:hover path,
-.c12 svg:active path,
-.c12 svg:focus path {
+.c15 svg:hover path,
+.c15 svg:active path,
+.c15 svg:focus path {
+  fill: #2f3941;
+}
+
+.c15 svg path {
   fill: #68737d;
 }
 
-.c12 svg path {
-  fill: #87929d;
-}
-
-.c11 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -491,11 +703,11 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   align-items: flex-end;
 }
 
-.c13 {
+.c16 {
   position: relative !important;
 }
 
-.c14 {
+.c17 {
   max-width: 14.285714285714286rem;
 }
 
@@ -543,7 +755,7 @@ exports[`ArticlePage default render matches snapshot 1`] = `
         data-testid="scroll-container-content"
       >
         <div
-          class="content "
+          class="content  c10"
           data-testid="hc-article"
           lang="derp"
         >
@@ -556,22 +768,22 @@ exports[`ArticlePage default render matches snapshot 1`] = `
           <div
             class="originalArticleButton"
           >
-            <a
+            <button
               aria-label="View original article"
-              target="_blank"
+              class="c11 c12"
+              data-garden-id="buttons.icon_button"
+              data-garden-version="8.13.0"
               title="View original article"
+              type="button"
             >
-              <span
-                class="container Icon--link-external"
-                data-testid="Icon--link-external"
-                type="Icon--link-external"
-              >
-                <svg
-                  aria-hidden="true"
-                  realfilename="link-external.svg"
-                />
-              </span>
-            </a>
+              <svg
+                class="c7 c8"
+                data-garden-id="buttons.icon"
+                data-garden-version="8.13.0"
+                realfilename="link-external.svg"
+                theme="[object Object]"
+              />
+            </button>
           </div>
           <div
             class="article"
@@ -583,16 +795,15 @@ exports[`ArticlePage default render matches snapshot 1`] = `
         </div>
       </div>
       <footer
-        class="c10"
+        class="c13"
       >
         <div
-          class="c11"
+          class="c14"
         >
           <a
-            class="c12"
+            class="c15"
             data-testid="Icon--zendesk"
             href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-            tabindex="-1"
             target="_blank"
           >
             <svg
@@ -601,13 +812,13 @@ exports[`ArticlePage default render matches snapshot 1`] = `
             />
           </a>
           <div
-            class="c13"
+            class="c16"
           >
             <div
               class="container buttonRight "
             >
               <button
-                class="c14 c15"
+                class="c17 c18"
                 data-garden-id="buttons.button"
                 data-garden-version="8.13.0"
                 type="button"

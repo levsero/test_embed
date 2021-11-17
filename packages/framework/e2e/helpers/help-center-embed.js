@@ -35,3 +35,19 @@ export const clickClearInputIcon = async () => {
   const clearButton = await queries.getByTestId(doc, TEST_IDS.ICON_CLEAR_INPUT)
   await clearButton.click()
 }
+export const assertOriginalArticleLink = async (expectedUrl) => {
+  const doc = await widget.getDocument()
+  const originalArticleLink = await queries.queryByTitle(doc, 'View original article')
+  expect(originalArticleLink).toBeTruthy()
+
+  const originalPage = page.target()
+
+  await originalArticleLink.click()
+
+  // help center articles open in a new page, this will get a reference to that page
+  const newTarget = await browser.waitForTarget((target) => target.opener() === originalPage)
+  const newPage = await newTarget.page()
+  const url = await newPage.mainFrame().url()
+
+  expect(url).toBe(expectedUrl)
+}

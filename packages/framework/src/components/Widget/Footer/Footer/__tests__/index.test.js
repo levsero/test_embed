@@ -1,9 +1,7 @@
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import { find } from 'styled-components/test-utils'
 import FooterView, { padding, shadow } from 'src/components/Widget/Footer/FooterView'
 import { TEST_IDS } from 'src/constants/shared'
-import createStore from 'src/redux/createStore'
+import { render } from 'src/util/testHelpers'
 import { Component as Footer } from '../'
 import { Container } from '../styles'
 
@@ -13,17 +11,12 @@ describe('Footer', () => {
     children: <div>children</div>,
   }
 
-  const renderComponent = (props = {}) =>
-    render(
-      <Provider store={createStore()}>
-        <Footer {...defaultProps} {...props} />
-      </Provider>
-    )
+  const renderComponent = (props = {}) => render(<Footer {...defaultProps} {...props} />)
 
   it('renders nothing when Zendesk logo is hidden and children are not provided', () => {
     const { container } = renderComponent({ hideZendeskLogo: true, children: null })
 
-    expect(container.firstChild).not.toBeInTheDocument()
+    expect(find(container, FooterView)).not.toBeInTheDocument()
   })
 
   it('renders the Zendesk logo when it is not hidden', () => {

@@ -1,4 +1,5 @@
 import { fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
 import { render } from 'src/util/testHelpers'
 import { Component as ArticlePage } from '../index'
@@ -163,9 +164,16 @@ describe('original article button', () => {
     }
 
     const { queryByTitle } = renderComponent({ authToken, article })
-    const link = queryByTitle('View original article')
 
-    expect(link.href).toBe('https://example.com/?auth_token=token')
+    const open = jest.spyOn(window, 'open')
+    const link = queryByTitle('View original article')
+    userEvent.click(link)
+
+    expect(open).toHaveBeenCalledWith(
+      'https://example.com/?auth_token=token',
+      '_blank',
+      'noopener,noreferrer'
+    )
   })
 
   it('dispatches an original article clicked action when clicked', () => {
@@ -189,14 +197,14 @@ describe('original article button', () => {
 
 describe('original article button', () => {
   it('renders when originalArticleButton is true', () => {
-    const { getByTestId } = renderComponent({ originalArticleButton: true })
+    const { queryByTitle } = renderComponent({ originalArticleButton: true })
 
-    expect(getByTestId('Icon--link-external')).toBeInTheDocument()
+    expect(queryByTitle('View original article')).toBeInTheDocument()
   })
 
   it('does not render when originalArticleButton is false', () => {
-    const { queryByTestId } = renderComponent({ originalArticleButton: false })
+    const { queryByTitle } = renderComponent({ originalArticleButton: false })
 
-    expect(queryByTestId('Icon--link-external')).toBeNull()
+    expect(queryByTitle('View original article')).toBeNull()
   })
 })

@@ -49,7 +49,7 @@ test('searching the help center', async () => {
     expect(await queries.queryByText(doc, 'This is the body.')).toBeTruthy()
   })
 
-  expect(await queries.queryByTestId(doc, 'Icon--link-external')).toBeTruthy()
+  expect(await queries.queryByLabelText(doc, 'View original article')).toBeTruthy()
   expect(await widget.zendeskLogoVisible()).toEqual(true)
 
   await widget.clickBack()
