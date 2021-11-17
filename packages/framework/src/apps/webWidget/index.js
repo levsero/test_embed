@@ -1,4 +1,3 @@
-import 'src/framework/polyfills'
 import { init, run, initIPM } from 'src/apps/webWidget/boot'
 import errorTracker from 'src/framework/services/errorTracker'
 import publicApi from 'src/framework/services/publicApi'
