@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
-.c3 {
+.c4 {
   -webkit-transition: -webkit-transform 0.25s ease-in-out;
   -webkit-transition: transform 0.25s ease-in-out;
   transition: transform 0.25s ease-in-out;
 }
 
-.c1 {
+.c2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -52,77 +52,77 @@ exports[`renders the expected classes 1`] = `
   color: #68737d;
 }
 
-.c1::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-.c1:hover {
+.c2:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c1:focus {
+.c2:focus {
   outline: none;
 }
 
-.c1[data-garden-focus-visible] {
+.c2[data-garden-focus-visible] {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c1:active,
-.c1[aria-pressed='true'],
-.c1[aria-pressed='mixed'] {
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
   -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c1:hover {
+.c2:hover {
   background-color: rgba(31,115,183,0.08);
   color: #144a75;
 }
 
-.c1[data-garden-focus-visible] {
+.c2[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
 }
 
-.c1:active,
-.c1[aria-pressed='true'],
-.c1[aria-pressed='mixed'] {
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
   background-color: rgba(31,115,183,0.2);
   color: #0f3554;
 }
 
-.c1:disabled {
+.c2:disabled {
   border-color: transparent;
   background-color: #cee2f2;
   color: #5293c7;
 }
 
-.c1:disabled {
+.c2:disabled {
   cursor: default;
 }
 
-.c1 .c2 {
+.c2 .c3 {
   width: 16px;
   min-width: 16px;
   height: 16px;
 }
 
-.c4 .c1 {
+.c5 .c2 {
   position: relative;
   margin-left: -1px;
 }
 
-.c4 .c1:hover,
-.c4 .c1:active {
+.c5 .c2:hover,
+.c5 .c2:active {
   z-index: 1;
 }
 
-.c4 .c1:disabled {
+.c5 .c2:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -130,45 +130,45 @@ exports[`renders the expected classes 1`] = `
   border-left-color: #fff;
 }
 
-.c4 .c1:first-of-type:not(:last-of-type) {
+.c5 .c2:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c4 .c1:last-of-type:not(:first-of-type) {
+.c5 .c2:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c4 .c1:not(:first-of-type):not(:last-of-type) {
+.c5 .c2:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
-.c4 .c1:first-of-type:not(:last-of-type) .c2 {
+.c5 .c2:first-of-type:not(:last-of-type) .c3 {
   margin-right: -2px;
 }
 
-.c4 .c1:last-of-type:not(:first-of-type) .c2 {
+.c5 .c2:last-of-type:not(:first-of-type) .c3 {
   margin-left: -2px;
 }
 
-.c1:hover {
+.c2:hover {
   color: #49545c;
 }
 
-.c1:active,
-.c1[aria-pressed='true'],
-.c1[aria-pressed='mixed'] {
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
   color: #2f3941;
 }
 
-.c1 .c2 {
+.c2 .c3 {
   width: 16px;
   height: 16px;
 }
 
-.c0.c0.c0 {
+.c1.c1.c1 {
   width: 2rem;
   height: 2rem !important;
   background-color: #ffffff;
@@ -178,30 +178,43 @@ exports[`renders the expected classes 1`] = `
   align-self: center;
 }
 
-.c0.c0.c0:hover {
+.c1.c1.c1:hover {
   background-color: rgba(25,80,85,0.08);
   color: #2f3941;
 }
 
-.c0.c0.c0:active,
-.c0.c0.c0[aria-pressed='true'],
-.c0.c0.c0[aria-pressed='mixed'] {
+.c1.c1.c1:active,
+.c1.c1.c1[aria-pressed='true'],
+.c1.c1.c1[aria-pressed='mixed'] {
   background-color: rgba(25,80,85,0.2);
 }
 
-.c0.c0.c0[data-garden-focus-visible] {
+.c1.c1.c1[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
 }
 
-.c0.c0.c0 svg {
+.c1.c1.c1 svg {
   width: 1rem;
   height: 1rem;
+}
+
+.c0.c0.c0 a {
+  color: #17494D;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c0.c0.c0 a:hover,
+.c0.c0.c0 a:focus {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #2e939c;
 }
 
 <div>
   <div>
     <div
-      class="content "
+      class="content  c0"
       data-testid="hc-article"
     >
       <h2
@@ -213,14 +226,14 @@ exports[`renders the expected classes 1`] = `
       >
         <button
           aria-label="View original article"
-          class="c0 c1"
+          class="c1 c2"
           data-garden-id="buttons.icon_button"
           data-garden-version="8.13.0"
           title="View original article"
           type="button"
         >
           <svg
-            class="c2 c3"
+            class="c3 c4"
             data-garden-id="buttons.icon"
             data-garden-version="8.13.0"
             realfilename="link-external.svg"
@@ -362,13 +375,13 @@ exports[`renders the expected classes 1`] = `
 `;
 
 exports[`renders the expected mobile classes 1`] = `
-.c3 {
+.c4 {
   -webkit-transition: -webkit-transform 0.25s ease-in-out;
   -webkit-transition: transform 0.25s ease-in-out;
   transition: transform 0.25s ease-in-out;
 }
 
-.c1 {
+.c2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -413,77 +426,77 @@ exports[`renders the expected mobile classes 1`] = `
   color: #68737d;
 }
 
-.c1::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-.c1:hover {
+.c2:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c1:focus {
+.c2:focus {
   outline: none;
 }
 
-.c1[data-garden-focus-visible] {
+.c2[data-garden-focus-visible] {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c1:active,
-.c1[aria-pressed='true'],
-.c1[aria-pressed='mixed'] {
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
   -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c1:hover {
+.c2:hover {
   background-color: rgba(31,115,183,0.08);
   color: #144a75;
 }
 
-.c1[data-garden-focus-visible] {
+.c2[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
 }
 
-.c1:active,
-.c1[aria-pressed='true'],
-.c1[aria-pressed='mixed'] {
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
   background-color: rgba(31,115,183,0.2);
   color: #0f3554;
 }
 
-.c1:disabled {
+.c2:disabled {
   border-color: transparent;
   background-color: #cee2f2;
   color: #5293c7;
 }
 
-.c1:disabled {
+.c2:disabled {
   cursor: default;
 }
 
-.c1 .c2 {
+.c2 .c3 {
   width: 16px;
   min-width: 16px;
   height: 16px;
 }
 
-.c4 .c1 {
+.c5 .c2 {
   position: relative;
   margin-left: -1px;
 }
 
-.c4 .c1:hover,
-.c4 .c1:active {
+.c5 .c2:hover,
+.c5 .c2:active {
   z-index: 1;
 }
 
-.c4 .c1:disabled {
+.c5 .c2:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -491,45 +504,45 @@ exports[`renders the expected mobile classes 1`] = `
   border-left-color: #fff;
 }
 
-.c4 .c1:first-of-type:not(:last-of-type) {
+.c5 .c2:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c4 .c1:last-of-type:not(:first-of-type) {
+.c5 .c2:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c4 .c1:not(:first-of-type):not(:last-of-type) {
+.c5 .c2:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
-.c4 .c1:first-of-type:not(:last-of-type) .c2 {
+.c5 .c2:first-of-type:not(:last-of-type) .c3 {
   margin-right: -2px;
 }
 
-.c4 .c1:last-of-type:not(:first-of-type) .c2 {
+.c5 .c2:last-of-type:not(:first-of-type) .c3 {
   margin-left: -2px;
 }
 
-.c1:hover {
+.c2:hover {
   color: #49545c;
 }
 
-.c1:active,
-.c1[aria-pressed='true'],
-.c1[aria-pressed='mixed'] {
+.c2:active,
+.c2[aria-pressed='true'],
+.c2[aria-pressed='mixed'] {
   color: #2f3941;
 }
 
-.c1 .c2 {
+.c2 .c3 {
   width: 16px;
   height: 16px;
 }
 
-.c0.c0.c0 {
+.c1.c1.c1 {
   width: 2rem;
   height: 2rem !important;
   background-color: #ffffff;
@@ -539,30 +552,43 @@ exports[`renders the expected mobile classes 1`] = `
   align-self: center;
 }
 
-.c0.c0.c0:hover {
+.c1.c1.c1:hover {
   background-color: rgba(25,80,85,0.08);
   color: #2f3941;
 }
 
-.c0.c0.c0:active,
-.c0.c0.c0[aria-pressed='true'],
-.c0.c0.c0[aria-pressed='mixed'] {
+.c1.c1.c1:active,
+.c1.c1.c1[aria-pressed='true'],
+.c1.c1.c1[aria-pressed='mixed'] {
   background-color: rgba(25,80,85,0.2);
 }
 
-.c0.c0.c0[data-garden-focus-visible] {
+.c1.c1.c1[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(25,80,85,0.2);
 }
 
-.c0.c0.c0 svg {
+.c1.c1.c1 svg {
   width: 1rem;
   height: 1rem;
+}
+
+.c0.c0.c0 a {
+  color: #17494D;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c0.c0.c0 a:hover,
+.c0.c0.c0 a:focus {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #2e939c;
 }
 
 <div>
   <div>
     <div
-      class="content contentMobile"
+      class="content contentMobile c0"
       data-testid="hc-article"
     >
       <h2
@@ -574,14 +600,14 @@ exports[`renders the expected mobile classes 1`] = `
       >
         <button
           aria-label="View original article"
-          class="c0 c1"
+          class="c1 c2"
           data-garden-id="buttons.icon_button"
           data-garden-version="8.13.0"
           title="View original article"
           type="button"
         >
           <svg
-            class="c2 c3"
+            class="c3 c4"
             data-garden-id="buttons.icon"
             data-garden-version="8.13.0"
             realfilename="link-external.svg"

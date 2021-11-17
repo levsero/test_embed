@@ -10,6 +10,7 @@ import { TEST_IDS } from 'src/constants/shared'
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
 import { http } from 'src/service/transport'
 import { parseUrl } from 'src/util/utils'
+import { Container } from './styles'
 import { locals as styles } from './styles.scss'
 
 const allowedIframeAttribs = [
@@ -364,7 +365,7 @@ export default class HelpCenterArticle extends Component {
     const mobileClasses = this.props.isMobile ? styles.contentMobile : ''
 
     return (
-      <div
+      <Container
         className={`${styles.content} ${mobileClasses}`}
         lang={this.props.locale}
         ref="userContent"
@@ -381,7 +382,7 @@ export default class HelpCenterArticle extends Component {
           onClick={this.handleClick}
           data-testid={TEST_IDS.HC_ARTICLE_BODY}
         />
-      </div>
+      </Container>
     )
   }
 }

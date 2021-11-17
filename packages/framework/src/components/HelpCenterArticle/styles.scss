@@ -42,8 +42,6 @@
 }
 
 .content {
-  composes: u-userLinkColor from global;
-
   margin-bottom: #{16 / $font-size}rem;
   word-break: break-word;
   line-height: 1.5;
@@ -65,14 +63,6 @@
 
   ol {
     list-style: decimal;
-  }
-
-  a {
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
   }
 
   h1,
