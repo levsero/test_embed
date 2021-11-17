@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import { getLauncherShape } from 'src/apps/messenger/features/launcher/store'
+import { LAUNCHER_SHAPES } from '@zendesk/conversation-components'
+import { getLauncherShape } from 'messengerSrc/features/launcher/store'
 import Widget from 'messengerSrc/features/widget'
 import { getAreCookiesEnabled } from 'messengerSrc/store/cookies'
 import { useFocusJail } from './hooks/focusJail'
@@ -22,7 +23,7 @@ const App = () => {
   return (
     <div style={{ fontSize: 'initial' }} onKeyDown={onKeyDownForContainer} role="presentation">
       <Widget ref={refWidget} />
-      {launcherShape !== 'none' && (
+      {launcherShape !== LAUNCHER_SHAPES.none && (
         <Suspense fallback={null}>
           <LauncherLabel ref={refLauncherLabel} />
 

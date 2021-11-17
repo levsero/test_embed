@@ -49,6 +49,7 @@ const FRAME_ANIMATION_DURATION = 0.7
 const LAUNCHER_SHAPES = Object.freeze({
   square: 'square',
   circle: 'circle',
+  none: 'none',
 })
 
 const LAUNCHER_POSITION = ['left', 'right']

@@ -27,9 +27,8 @@ const LauncherFrame = ({ children }) => {
   const position = useSelector(getPosition)
   const isVisible = useSelector(getIsLauncherVisible)
   const zIndex = useSelector(getZIndex)
-  const shape = useSelector(getLauncherShape)
+  const launcherShape = useSelector(getLauncherShape)
   const translate = useTranslate()
-
   const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
   return (
     <>
@@ -56,7 +55,7 @@ const LauncherFrame = ({ children }) => {
               : undefined
           }`,
           zIndex,
-          borderRadius: frameBorderRadius[shape],
+          borderRadius: frameBorderRadius[launcherShape],
         }}
       >
         <ThemeProvider>{children}</ThemeProvider>

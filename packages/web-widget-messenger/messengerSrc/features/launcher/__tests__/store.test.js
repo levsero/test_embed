@@ -1,6 +1,6 @@
-import createStore from 'src/apps/messenger/store'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { screenDimensionsChanged } from 'messengerSrc/features/responsiveDesign/store'
+import createStore from 'messengerSrc/store'
+import { messengerConfigReceived } from 'messengerSrc/store/actions'
 import { widgetClosed, widgetOpened } from 'messengerSrc/store/visibility'
 import { getIsLauncherVisible, getLauncherShape } from '../store'
 
@@ -51,7 +51,7 @@ describe('launcher store', () => {
   })
 
   describe('getLauncherShape', () => {
-    it('updates launcher shape correctly ', () => {
+    it('sets the launcher shape to match whats in the embeddable config ', () => {
       const store = createStore()
       const shape = 'circle'
 
