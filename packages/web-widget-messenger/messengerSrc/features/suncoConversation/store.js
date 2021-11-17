@@ -6,6 +6,7 @@ import {
   getClient,
   updateSession,
 } from 'messengerSrc/api/sunco'
+import { cookiesDisabled } from 'messengerSrc/store/cookies'
 
 export const messageReceived = createAction('message-received')
 export const fileUploadMessageReceived = createAction('file-upload-message-received')
@@ -42,6 +43,7 @@ export const startConversation = createAsyncThunk('startConversation', async (_,
     errorTracker.error(err || new Error('Unknown reason'), {
       rollbarFingerprint: 'Failed to start conversation',
       rollbarTitle: 'Failed to start conversation',
+      suncoErrorInfo: err.suncoErrorInfo,
     })
     throw err
   }
@@ -123,7 +125,13 @@ const conversationStore = createSlice({
       state.status = 'connected'
     },
     [startConversation.rejected](state) {
+      if (state.status === 'not-connected') {
+        return
+      }
       state.status = 'failed'
+    },
+    [cookiesDisabled.pending](state) {
+      state.status = 'not-connected'
     },
   },
 })

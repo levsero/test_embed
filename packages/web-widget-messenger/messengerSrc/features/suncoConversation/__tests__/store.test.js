@@ -1,6 +1,7 @@
 import { waitFor } from '@testing-library/dom'
 import { createMockStore } from 'src/util/testHelpers'
 import * as suncoApi from 'messengerSrc/api/sunco'
+import { cookiesDisabled } from 'messengerSrc/store/cookies'
 import createStore from 'messengerSrc/store/index'
 import { fetchIntegrations, selectIntegrationById } from 'messengerSrc/store/integrations'
 import {
@@ -228,8 +229,21 @@ describe('conversation state', () => {
     expect(result).toEqual({ status: 'connected' })
   })
   it('is failed when a conversation fails to start', () => {
-    const result = reducer(undefined, startConversation.rejected())
+    const result = reducer({ status: 'pending' }, startConversation.rejected())
     expect(result).toEqual({ status: 'failed' })
+  })
+
+  describe('when cookies are disabled', () => {
+    it('is set to not-connected', () => {
+      const result = reducer({ status: 'connected' }, cookiesDisabled.pending())
+      expect(result).toEqual({ status: 'not-connected' })
+    })
+
+    it('ignores previous conversation fail events', () => {
+      const afterDisabled = reducer({ status: 'connected' }, cookiesDisabled.pending())
+      const result = reducer(afterDisabled, startConversation.rejected())
+      expect(result).toEqual({ status: 'not-connected' })
+    })
   })
 
   describe('getConversationStatus', () => {
