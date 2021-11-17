@@ -10,7 +10,7 @@ export default {
       defaultValue: LAUNCHER_SHAPES.square,
       control: {
         type: 'select',
-        options: Object.values(LAUNCHER_SHAPES),
+        options: [LAUNCHER_SHAPES.circle, LAUNCHER_SHAPES.square],
       },
     },
     position: {

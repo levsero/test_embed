@@ -8,6 +8,7 @@ import {
   Replies,
   TextMessage,
 } from 'src/'
+import { LAUNCHER_SHAPES, LAUNCHER_POSITION } from 'src/constants'
 import Previewer from 'src/messenger/Previewer'
 import Launcher from '../Launcher'
 
@@ -95,7 +96,22 @@ const quickReplies = [
 export default {
   title: 'Messenger/Previewer',
   component: Previewer,
-  argTypes: {},
+  argTypes: {
+    shape: {
+      defaultValue: LAUNCHER_SHAPES.square,
+      control: {
+        type: 'select',
+        options: Object.values(LAUNCHER_SHAPES),
+      },
+    },
+    position: {
+      defaultValue: LAUNCHER_POSITION[1],
+      control: {
+        type: 'select',
+        options: Object.values(LAUNCHER_POSITION),
+      },
+    },
+  },
 }
 
 export const Basic = (args) => {
@@ -152,7 +168,9 @@ export const Basic = (args) => {
         </MessengerBody>
         <MessengerFooter />
       </MessengerContainer>
-      <Launcher isOpen={true} position={args.position} />
+      {args.shape !== LAUNCHER_SHAPES.none && (
+        <Launcher {...args} isOpen={true} position={args.position} />
+      )}
     </Previewer>
   )
 }

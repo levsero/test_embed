@@ -1,4 +1,5 @@
 import { waitFor } from '@testing-library/dom'
+import { LAUNCHER_SHAPES } from '@zendesk/conversation-components'
 import { screenDimensionsChanged } from 'messengerSrc/features/responsiveDesign/store'
 import createStore from 'messengerSrc/store'
 import { messengerConfigReceived } from 'messengerSrc/store/actions'
@@ -59,20 +60,6 @@ describe('Header', () => {
     expect(getByAltText('Company logo').src).toEqual('https://example.com/dummyUrl.jpg')
   })
 
-  it('does not display the close button when the widget is open and launcher is visible', () => {
-    const { queryByLabelText, store } = renderComponent()
-    store.dispatch(widgetOpened())
-    expect(queryByLabelText(closeButtonAriaLabel)).not.toBeInTheDocument()
-  })
-
-  it('displays the close button when the widget is open and launcher is not visible', () => {
-    const { getByLabelText, store } = renderComponent()
-    store.dispatch(widgetOpened())
-    store.dispatch(screenDimensionsChanged({ isFullScreen: true }))
-
-    expect(getByLabelText(closeButtonAriaLabel)).toBeInTheDocument()
-  })
-
   it('dispatches widgetClosed when the close button is clicked', async () => {
     const { getByLabelText, store } = renderComponent()
     store.dispatch(widgetOpened())
@@ -81,5 +68,34 @@ describe('Header', () => {
     expect(getIsWidgetOpen(store.getState())).toEqual(true)
     getByLabelText(closeButtonAriaLabel).click()
     expect(getIsWidgetOpen(store.getState())).toEqual(false)
+  })
+
+  describe('close button', () => {
+    it('is not displayed when the widget is open and the launcher is visible', () => {
+      const { queryByLabelText, store } = renderComponent()
+      store.dispatch(widgetOpened())
+      expect(queryByLabelText(closeButtonAriaLabel)).not.toBeInTheDocument()
+    })
+
+    it('is displayed when the widget is open and launcher is not visible', () => {
+      const { getByLabelText, store } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(screenDimensionsChanged({ isFullScreen: true }))
+
+      expect(getByLabelText(closeButtonAriaLabel)).toBeInTheDocument()
+    })
+
+    it("is displayed when the widget is open and launcher shape is 'none'", () => {
+      const { queryByLabelText, store } = renderComponent()
+      store.dispatch(widgetOpened())
+      store.dispatch(
+        messengerConfigReceived({
+          launcher: {
+            shape: LAUNCHER_SHAPES.none,
+          },
+        })
+      )
+      expect(queryByLabelText(closeButtonAriaLabel)).toBeInTheDocument()
+    })
   })
 })

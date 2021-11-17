@@ -24,7 +24,10 @@ const launcherConfig = createSlice({
 export default launcherConfig.reducer
 
 const getIsLauncherVisible = (state) => {
-  if (getIsWidgetOpen(state) && (getIsVerticallySmallScreen(state) || getIsFullScreen(state))) {
+  if (
+    state.launcher.shape === LAUNCHER_SHAPES.none ||
+    (getIsWidgetOpen(state) && (getIsVerticallySmallScreen(state) || getIsFullScreen(state)))
+  ) {
     return false
   }
 
