@@ -1,4 +1,4 @@
-import framework from 'src/framework/framework'
 import 'src/framework/polyfills'
+import framework from './framework'
 
 framework.start()
