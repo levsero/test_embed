@@ -1,38 +1,31 @@
-import { send } from 'src/service/transport/http-base'
-import { win } from 'src/util/globals'
+const hostPageWindow = window.top
 
 const isRequestFromLivePreview = () => {
   const livePreviewHosts = ['static-staging.zdassets.com', 'static.zdassets.com']
-  const isAcceptableHost = livePreviewHosts.includes(win.location.host)
-  const optedIn = !!win.zESettings?.preview
+  const isAcceptableHost = livePreviewHosts.includes(hostPageWindow.location.host)
+  const optedIn = !!hostPageWindow.zESettings?.preview
   return isAcceptableHost && optedIn
 }
 
 const fetchEmbeddableConfig = async () => {
-  // attempt to use the config that was preloaded
-  if (global.configRequest) {
-    try {
-      const result = await global.configRequest
-      if (result.success) {
-        return result.config
-      }
-    } catch {
-      // fallback to fetching embeddable config
-    }
+  if (typeof fetch === 'undefined') {
+    await import('whatwg-fetch')
   }
 
-  return new Promise((resolve, reject) => {
-    send(
-      {
-        method: 'get',
-        path: isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config',
-        callbacks: {
-          done: (res) => resolve(res.body),
-          fail: reject,
-        },
-      },
-      false
-    )
+  const zendeskHost =
+    document.zendeskHost || document.zendesk?.web_widget?.id || document.web_widget?.id
+
+  if (!zendeskHost) {
+    throw new Error('Missing zendeskHost config param.')
+  }
+
+  const path = isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config'
+
+  return fetch(`https://${zendeskHost}${path}`).then((response) => {
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch config')
+    }
+    return response.json()
   })
 }
 

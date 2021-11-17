@@ -127,7 +127,8 @@
     "styled-components": "^4.3.2",
     "superagent": "^3.7.0",
     "tabbable": "^4.0.0",
-    "twilio-client": "^1.12.5"
+    "twilio-client": "^1.12.5",
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@babel/register": "^7.0.0",
