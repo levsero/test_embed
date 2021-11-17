@@ -1,4 +1,7 @@
 import { waitFor, within } from '@testing-library/dom'
+import { stripUnit } from 'polished'
+import { store as persistence } from 'src/framework/services/persistence'
+import wait from 'src/util/wait'
 import { launcherSize } from 'messengerSrc/constants'
 import {
   initialiseLauncherLabel,
@@ -10,9 +13,6 @@ import createStore from 'messengerSrc/store'
 import { messengerConfigReceived } from 'messengerSrc/store/actions'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 import { render } from 'messengerSrc/utils/testHelpers'
-import { stripUnit } from 'polished'
-import { store as persistence } from 'src/framework/services/persistence'
-import wait from 'src/util/wait'
 import LauncherLabel from '../index'
 
 describe('launcher label', () => {

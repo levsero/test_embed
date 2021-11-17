@@ -1,3 +1,6 @@
+import { useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { MessageLogList, ScrollProvider } from '@zendesk/conversation-components'
 import Message from 'messengerSrc/features/messageLog/Message'
 import SeeLatestButton from 'messengerSrc/features/messageLog/SeeLatestButton'
 import getMessageLog from 'messengerSrc/features/messageLog/getMessageLog'
@@ -8,9 +11,6 @@ import {
   getHasFetchedConversation,
   getIsFetchingHistory,
 } from 'messengerSrc/features/messageLog/store'
-import { useRef } from 'react'
-import { useSelector } from 'react-redux'
-import { MessageLogList, ScrollProvider } from '@zendesk/conversation-components'
 import HistoryLoader from './HistoryLoader'
 
 const MessageLog = () => {

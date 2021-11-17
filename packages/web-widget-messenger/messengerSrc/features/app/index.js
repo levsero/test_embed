@@ -1,9 +1,9 @@
+import { useSelector } from 'react-redux'
 import Launcher from 'messengerSrc/features/launcher'
 import LauncherLabel from 'messengerSrc/features/launcherLabel'
 import LauncherUnreadIndicator from 'messengerSrc/features/launcherUnreadIndicator'
 import Widget from 'messengerSrc/features/widget'
 import { getAreCookiesEnabled } from 'messengerSrc/store/cookies'
-import { useSelector } from 'react-redux'
 import { useFocusJail } from './hooks/focusJail'
 
 const App = () => {

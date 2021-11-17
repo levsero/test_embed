@@ -1,7 +1,7 @@
-import { unreadIndicatorSize } from 'messengerSrc/constants'
-import { widgetToggled } from 'messengerSrc/store/visibility'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
+import { unreadIndicatorSize } from 'messengerSrc/constants'
+import { widgetToggled } from 'messengerSrc/store/visibility'
 import { Container, Plus } from './styles'
 
 const max = 99

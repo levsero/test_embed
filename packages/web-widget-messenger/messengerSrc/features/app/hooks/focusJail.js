@@ -1,10 +1,10 @@
-import useTranslate from 'messengerSrc/features/i18n/useTranslate'
-import { getIsLauncherLabelVisible } from 'messengerSrc/features/launcherLabel/store/visibility'
-import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 import { useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import tabbable from 'tabbable'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
+import useTranslate from 'messengerSrc/features/i18n/useTranslate'
+import { getIsLauncherLabelVisible } from 'messengerSrc/features/launcherLabel/store/visibility'
+import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 
 const firstNodes = (elementsByContainer) => elementsByContainer.map((container) => container[0])
 

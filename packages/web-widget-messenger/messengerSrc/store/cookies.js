@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { forgetUserAndDisconnect } from 'messengerSrc/api/sunco'
 import { store as persistence } from 'src/framework/services/persistence'
+import { forgetUserAndDisconnect } from 'messengerSrc/api/sunco'
 
 const cookiesDisabled = createAsyncThunk('cookies/disabled', () => {
   try {

@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import { getIsLauncherVisible } from 'messengerSrc/features/launcher/store'
-import { getAllIntegrationsLinkStatus } from 'messengerSrc/store/integrations'
-import { widgetClosed } from 'messengerSrc/store/visibility'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { MessengerHeader } from '@zendesk/conversation-components'
+import { getIsLauncherVisible } from 'messengerSrc/features/launcher/store'
+import { getAllIntegrationsLinkStatus } from 'messengerSrc/store/integrations'
+import { widgetClosed } from 'messengerSrc/store/visibility'
 import { getIsFullScreen } from '../responsiveDesign/store'
 import { getHeaderValues } from './store'
 

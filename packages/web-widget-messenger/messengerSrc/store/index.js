@@ -5,6 +5,7 @@ import { inDebugMode } from 'src/util/runtime'
 import composer from 'messengerSrc/features/footer/store'
 import header from 'messengerSrc/features/header/store'
 import i18n from 'messengerSrc/features/i18n/store'
+import launcherConfig from 'messengerSrc/features/launcher/store'
 import launcherLabelConfig from 'messengerSrc/features/launcherLabel/store/config'
 import launcherLabelVisibility from 'messengerSrc/features/launcherLabel/store/visibility'
 import forms from 'messengerSrc/features/messageLog/Message/messages/FormStructuredMessage/store'
@@ -62,6 +63,7 @@ const createStore = () => {
       integrations,
       rememberConversationHistory,
       conversation: createResettableReducer(conversation),
+      launcher: launcherConfig,
     }),
   })
 

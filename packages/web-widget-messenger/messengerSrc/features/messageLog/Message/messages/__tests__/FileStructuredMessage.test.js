@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
+import { MESSAGE_STATUS } from '@zendesk/conversation-components'
 import * as messageLogStore from 'messengerSrc/features/messageLog/store'
 import { render } from 'messengerSrc/utils/testHelpers'
-import { MESSAGE_STATUS } from '@zendesk/conversation-components'
 import FileStructuredMessage from '../FileStructuredMessage'
 
 jest.mock('messengerSrc/api/sunco', () => ({

@@ -1,12 +1,3 @@
-import useTranslate from 'messengerSrc/features/i18n/useTranslate'
-import { getIsFullScreen } from 'messengerSrc/features/responsiveDesign/store'
-import { attemptedChannelLink } from 'messengerSrc/features/suncoConversation/store'
-import {
-  fetchLinkRequest,
-  leftChannelPage,
-  selectIntegrationById,
-  unlinkIntegration,
-} from 'messengerSrc/store/integrations'
 import { forwardRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
@@ -19,6 +10,15 @@ import {
   Notification,
   NOTIFICATION_TYPES,
 } from '@zendesk/conversation-components'
+import useTranslate from 'messengerSrc/features/i18n/useTranslate'
+import { getIsFullScreen } from 'messengerSrc/features/responsiveDesign/store'
+import { attemptedChannelLink } from 'messengerSrc/features/suncoConversation/store'
+import {
+  fetchLinkRequest,
+  leftChannelPage,
+  selectIntegrationById,
+  unlinkIntegration,
+} from 'messengerSrc/store/integrations'
 import { Header } from './styles'
 
 const getLinkStatus = (integration) => {
