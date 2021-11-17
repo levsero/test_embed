@@ -1,8 +1,10 @@
 import { waitFor, within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
+import { LAUNCHER_SHAPES } from '@zendesk/conversation-components'
 import { screenDimensionsChanged } from 'messengerSrc/features/responsiveDesign/store'
 import { startConversation } from 'messengerSrc/features/suncoConversation/store'
 import createStore from 'messengerSrc/store'
+import { messengerConfigReceived } from 'messengerSrc/store/actions'
 import { cookiesDisabled } from 'messengerSrc/store/cookies'
 import { widgetOpened } from 'messengerSrc/store/visibility'
 import { render } from 'messengerSrc/utils/testHelpers'
@@ -41,6 +43,19 @@ describe('Messenger app', () => {
     const { getByTitle } = renderComponent()
 
     expect(getByTitle('Button to launch messaging window')).toBeInTheDocument()
+  })
+
+  it('doest not render the launcher when the launcher shape is none', () => {
+    const { queryByTitle, store } = renderComponent()
+
+    store.dispatch(
+      messengerConfigReceived({
+        launcher: {
+          shape: LAUNCHER_SHAPES.none,
+        },
+      })
+    )
+    expect(queryByTitle('Button to launch messaging window')).not.toBeInTheDocument()
   })
 
   it('does not render the messenger when messenger is not open', async () => {
