@@ -45,7 +45,7 @@ describe('Messenger app', () => {
     expect(getByTitle('Button to launch messaging window')).toBeInTheDocument()
   })
 
-  it('doest not render the launcher when the launcher shape is none', () => {
+  it('does not render the launcher when the launcher shape is none', () => {
     const { queryByTitle, store } = renderComponent()
 
     store.dispatch(
