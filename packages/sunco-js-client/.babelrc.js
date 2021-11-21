@@ -7,9 +7,16 @@ module.exports = (api) => {
     presets: [
       [
         '@babel/preset-env',
-        {
-          modules: false,
-        },
+        api.env('test')
+          ? {
+              targets: {
+                node: 'current',
+              },
+              useBuiltIns: false,
+            }
+          : {
+              modules: false,
+            },
       ],
     ],
     plugins: [

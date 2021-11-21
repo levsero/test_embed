@@ -196,6 +196,38 @@ jobs:
           -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      - name: SonarQube scan PR - sunco-js-client
+        if: matrix.task == 'test' && github.event_name == 'pull_request'
+        run: |
+          sonar-scanner \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.pullrequest.base="${{ github.base_ref }}" \
+          -Dsonar.pullrequest.branch="${{ github.head_ref }}" \
+          -Dsonar.pullrequest.key="${{ github.event.number }}" \
+          -Dsonar.pullrequest.github.repository="zendesk/${{ github.event.repository.name }}" \
+          -Dsonar.scm.revision="${{ github.event.pull_request.head.sha }}" \
+          -Dsonar.projectKey=embeddable_framework:sunco-js-client \
+          -Dsonar.projectName=embeddable_framework:sunco-js-client \
+          -Dsonar.sources=packages/sunco-js-client/src \
+          -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      - name: SonarQube scan master - sunco-js-client
+        if: matrix.task == 'test' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          sonar-scanner -X \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.branch.name=master \
+          -Dsonar.projectKey=embeddable_framework:sunco-js-client \
+          -Dsonar.projectName=embeddable_framework:sunco-js-client \
+          -Dsonar.sources=packages/sunco-js-client/src \
+          -Dsonar.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.coverage.exclusions=packages/**/__tests__/*,packages/**/__mocks__/**/*,packages/**/test/**/* \
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
   slack:
     name: Slack
     runs-on: [self-hosted, zendesk-stable]
