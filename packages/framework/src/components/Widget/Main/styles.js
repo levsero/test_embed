@@ -28,7 +28,7 @@ const firefoxStyles = `
   scrollbar-width: thin;
 `
 
-const Container = styled.div`
+const Container = styled.main`
   flex-grow: 2;
   padding-top: ${15 / FONT_SIZE}rem;
   padding-left: ${10 / FONT_SIZE}rem;
