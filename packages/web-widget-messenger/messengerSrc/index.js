@@ -1,4 +1,3 @@
-import 'src/framework/polyfills'
 import errorTracker from 'src/framework/services/errorTracker'
 import publicApi from 'src/framework/services/publicApi'
 import setupIframe from 'src/framework/setupIframe'
