@@ -12,10 +12,37 @@ import {
   DEFAULT_WIDGET_HEIGHT,
 } from 'src/constants/shared'
 import {
+  getShowOfflineChat,
+  getIsChatting,
+  getThemeColor as getChatThemeColor,
+  getThemePosition as getChatThemePosition,
+  getStandaloneMobileNotificationVisible,
+  getChatConnected,
+  getChatConnectionMade,
+  getBadgeColor as getAccountSettingsBadgeColor,
+  getHideBranding as getAccountSettingsHideBranding,
+  getChatBadgeEnabled,
+  getChatBanned,
+  getChatsLength,
+  getConnection as getChatConnection,
+  getNotificationCount,
+  getShowChatHistory,
+  getDeferredChatHasResponse,
+} from 'src/embeds/chat/selectors'
+import {
   getAnswerBotEnabled as getAnswerBotConfigEnabled,
   getButtonLabelKey,
   getFormTitleKey as getHelpCenterFormTitleKey,
 } from 'src/embeds/helpCenter/selectors'
+import {
+  getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
+  getAgentAvailability,
+  getTalkEmbeddableConfigConnected,
+  isCallbackEnabled,
+  getPhoneNumber,
+  getDeferredStatusOnline,
+  getIsEmbeddedVoiceEnabled,
+} from 'src/embeds/talk/selectors'
 import {
   getOfflineFormEnabled,
   getDelayChatConnectionEnabled,
@@ -55,24 +82,6 @@ import {
   getHasWidgetShown,
 } from '../base/base-selectors'
 import {
-  getShowOfflineChat,
-  getIsChatting,
-  getThemeColor as getChatThemeColor,
-  getThemePosition as getChatThemePosition,
-  getStandaloneMobileNotificationVisible,
-  getChatConnected,
-  getChatConnectionMade,
-  getBadgeColor as getAccountSettingsBadgeColor,
-  getHideBranding as getAccountSettingsHideBranding,
-  getChatBadgeEnabled,
-  getChatBanned,
-  getChatsLength,
-  getConnection as getChatConnection,
-  getNotificationCount,
-  getShowChatHistory,
-  getDeferredChatHasResponse,
-} from 'src/embeds/chat/selectors'
-import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
   getSettingsColorLauncher,
@@ -103,15 +112,6 @@ import {
   getSettingsAnswerBotSuppress,
   getSettingsSelectTicketFormLabel,
 } from '../settings/settings-selectors'
-import {
-  getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
-  getAgentAvailability,
-  getTalkEmbeddableConfigConnected,
-  isCallbackEnabled,
-  getPhoneNumber,
-  getDeferredStatusOnline,
-  getIsEmbeddedVoiceEnabled,
-} from 'src/embeds/talk/selectors'
 
 /*
  * Terms:
