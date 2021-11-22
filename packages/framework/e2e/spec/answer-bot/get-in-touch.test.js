@@ -17,16 +17,13 @@ test('does not display get in touch button when there are no channels available'
 })
 
 describe('channels available', () => {
-  afterEach(async () => {
-    await expect(page).toPassAxeTests()
-  })
-
   test('displays button after greeting', async () => {
     await loadWidget('answerBot', 'contactForm')
     await widget.openByKeyboard()
     await waitForAnswerBot()
     await waitForGetInTouchButton()
     await widget.expectToSeeText('Get in touch')
+    await expect(page).toPassAxeTests()
   })
 
   test('displays button after asking a question', async () => {
@@ -43,5 +40,6 @@ describe('channels available', () => {
     await waitForGetInTouchButton()
     await widget.waitForText('Or you can get in touch.')
     await widget.expectToSeeText('Get in touch')
+    await expect(page).toPassAxeTests()
   })
 })

@@ -10,15 +10,12 @@ beforeEach(async () => {
   await waitForGetInTouchButton()
 })
 
-afterEach(async () => {
-  await expect(page).toPassAxeTests()
-})
-
 test('clicking contact us channel goes to contact form embed', async () => {
   await widget.clickButton('Get in touch')
   await widget.waitForText('How do you want to get in touch?')
   await widget.clickText('Leave a message')
   await waitForContactForm()
+  await expect(page).toPassAxeTests()
 })
 
 test('can go back to answer bot', async () => {
@@ -28,4 +25,5 @@ test('can go back to answer bot', async () => {
   await waitForContactForm()
   await widget.clickBack()
   await widget.expectToSeeText('How do you want to get in touch?')
+  await expect(page).toPassAxeTests()
 })

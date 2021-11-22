@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@axe-core/puppeteer@^4.0.0", "@axe-core/puppeteer@^4.3.1":
+"@axe-core/puppeteer@^4.0.0":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@axe-core/puppeteer/-/puppeteer-4.3.1.tgz#02479f27e9da9c4579435dcadd21f331f026016b"
   integrity sha512-ojZzd2koeMFj4Crz842g54gU9MEosZA2Vzq8zoRBsT7lQ+EwjASNUfNKQHDhJaO53oEMC7xZv9Y2bhDrAhJRlg==
@@ -12927,7 +12927,7 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-"json-loader@^0.5.7  ":
+json-loader@^0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
   integrity sha512-QLPs8Dj7lnf3e3QYS1zkCo+4ZwqOiF9d/nZnYozTISxXWCfNs9yuky5rJw4/W34s7POaNlbZmQGaB5NiXCbP4w==

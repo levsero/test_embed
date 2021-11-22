@@ -19,10 +19,6 @@ const waitForArticleSuggestions = async () => {
 
 describe('contextual search', () => {
   describe('no results', () => {
-    afterEach(async () => {
-      await expect(page).toPassAxeTests()
-    })
-
     it('shows fallback message and get in touch button', async () => {
       await loadWidget()
         .withPresets('answerBotWithContextualHelp', 'contactForm')
@@ -33,6 +29,7 @@ describe('contextual search', () => {
       await waitForAnswerBot()
       await waitForGetInTouchButton()
       await widget.expectNotToSeeText('Here are some top suggestions for you:')
+      await expect(page).toPassAxeTests()
     })
   })
 
@@ -49,6 +46,7 @@ describe('contextual search', () => {
     expect(link).toBeTruthy()
     await page.waitFor(3000)
     await widget.expectNotToSeeText('Does this article answer your question?')
+    await expect(page).toPassAxeTests()
   })
 
   describe('via config', () => {
@@ -60,14 +58,11 @@ describe('contextual search', () => {
       await widget.openByKeyboard()
       await waitForArticleSuggestions()
       await expect(page).toPassAxeTests()
+      await expect(page).toPassAxeTests()
     })
   })
 
   describe('via api', () => {
-    afterEach(async () => {
-      await expect(page).toPassAxeTests()
-    })
-
     it('displays the contextual search results on open of widget', async () => {
       const endpoint = jest.fn()
       await loadWidget()
@@ -80,6 +75,7 @@ describe('contextual search', () => {
       await launcher.click()
       await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /query=help/)
+      await expect(page).toPassAxeTests()
     })
 
     it('scrapes the url from the host page for contextual search when url: true', async () => {
@@ -94,6 +90,7 @@ describe('contextual search', () => {
       await launcher.click()
       await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /query=e2e/)
+      await expect(page).toPassAxeTests()
     })
   })
 
