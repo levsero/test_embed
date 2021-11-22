@@ -8,7 +8,13 @@ export const setupSuncoClient = ({ integrationId, appId, baseUrl, conversationHi
   const storageType = conversationHistory === 'remember' ? 'localStorage' : 'sessionStorage'
   const url = isFeatureEnabled({}, 'use_production_sunco') ? PROD_URL : baseUrl
 
-  client = new Sunco({ integrationId, appId, baseUrl: url, storageType, debug: __DEV__ })
+  client = new Sunco({
+    integrationId,
+    appId,
+    baseUrl: url,
+    storageType,
+    debug: __DEV__,
+  })
 
   if (__DEV__) {
     window.parent.client = window.client = client
@@ -18,7 +24,7 @@ export const setupSuncoClient = ({ integrationId, appId, baseUrl, conversationHi
 }
 
 export const forgetUserAndDisconnect = () => {
-  client?.activeConversation?.forgetUser()
+  client?.forgetUser()
   client?.activeConversation?.stopConversation()
 }
 

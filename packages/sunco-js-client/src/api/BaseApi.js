@@ -1,6 +1,6 @@
 import Request from '../http/Request'
 import { VENDOR_ID, VERSION } from '../utils/constants'
-import { getClientId } from '../utils/device'
+import { getOrCreateClientId } from '../utils/device'
 import { buildUrl } from '../utils/path'
 
 class BaseApi {
@@ -17,7 +17,7 @@ class BaseApi {
       'Content-Type': 'application/json',
       'x-smooch-sdk': `web/${VENDOR_ID}/${VERSION}`,
       'x-smooch-appid': this.appId,
-      'x-smooch-clientid': getClientId(this.integrationId),
+      'x-smooch-clientid': getOrCreateClientId(this.integrationId),
       ...headers,
     }
 
