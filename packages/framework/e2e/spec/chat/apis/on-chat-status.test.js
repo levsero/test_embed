@@ -19,4 +19,7 @@ test('on chat:status calls a function when the status changes', async () => {
   result = await page.evaluate(() => window.chatStatus)
 
   expect(result).toEqual('offline')
+  await expect(page).toPassAxeTests({
+    exclude: ['#launcher'],
+  })
 })

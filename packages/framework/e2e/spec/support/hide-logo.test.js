@@ -29,4 +29,5 @@ test('hides the zendesk logo in the ticket form when requested in config', async
   await expect(frame).toClick('button', { text: 'Send' })
   await waitForSubmissionSuccess()
   expect(await widget.zendeskLogoVisible()).toEqual(false)
+  await expect(page).toPassAxeTests()
 })
