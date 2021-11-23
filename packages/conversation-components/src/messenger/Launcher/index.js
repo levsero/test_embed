@@ -28,7 +28,7 @@ Launcher.propTypes = {
   shape: PropTypes.oneOf(Object.keys(LAUNCHER_SHAPES)),
   isOpen: PropTypes.bool,
   onClick: PropTypes.func,
-  position: PropTypes.oneOf(LAUNCHER_POSITION),
+  position: PropTypes.oneOf(Object.keys(LAUNCHER_POSITION)),
   size: PropTypes.string,
 }
 

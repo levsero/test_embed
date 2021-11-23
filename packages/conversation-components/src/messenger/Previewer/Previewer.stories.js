@@ -105,7 +105,7 @@ export default {
       },
     },
     position: {
-      defaultValue: LAUNCHER_POSITION[1],
+      defaultValue: LAUNCHER_POSITION.right,
       control: {
         type: 'select',
         options: Object.values(LAUNCHER_POSITION),
