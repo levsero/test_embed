@@ -52,7 +52,10 @@ const LAUNCHER_SHAPES = Object.freeze({
   none: 'none',
 })
 
-const LAUNCHER_POSITION = ['left', 'right']
+const LAUNCHER_POSITION = Object.freeze({
+  left: 'left',
+  right: 'right',
+})
 
 export {
   BANNER_STATUS,

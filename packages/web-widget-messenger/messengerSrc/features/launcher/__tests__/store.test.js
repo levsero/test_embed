@@ -6,6 +6,18 @@ import { getIsLauncherVisible, getLauncherShape } from '../store'
 
 describe('launcher store', () => {
   describe('getIsLauncherVisible', () => {
+    it('is not visible if launcher shape is none', () => {
+      const store = createStore()
+      store.dispatch(
+        messengerConfigReceived({
+          launcher: {
+            shape: 'none',
+          },
+        })
+      )
+      expect(getIsLauncherVisible(store.getState())).toBe(false)
+    })
+
     it('is not visible if the screen is vertically small and the messenger is open', () => {
       const store = createStore()
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: true }))
