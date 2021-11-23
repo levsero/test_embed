@@ -6,6 +6,7 @@ class IntegrationsApi extends BaseApi {
     return this.request({
       method: 'GET',
       path: `/v2/integrations/${this.integrationId}/config`,
+      authorizationRequired: false,
     })
   }
 }

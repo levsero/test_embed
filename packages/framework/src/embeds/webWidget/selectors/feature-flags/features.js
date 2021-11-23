@@ -8,7 +8,7 @@ export const updateFeatures = (updatedFeatures) => {
   features = updatedFeatures
 }
 
-export default {
+const featureConfig = {
   web_widget_prechat_form_visible_departments: {
     defaultValue: false,
     getArturoValue: (state) =>
@@ -43,8 +43,21 @@ export default {
     defaultValue: false,
     getArturoValue: () => features.setDepartmentQueue,
   },
+  web_widget_jwt_auth: {
+    defaultValue: false,
+    getArturoValue: () => features.jwtAuth,
+  },
   web_widget_drag_drop_file_upload: {
     defaultValue: false,
     getArturoValue: () => features.dragDropFileUpload,
   },
+  ...(__DEV__ && {
+    dev_override_sunco: {
+      defaultValue: false,
+      getArturoValue: () => false,
+      thing: 'this is a test string',
+    },
+  }),
 }
+
+export default featureConfig

@@ -80,10 +80,9 @@ const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAtte
   }
 }
 
-const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {}) {
+const SocketClient = function ({ baseUrl, appId, appUserId, auth } = {}) {
   this.appId = appId
   this.appUserId = appUserId
-  this.sessionToken = sessionToken
   this.hasSocketAborted = false
   this.subscriptions = {}
 
@@ -99,11 +98,11 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
             appUserId: this.appUserId,
             appId: this.appId,
           }
-          // if (auth.jwt) {
-          //   message.ext.jwt = auth.jwt;
-          // } else if (auth.sessionToken) {
-          message.ext.sessionToken = this.sessionToken
-          // }
+          if (auth.jwt) {
+            message.ext.jwt = auth.jwt
+          } else if (auth.sessionToken) {
+            message.ext.sessionToken = auth.sessionToken
+          }
         }
 
         callback(message)

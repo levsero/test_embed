@@ -1,3 +1,5 @@
+import decodeJwt from 'jwt-decode'
+import LoginApi from 'src/api/LoginApi'
 import ActivityAPI from './api/ActivityApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
@@ -34,6 +36,11 @@ export default class Sunco {
     storage.setStorageType({ type: storageType })
     this.locale = null
     this.debug = debug
+    this.auth = {
+      jwt: null,
+      generateJwtCallback: null,
+    }
+
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
@@ -41,11 +48,16 @@ export default class Sunco {
     this.integrations = new IntegrationsApi(this)
 
     getOrCreateClientId(integrationId)
+    this.login = new LoginApi(this)
   }
 
   get hasExistingAppUser() {
     const { appUserId } = getCurrentUserIfAny(this.integrationId)
     return Boolean(appUserId)
+  }
+
+  login(jwt) {
+    this.auth.jwt = jwt
   }
 
   get activeConversation() {
@@ -56,7 +68,7 @@ export default class Sunco {
   }
 
   set activeConversation({ conversationId, socketSettings, lastRead, integrations }) {
-    const { appUserId, sessionToken } = getCurrentUserIfAny(this.integrationId)
+    const { appUserId } = getCurrentUserIfAny(this.integrationId)
 
     if (this.debug) {
       /* eslint no-console:0 */
@@ -67,7 +79,7 @@ export default class Sunco {
       ...socketSettings,
       appId: this.appId,
       appUserId: appUserId,
-      sessionToken: sessionToken,
+      auth: this.auth,
     })
 
     this._activeConversation = {
@@ -222,5 +234,44 @@ export default class Sunco {
 
   getClientId(integrationId) {
     return getOrCreateClientId(integrationId)
+  }
+
+  loginUser(generateJwtCallback) {
+    this.auth.generateJwtCallback = generateJwtCallback
+    this.auth.jwt = generateJwtCallback()
+
+    // const { external_id, name, email } = decodeJwt(this.auth.jwt)
+    // eslint-disable-next-line babel/camelcase
+    const { external_id } = decodeJwt(this.auth.jwt)
+    const { appUserId } = getCurrentUserIfAny(this.integrationId)
+
+    this.login
+      .create(appUserId, external_id, this.auth.jwt)
+      .then((response) => {
+        // if JWT  has name and/or email
+        // Call PUT this.appUsers.update({givenName, email})
+
+        // if we have a conversation with this user, store appUserId and conversation details
+        if (response.body.conversations.length) {
+          this.activeConversation = {
+            conversationId: response.body.conversations[0]._id,
+            socketSettings: response.body.settings.realtime,
+            lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
+            integrations: response.body.appUser.clients.filter(
+              (client) => client.platform !== 'web'
+            ),
+          } // TODO - might need to eventually select a particular conversation - isDefault: true
+        } else {
+          console.log('no conversations, storing appUserId')
+          // store the app user ID
+          // Don't create a conversation until the user tries to start one by opening the widget.
+          storeAppUser({
+            appUserId: response.body.appUser._id,
+            sessionToken: response.body.sessionToken,
+            integrationId: this.integrationId,
+          })
+        }
+      })
+      .catch(() => {})
   }
 }

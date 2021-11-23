@@ -30,3 +30,5 @@ docker-chromium
 **/coverage/**
 !**/*/.babelrc.js
 !**/*/.babelrc.json
+
+yarn-error.log
