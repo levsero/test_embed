@@ -30,7 +30,10 @@ export const forgetUserAndDisconnect = () => {
 
 export const getClient = () => client
 
-export const hasExistingConversation = () => getClient().hasExistingAppUser
+export const hasExistingAppUser = () => getClient().hasExistingAppUser
+
+export const hasExistingConversation = () =>
+  hasExistingAppUser() && getClient().hasExistingActiveConversation
 
 export const getActiveConversation = async () => {
   return await getClient().startConversation()
@@ -92,4 +95,12 @@ export const unlinkIntegration = async (integrationId) => {
 // Temporary API until we can get this data via embeddable config
 export const fetchIntegrations = async () => {
   return getClient().getIntegrations()
+}
+
+export const loginUser = (generateJwtCallback) => {
+  return getClient().loginUser(generateJwtCallback)
+}
+
+export const logoutUser = () => {
+  return getClient().logoutUser()
 }

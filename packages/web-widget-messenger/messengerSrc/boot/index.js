@@ -5,7 +5,7 @@ import { publicApi, persistence, win } from '@zendesk/widget-shared-services'
 import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
 import isFeatureEnabled, { updateFeatures } from '@zendesk/widget-shared-services/feature-flags'
 import { identity } from '@zendesk/widget-shared-services/identity'
-import { hasExistingConversation, setupSuncoClient } from 'messengerSrc/api/sunco'
+import { hasExistingAppUser, setupSuncoClient } from 'messengerSrc/api/sunco'
 import App from 'messengerSrc/features/app'
 import { subscribeToI18n } from 'messengerSrc/features/i18n/store'
 import { initialiseLauncherLabel } from 'messengerSrc/features/launcherLabel/store/visibility'
@@ -64,18 +64,6 @@ const init = async ({ config }) => {
     identity.setBuid(clientId)
   }
 
-  if (__DEV__) {
-    if (isFeatureEnabled(undefined, 'web_widget_jwt_auth')) {
-      suncoClient.loginUser(async (callback) => {
-        const { jwt } = await fetch(
-          `http://localhost:1338/api/account/messenger-jwt/${window.top.dashboardConfig.id}`
-        ).then((res) => res.json())
-
-        callback(jwt)
-      })
-    }
-  }
-
   return {
     store,
   }
@@ -92,7 +80,7 @@ const run = async ({ config, embeddableData }) => {
       store.dispatch(fetchIntegrations())
     }
 
-    if (hasExistingConversation()) {
+    if (hasExistingAppUser()) {
       store.dispatch(startConversation())
     }
   }

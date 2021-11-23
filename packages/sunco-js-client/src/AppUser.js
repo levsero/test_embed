@@ -56,6 +56,7 @@ class AppUser {
     storage.removeItem(`${this.integrationId}.clientId`)
     this.jwt = null
     this.getJWT = null
+    this.currentFetchJWT = null
   }
 
   async generateJWT() {

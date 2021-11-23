@@ -1,8 +1,14 @@
 import { validate } from 'bcp47-validate'
 import { logger } from '@zendesk/widget-shared-services'
 import i18n from 'src/framework/services/i18n'
-import { setLocale as suncoUpdateLocale } from 'messengerSrc/api/sunco'
-import { zIndexUpdated } from 'messengerSrc/store/actions'
+import {
+  setLocale as suncoUpdateLocale,
+  loginUser,
+  logoutUser,
+  hasExistingConversation,
+} from 'messengerSrc/api/sunco'
+import { startConversation } from 'messengerSrc/features/suncoConversation/store'
+import { userLoggedOut, zIndexUpdated } from 'messengerSrc/store/actions'
 import { cookiesEnabled, cookiesDisabled } from 'messengerSrc/store/cookies'
 import { widgetOpened, widgetClosed } from 'messengerSrc/store/visibility'
 
@@ -13,6 +19,26 @@ export default (store) => ({
     },
     close: () => {
       store.dispatch(widgetClosed())
+    },
+    loginUser: (getJWTFn) => {
+      loginUser(getJWTFn)
+        .then(() => {
+          if (hasExistingConversation()) {
+            store.dispatch(startConversation())
+          }
+        })
+        .catch((error) => {
+          logger.error('Unable to login user', error)
+        })
+    },
+    logoutUser: () => {
+      logoutUser()
+        .then(() => {
+          store.dispatch(userLoggedOut())
+        })
+        .catch((error) => {
+          logger.error('Unable to logout user', error)
+        })
     },
   },
   ['messenger:set']: {

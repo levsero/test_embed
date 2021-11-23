@@ -124,6 +124,7 @@ describe('User', () => {
       expect(storage.getItem(`123.clientId`)).toBe(undefined)
       expect(user.getJWT).toBe(null)
       expect(user.jwt).toBe(null)
+      expect(user.currentFetchJWT).toBe(null)
     })
   })
 
