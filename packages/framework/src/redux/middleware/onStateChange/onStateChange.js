@@ -1,9 +1,21 @@
 import _ from 'lodash'
+import { persistence as store } from '@zendesk/widget-shared-services'
+import { isMobileBrowser, isPopout } from '@zendesk/widget-shared-services'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { getUserSoundSettings } from 'src/embeds/chat/selectors'
+import {
+  getChatMessagesFromAgents,
+  getConnection,
+  getChatOnline,
+  getChatStatus,
+  getIsProactiveSession,
+  getIsChatting as getIsChattingState,
+  getLastReadTimestamp,
+  hasUnseenAgentMessage,
+  getIsLoggingOut,
+} from 'src/embeds/chat/selectors'
 import routes from 'src/embeds/helpCenter/routes'
 import { getArticleDisplayed } from 'src/embeds/helpCenter/selectors'
-import { store } from 'src/framework/services/persistence'
 import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave'
 import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger'
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen'
@@ -39,17 +51,6 @@ import {
 } from 'src/redux/modules/chat/chat-actions/actions'
 import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
 import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
-import {
-  getChatMessagesFromAgents,
-  getConnection,
-  getChatOnline,
-  getChatStatus,
-  getIsProactiveSession,
-  getIsChatting as getIsChattingState,
-  getLastReadTimestamp,
-  hasUnseenAgentMessage,
-  getIsLoggingOut,
-} from 'src/embeds/chat/selectors'
 import { getAnswerBotAvailable, getSubmitTicketAvailable } from 'src/redux/modules/selectors'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
@@ -59,8 +60,6 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import audio from 'src/service/audio'
 import history from 'src/service/history'
-import { isMobileBrowser } from 'src/util/devices'
-import { isPopout } from 'src/util/globals'
 import { resetShouldWarn } from 'src/util/nullZChat'
 
 const createdAtTimestamp = Date.now()

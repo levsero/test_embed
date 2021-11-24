@@ -1,12 +1,12 @@
 import messenger from '@zendesk/web-widget-messenger'
+import { errorTracker } from '@zendesk/widget-shared-services'
 import webWidget from 'src/apps/webWidget'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import framework from 'src/framework/framework'
 import * as blacklist from 'src/framework/isBlacklisted'
-import errorTracker from 'src/framework/services/errorTracker'
 
 jest.mock('src/framework/api/embeddableConfig')
-jest.mock('src/framework/services/errorTracker')
+jest.mock('@zendesk/widget-shared-services/errorTracker')
 jest.mock('@zendesk/web-widget-messenger')
 jest.mock('src/apps/webWidget')
 jest.mock('src/framework/isBlacklisted')
@@ -77,7 +77,7 @@ describe('start', () => {
 
       await framework.start()
 
-      expect(messenger.start).toHaveBeenCalledWith(mockMessengerConfig, 0)
+      expect(messenger.start).toHaveBeenCalledWith(mockMessengerConfig, expect.any(Number))
     })
 
     it('configures ErrorTracker for the Messenger', async () => {
@@ -100,7 +100,7 @@ describe('start', () => {
 
       await framework.start()
 
-      expect(webWidget.start).toHaveBeenCalledWith(mockWebWidgetConfig, 0)
+      expect(webWidget.start).toHaveBeenCalledWith(mockWebWidgetConfig, expect.any(Number))
     })
 
     it('configures ErrorTracker for the Web Widget', async () => {

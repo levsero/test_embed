@@ -80,10 +80,8 @@ describe('WebWidget component', () => {
       'src/component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'src/component/webWidget/OnBackProvider': noopReactComponent(),
       'src/embeds/talk': noopReactComponent(),
-      'src/util/devices': {
+      '@zendesk/widget-shared-services': {
         isMobileBrowser: () => undefined,
-      },
-      'src/util/globals': {
         isPopout: () => undefined,
       },
       'src/components/NotificationPopup': noopReactComponent(),

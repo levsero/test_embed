@@ -100,7 +100,7 @@ describe('ChatOnline component', () => {
         isDefaultNickname: noop,
       },
       'src/embeds/chat/selectors': {},
-      'src/util/utils': {
+      '@zendesk/widget-shared-services': {
         onNextTick: (cb) => setTimeout(cb, 0),
       },
       'src/embeds/chat/components/ButtonPill': {},

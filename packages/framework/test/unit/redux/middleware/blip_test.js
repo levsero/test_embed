@@ -23,7 +23,7 @@ describe('blip middleware', () => {
 
     mockery.enable()
     initMockRegistry({
-      'src/service/beacon': {
+      '@zendesk/widget-shared-services/beacon': {
         beacon: beaconSpy,
       },
       'src/apps/webWidget/services/i18n': {

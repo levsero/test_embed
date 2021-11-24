@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import createCachedSelector from 're-reselect'
 import { createSelector } from 'reselect'
+import { isPopout } from '@zendesk/widget-shared-services'
 import {
   AGENT_BOT,
   CHAT_MESSAGE_EVENTS,
@@ -9,7 +10,6 @@ import {
   CONNECTION_STATUSES,
 } from 'src/constants/chat'
 import { isDefaultNickname } from 'src/util/chat'
-import { isPopout } from 'src/util/globals'
 import {
   getIsAuthenticated,
   getChatAccountSettingsPrechatForm,

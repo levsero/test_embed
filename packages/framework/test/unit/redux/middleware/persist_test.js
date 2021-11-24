@@ -13,8 +13,8 @@ describe('persist middleware', () => {
 
     mockery.enable()
     initMockRegistry({
-      'src/framework/services/persistence': {
-        store: {
+      '@zendesk/widget-shared-services': {
+        persistence: {
           set: storeSetSpy,
         },
       },

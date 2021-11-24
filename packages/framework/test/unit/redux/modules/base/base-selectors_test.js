@@ -12,19 +12,15 @@ describe('base selectors', () => {
     mockery.registerAllowable(selectorsPath)
 
     initMockRegistry({
-      'src/framework/services/persistence': {
-        store: {
+      '@zendesk/widget-shared-services': {
+        persistence: {
           get: () => mockStoreValue,
         },
+        win: {},
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
       },
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: isTokenValidSpy,
-      },
-      'src/util/pages': {
-        isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
-      },
-      'src/util/globals': {
-        win: {},
       },
     })
 

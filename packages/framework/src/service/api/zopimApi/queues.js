@@ -1,6 +1,5 @@
 import _ from 'lodash'
-import ZopimApiError from 'src/errors/nonFatal/ZopimApiError'
-import { logAndTrackApiError } from 'src/service/api/errorHandlers'
+import { logAndTrackApiError, ZopimApiError } from '@zendesk/widget-shared-services'
 
 export function setupZopimQueue(win) {
   // Define the global $zopim object.

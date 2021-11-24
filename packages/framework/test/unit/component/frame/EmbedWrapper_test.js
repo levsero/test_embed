@@ -22,7 +22,7 @@ describe('EmbedWrapper', () => {
 
     initMockRegistry({
       'src/util/color/styles': {},
-      'src/util/globals': {
+      '@zendesk/widget-shared-services': {
         focusLauncher: focusSpy,
         getDocumentHost: () => {
           return {

@@ -3,8 +3,19 @@ let selectors = require('src/redux/modules/selectors')
 let baseActions = require('src/redux/modules/base/base-actions')
 let scrollHacks = require('src/util/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
-let devices = require('src/util/devices')
+let { isMobileBrowser, setScaleLock } = require('@zendesk/widget-shared-services')
 let chatSelectors = require('src/embeds/chat/selectors/selectors')
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+    setScaleLock: jest.fn(),
+  }
+})
 
 const dispatch = jest.fn()
 
@@ -13,7 +24,8 @@ beforeEach(() => {
   jest.useFakeTimers()
 
   onWidgetOpen = require('../onWidgetOpen').default
-  devices = require('src/util/devices')
+  setScaleLock = require('@zendesk/widget-shared-services').setScaleLock
+  isMobileBrowser = require('@zendesk/widget-shared-services').isMobileBrowser
   baseSelectors = require('src/redux/modules/base/base-selectors')
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
@@ -21,7 +33,7 @@ beforeEach(() => {
   chatSelectors = require('src/embeds/chat/selectors/selectors')
 
   jest.mock('src/service/renderer')
-  jest.mock('src/util/devices')
+
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')
   jest.mock('src/util/scrollHacks')
@@ -39,7 +51,7 @@ describe('when widget visibility transitions from false to true', () => {
   })
 
   it('calls mobile functions when on mobile', () => {
-    devices.isMobileBrowser.mockReturnValue(true)
+    isMobileBrowser.mockReturnValue(true)
     chatSelectors.getStandaloneMobileNotificationVisible.mockReturnValue(false)
 
     onWidgetOpen(false, true, dispatch, () => true)
@@ -48,11 +60,11 @@ describe('when widget visibility transitions from false to true', () => {
 
     expect(scrollHacks.setWindowScroll).toHaveBeenCalledWith(0)
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(true)
-    expect(devices.setScaleLock).toHaveBeenCalledWith(true)
+    expect(setScaleLock).toHaveBeenCalledWith(true)
   })
 
   it('disables auto-scroll-to-the-top when proactivechat popup is displayed', () => {
-    devices.isMobileBrowser.mockReturnValue(true)
+    isMobileBrowser.mockReturnValue(true)
     chatSelectors.getStandaloneMobileNotificationVisible.mockReturnValue(true)
 
     onWidgetOpen(false, true, dispatch, () => true)
@@ -61,7 +73,7 @@ describe('when widget visibility transitions from false to true', () => {
 
     expect(scrollHacks.setWindowScroll).toHaveBeenCalledTimes(0)
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledTimes(0)
-    expect(devices.setScaleLock).toHaveBeenCalledWith(true)
+    expect(setScaleLock).toHaveBeenCalledWith(true)
   })
 
   it('does not call any mobile functions when on desktop', () => {
@@ -71,7 +83,7 @@ describe('when widget visibility transitions from false to true', () => {
 
     expect(scrollHacks.setWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
-    expect(devices.setScaleLock).not.toHaveBeenCalled()
+    expect(setScaleLock).not.toHaveBeenCalled()
   })
 })
 
@@ -83,13 +95,13 @@ describe('when widget visibility transitions from true to false', () => {
   })
 
   it('calls mobile functions when on mobile', () => {
-    devices.isMobileBrowser.mockReturnValue(true)
+    isMobileBrowser.mockReturnValue(true)
 
     onWidgetOpen(true, false, dispatch)
 
     expect(scrollHacks.revertWindowScroll).toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(false)
-    expect(devices.setScaleLock).toHaveBeenCalledWith(false)
+    expect(setScaleLock).toHaveBeenCalledWith(false)
   })
 
   it('does not call any mobile functions when on desktop', () => {
@@ -97,6 +109,6 @@ describe('when widget visibility transitions from true to false', () => {
 
     expect(scrollHacks.revertWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
-    expect(devices.setScaleLock).not.toHaveBeenCalled()
+    expect(setScaleLock).not.toHaveBeenCalled()
   })
 })

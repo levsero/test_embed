@@ -1,6 +1,6 @@
-import { store as persistenceStore } from 'src/framework/services/persistence'
-import logger from 'src/util/logger'
-import { inDebugMode } from 'src/util/runtime'
+import { logger } from '@zendesk/widget-shared-services/logger'
+import { store as persistenceStore } from '@zendesk/widget-shared-services/persistence'
+import inDebugMode from '@zendesk/widget-shared-services/util/in-debug-mode'
 import features, { updateFeatures } from './features'
 
 const featurePrefix = 'feature-'

@@ -1,5 +1,5 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import { store as persistence } from 'src/framework/services/persistence'
+import { persistence } from '@zendesk/widget-shared-services'
 import { getIsFullScreen } from 'messengerSrc/features/responsiveDesign/store'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 import { getIsVisibleOnSmallDevices, getLauncherLabelText } from './config'

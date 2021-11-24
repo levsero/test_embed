@@ -2,13 +2,13 @@ import _ from 'lodash'
 import { createSelector } from 'reselect'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
-import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
 import {
   CALLBACK_ONLY,
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
 } from 'src/embeds/talk/talk-capability-types'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
 
 export const getEmbeddedVoiceSupported = (_state) =>
   isFeatureEnabled(null, 'embedded_voice_enabled')

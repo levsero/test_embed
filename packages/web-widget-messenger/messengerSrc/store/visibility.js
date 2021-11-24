@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { store as persistence } from 'src/framework/services/persistence'
+import { persistence } from '@zendesk/widget-shared-services'
 import { cookiesDisabled } from 'messengerSrc/store/cookies'
 
 const widgetOpenKey = 'widgetOpen'

@@ -2,6 +2,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { useRef, useCallback, useState } from 'react'
 import { connect } from 'react-redux'
+import { onNextTick } from '@zendesk/widget-shared-services'
 import ChatLog from 'src/component/chat/chatting/ChatLog'
 import HistoryLog from 'src/component/chat/chatting/HistoryLog'
 import { Widget, Main } from 'src/components/Widget'
@@ -27,6 +28,7 @@ import {
   useAgentTyping,
   useNewMessages,
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
+import * as chatSelectors from 'src/embeds/chat/selectors'
 import {
   fetchConversationHistory,
   handleChatBoxChange,
@@ -40,10 +42,8 @@ import {
   getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
-import * as chatSelectors from 'src/embeds/chat/selectors'
 import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
 import getScrollBottom from 'src/util/get-scroll-bottom'
-import { onNextTick } from 'src/util/utils'
 import { ChatLogContainer, Shadow } from './styles'
 
 const mapStateToProps = (state) => {

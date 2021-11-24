@@ -1,16 +1,27 @@
+import { errorTracker } from '@zendesk/widget-shared-services'
 import { MAX_CHAT_POLL_INTERVAL, BASE_CHAT_POLL_INTERVAL } from 'src/constants/chat'
 import {
   BEGIN_CHAT_SETUP,
   RECEIVE_DEFERRED_CHAT_STATUS,
 } from 'src/embeds/chat/actions/action-types'
 import { fetchDeferredChatStatus } from 'src/embeds/chat/apis/deferred-chat-api'
-import errorTracker from 'src/framework/services/errorTracker'
 import createStore from 'src/redux/createStore'
 import { beginChatSetup, deferChatSetup } from '../setup-chat'
 
 jest.useFakeTimers()
 jest.mock('src/embeds/chat/apis/deferred-chat-api')
-jest.mock('src/framework/services/errorTracker')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    errorTracker: {
+      ...originalModule.errorTracker,
+      warn: jest.fn(),
+    },
+  }
+})
 
 describe('chat embed actions', () => {
   describe('beginChatSetup', () => {

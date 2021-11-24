@@ -1,4 +1,4 @@
-import { isPopout } from 'src/util/globals'
+import { isPopout } from '@zendesk/widget-shared-services'
 import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET, WIDGET_INITIALISED } from '../base-action-types'
 
 const initialState = false

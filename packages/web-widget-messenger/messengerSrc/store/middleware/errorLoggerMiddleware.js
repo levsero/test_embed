@@ -1,4 +1,4 @@
-import errorTracker from 'src/framework/services/errorTracker'
+import { errorTracker } from '@zendesk/widget-shared-services'
 
 const errorLoggerMiddleware = (_store) => (next) => (action) => {
   try {

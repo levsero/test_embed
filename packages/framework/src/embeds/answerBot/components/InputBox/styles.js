@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Label, Textarea } from '@zendeskgarden/react-forms'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { FONT_SIZE } from 'src/constants/shared'
-import { isMobileBrowser } from 'src/util/devices'
 
 const Container = styled.div`
   vertical-align: bottom !important;

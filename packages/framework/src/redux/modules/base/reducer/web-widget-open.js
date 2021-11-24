@@ -1,4 +1,4 @@
-import { isPopout } from 'src/util/globals'
+import { isPopout } from '@zendesk/widget-shared-services'
 import {
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,

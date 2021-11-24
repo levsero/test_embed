@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import FileInput from 'src/components/FileInput'
 import useTranslate from 'src/hooks/useTranslate'
-import { isMobileBrowser } from 'src/util/devices'
 import { AttachmentButton, Description, Icon, Label } from './styles'
 
 const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {

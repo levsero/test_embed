@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component, lazy } from 'react'
 import { connect } from 'react-redux'
+import { isPopout, isMobileBrowser } from '@zendesk/widget-shared-services'
 import { Container } from 'src/component/container/Container'
 import OnBackProvider from 'src/component/webWidget/OnBackProvider'
 import ChatNotificationPopup from 'src/components/NotificationPopup'
@@ -35,8 +36,6 @@ import {
 import { getChatNotification } from 'src/redux/modules/selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import history from 'src/service/history'
-import { isMobileBrowser } from 'src/util/devices'
-import { isPopout } from 'src/util/globals'
 import { WidgetContainer } from './styles'
 
 const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'src/embeds/talk'))

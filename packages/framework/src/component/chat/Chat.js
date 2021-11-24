@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import ChatOnline from 'src/component/chat/ChatOnline'
 import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
 import LoadingPage from 'src/components/LoadingPage'
@@ -17,7 +18,6 @@ import {
   getHelpCenterAvailable,
   getHideZendeskLogo,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 
 const mapStateToProps = (state) => {
   return {

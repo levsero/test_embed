@@ -2,8 +2,6 @@ import snapshotDiff from 'snapshot-diff'
 import { render } from 'src/util/testHelpers'
 import SearchHeader from '../index'
 
-jest.mock('src/util/devices')
-
 const renderComponent = (inProps) => {
   const props = {
     title: 'Search',

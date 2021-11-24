@@ -1,14 +1,22 @@
 import { fireEvent } from '@testing-library/dom'
-import { isMobileBrowser } from 'src/util/devices'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { render } from 'src/util/testHelpers'
 import AttachmentInput from '../'
-
-jest.mock('src/util/devices')
 
 const defaultProps = {
   onFileSelect: () => {},
   attachmentInputId: 'attachment-box',
 }
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+  }
+})
 
 const renderComponent = (props = {}) => render(<AttachmentInput {...defaultProps} {...props} />)
 

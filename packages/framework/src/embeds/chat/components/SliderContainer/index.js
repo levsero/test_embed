@@ -5,9 +5,9 @@ import { Children, cloneElement, Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import { win } from '@zendesk/widget-shared-services'
 import { Icon } from 'src/component/Icon'
 import { getSliderVendor } from 'src/embeds/chat/selectors'
-import { win } from 'src/util/globals'
 import { locals as styles } from './SliderContainer.scss'
 
 const mapStateToProps = (state) => {

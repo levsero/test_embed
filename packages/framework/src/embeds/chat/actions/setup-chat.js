@@ -1,3 +1,4 @@
+import { errorTracker, document } from '@zendesk/widget-shared-services'
 import {
   BASE_CHAT_POLL_INTERVAL,
   MAX_CHAT_POLL_INTERVAL,
@@ -10,8 +11,6 @@ import {
 } from 'src/embeds/chat/actions/action-types'
 import { fetchDeferredChatStatus } from 'src/embeds/chat/apis/deferred-chat-api'
 import { getIsPollingChat, getDeferredChatApi } from 'src/embeds/chat/selectors'
-import errorTracker from 'src/framework/services/errorTracker'
-import { document } from 'src/util/globals'
 import wait from 'src/util/wait'
 
 export const beginChatSetup = () => ({

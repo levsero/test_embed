@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { isPopout } from '@zendesk/widget-shared-services'
 import { EMBED_MAP, NIL_EMBED } from 'src/constants/shared'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'src/embeds/chat/actions/action-types'
 import { getIsChatting, getChatBanned } from 'src/embeds/chat/selectors'
@@ -39,7 +40,6 @@ import {
 } from 'src/redux/modules/selectors'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import history from 'src/service/history'
-import { isPopout } from 'src/util/globals'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)

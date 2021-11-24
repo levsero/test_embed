@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import * as sharedServices from '@zendesk/widget-shared-services'
 // Cannot mock base-selectors due to reimports.
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
@@ -7,8 +8,6 @@ import * as chatReselectors from 'src/embeds/chat/selectors/reselectors'
 import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
 import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import * as selectors from 'src/redux/modules/selectors/selectors'
-import * as devices from 'src/util/devices'
-import * as globals from 'src/util/globals'
 import { testTranslationStringSelector } from 'src/util/testHelpers'
 
 const stateBaseSettings = (settings = {}) => {
@@ -26,6 +25,17 @@ const stateBaseSettings = (settings = {}) => {
 
   return compiledSettings
 }
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+    isPopout: jest.fn(),
+  }
+})
 
 const stateHelpCenterSettings = (settings = {}) => {
   return {
@@ -627,11 +637,11 @@ describe('getFrameStyle', () => {
   describe('when is a known frame', () => {
     describe('when is popout', () => {
       beforeEach(() => {
-        jest.spyOn(globals, 'isPopout').mockReturnValue(true)
+        jest.spyOn(sharedServices, 'isPopout').mockReturnValue(true)
       })
 
       afterEach(() => {
-        globals.isPopout.mockRestore()
+        sharedServices.isPopout.mockRestore()
       })
 
       testFrames('0')
@@ -639,11 +649,11 @@ describe('getFrameStyle', () => {
 
     describe('when not popout', () => {
       beforeEach(() => {
-        jest.spyOn(globals, 'isPopout').mockReturnValue(false)
+        jest.spyOn(sharedServices, 'isPopout').mockReturnValue(false)
       })
 
       afterEach(() => {
-        globals.isPopout.mockRestore()
+        sharedServices.isPopout.mockRestore()
       })
 
       testFrames(8)
@@ -651,7 +661,8 @@ describe('getFrameStyle', () => {
   })
   describe('when not a known frame', () => {
     it('when should show chat badge launcher', () => {
-      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
+      jest.spyOn(sharedServices, 'isMobileBrowser').mockReturnValue(false)
+      sharedServices.isMobileBrowser.mockReturnValue(false)
       jest.spyOn(chatSelectors, 'getIsChatting').mockReturnValue(false)
       jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false)
 
@@ -669,7 +680,7 @@ describe('getFrameStyle', () => {
         zIndex: -11,
       })
 
-      devices.isMobileBrowser.mockRestore()
+      sharedServices.isMobileBrowser.mockRestore()
       chatSelectors.getIsChatting.mockRestore()
     })
 
@@ -693,12 +704,12 @@ describe('getShowChatBadgeLauncher', () => {
   let result
 
   beforeEach(() => {
-    jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
+    jest.spyOn(sharedServices, 'isMobileBrowser').mockReturnValue(false)
     jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false)
   })
 
   afterEach(() => {
-    devices.isMobileBrowser.mockRestore()
+    sharedServices.isMobileBrowser.mockRestore()
     chatReselectors.getShowOfflineChat.mockRestore()
   })
 
@@ -734,7 +745,7 @@ describe('getShowChatBadgeLauncher', () => {
     })
 
     it('is mobile browser', () => {
-      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
+      jest.spyOn(sharedServices, 'isMobileBrowser').mockReturnValue(true)
       result = selectors.getShowChatBadgeLauncher(getModifiedState())
 
       expect(result).toEqual(false)
@@ -1294,7 +1305,7 @@ describe('getColor', () => {
 
           describe('and chat badge is true', () => {
             beforeEach(() => {
-              jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
+              jest.spyOn(sharedServices, 'isMobileBrowser').mockReturnValue(false)
               jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false)
             })
 

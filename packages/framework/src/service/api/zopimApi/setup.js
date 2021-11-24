@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { nameValid, emailValid, phoneValid, tracker } from '@zendesk/widget-shared-services'
 import {
   API_ON_CHAT_CONNECTED_NAME,
   API_ON_CHAT_START_NAME,
@@ -7,10 +8,10 @@ import {
   API_ON_CLOSE_NAME,
   API_ON_OPEN_NAME,
 } from 'src/constants/api'
+import { getCanShowOnlineChat } from 'src/embeds/chat/selectors'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat'
-import { getCanShowOnlineChat } from 'src/embeds/chat/selectors'
 import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
   endChatApi,
@@ -33,8 +34,6 @@ import {
   removeTagsApi,
 } from 'src/service/api/apis'
 import { settings } from 'src/service/settings'
-import tracker from 'src/service/tracker'
-import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 import { onChatConnected, onChatSDKInitialized } from './callbacks'
 import {
   setPositionApi,

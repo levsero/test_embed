@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import * as devices from 'src/util/devices'
+import { devices } from '@zendesk/widget-shared-services'
 import { LoadingEllipses } from '../LoadingEllipses'
 
 beforeEach(() => {

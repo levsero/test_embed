@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { store } from 'src/framework/services/persistence'
+import { persistence as store } from '@zendesk/widget-shared-services'
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
 import {
   IS_CHATTING,
@@ -8,16 +8,25 @@ import {
   CHAT_DROPPED,
 } from 'src/redux/modules/chat/chat-action-types'
 
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+  }
+})
+
 let getIsChatting = require('../getIsChatting').getIsChatting
-let isMobileBrowser = require('src/util/devices').isMobileBrowser
+let isMobileBrowser = require('@zendesk/widget-shared-services').isMobileBrowser
 
 const resetMocks = () => {
   jest.resetModules()
 
   getIsChatting = require('../getIsChatting').getIsChatting
-  isMobileBrowser = require('src/util/devices').isMobileBrowser
+  isMobileBrowser = require('@zendesk/widget-shared-services').isMobileBrowser
 
-  jest.mock('src/util/devices')
   isMobileBrowser.mockReturnValue(false)
 }
 const callAction = (isChatting = true) => {

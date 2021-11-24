@@ -1,14 +1,24 @@
 import { fireEvent } from '@testing-library/react'
 import { wait } from '@testing-library/react'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { TEST_IDS } from 'src/constants/shared'
 import { setContextualSuggestionsManually, contextualSearch } from 'src/embeds/helpCenter/actions'
 import createStore from 'src/redux/createStore'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 import { updateSettings } from 'src/redux/modules/settings/settings-actions'
 import { http } from 'src/service/transport'
-import * as utility from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
 import HelpCenter from '../../index'
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn().mockReturnValue(false),
+  }
+})
 
 const renderComponent = () => {
   const store = createStore()
@@ -316,7 +326,7 @@ describe('desktop', () => {
 
 describe('mobile', () => {
   beforeEach(() => {
-    jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+    isMobileBrowser.mockReturnValue(true)
   })
 
   test('clearing search', () => {

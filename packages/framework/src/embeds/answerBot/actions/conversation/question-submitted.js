@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { identity, isOnHostMappedDomain } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { botTyping } from 'src/embeds/answerBot/actions/root/bot'
 import { sessionStarted } from 'src/embeds/answerBot/actions/sessions'
@@ -11,10 +12,8 @@ import {
 import { isInitialSession } from 'src/embeds/answerBot/selectors/sessions'
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
-import { identity } from 'src/service/identity'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import { isOnHostMappedDomain } from 'src/util/pages'
 import {
   QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_PENDING,
@@ -84,6 +83,7 @@ function getSessionID(getState, createSessionCallback) {
 }
 
 function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
+  const { getSuid } = identity
   const token = getAuthToken()
 
   const callbacks = {
@@ -108,7 +108,7 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
     params: {
       via_id: settings.get('viaIdAnswerBot'),
       deflection_channel_id: settings.get('viaIdAnswerBot'),
-      interaction_reference: identity.getSuid().id || null,
+      interaction_reference: getSuid().id || null,
       interaction_reference_type: WEB_WIDGET_SUID,
       locale,
       enquiry,

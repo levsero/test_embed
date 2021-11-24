@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import ContextualNoResultsMessage from 'src/embeds/helpCenter/components/ContextualNoResultsMessage'
 import NoResultsMessage from 'src/embeds/helpCenter/components/NoResultsMessage'
 import {
@@ -9,7 +10,6 @@ import {
 } from 'src/embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getShowNextButton } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 
 const NoResults = ({
   isMobile,

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorGrey300 } from '@zendeskgarden/css-variables'
+import { isFirefox, isIE } from '@zendesk/widget-shared-services'
 import { FONT_SIZE } from 'src/constants/shared'
-import { isFirefox, isIE } from 'src/util/devices'
 
 const firefox = isFirefox()
 const ie = isIE()

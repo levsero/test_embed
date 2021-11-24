@@ -1,6 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
+import { inDebugMode } from '@zendesk/widget-shared-services'
 import { trackAnalytics } from 'src/redux/middleware/analytics'
 import { sendBlips } from 'src/redux/middleware/blip'
 import onStateChangeFn from 'src/redux/middleware/onStateChange/onStateChange'
@@ -11,7 +12,6 @@ import queueCalls from 'src/redux/middleware/queue'
 import resetActiveEmbed from 'src/redux/middleware/resetActiveEmbed'
 import throttle from 'src/redux/middleware/throttle'
 import reducer from 'src/redux/modules/reducer'
-import { inDebugMode } from 'src/util/runtime'
 
 const reduxConsoleLogger = (storeName) => {
   return createLogger({

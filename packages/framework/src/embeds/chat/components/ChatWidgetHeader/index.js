@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { useOnBack } from 'src/component/webWidget/OnBackProvider'
 import {
   HeaderView,
@@ -11,14 +12,13 @@ import {
 } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 import ChatMenu from 'src/embeds/chat/components/ChatMenu'
+import { getZChatVendor } from 'src/embeds/chat/selectors'
 import { handlePopoutCreated } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { getZChatVendor } from 'src/embeds/chat/selectors'
 import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
 import { getChatTitle, getIsPopoutButtonVisible } from 'src/redux/modules/selectors'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
 import { createChatPopoutWindow } from 'src/util/chat'
-import { isMobileBrowser } from 'src/util/devices'
 import { PopoutIcon } from './styles'
 
 const ChatWidgetHeader = ({

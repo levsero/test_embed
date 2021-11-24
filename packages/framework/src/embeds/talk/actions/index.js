@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { parseUrl, errorTracker } from '@zendesk/widget-shared-services'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/embeds/talk/action-types'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
@@ -18,7 +19,6 @@ import {
   REQUESTS_BEFORE_BACKOFF,
 } from 'src/embeds/talk/constants'
 import { getFormState, getIsPollingTalk } from 'src/embeds/talk/selectors'
-import errorTracker from 'src/framework/services/errorTracker'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
 import {
   getTalkEnabled,
@@ -27,7 +27,6 @@ import {
   getDeferredTalkApiUrl,
 } from 'src/redux/modules/selectors'
 import { http, socketio } from 'src/service/transport'
-import { parseUrl } from 'src/util/utils'
 import wait from 'src/util/wait'
 import {
   MICROPHONE_MUTED,

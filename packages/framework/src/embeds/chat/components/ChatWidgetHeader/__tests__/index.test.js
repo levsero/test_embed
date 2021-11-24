@@ -1,19 +1,27 @@
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { TEST_IDS } from 'src/constants/shared'
 import { Component as ChatWidgetHeader } from 'src/embeds/chat/components/ChatWidgetHeader'
 import { createChatPopoutWindow } from 'src/util/chat'
-import { isMobileBrowser } from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
 
 jest.mock('src/util/chat', () => ({
   createChatPopoutWindow: jest.fn(),
 }))
 
-jest.mock('src/util/devices')
-
 jest.mock('src/redux/modules/selectors', () => ({
   ...jest.requireActual('src/redux/modules/selectors'),
   getShowBackButton: jest.fn().mockReturnValue(true),
 }))
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+  }
+})
 
 describe('ChatWidgetHeader', () => {
   const defaultProps = {

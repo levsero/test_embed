@@ -1,6 +1,6 @@
 import { validate } from 'bcp47-validate'
+import { logger } from '@zendesk/widget-shared-services'
 import i18n from 'src/framework/services/i18n'
-import logger from 'src/util/logger'
 import { setLocale as suncoUpdateLocale } from 'messengerSrc/api/sunco'
 import { zIndexUpdated } from 'messengerSrc/store/actions'
 import { cookiesEnabled, cookiesDisabled } from 'messengerSrc/store/cookies'

@@ -1,5 +1,4 @@
-import { setScaleLock } from 'src/util/devices'
-import { win, document as doc } from 'src/util/globals'
+import { setScaleLock, win, document as doc } from '@zendesk/widget-shared-services'
 import { isNativeFunction } from 'src/util/native'
 
 let oldHostBodyPosition

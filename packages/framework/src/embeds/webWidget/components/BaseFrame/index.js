@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
+import { getZoomSizingRatio } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getGardenOverrides } from 'src/component/frame/gardenOverrides'
 import { WidgetThemeProvider } from 'src/components/Widget'
@@ -12,7 +13,6 @@ import {
 } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import HTMLManager from 'src/embeds/webWidget/components/BaseFrame/HTMLManager'
 import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
-import { getZoomSizingRatio } from 'src/util/devices'
 
 const getBaseFontSize = () => FONT_SIZE * getZoomSizingRatio().toFixed(2) + 'px'
 

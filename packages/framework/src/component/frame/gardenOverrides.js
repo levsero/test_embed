@@ -5,11 +5,10 @@ import {
   zdColorGrey600,
   zdColorWhite,
 } from '@zendeskgarden/css-variables'
+import { isMobileBrowser, isSafari } from '@zendesk/widget-shared-services'
 import { FONT_SIZE } from 'src/constants/shared'
 import { getWidgetColorVariables } from 'src/util/color/styles'
 import { getThemeColor } from 'src/util/color/validate'
-import { isMobileBrowser } from 'src/util/devices'
-import { isSafari } from 'src/util/devices'
 
 /* eslint max-len: 0 */
 const isMobile = isMobileBrowser()

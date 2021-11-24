@@ -91,6 +91,7 @@ module.exports = () => {
       ...webpackConfig.resolve.alias,
       '@zendesk/conversation-components': path.join(projectRoot, '../conversation-components/src'),
       '@zendesk/sunco-js-client': path.join(projectRoot, '../sunco-js-client/src'),
+      '@zendesk/widget-shared-services': path.join(projectRoot, '../shared-services/src'),
     }
 
     webpackConfig.module.rules.push(
@@ -108,6 +109,14 @@ module.exports = () => {
         loader: 'babel-loader',
         options: {
           configFile: path.resolve(projectRoot, '../sunco-js-client/.babelrc.js'),
+        },
+      },
+      {
+        test: /\.js$/,
+        include: path.resolve(projectRoot, '../shared-services'),
+        loader: 'babel-loader',
+        options: {
+          configFile: path.resolve(projectRoot, '../shared-services/.babelrc.js'),
         },
       }
     )

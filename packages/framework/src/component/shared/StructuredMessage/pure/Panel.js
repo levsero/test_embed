@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
+import { isFirefox, isIE } from '@zendesk/widget-shared-services'
 import { Icon } from 'src/component/Icon'
 import { KeyboardFocusButton } from 'src/component/shared/KeyboardFocusButton'
 import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
-import { isFirefox, isIE } from 'src/util/devices'
 import { locals as styles } from './Panel.scss'
 
 /**

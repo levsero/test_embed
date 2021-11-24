@@ -10,7 +10,7 @@ import {
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
 } from 'src/embeds/talk/talk-capability-types'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 
 const capabilityMap = {
   0: CALLBACK_ONLY,

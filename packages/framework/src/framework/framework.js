@@ -1,6 +1,6 @@
+import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import { isBlacklisted } from 'src/framework/isBlacklisted'
-import errorTracker from 'src/framework/services/errorTracker'
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 

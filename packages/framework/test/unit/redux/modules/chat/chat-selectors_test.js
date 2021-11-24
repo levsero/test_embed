@@ -76,8 +76,7 @@ describe('chat selectors', () => {
       'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname,
       },
-      'src/util/devices': {},
-      'src/util/globals': {
+      '@zendesk/widget-shared-services': {
         isPopout: () => mockIsPopout,
       },
     })

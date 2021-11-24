@@ -1,10 +1,9 @@
 import _ from 'lodash'
-import { store } from 'src/framework/services/persistence'
+import { persistence as store, isMobileBrowser } from '@zendesk/widget-shared-services'
+import { getZChatVendor } from 'src/embeds/chat/selectors'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types'
 import { chatWindowOpenOnNavigate, chatDropped } from 'src/redux/modules/chat/chat-actions/actions'
-import { getZChatVendor } from 'src/embeds/chat/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown')
 const storedActiveEmbed = _.get(store.get('store'), 'activeEmbed')

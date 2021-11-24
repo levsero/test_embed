@@ -1,10 +1,10 @@
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED,
 } from 'src/redux/modules/chat/chat-action-types'
-import * as devices from 'src/util/devices'
 import { testReducer } from 'src/util/testHelpers'
 import {
   LAUNCHER_CLICKED,
@@ -21,6 +21,16 @@ import {
   ESCAPE_KEY_PRESSED,
 } from '../../base-action-types'
 import launcherVisibility from '../launcher-visibility'
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+  }
+})
 
 testReducer(launcherVisibility, [
   {
@@ -97,12 +107,12 @@ testReducer(launcherVisibility, [
 
 describe('when the action is NEXT_BUTTON_CLICKED', () => {
   it('returns true if mobile browser', () => {
-    jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
+    isMobileBrowser.mockReturnValue(true)
     expect(launcherVisibility(undefined, { type: NEXT_BUTTON_CLICKED })).toEqual(true)
   })
 
   it('returns false if not mobile browser', () => {
-    jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
+    isMobileBrowser.mockReturnValue(false)
     expect(launcherVisibility(undefined, { type: NEXT_BUTTON_CLICKED })).toEqual(false)
   })
 })

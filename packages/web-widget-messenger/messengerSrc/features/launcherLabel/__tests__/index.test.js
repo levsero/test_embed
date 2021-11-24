@@ -1,6 +1,6 @@
 import { waitFor, within } from '@testing-library/dom'
 import { stripUnit } from 'polished'
-import { store as persistence } from 'src/framework/services/persistence'
+import { persistence } from '@zendesk/widget-shared-services'
 import wait from 'src/util/wait'
 import { launcherSize } from 'messengerSrc/constants'
 import {

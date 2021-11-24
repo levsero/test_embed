@@ -4,7 +4,6 @@ import createStore from 'src/redux/createStore'
 import { BOOT_UP_TIMER_COMPLETE } from 'src/redux/modules/base/base-action-types'
 
 jest.mock('src/service/settings')
-jest.mock('src/framework/services/errorTracker')
 jest.mock('src/redux/modules/base', () => ({
   updateEmbedAccessible: jest.fn().mockReturnValue({ type: 'embed accessible' }),
   widgetInitialised: jest.fn().mockReturnValue({ type: 'widget init' }),
@@ -48,7 +47,7 @@ beforeEach(() => {
   settings = require('src/service/settings').settings
   settings.get = (value) => _.get(mockSettings, value, null)
   settings.getErrorReportingEnabled = () => false
-  errorTracker = require('src/framework/services/errorTracker').default
+  errorTracker = require('@zendesk/widget-shared-services').errorTracker
   errorTracker.configure = jest.fn()
   talkfeature = require('src/embeds/webWidget/selectors/feature-flags').default
   talkfeature.mockImplementation(() => false)

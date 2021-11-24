@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { base64UrlDecode, sha1 } from 'src/util/utils'
+import { base64UrlDecode, sha1 } from '@zendesk/widget-shared-services'
 
 function isTokenValid(token) {
   if (token && token.expiry) {

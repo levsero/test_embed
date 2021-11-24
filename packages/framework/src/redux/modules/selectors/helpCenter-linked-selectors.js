@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { isMobileBrowser, isOnHelpCenterPage } from '@zendesk/widget-shared-services'
 import { getIsShowHCIntroState, getHelpCenterSignInRequired } from 'src/embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
@@ -6,8 +7,6 @@ import {
   getBaseIsAuthenticated,
 } from 'src/redux/modules/base/base-selectors'
 import { getSettingsHelpCenterSuppress } from 'src/redux/modules/settings/settings-selectors'
-import { isMobileBrowser } from 'src/util/devices'
-import { isOnHelpCenterPage } from 'src/util/pages'
 
 export const getHelpCenterEnabled = createSelector(
   [getHelpCenterEmbed, getSettingsHelpCenterSuppress],

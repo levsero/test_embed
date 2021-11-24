@@ -1,6 +1,7 @@
 import { wait } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { isOnHostMappedDomain } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as types from 'src/embeds/helpCenter/actions/action-types'
 import * as helpCenterSelectors from 'src/embeds/helpCenter/selectors'
@@ -10,12 +11,19 @@ import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCent
 import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import * as pages from 'src/util/pages'
 import * as actions from '../index'
 
 jest.mock('src/service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
-jest.mock('src/util/pages')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isOnHostMappedDomain: jest.fn(),
+  }
+})
 jest.mock('src/service/settings')
 helpCenterSelectors.getLastSearchTimestamp = jest.fn()
 
@@ -135,7 +143,7 @@ describe('displayArticle', () => {
   })
 
   it('sends the expected request payload when not on host mapped domain', () => {
-    pages.isOnHostMappedDomain.mockReturnValue(false)
+    isOnHostMappedDomain.mockReturnValue(false)
     dispatchAction(123)
 
     expect(http.get).toHaveBeenCalledWith(
@@ -148,7 +156,7 @@ describe('displayArticle', () => {
   })
 
   it('sends the expected request payload when on host mapped domain', () => {
-    pages.isOnHostMappedDomain.mockReturnValue(true)
+    isOnHostMappedDomain.mockReturnValue(true)
     dispatchAction(123)
 
     expect(http.get).toHaveBeenCalledWith(

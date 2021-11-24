@@ -2,6 +2,7 @@ import * as zChat from 'chat-web-sdk'
 import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
@@ -25,13 +26,22 @@ import {
   handleChatConnected,
   reset as resetChatSDKInitializedQueue,
 } from 'src/service/api/zopimApi/callbacks'
-import { isMobileBrowser } from 'src/util/devices'
 import * as actions from '../actions'
 import {
   setDepartmentComplete,
   setDepartmentPending,
   resetDepartmentQueue,
 } from '../setDepartmentQueue'
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+  }
+})
 
 const mockTimestamp = 1234
 Date.now = jest.fn(() => mockTimestamp)
@@ -66,7 +76,6 @@ const getState = (state = {}) => {
 
   return _.merge(defaults, state)
 }
-jest.mock('src/util/devices')
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
 

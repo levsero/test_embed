@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { win } from '@zendesk/widget-shared-services'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
-import hostPageWindow from 'src/framework/utils/hostPageWindow'
 
 const useShouldDisableAnimations = () => {
   const animationsDisabled = useSelector((state) =>
@@ -9,11 +9,11 @@ const useShouldDisableAnimations = () => {
   )
 
   const [reduceMotion, setReduceMotion] = useState(
-    Boolean(hostPageWindow.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    Boolean(win.matchMedia('(prefers-reduced-motion: reduce)').matches)
   )
 
   useEffect(() => {
-    const reduceMotionQuery = hostPageWindow.matchMedia('(prefers-reduced-motion: reduce)')
+    const reduceMotionQuery = win.matchMedia('(prefers-reduced-motion: reduce)')
 
     const onChange = (event) => {
       setReduceMotion(Boolean(event.matches))

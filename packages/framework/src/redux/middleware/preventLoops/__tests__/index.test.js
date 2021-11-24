@@ -1,21 +1,15 @@
-import errorTracker from 'src/framework/services/errorTracker'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
+import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
 import {
   SDK_CHAT_MSG,
   CHAT_BOX_CHANGED,
   SDK_HISTORY_CHAT_MSG,
 } from 'src/redux/modules/chat/chat-action-types'
-import { beacon } from 'src/service/beacon'
 
 const preventLoops = jest.requireActual('../').default
 
-jest.mock('src/framework/services/errorTracker', () => ({
-  error: jest.fn(),
-}))
-jest.mock('src/service/beacon', () => ({
-  beacon: {
-    trackUserAction: jest.fn(),
-  },
-}))
+jest.mock('@zendesk/widget-shared-services/beacon')
+jest.mock('@zendesk/widget-shared-services/errorTracker')
 
 const getAction = (actionType = 'fake_action') => {
   return {

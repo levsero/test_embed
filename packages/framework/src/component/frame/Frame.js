@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { cloneElement, Component } from 'react'
 import { connect } from 'react-redux'
 import Transition from 'react-transition-group/Transition'
+import { getZoomSizingRatio, onNextTick } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import EmbedWrapper from 'src/component/frame/EmbedWrapper'
 import {
@@ -29,8 +30,6 @@ import {
   getStylingPositionVertical,
   getStylingZIndex,
 } from 'src/redux/modules/settings/settings-selectors'
-import { getZoomSizingRatio } from 'src/util/devices'
-import { onNextTick } from 'src/util/utils'
 import { locals as styles } from './Frame.scss'
 
 const mapStateToProps = (state, ownProps) => {

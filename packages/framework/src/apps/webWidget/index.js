@@ -1,10 +1,11 @@
+import { beacon } from '@zendesk/widget-shared-services/beacon'
+import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
+import { identity } from '@zendesk/widget-shared-services/identity'
+import { publicApi } from '@zendesk/widget-shared-services/public-api'
+import tracker from '@zendesk/widget-shared-services/tracker'
 import { init, run, initIPM } from 'src/apps/webWidget/boot'
-import errorTracker from 'src/framework/services/errorTracker'
-import publicApi from 'src/framework/services/publicApi'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import setupIframe from 'src/framework/setupIframe'
-import { beacon } from 'src/service/beacon'
-import { identity } from 'src/service/identity'
-import tracker from 'src/service/tracker'
 
 const frameworkServices = [identity, beacon, publicApi, tracker]
 
@@ -14,7 +15,20 @@ const start = async (config, configLoadEnd) => {
 
     beacon.setConfigLoadTime(configLoadEnd)
 
-    const serviceData = { config, embeddableName: 'webWidget' }
+    const rawServerLocale = config.locale
+    const rawClientLocale = i18n.getClientLocale()
+    const clientLocale = i18n.parseLocale(rawClientLocale)
+    const serverLocale = i18n.parseLocale(rawServerLocale)
+
+    const localeData = {
+      ...config,
+      rawServerLocale,
+      rawClientLocale,
+      clientLocale,
+      serverLocale,
+    }
+
+    const serviceData = { config, embeddableName: 'webWidget', localeData }
 
     frameworkServices.forEach((service) => service.init?.(serviceData))
     const embeddableData = await init(serviceData)

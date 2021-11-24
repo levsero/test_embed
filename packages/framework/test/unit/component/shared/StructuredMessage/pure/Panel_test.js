@@ -57,7 +57,7 @@ describe('Pure Panel Component', () => {
       'src/component/shared/KeyboardFocusButton': {
         KeyboardFocusButton: KeyboardFocusButton,
       },
-      'src/util/devices': {
+      '@zendesk/widget-shared-services': {
         isFirefox: isFirefoxSpy,
         isIE: isIESpy,
       },

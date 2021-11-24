@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { rem } from 'polished'
-import hostPageWindow from 'src/framework/utils/hostPageWindow'
+import { win } from '@zendesk/widget-shared-services'
 import { baseFontSize } from 'messengerSrc/constants'
 
 const fullScreenHeightBreakpoint = rem('926px', `${baseFontSize}px`)
@@ -17,8 +17,8 @@ const breakpoints = {
 const slice = createSlice({
   name: 'responsiveDesign',
   initialState: {
-    isVerticallySmallScreen: hostPageWindow.matchMedia(breakpoints.isVerticallySmallScreen).matches,
-    isFullScreen: hostPageWindow.matchMedia(breakpoints.isFullScreen).matches,
+    isVerticallySmallScreen: win.matchMedia(breakpoints.isVerticallySmallScreen).matches,
+    isFullScreen: win.matchMedia(breakpoints.isFullScreen).matches,
   },
   reducers: {
     screenDimensionsChanged(state, action) {
@@ -33,8 +33,8 @@ const slice = createSlice({
 // Actions
 const { screenDimensionsChanged } = slice.actions
 const watchForScreenChanges = () => (dispatch) => {
-  const verticalMatchMedia = hostPageWindow.matchMedia(breakpoints.isVerticallySmallScreen)
-  const fullscreenMatchMedia = hostPageWindow.matchMedia(breakpoints.isFullScreen)
+  const verticalMatchMedia = win.matchMedia(breakpoints.isVerticallySmallScreen)
+  const fullscreenMatchMedia = win.matchMedia(breakpoints.isFullScreen)
 
   const onVerticalChange = (event) => {
     dispatch(screenDimensionsChanged({ isVerticallySmallScreen: event.matches }))

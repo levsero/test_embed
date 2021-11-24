@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import ChannelChoiceMenu from 'src/component/channelChoice/ChannelChoiceMenu'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
@@ -13,7 +14,6 @@ import {
   getTalkOnline,
   getSubmitTicketAvailable,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 
 const ChannelChoicePage = ({
   isMobile,

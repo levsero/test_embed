@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { store as persistence } from 'src/framework/services/persistence'
-import { identity } from 'src/service/identity'
+import { persistence, identity } from '@zendesk/widget-shared-services'
 import { forgetUserAndDisconnect, getClient } from 'messengerSrc/api/sunco'
 
 const cookiesDisabled = createAsyncThunk('cookies/disabled', () => {

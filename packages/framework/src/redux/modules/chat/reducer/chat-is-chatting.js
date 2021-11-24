@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { store } from 'src/framework/services/persistence'
+import { persistence as store } from '@zendesk/widget-shared-services'
 import {
   UPDATE_PREVIEWER_SCREEN,
   CHAT_MSG_REQUEST_SUCCESS,

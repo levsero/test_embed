@@ -1,11 +1,10 @@
 import { createSelector } from 'reselect'
+import { isOnHelpCenterPage, getPageKeywords } from '@zendesk/widget-shared-services'
 import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
 } from 'src/embeds/helpCenter/actions/action-types'
-import { isOnHelpCenterPage } from 'src/util/pages'
-import { getPageKeywords } from 'src/util/utils'
 
 const getContextualSearch = (state) => state.helpCenter.contextualSearch
 const getContextualSearchScreen = (state) => getContextualSearch(state).screen

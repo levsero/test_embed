@@ -74,10 +74,16 @@ describe('base redux actions', () => {
         isTokenRenewable: mockIsTokenRenewable,
         isTokenExpired: () => mockIsTokenExpired,
       },
-      'src/util/utils': {
+      '@zendesk/widget-shared-services': {
         nameValid: () => mockNameValidValue,
         emailValid: () => mockEmailValidValue,
         phoneValid: () => mockPhoneValidValue,
+        persistence: {
+          get: () => mockPersistentStoreValue,
+          remove: persistentStoreRemoveSpy,
+          set: persistentStoreSetSpy,
+        },
+        focusLauncher: focusLauncherSpy,
       },
       'src/service/settings': {
         settings: {
@@ -107,20 +113,11 @@ describe('base redux actions', () => {
       'src/constants/shared': {
         PHONE_PATTERN: /^[0-9]+$/,
       },
-      'src/framework/services/persistence': {
-        store: {
-          get: () => mockPersistentStoreValue,
-          remove: persistentStoreRemoveSpy,
-          set: persistentStoreSetSpy,
-        },
-      },
+
       'src/service/transport': {
         http: {
           send: httpPostSpy,
         },
-      },
-      'src/util/globals': {
-        focusLauncher: focusLauncherSpy,
       },
       'src/embeds/support/actions': {
         clearAttachments: () => {},

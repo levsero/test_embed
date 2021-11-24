@@ -2,21 +2,20 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { isFirefox, isIE, onNextTick } from '@zendesk/widget-shared-services'
 import HistoryLog from 'src/component/chat/chatting/HistoryLog'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'src/constants/chat'
 import LoadingMessagesIndicator from 'src/embeds/chat/components/LoadingMessagesIndicator'
+import * as chatSelectors from 'src/embeds/chat/selectors'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
 import {
   getHistoryLength,
   getHasMoreHistory,
   getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
-import * as chatSelectors from 'src/embeds/chat/selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
-import { isFirefox, isIE } from 'src/util/devices'
 import getScrollBottom from 'src/util/get-scroll-bottom'
-import { onNextTick } from 'src/util/utils'
 import { locals as styles } from './styles/index.scss'
 
 const mapStateToProps = (state) => {

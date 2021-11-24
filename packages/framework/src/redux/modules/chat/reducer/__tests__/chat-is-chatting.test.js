@@ -1,4 +1,4 @@
-import { store } from 'src/framework/services/persistence'
+import { persistence as store } from '@zendesk/widget-shared-services'
 import * as actions from 'src/redux/modules/chat/chat-action-types'
 import { testReducer } from 'src/util/testHelpers'
 

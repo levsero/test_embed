@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import {
   WIDGET_MARGIN,
@@ -13,7 +14,6 @@ import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import routes from 'src/embeds/helpCenter/routes'
 import { useFrameStyle } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { getHideZendeskLogo, getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 import { getHasSearched } from '../../selectors'
 
 const frameStyle = {

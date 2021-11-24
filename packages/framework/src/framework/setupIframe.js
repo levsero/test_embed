@@ -1,4 +1,4 @@
-import { setReferrerMetas, document } from 'src/util/globals'
+import { setReferrerMetas, document } from '@zendesk/widget-shared-services/util/globals'
 
 const setupIframe = (iframe = window.frameElement, doc = document) => {
   // Firefox has an issue with calculating computed styles from within a iframe

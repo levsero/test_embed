@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
+import { isDevice } from '@zendesk/widget-shared-services'
 import { TEST_IDS } from 'src/constants/shared'
-import { isDevice } from 'src/util/devices'
 import { locals as styles } from './LoadingEllipses.scss'
 
 export class LoadingEllipses extends Component {

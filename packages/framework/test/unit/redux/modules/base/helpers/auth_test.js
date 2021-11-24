@@ -8,7 +8,7 @@ describe('auth utils', () => {
     mockery.enable()
 
     initMockRegistry({
-      'src/util/utils': {
+      '@zendesk/widget-shared-services': {
         base64UrlDecode: window.atob,
         sha1: () => mockSha1,
       },

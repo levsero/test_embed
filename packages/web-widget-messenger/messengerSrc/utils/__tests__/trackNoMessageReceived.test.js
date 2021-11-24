@@ -1,11 +1,21 @@
 import { waitFor } from '@testing-library/dom'
-import errorTracker from 'src/framework/services/errorTracker'
+import { errorTracker } from '@zendesk/widget-shared-services'
 import { messageReceived } from 'messengerSrc/features/suncoConversation/store'
 import createStore from 'messengerSrc/store'
 import { widgetToggled } from 'messengerSrc/store/visibility'
 import trackNoMessageReceived from 'messengerSrc/utils/trackNoMessageReceived'
 
-jest.mock('src/framework/services/errorTracker')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    errorTracker: {
+      error: jest.fn(),
+    },
+  }
+})
 
 jest.useFakeTimers()
 

@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorGrey200 } from '@zendeskgarden/css-variables'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { Main } from 'src/components/Widget'
 import { FONT_SIZE } from 'src/constants/shared'
-import { isMobileBrowser } from 'src/util/devices'
 
 export const HeaderTitle = styled.h2`
   padding-left: ${12 / FONT_SIZE}rem !important;
