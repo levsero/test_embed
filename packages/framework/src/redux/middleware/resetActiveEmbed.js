@@ -107,7 +107,7 @@ const setNewActiveEmbed = (state, dispatch) => {
     activeEmbed = 'channelChoice'
   } else if (getTalkOnline(state)) {
     activeEmbed = 'talk'
-  } else if (getChatAvailable(state) || (getChatStandalone(state) && !getChatBanned(state))) {
+  } else if ((getChatAvailable(state) || getChatStandalone(state)) && !getChatBanned(state)) {
     activeEmbed = 'chat'
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm'
@@ -151,7 +151,8 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
   if (
     (!widgetVisibleOpenAndReady && shouldReset) ||
     shouldResetForSuppress(action, prevState) ||
-    shouldResetForChatChannelChoice
+    shouldResetForChatChannelChoice ||
+    action.type === CHAT_BANNED
   ) {
     setNewActiveEmbed(nextState, dispatch)
   }
