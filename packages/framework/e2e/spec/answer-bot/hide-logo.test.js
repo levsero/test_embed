@@ -23,5 +23,4 @@ test('hides the logo in answer bot when requested', async () => {
   await widget.clickText('The first article')
   await widget.waitForText('first article')
   expect(await widget.zendeskLogoVisible()).toEqual(false)
-  await expect(page).toPassAxeTests()
 })

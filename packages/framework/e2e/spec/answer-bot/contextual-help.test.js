@@ -29,7 +29,6 @@ describe('contextual search', () => {
       await waitForAnswerBot()
       await waitForGetInTouchButton()
       await widget.expectNotToSeeText('Here are some top suggestions for you:')
-      await expect(page).toPassAxeTests()
     })
   })
 
@@ -46,7 +45,6 @@ describe('contextual search', () => {
     expect(link).toBeTruthy()
     await page.waitFor(3000)
     await widget.expectNotToSeeText('Does this article answer your question?')
-    await expect(page).toPassAxeTests()
   })
 
   describe('via config', () => {
@@ -57,8 +55,6 @@ describe('contextual search', () => {
         .load()
       await widget.openByKeyboard()
       await waitForArticleSuggestions()
-      await expect(page).toPassAxeTests()
-      await expect(page).toPassAxeTests()
     })
   })
 
@@ -75,7 +71,6 @@ describe('contextual search', () => {
       await launcher.click()
       await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /query=help/)
-      await expect(page).toPassAxeTests()
     })
 
     it('scrapes the url from the host page for contextual search when url: true', async () => {
@@ -90,7 +85,6 @@ describe('contextual search', () => {
       await launcher.click()
       await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /query=e2e/)
-      await expect(page).toPassAxeTests()
     })
   })
 
@@ -107,7 +101,6 @@ describe('contextual search', () => {
       await launcher.click()
       await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /label_names=credit%20card%2Chelp/)
-      await expect(page).toPassAxeTests()
     })
   })
 })

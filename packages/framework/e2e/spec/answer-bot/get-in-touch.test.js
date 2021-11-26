@@ -13,7 +13,6 @@ test('does not display get in touch button when there are no channels available'
   await waitForAnswerBot()
   await page.waitFor(3000)
   await widget.expectNotToSeeText('Get in touch')
-  await expect(page).toPassAxeTests()
 })
 
 describe('channels available', () => {
@@ -23,7 +22,6 @@ describe('channels available', () => {
     await waitForAnswerBot()
     await waitForGetInTouchButton()
     await widget.expectToSeeText('Get in touch')
-    await expect(page).toPassAxeTests()
   })
 
   test('displays button after asking a question', async () => {
@@ -40,6 +38,5 @@ describe('channels available', () => {
     await waitForGetInTouchButton()
     await widget.waitForText('Or you can get in touch.')
     await widget.expectToSeeText('Get in touch')
-    await expect(page).toPassAxeTests()
   })
 })
