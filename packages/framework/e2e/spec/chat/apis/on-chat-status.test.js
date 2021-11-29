@@ -22,4 +22,5 @@ test('on chat:status calls a function when the status changes', async () => {
   await expect(page).toPassAxeTests({
     exclude: ['#launcher'],
   })
+  await expect(page).toPassAxeTests()
 })
