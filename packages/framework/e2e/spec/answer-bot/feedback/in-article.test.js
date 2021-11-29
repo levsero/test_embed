@@ -48,7 +48,6 @@ describe('clicking yes', () => {
       interaction_access_token: 'eyJ0eXAi',
       resolution_channel_id: 67,
     })
-    await expect(page).toPassAxeTests()
   })
 
   describe('after resolution', () => {
@@ -61,7 +60,6 @@ describe('clicking yes', () => {
     it('shows expected message in coversation', async () => {
       await widget.clickBack()
       await widget.waitForText('Nice. Knowledge is power.')
-      await expect(page).toPassAxeTests()
     })
 
     it('will not ask for feedback again', async () => {
@@ -69,7 +67,6 @@ describe('clicking yes', () => {
       await widget.clickText('The third article')
       await page.waitFor(3000)
       await widget.expectNotToSeeText('Does this article answer your question?')
-      await expect(page).toPassAxeTests()
     })
   })
 })
@@ -91,7 +88,6 @@ describe('clicking no', () => {
         reason_id: 1,
       })
     })
-    await expect(page).toPassAxeTests()
   })
 
   describe('after rejection', () => {
@@ -105,20 +101,17 @@ describe('clicking no', () => {
 
     it('shows expected message in conversation', async () => {
       await widget.waitForText('I see. Your question is still unresolved.')
-      await expect(page).toPassAxeTests()
     })
 
     it('will not ask for feedback again from the same article', async () => {
       await widget.clickText('The second article')
       await page.waitFor(3000)
       await widget.expectNotToSeeText('Does this article answer your question?')
-      await expect(page).toPassAxeTests()
     })
 
     it('will ask for feedback from a different article', async () => {
       await widget.clickText('The first article')
       await widget.waitForText('Does this article answer your question?')
-      await expect(page).toPassAxeTests()
     })
   })
 })

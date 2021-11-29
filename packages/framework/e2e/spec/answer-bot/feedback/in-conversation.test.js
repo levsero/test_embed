@@ -40,7 +40,6 @@ describe('clicking yes', () => {
     await widget.clickButton('Yes')
     await widget.waitForText('Nice. Knowledge is power.')
     expect(resolutionEndpoint).toHaveBeenCalled()
-    await expect(page).toPassAxeTests()
   })
 })
 
@@ -53,6 +52,5 @@ describe('clicking no', () => {
     await widget.clickButton("It's related, but it didn't answer my question")
     await widget.waitForText('I see. Your question is still unresolved.')
     expect(rejectionEndpoint).toHaveBeenCalled()
-    await expect(page).toPassAxeTests()
   })
 })

@@ -68,6 +68,7 @@ describe('support list page', () => {
 
       const doc = await widget.getDocument()
       await expect(await queries.queryByText(doc, form2.form.display_name)).toBeNull()
+      await expect(page).toPassAxeTests()
     })
   })
 })

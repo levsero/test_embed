@@ -113,4 +113,5 @@ test('chat online button text can be customized', async () => {
   const button = await queries.getByText(doc, 'French hit em up')
   await button.click()
   expect(await queries.queryByText(doc, 'Chattez avec nous')).toBeTruthy()
+  await expect(page).toPassAxeTests()
 })
