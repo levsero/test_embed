@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "메시지 보내기",
       "embeddable_framework.messenger.connection_status.now_online": "현재 온라인 상태입니다.",
       "embeddable_framework.messenger.connection_status.offline": "오프라인 상태로 메시지를 받지 못합니다.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "보내기",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "업로드당 파일 수는 {{fileUploadCountLimit}}개로 제한됩니다. 다시 시도하려면 탭하세요.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "파일은 {{fileUploadSizeLimitInMb}}MB 이하여야 합니다.",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "새 탭에서 이미지 열기",

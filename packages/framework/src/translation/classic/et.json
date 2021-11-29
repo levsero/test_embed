@@ -312,7 +312,7 @@
       "embeddable_framework.validation.error.attachments.upload_in_progress": "Enne vormi esitamist oodake, kuni faili üleslaadimine on lõpule jõudnud",
       "embeddable_framework.validation.error.checkbox": "Jätkamiseks märkige see ruut.",
       "embeddable_framework.validation.error.department": "Valige osakond.",
-      "embeddable_framework.validation.error.email": "Sisestage kehtiv meiliaadress.",
+      "embeddable_framework.validation.error.email": "Sisestage kehtiv e-posti aadress.",
       "embeddable_framework.validation.error.feedback_form": "Lisage hinnang või kommentaar",
       "embeddable_framework.validation.error.input": "Sisestage väärtus.",
       "embeddable_framework.validation.error.message": "Sisestage kehtiv sõnum.",

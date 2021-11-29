@@ -4,14 +4,14 @@ import { MessengerFooter } from '@zendesk/conversation-components'
 import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { isSafari } from 'src/framework/utils/hostPageWindow'
-import { fileUploadCountLimit } from 'messengerSrc/constants'
+import useSendFiles from 'messengerSrc/features/app/hooks/useSendFiles'
 import {
   getComposerDraft,
   getIsComposerEnabled,
   saveDraft,
 } from 'messengerSrc/features/footer/store'
 import { stopTyping, startTyping } from 'messengerSrc/features/footer/typing'
-import { sendMessage, sendFile } from 'messengerSrc/features/messageLog/store'
+import { sendMessage } from 'messengerSrc/features/messageLog/store'
 import { getIsFullScreen } from 'messengerSrc/features/responsiveDesign/store'
 import { AnimationContext } from 'messengerSrc/features/widget/components/WidgetFrame/FrameAnimation'
 
@@ -22,11 +22,7 @@ const Footer = () => {
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
   const isAnimationComplete = useContext(AnimationContext)
-  const onFilesSelected = (files) => {
-    Array.from(files).forEach((file, index) => {
-      dispatch(sendFile({ file, failDueToTooMany: index >= fileUploadCountLimit }))
-    })
-  }
+  const { onFilesSelected } = useSendFiles()
 
   const onSendMessage = (message) => {
     if (message.trim().length === 0) {

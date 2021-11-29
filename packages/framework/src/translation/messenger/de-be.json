@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Nachricht senden",
       "embeddable_framework.messenger.connection_status.now_online": "Sie sind jetzt online",
       "embeddable_framework.messenger.connection_status.offline": "Offline. Sie erhalten keine Nachrichten.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Senden",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limit von {{fileUploadCountLimit}} Dateien pro Upload. Tippen, um es erneut zu versuchen.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Dateien dürfen eine maximale Größe von {{fileUploadSizeLimitInMb}} MB aufweisen",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Bild in neuer Registerkarte öffnen",

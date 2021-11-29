@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Poslat zprávu",
       "embeddable_framework.messenger.connection_status.now_online": "Nyní jste online",
       "embeddable_framework.messenger.connection_status.offline": "Offline. Nebudete dostávat zprávy.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Odeslat",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Jedno nahrání má omezení {{fileUploadCountLimit}} souborů. Klepnutím to zkuste znovu.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Soubory musí mít velikost {{fileUploadSizeLimitInMb}} MB nebo menší.",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Otevřít obrázek na nové kartě",

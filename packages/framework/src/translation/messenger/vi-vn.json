@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "Gửi tin nhắn",
       "embeddable_framework.messenger.connection_status.now_online": "Bạn đang trực tuyến",
       "embeddable_framework.messenger.connection_status.offline": "Ngoại tuyến. Bạn sẽ không nhận được tin nhắn.",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Gửi",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Giới hạn {{fileUploadCountLimit}} tập tin cho mỗi lần tải lên. Gõ vào để thử lại.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Tập tin phải là {{fileUploadSizeLimitInMb}} MB hoặc nhỏ hơn",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Mở ảnh trong một tab mới",

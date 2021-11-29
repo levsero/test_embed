@@ -101,6 +101,9 @@ const ThemeProvider = ({ children }) => {
           uploadButtonAriaLabel: translate(
             'embeddable_framework.messenger.file_upload.upload_button'
           ),
+          dragDropOverlayText: translate(
+            'embeddable_framework.messenger.file_upload.drag_drop_overlay_text'
+          ),
         },
         imageMessage: {
           openImage: translate(

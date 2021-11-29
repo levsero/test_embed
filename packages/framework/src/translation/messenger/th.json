@@ -44,6 +44,7 @@
       "embeddable_framework.messenger.composer.send_button_tooltip": "ส่งข้อความ",
       "embeddable_framework.messenger.connection_status.now_online": "คุณออนไลน์แล้ว",
       "embeddable_framework.messenger.connection_status.offline": "ออฟไลน์ คุณจะไม่ได้รับข้อความ",
+      "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "ส่ง",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "จํากัดจำนวนไฟล์อัปโหลด {{fileUploadCountLimit}} ไฟล์ต่อครั้ง แตะเพื่อลองอีกครั้ง",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "ไฟล์ต้องมีขนาด {{fileUploadSizeLimitInMb}} MB หรือน้อยกว่า",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "เปิดรูปในแท็บใหม่",
