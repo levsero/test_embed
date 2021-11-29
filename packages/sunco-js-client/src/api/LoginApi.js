@@ -1,11 +1,9 @@
-import { getClientInfo } from '../utils/device'
 import BaseApi from './BaseApi'
 
 class LoginApi extends BaseApi {
-  create(appUserId, externalId, jwt) {
-    this.auth.jwt = jwt
+  create(appUserId, externalId) {
     const data = {
-      client: getClientInfo(this.integrationId),
+      client: this.getClientInfo(),
       userId: externalId,
     }
 

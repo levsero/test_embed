@@ -58,7 +58,7 @@ const init = async ({ config }) => {
   trackNoMessageReceived(store)
 
   const suncoClient = setupSuncoClient(config.messenger)
-  const clientId = suncoClient.getClientId(config.messenger.integrationId)
+  const clientId = suncoClient.getClientId()
 
   if (clientId !== identity.getBuid()) {
     identity.setBuid(clientId)
@@ -66,11 +66,13 @@ const init = async ({ config }) => {
 
   if (__DEV__) {
     if (isFeatureEnabled(undefined, 'web_widget_jwt_auth')) {
-      const { jwt } = await fetch(
-        `http://localhost:1338/api/account/messenger-jwt/${window.top.dashboardConfig.id}`
-      ).then((res) => res.json())
+      suncoClient.loginUser(async (callback) => {
+        const { jwt } = await fetch(
+          `http://localhost:1338/api/account/messenger-jwt/${window.top.dashboardConfig.id}`
+        ).then((res) => res.json())
 
-      suncoClient.loginUser(() => jwt)
+        callback(jwt)
+      })
     }
   }
 

@@ -1,4 +1,3 @@
-import { getClientInfo, getSessionId } from '../utils/device'
 import BaseApi from './BaseApi'
 
 class ActivityApi extends BaseApi {
@@ -10,8 +9,7 @@ class ActivityApi extends BaseApi {
         author: {
           role: 'appUser',
           appUserId: appUserId,
-          client: getClientInfo(this.integrationId),
-          sessionId: getSessionId(this.integrationId),
+          client: this.getClientInfo(),
         },
         activity,
       },

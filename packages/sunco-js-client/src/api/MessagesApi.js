@@ -1,5 +1,4 @@
 import { MAX_FILE_SIZE_IN_BYTES } from '../utils/constants'
-import { getClientInfo, getSessionId } from '../utils/device'
 import SuncoAPIError from './../utils/SuncoAPIError'
 import BaseApi from './BaseApi'
 
@@ -57,8 +56,7 @@ class MessagesApi extends BaseApi {
     return {
       role: 'appUser',
       appUserId: appUserId,
-      client: getClientInfo(this.integrationId),
-      sessionId: getSessionId(this.integrationId),
+      client: this.getClientInfo(),
     }
   }
 }

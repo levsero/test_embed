@@ -1,4 +1,3 @@
-import { getClientInfo } from '../utils/device'
 import BaseApi from './BaseApi'
 
 class AppUsersApi extends BaseApi {
@@ -7,11 +6,12 @@ class AppUsersApi extends BaseApi {
       method: 'POST',
       path: `/v2/apps/${this.appId}/appusers`,
       data: {
-        client: getClientInfo(this.integrationId),
+        client: this.getClientInfo(),
         // userId: '', //  omit userId while all users are anonymous
         intent: 'conversation:start', //this will trigger a conversation:start webhook needed by AB
         ...data,
       },
+      authorizationRequired: false,
     })
   }
 

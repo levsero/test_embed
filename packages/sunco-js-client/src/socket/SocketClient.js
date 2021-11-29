@@ -80,11 +80,11 @@ const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAtte
   }
 }
 
-const SocketClient = function ({ baseUrl, appId, appUserId, auth } = {}) {
+const SocketClient = function ({ baseUrl, appId, user } = {}) {
   this.appId = appId
-  this.appUserId = appUserId
   this.hasSocketAborted = false
   this.subscriptions = {}
+  this.user = user
 
   const setupFayeClient = () => {
     const fayeClient = new Client(baseUrl, {
@@ -94,14 +94,17 @@ const SocketClient = function ({ baseUrl, appId, appUserId, auth } = {}) {
     fayeClient.addExtension({
       outgoing: (message, callback) => {
         if (message.channel === '/meta/subscribe') {
+          const { jwt, sessionToken, appUserId } = user.getCurrentAppUserIfAny()
+
           message.ext = {
-            appUserId: this.appUserId,
+            appUserId,
             appId: this.appId,
           }
-          if (auth.jwt) {
-            message.ext.jwt = auth.jwt
-          } else if (auth.sessionToken) {
-            message.ext.sessionToken = auth.sessionToken
+
+          if (jwt) {
+            message.ext.jwt = jwt
+          } else if (sessionToken) {
+            message.ext.sessionToken = sessionToken
           }
         }
 
@@ -161,7 +164,8 @@ const SocketClient = function ({ baseUrl, appId, appUserId, auth } = {}) {
 
   const subscribe = () => {
     // If its already subscribed, resolve immediately
-    const channel = `/sdk/apps/${this.appId}/appusers/${this.appUserId}`
+    const { appUserId } = this.user.getCurrentAppUserIfAny()
+    const channel = `/sdk/apps/${this.appId}/appusers/${appUserId}`
 
     if (this.subscriptions[channel]) {
       return new Promise((res) => res())
@@ -183,6 +187,9 @@ const SocketClient = function ({ baseUrl, appId, appUserId, auth } = {}) {
         }
         this.subscription = this.fayeClient
           .subscribe(channel, ({ events }) => {
+            if (cancelled) {
+              return
+            }
             for (const event of events) {
               switch (event.type) {
                 case 'message':
