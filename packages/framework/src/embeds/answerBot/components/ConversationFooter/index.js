@@ -54,7 +54,7 @@ class ConversationFooter extends Component {
           inputValue={currentMessage}
           name="answerBotInputValue"
           placeholder={placeholder}
-          updateInputValue={questionValueChanged}
+          questionValueChanged={questionValueChanged}
           handleSendInputValue={this.handleSendInputValue}
         />
         {this.renderZendeskLogo()}
@@ -91,7 +91,7 @@ class ConversationFooter extends Component {
           inputValue={currentMessage}
           name="answerBotInputValue"
           placeholder={placeholder}
-          updateInputValue={questionValueChanged}
+          questionValueChanged={questionValueChanged}
           handleSendInputValue={this.handleSendInputValue}
         />
       </Footer>
