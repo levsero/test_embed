@@ -1,17 +1,45 @@
-/* eslint no-console:0 */
+/* eslint-disable no-console */
+import { withDesign } from 'storybook-addon-designs'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
+import { figmaAddOn, figmaUrl } from '../../../.storybook/figma'
 import MessengerFooter from './'
 
 export default {
-  title: 'Messenger/MessengerFooter',
+  title: 'Components/MessengerFooter',
   component: MessengerFooter,
-  decorators: [MessengerContainerDecorator],
+  decorators: [MessengerContainerDecorator, withDesign],
+  argTypes: {
+    allowedFileTypes: {
+      defaultValue: '.pdf,.jpg',
+    },
+    onFilesSelected: {
+      defaultValue: (value) => console.log('onFilesSelected:', value),
+    },
+  },
 }
 
 const Template = (args) => <MessengerFooter {...args} />
 
-export const EmptyFooter = Template.bind()
-EmptyFooter.args = {
-  onSendMessage: (value) => console.log('Footer send message: ', value),
-  onFilesSelected: (value) => console.log('Files have been selected: ', value),
+export const FooterWithoutFileInputButton = Template.bind()
+FooterWithoutFileInputButton.args = {
+  isFileInputVisible: false,
+}
+
+FooterWithoutFileInputButton.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.fileUploadFooterButton,
+  },
+}
+
+export const FooterWithFileInputButton = Template.bind()
+FooterWithFileInputButton.args = {
+  isFileInputVisible: true,
+}
+
+FooterWithFileInputButton.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.fileUploadFooterButton,
+  },
 }

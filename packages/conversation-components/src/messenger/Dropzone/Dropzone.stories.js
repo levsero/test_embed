@@ -1,3 +1,4 @@
+import { withDesign } from 'storybook-addon-designs'
 import {
   MessengerContainer,
   MessengerHeader,
@@ -6,11 +7,13 @@ import {
   MessageLogList,
   MessengerBody,
 } from 'src/index'
+import { figmaAddOn, figmaUrl } from '../../../.storybook/figma'
 import Dropzone from './index'
 
 export default {
   title: 'Messenger/Dropzone',
   component: Dropzone,
+  decorator: [withDesign],
   argTypes: {
     forceDisplay: {
       defaultValue: true,
@@ -43,4 +46,11 @@ export const Default = (args) => {
       <MessengerFooter />
     </MessengerContainer>
   )
+}
+
+Default.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.fileUploadDropzone,
+  },
 }
