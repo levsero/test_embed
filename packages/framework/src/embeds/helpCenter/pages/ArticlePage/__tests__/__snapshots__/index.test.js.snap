@@ -727,7 +727,6 @@ exports[`ArticlePage default render matches snapshot 1`] = `
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="presentation"
           >
             pageTitle
           </h1>

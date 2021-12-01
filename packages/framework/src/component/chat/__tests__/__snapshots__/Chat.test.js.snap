@@ -406,7 +406,6 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="presentation"
           />
           <button
             aria-label="Minimize widget"

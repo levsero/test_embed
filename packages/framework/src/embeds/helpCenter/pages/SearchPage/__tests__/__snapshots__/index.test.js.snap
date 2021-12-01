@@ -952,7 +952,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="presentation"
           >
             pageTitle
           </h1>
@@ -2040,7 +2039,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="presentation"
           >
             pageTitle
           </h1>

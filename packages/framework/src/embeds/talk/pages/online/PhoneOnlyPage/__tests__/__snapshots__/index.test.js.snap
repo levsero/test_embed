@@ -542,7 +542,6 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="presentation"
           >
             Call us
           </h1>
