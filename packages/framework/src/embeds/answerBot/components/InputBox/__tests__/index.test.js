@@ -47,7 +47,7 @@ describe('events', () => {
   it('updates handler on change', () => {
     const handler = jest.fn()
     const { getByPlaceholderText } = renderComponent({
-      updateInputValue: handler,
+      questionValueChanged: handler,
       placeholder: 'here',
     })
 

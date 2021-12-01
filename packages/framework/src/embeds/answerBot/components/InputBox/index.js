@@ -9,13 +9,13 @@ const InputBox = ({
   name,
   placeholder,
   handleSendInputValue,
-  updateInputValue,
+  questionValueChanged,
   isMobile,
   onFocus,
   onBlur,
 }) => {
   const handleKeyDown = (e) => {
-    if (e.key === keyCodes.ENTER && !e.shiftKey) {
+    if (e.key === keyCodes.ENTER && !e.shiftKey && !e.nativeEvent.isComposing) {
       e.preventDefault()
       handleSendInputValue()
     }
@@ -23,7 +23,8 @@ const InputBox = ({
 
   const handleInputValueChanged = (e) => {
     const { value } = e.target
-    updateInputValue(value)
+
+    questionValueChanged(value)
   }
 
   return (
@@ -51,7 +52,7 @@ InputBox.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   handleSendInputValue: PropTypes.func.isRequired,
-  updateInputValue: PropTypes.func,
+  questionValueChanged: PropTypes.func,
   isMobile: PropTypes.bool,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,

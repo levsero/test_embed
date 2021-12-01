@@ -21,7 +21,7 @@ const renderSend = (handleSendInputValue) => {
 const MobileInputBox = ({
   inputValue,
   placeholder,
-  updateInputValue,
+  questionValueChanged,
   handleSendInputValue,
   name,
 }) => {
@@ -34,7 +34,7 @@ const MobileInputBox = ({
           inputValue={inputValue}
           name={name}
           placeholder={placeholder}
-          updateInputValue={updateInputValue}
+          questionValueChanged={questionValueChanged}
           handleSendInputValue={handleSendInputValue}
           isMobile={true}
           onFocus={() => {
@@ -54,7 +54,7 @@ MobileInputBox.propTypes = {
   name: PropTypes.string.isRequired,
   inputValue: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  updateInputValue: PropTypes.func.isRequired,
+  questionValueChanged: PropTypes.func.isRequired,
   handleSendInputValue: PropTypes.func.isRequired,
 }
 
