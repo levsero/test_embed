@@ -7,7 +7,6 @@ import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
 
 const Container = styled.div`
   font-family: ${(props) => props.theme.messenger.fontFamily};
-  width: ${(props) => rem(640, props.theme.baseFontSize)};
   max-width: 100%;
   display: flex;
   align-items: center;

@@ -1,19 +1,22 @@
 /* eslint-disable no-console */
-import {
-  MessengerContainerDecorator,
-  ChannelLinkContainerDecorator,
-} from '../../../.storybook/decorators'
+import ChannelLinkContainer from 'src/messenger/ChannelLinkContainer'
+import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 import ChannelLinkWithUnlink from './ChannelLinkWithUnlink'
 
 export default {
   title: 'Messenger/ChannelLink',
   component: ChannelLinkWithUnlink,
-  decorators: [ChannelLinkContainerDecorator, MessengerContainerDecorator],
+  decorators: [MessengerContainerDecorator],
 }
 
-const Template = (args) => <ChannelLinkWithUnlink {...args} />
+export const LinkWithUnlink = (args) => {
+  return (
+    <ChannelLinkContainer>
+      <ChannelLinkWithUnlink {...args} />
+    </ChannelLinkContainer>
+  )
+}
 
-export const LinkWithUnlink = Template.bind()
 LinkWithUnlink.args = {
   channelId: 'messenger',
   onDisconnect: () => console.log('Disconnect clicked'),
