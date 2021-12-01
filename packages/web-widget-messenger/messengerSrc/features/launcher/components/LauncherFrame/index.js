@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { FRAME_ANIMATION_DURATION } from '@zendesk/conversation-components'
+import { FRAME_ANIMATION_DURATION_IN_MS } from '@zendesk/conversation-components'
 import Frame from 'src/framework/components/Frame'
 import {
   bezierCurve,
@@ -51,7 +51,7 @@ const LauncherFrame = ({ children }) => {
           boxShadow: frameBoxShadow,
           animation: `webSDKOnLoad 0.2s ease-in, ${
             isWidgetOpen && shouldAnimate
-              ? `launcherOnOpen ${FRAME_ANIMATION_DURATION}s ${bezierCurve}`
+              ? `launcherOnOpen ${FRAME_ANIMATION_DURATION_IN_MS}s ${bezierCurve}`
               : undefined
           }`,
           zIndex,
