@@ -47,10 +47,6 @@ const featureConfig = {
     defaultValue: false,
     getArturoValue: () => features.jwtAuth,
   },
-  web_widget_drag_drop_file_upload: {
-    defaultValue: false,
-    getArturoValue: () => features.dragDropFileUpload,
-  },
   ...(__DEV__ && {
     dev_override_sunco: {
       defaultValue: false,
