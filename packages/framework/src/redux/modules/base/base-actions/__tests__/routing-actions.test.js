@@ -14,7 +14,7 @@ jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('src/embeds/helpCenter/selectors')
 jest.mock('src/embeds/support/selectors')
 jest.mock('src/service/history')
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 const mockState = {
   base: {

@@ -85,7 +85,7 @@ describe('WebWidget component', () => {
         isPopout: () => undefined,
       },
       'src/components/NotificationPopup': noopReactComponent(),
-      'src/embeds/webWidget/selectors/feature-flags': () => undefined,
+      '@zendesk/widget-shared-services/feature-flags': () => undefined,
       'src/embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
       'src/component/chat/ChatNotificationPopup': { ChatNotificationPopup },
       'src/redux/modules/base': {

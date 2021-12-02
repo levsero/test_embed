@@ -1,10 +1,10 @@
 import { fireEvent } from '@testing-library/react'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { CLICK_TO_CALL } from 'src/embeds/talk/talk-capability-types'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { render } from 'src/util/testHelpers'
 import { Component as ChannelChoice } from '../index'
 
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 const actions = Object.freeze({
   updateBackButtonVisibility: jest.fn(),

@@ -10,7 +10,7 @@ jest.mock('src/framework/setupIframe')
 jest.mock('@zendesk/widget-shared-services/beacon')
 jest.mock('@zendesk/widget-shared-services/tracker')
 jest.mock('@zendesk/widget-shared-services/public-api')
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 jest.mock('src/apps/webWidget/boot')
 
 const runWidgetStart = async (config, configLoadEnd) => {

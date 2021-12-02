@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import createStore from 'src/redux/createStore'
 import { BOOT_UP_TIMER_COMPLETE } from 'src/redux/modules/base/base-action-types'
 
@@ -16,7 +16,7 @@ jest.mock('src/embeds/webWidget', () => ({
   render: jest.fn(),
 }))
 jest.mock('src/embeds/helpCenter/actions')
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 const store = createStore()
 
@@ -49,7 +49,7 @@ beforeEach(() => {
   settings.getErrorReportingEnabled = () => false
   errorTracker = require('@zendesk/widget-shared-services').errorTracker
   errorTracker.configure = jest.fn()
-  talkfeature = require('src/embeds/webWidget/selectors/feature-flags').default
+  talkfeature = require('@zendesk/widget-shared-services/feature-flags').default
   talkfeature.mockImplementation(() => false)
   baseActions = require('src/redux/modules/base')
   setLocaleApi = require('src/service/api/apis').setLocaleApi

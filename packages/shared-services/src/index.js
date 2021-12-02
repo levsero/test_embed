@@ -1,6 +1,7 @@
 import { logAndTrackApiError } from './api/errorHandlers'
 import { beacon } from './beacon'
 import { errorTracker } from './errorTracker'
+import isFeatureEnabled, { updateFeatures } from './feature-flags'
 import { identity } from './identity'
 import { logger } from './logger'
 import { store as persistence } from './persistence'
@@ -133,4 +134,4 @@ export { isOnHelpCenterPage, isOnHostMappedDomain }
 export { InfiniteLoopError, logAndTrackApiError, ZopimApiError }
 
 // random
-export { browser, devices, getZendeskHost, globals, inDebugMode }
+export { browser, devices, getZendeskHost, globals, inDebugMode, isFeatureEnabled, updateFeatures }

@@ -1,7 +1,7 @@
 import { fireEvent, waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
-import { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
+import { updateFeatures } from '@zendesk/widget-shared-services/feature-flags'
 import * as suncoClient from 'messengerSrc/api/sunco'
 import * as messageLogStore from 'messengerSrc/features/messageLog/store'
 import { render } from 'messengerSrc/utils/testHelpers'

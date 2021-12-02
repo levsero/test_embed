@@ -19,7 +19,7 @@ jest.mock('src/service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
 jest.mock('src/service/history')
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 jest.mock('src/embeds/support/utils/track-ticket-submitted')
 
 const mockFileBlob2 = {

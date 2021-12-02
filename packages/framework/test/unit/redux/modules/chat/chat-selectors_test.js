@@ -72,7 +72,7 @@ describe('chat selectors', () => {
           getSettingTranslation: () => mockTranslation,
         },
       },
-      'src/embeds/webWidget/selectors/feature-flags': () => false,
+      '@zendesk/widget-shared-services/feature-flags': () => false,
       'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname,
       },

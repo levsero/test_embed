@@ -1,3 +1,4 @@
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'src/constants/chat'
 import {
   CHAT_DEPARTMENT_STATUS_EVENT,
@@ -5,7 +6,6 @@ import {
   CHAT_ENDED_EVENT,
 } from 'src/constants/event'
 import { getHasBackfillCompleted } from 'src/embeds/chat/selectors/selectors'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { chatBanned } from 'src/redux/modules/chat'
 import {
   SDK_ACCOUNT_STATUS,

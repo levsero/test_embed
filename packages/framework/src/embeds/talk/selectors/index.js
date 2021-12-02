@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 import {
@@ -7,7 +8,6 @@ import {
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
 } from 'src/embeds/talk/talk-capability-types'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
 
 export const getEmbeddedVoiceSupported = (_state) =>

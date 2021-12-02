@@ -1,4 +1,4 @@
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 let chatConnected = false
 let chatSDKInitialized = false

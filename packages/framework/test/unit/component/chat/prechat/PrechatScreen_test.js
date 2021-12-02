@@ -46,7 +46,7 @@ describe('PrechatScreen component', () => {
       'src/component/container/Container': {
         Container: noopReactComponent(),
       },
-      'src/embeds/webWidget/selectors/feature-flags': {
+      '@zendesk/widget-shared-services/feature-flags': {
         isFeatureEnabled: () => false,
       },
       'src/components/Widget/SuspensePage': noopReactComponent(),

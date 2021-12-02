@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { win } from '@zendesk/widget-shared-services'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const useShouldDisableAnimations = () => {
   const animationsDisabled = useSelector((state) =>

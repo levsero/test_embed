@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { lazy, Suspense } from 'react'
 import { useSelector } from 'react-redux'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import Launcher from 'src/embeds/webWidget/components/Launcher'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { getFrameVisible } from 'src/redux/modules/selectors'
 
 const Embeds = lazy(() =>
