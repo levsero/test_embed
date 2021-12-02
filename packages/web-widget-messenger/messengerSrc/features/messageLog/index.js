@@ -21,7 +21,7 @@ const MessageLog = () => {
   const errorFetchingHistory = useSelector(getErrorFetchingHistory)
   const isFetchingHistory = useSelector(getIsFetchingHistory)
   const {
-    onScrollBottom,
+    onScroll,
     scrollToBottomIfNeeded,
     scrollToBottom,
     scrollToFirstError,
@@ -42,7 +42,7 @@ const MessageLog = () => {
       <MessageLogList
         ref={container}
         onScroll={(event) => {
-          onScrollBottom(event)
+          onScroll(event)
           onScrollTop(event)
         }}
       >

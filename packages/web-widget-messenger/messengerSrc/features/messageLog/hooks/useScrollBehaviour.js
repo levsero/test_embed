@@ -53,7 +53,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     [scrollToBottom, widgetOpen]
   )
 
-  const onScrollBottom = useCallback(
+  const onScroll = useCallback(
     (event) => {
       const pxFromBottom =
         event.target.scrollHeight - event.target.clientHeight - event.target.scrollTop
@@ -128,7 +128,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   }, [])
 
   return {
-    onScrollBottom,
+    onScroll,
     scrollToBottomIfNeeded,
     scrollToBottom,
     scrollToFirstError,

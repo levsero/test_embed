@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { FRAME_ANIMATION_DURATION } from 'src/constants'
+import { FRAME_ANIMATION_DURATION_IN_MS } from 'src/constants'
 import { useScroll } from 'src/hooks/useScrollBehaviour'
 import { isSafari } from 'src/utils/hostPageWindow'
 
@@ -18,7 +18,7 @@ const Animated = ({
   const onEnter = () => {
     // Safari scrolls the host page if called before the animation has finished, so delay until it's done
     isSafari
-      ? setTimeout(scrollToBottomIfNeeded, FRAME_ANIMATION_DURATION * 1000)
+      ? setTimeout(scrollToBottomIfNeeded, FRAME_ANIMATION_DURATION_IN_MS * 1000)
       : scrollToBottomIfNeeded()
   }
 

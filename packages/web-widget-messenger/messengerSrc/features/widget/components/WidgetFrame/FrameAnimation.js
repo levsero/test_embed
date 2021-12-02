@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import { createContext } from 'react'
 import { useSelector } from 'react-redux'
 import { Transition } from 'react-transition-group'
 import { getIsLauncherVisible } from 'messengerSrc/features/launcher/store'
@@ -16,7 +16,7 @@ import {
 } from 'messengerSrc/features/widget/components/WidgetFrame/styles'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 
-export const AnimationContext = React.createContext('loadingAnimation')
+export const AnimationContext = createContext('loadingAnimation')
 
 const FrameAnimation = ({ children }) => {
   const isLauncherVisible = useSelector(getIsLauncherVisible)
@@ -25,21 +25,10 @@ const FrameAnimation = ({ children }) => {
   const position = useSelector(getPosition)
   const isWidgetOpen = useSelector(getIsWidgetOpen)
   const zIndex = useSelector(getZIndex)
-  const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
-
-  const [animationState, setAnimationState] = useState(!shouldAnimate)
+  const dontAnimate = isFullScreen || isVerticallySmallScreen
 
   return (
-    <Transition
-      in={isWidgetOpen}
-      timeout={shouldAnimate ? openAnimationDuration * 1000 : 0}
-      onEntered={() => {
-        setAnimationState(true)
-      }}
-      onExited={() => {
-        setAnimationState(false)
-      }}
-    >
+    <Transition in={isWidgetOpen} timeout={dontAnimate ? 0 : openAnimationDuration * 1000}>
       {(status) => (
         <div
           style={getFrameWrapperStyles({
@@ -51,7 +40,7 @@ const FrameAnimation = ({ children }) => {
             zIndex,
           })}
         >
-          <AnimationContext.Provider value={animationState}>
+          <AnimationContext.Provider value={status === 'entered'}>
             {children(
               status,
               getFrameStyles({
