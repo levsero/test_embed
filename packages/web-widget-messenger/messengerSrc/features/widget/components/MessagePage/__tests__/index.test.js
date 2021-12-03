@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event'
-import { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
 import * as conversationStore from 'messengerSrc/features/suncoConversation/store'
 import MessagePage from 'messengerSrc/features/widget/components/MessagePage'
 import createStore from 'messengerSrc/store'
@@ -54,12 +53,6 @@ describe('MessagePage', () => {
   })
 
   describe('when the conversation is active', () => {
-    beforeEach(() => {
-      updateFeatures({
-        dragDropFileUpload: true,
-      })
-    })
-
     it('displays the message log', () => {
       const { store, queryByRole } = renderComponent()
       store.dispatch(widgetOpened())
