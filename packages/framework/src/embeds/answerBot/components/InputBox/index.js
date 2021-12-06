@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { Field } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
 import { keyCodes } from 'src/util/keyboard'
@@ -14,8 +15,14 @@ const InputBox = ({
   onFocus,
   onBlur,
 }) => {
+  // event.nativeEvent.isComposing and isComposing flag are used
+  // to support composing text in foreign languages across browsers.
+  const [isComposing, setIsComposing] = useState(false)
+  const handleKeyUp = () => setIsComposing(false)
+  const handleCompositionEnd = () => setIsComposing(true)
+
   const handleKeyDown = (e) => {
-    if (e.key === keyCodes.ENTER && !e.shiftKey && !e.nativeEvent.isComposing) {
+    if (e.key === keyCodes.ENTER && !e.shiftKey && !e.nativeEvent.isComposing && !isComposing) {
       e.preventDefault()
       handleSendInputValue()
     }
@@ -35,6 +42,8 @@ const InputBox = ({
           value={inputValue}
           onChange={handleInputValueChanged}
           onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
+          onCompositionEnd={handleCompositionEnd}
           placeholder={placeholder}
           name={name}
           rows={isMobile ? 1 : 3}
