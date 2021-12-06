@@ -7,7 +7,6 @@
 | Jenkins        | https://jenkins.zende.sk/view/Web-Widget-Staging-Health/       |
 | Datadog        | https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget |
 | Rollbar        | https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/   |
-| Smoke Tests    | https://jenkins-smoke.zende.sk/view/Web%20Widget%20Monitor/    |
 
 ## Rules
 
@@ -145,7 +144,7 @@ Embeddable Framework uses a staged rollout mechanism, where the assets are deplo
 
 In staging, the release to the 3 stages occur simultaneously, and the release is triggered automatically after `Build Staging` finishes.
 
-Once the deploy is finished it will trigger our [automatic tests](https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/) to run in staging.
+Once the deploy is finished it will trigger our [automatic tests] to run in staging.
 
 #### Production
 
@@ -156,7 +155,7 @@ These are the steps for deploying changes to production:
 1. The first step is deploying to the canary group (`Release Production - Canary (Tier 1)`). Make sure that
    [staging status] and [pod999 smoke tests] have all run and are passing before doing a deployment.
    Once deployed, allow a soak time of at least 30 minutes in this stage and only proceed to the next stage if
-   [canary smoke tests](https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/) are all green.
+   [canary smoke tests] are all green.
 
 2. The second step is the general availability release (`Release Production - General Availability`). This updates all customers who aren't in Tier 1 or Tier 2. Most
    customers will be in this stage. Soak time for this should be longer, depending on the risk of the deployment.
@@ -231,16 +230,16 @@ Please notify [#team-taipan] if a rollback has occurred out of Melbourne hours.
 
 - Test your changes on a production account.
 - Keep an eye on our [web widget](https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget) and [upstream](https://zendesk.datadoghq.com/dashboard/yut-9gq-ru7/web-widget-upstream-dependencies) dashboards to make sure nothing is out of the ordinary. These dashboards shows anomaly data on metrics when they are below or above the regular thresholds. Note that it is normal to see occasional spikes in certain metrics that will appear as anomaly data, however, if any metrics are consistently abnormal it may be related to a recent deploy.
-- Make sure our [Production Smoke tests](https://jenkins-smoke.zende.sk/job/smoke_production/view/Web%20Widget/) pass.
+- Make sure our [production Smoke tests] pass.
 - Check [Rollbar](https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/) for any new errors.
 
 [#team-taipan]: https://zendesk.slack.com/messages/C0R1EJ3UP/
 [staging status]: https://jenkins.zende.sk/view/Web-Widget-Staging-Health/
-[pod999 smoke tests]: https://jenkins-smoke.zende.sk/job/smoke_999/view/Web%20Widget/
+[pod999 smoke tests]: https://jenkins-pod999.zende.sk/job/smoke_999/view/Web%20Widget/
 [staging browser tests]: https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/
 [production freeze]: https://zendesk.atlassian.net/wiki/display/ops/Production+Freeze
-[canary smoke tests]: https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/
-[production smoke tests]: https://jenkins-smoke.zende.sk/job/smoke_production/view/Web%20Widget/
+[canary smoke tests]: https://jenkins-pod26.zende.sk/job/smoke_26/view/Web%20Widget/
+[production smoke tests]: https://jenkins-pod23.zende.sk/job/smoke_26/view/Web%20Widget/
 [build staging]: https://samson.zende.sk/projects/embeddable_framework/stages/build-staging
 [build production]: https://samson.zende.sk/projects/embeddable_framework/stages/build-production
 [samson - embeddable framework]: https://samson.zende.sk/projects/embeddable_framework
