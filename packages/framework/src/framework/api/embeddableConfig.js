@@ -1,3 +1,5 @@
+import { send } from 'src/service/transport/http-base'
+
 const hostPageWindow = window.top
 
 const isRequestFromLivePreview = () => {
@@ -8,24 +10,31 @@ const isRequestFromLivePreview = () => {
 }
 
 const fetchEmbeddableConfig = async () => {
-  if (typeof fetch === 'undefined') {
-    await import('whatwg-fetch')
-  }
+  // attempt to use the config that was preloaded
+  if (window.ACFetch) {
+    try {
+      const result = await window.ACFetch(
+        `https://${window.document.zendesk.web_widget.id}/embeddable/config`
+      )
 
-  const zendeskHost =
-    document.zendeskHost || document.zendesk?.web_widget?.id || document.web_widget?.id
-
-  if (!zendeskHost) {
-    throw new Error('Missing zendeskHost config param.')
-  }
-
-  const path = isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config'
-
-  return fetch(`https://${zendeskHost}${path}`).then((response) => {
-    if (response.status !== 200) {
-      throw new Error('Failed to fetch config')
+      return result
+    } catch {
+      // fallback to fetching embeddable config
     }
-    return response.json()
+  }
+
+  return new Promise((resolve, reject) => {
+    send(
+      {
+        method: 'get',
+        path: isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config',
+        callbacks: {
+          done: (res) => resolve(res.body),
+          fail: reject,
+        },
+      },
+      false
+    )
   })
 }
 
