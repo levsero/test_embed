@@ -11,9 +11,8 @@ const isRequestFromLivePreview = () => {
 
 const fetchEmbeddableConfig = async () => {
   // attempt to use the config that was preloaded
-  if (window.ACFetch && !window.configRequest) {
+  if (window.ACFetch) {
     try {
-      window.configRequest = true
       const result = await window.ACFetch(
         `https://${window.document.zendesk.web_widget.id}/embeddable/config`
       )
