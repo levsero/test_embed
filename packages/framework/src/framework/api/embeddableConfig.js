@@ -10,6 +10,21 @@ const isRequestFromLivePreview = () => {
 }
 
 const fetchEmbeddableConfig = async () => {
+  // attempt to use the config that was preloaded
+  if (window.ACFetch && !window.configRequest) {
+    try {
+      window.configRequest = true
+      const result = await window.ACFetch(
+        `https://${window.document.zendesk.web_widget.id}/embeddable/config`
+      )
+      if (result.success) {
+        return result.config
+      }
+    } catch {
+      // fallback to fetching embeddable config
+    }
+  }
+
   return new Promise((resolve, reject) => {
     send(
       {
