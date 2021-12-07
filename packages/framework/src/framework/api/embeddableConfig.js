@@ -16,9 +16,8 @@ const fetchEmbeddableConfig = async () => {
       const result = await window.ACFetch(
         `https://${window.document.zendesk.web_widget.id}/embeddable/config`
       )
-      if (result.success) {
-        return result.config
-      }
+
+      return result
     } catch {
       // fallback to fetching embeddable config
     }
