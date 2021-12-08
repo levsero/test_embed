@@ -1,12 +1,19 @@
 import { find } from 'styled-components/test-utils'
+import { isMobileBrowser, onNextTick } from '@zendesk/widget-shared-services'
 import { TEST_IDS } from 'src/constants/shared'
-import { isMobileBrowser } from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
-import { onNextTick } from 'src/util/utils'
 import { Component as ChatMenu } from './..'
 import { SoundOffIcon, SoundOnIcon } from './../styles'
 
-jest.mock('src/util/devices')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn(),
+  }
+})
 
 describe('ChatMenu', () => {
   const defaultProps = {

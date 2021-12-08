@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { zdColorGrey300 } from '@zendeskgarden/css-variables'
-import { isChromeOnIPad } from 'src/util/devices'
+import { isChromeOnIPad } from '@zendesk/widget-shared-services'
 
 const Container = styled.div`
   display: flex;

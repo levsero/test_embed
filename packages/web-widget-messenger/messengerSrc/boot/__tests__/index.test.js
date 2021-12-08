@@ -1,19 +1,33 @@
 import { waitFor } from '@testing-library/dom'
-import publicApi from 'src/framework/services/publicApi'
+import { publicApi, tracker } from '@zendesk/widget-shared-services'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
 import setupIframe from 'src/framework/setupIframe'
-import { beacon } from 'src/service/beacon'
-import tracker from 'src/service/tracker'
 import * as boot from 'messengerSrc/boot'
 import messenger from '../..'
 
 jest.mock('src/framework/setupIframe')
-jest.mock('src/service/beacon')
-jest.mock('src/service/tracker')
-jest.mock('src/framework/services/publicApi')
 jest.mock('src/embeds/webWidget/selectors/feature-flags')
 jest.mock('messengerSrc/boot')
-
 jest.mock('messengerSrc/public-api')
+jest.mock('@zendesk/widget-shared-services/errorTracker')
+jest.mock('@zendesk/widget-shared-services/beacon')
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+
+    publicApi: {
+      run: jest.fn(),
+    },
+    tracker: {
+      ...originalModule.tracker,
+      init: jest.fn(),
+    },
+  }
+})
 
 const runMessengerStart = async (config, configLoadEnd) => {
   return await messenger.start(config, configLoadEnd)
@@ -30,6 +44,12 @@ describe('start', () => {
   const expectedServiceData = {
     config: mockMessengerConfig,
     embeddableName: 'messenger',
+    localeData: {
+      clientLocale: 'en-us',
+      rawClientLocale: 'en-US',
+      rawServerLocale: undefined,
+      serverLocale: 'en-us',
+    },
   }
   it('initialises the iframe to respects the referrer policy of host page', async () => {
     await runMessengerStart(mockMessengerConfig, 123)
@@ -52,11 +72,6 @@ describe('start', () => {
 
   it('runs all framework services that have a run function', async () => {
     await runMessengerStart(mockMessengerConfig, 123)
-
-    const expectedServiceData = {
-      config: mockMessengerConfig,
-      embeddableName: 'messenger',
-    }
 
     expect(publicApi.run).toHaveBeenCalledWith(expectedServiceData)
   })
@@ -84,8 +99,6 @@ describe('start', () => {
   it('sends init time blip 10% of the time', async () => {
     jest.spyOn(Math, 'random').mockReturnValue(0.08)
 
-    jest.spyOn(beacon, 'sendWidgetInitInterval')
-
     await runMessengerStart({}, 123)
 
     expect(beacon.sendWidgetInitInterval).toHaveBeenCalled()
@@ -108,10 +121,7 @@ describe('start', () => {
   it('runs the messenger', async () => {
     await runMessengerStart(mockMessengerConfig)
 
-    expect(boot.run).toHaveBeenCalledWith({
-      config: mockMessengerConfig,
-      embeddableName: 'messenger',
-    })
+    expect(boot.run).toHaveBeenCalledWith(expectedServiceData)
   })
 
   it('sends a page view blip for the web widget', async () => {

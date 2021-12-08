@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
+import { isMobileBrowser } from '@zendesk/widget-shared-services/util/devices'
 import { ICONS } from 'src/constants/shared'
-import { isMobileBrowser } from 'src/util/devices'
 import { triggerOnEnter } from 'src/util/keyboard'
 import { locals as styles } from './Icon.scss'
 

@@ -13,7 +13,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build:testSetup": "EMBEDDABLE_FRAMEWORK_ENV=DEVELOPMENT yarn workspace @zendesk/sunco-js-client build && EMBEDDABLE_FRAMEWORK_ENV=DEVELOPMENT yarn workspace @zendesk/conversation-components build",
+    "build:testSetup": "EMBEDDABLE_FRAMEWORK_ENV=DEVELOPMENT yarn workspace @zendesk/sunco-js-client build && EMBEDDABLE_FRAMEWORK_ENV=DEVELOPMENT yarn workspace @zendesk/conversation-components build && yarn workspace @zendesk/widget-shared-services build",
     "lint:js": "eslint *.js config script packages --fix",
     "lint:other": "prettier --check \"**/*.{css,scss,json,md}\" --write",
     "lint": "npm run lint:js && npm run lint:other",

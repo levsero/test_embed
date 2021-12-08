@@ -3,7 +3,7 @@ import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import t from '@zendesk/client-i18n-tools'
-import hostPageWindow from 'src/framework/utils/hostPageWindow'
+import { win } from '@zendesk/widget-shared-services'
 import usTranslations from 'src/translation/messenger/en-us.json'
 import ThemeProvider from 'messengerSrc/features/themeProvider'
 import createStore from 'messengerSrc/store'
@@ -52,7 +52,7 @@ export const mockMatchMedia = () => {
     mediaQueries[breakpoint]?.forEach((callback) => callback(event))
   }
 
-  hostPageWindow.matchMedia = mockMatchMedia
+  win.matchMedia = mockMatchMedia
 
   return {
     triggerChangeForBreakpoint,

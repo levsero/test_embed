@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
+import { isPopout, getZendeskHost, isMobileBrowser } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import {
@@ -53,9 +54,6 @@ import {
   getHelpCenterReady,
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import { settings } from 'src/service/settings'
-import { isMobileBrowser } from 'src/util/devices'
-import { getZendeskHost } from 'src/util/globals'
-import { isPopout } from 'src/util/globals'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,

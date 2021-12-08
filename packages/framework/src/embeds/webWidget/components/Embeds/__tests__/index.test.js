@@ -1,10 +1,10 @@
 import { waitFor } from '@testing-library/dom'
 import { wait, getByTestId } from '@testing-library/react'
+import { isPopout } from '@zendesk/widget-shared-services'
 import { closeReceived, openReceived } from 'src/redux/modules/base'
 import * as actions from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import { updateSettings } from 'src/redux/modules/settings'
-import * as globalUtilities from 'src/util/globals'
 import { render } from 'src/util/testHelpers'
 import Embeds from '..'
 
@@ -14,6 +14,15 @@ jest.mock('src/component/webWidget/WebWidget', () => {
     default: () => {
       return <div data-testid="web widget" />
     },
+  }
+})
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isPopout: jest.fn().mockReturnValue(false),
   }
 })
 
@@ -106,7 +115,7 @@ describe('Embeds', () => {
   })
 
   it('takes up the whole screen when in popout mode', async () => {
-    jest.spyOn(globalUtilities, 'isPopout').mockReturnValue(true)
+    isPopout.mockReturnValue(true)
 
     const { container, store } = renderComponent()
 

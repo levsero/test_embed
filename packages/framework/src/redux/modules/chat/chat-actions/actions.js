@@ -1,4 +1,11 @@
 import _ from 'lodash'
+import {
+  errorTracker,
+  isMobileBrowser,
+  getPageTitle,
+  getHostUrl,
+  isValidUrl,
+} from '@zendesk/widget-shared-services'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import {
   CHAT_CONNECTED_EVENT,
@@ -18,7 +25,6 @@ import {
   getChatBanned,
 } from 'src/embeds/chat/selectors'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
-import errorTracker from 'src/framework/services/errorTracker'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
@@ -29,8 +35,6 @@ import zopimApi from 'src/service/api/zopimApi'
 import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
 import audio from 'src/service/audio'
 import { formatSchedule } from 'src/util/chat'
-import { isMobileBrowser } from 'src/util/devices'
-import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import * as actions from '../chat-action-types'
 import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
 import {

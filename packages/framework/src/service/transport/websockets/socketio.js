@@ -1,4 +1,4 @@
-import { parseUrl } from 'src/util/utils'
+import { parseUrl } from '@zendesk/widget-shared-services'
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,

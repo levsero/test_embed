@@ -81,12 +81,9 @@ describe('Frame', () => {
       './Frame.scss': {
         locals: {},
       },
-      'src/util/utils': {
+      '@zendesk/widget-shared-services': {
         cssTimeToMs: () => 300,
         onNextTick: (cb) => setTimeout(cb, 0),
-      },
-      'src/util/color/styles': {},
-      'src/util/devices': {
         getZoomSizingRatio: () => {
           return mockZoomSizingRatioValue
         },
@@ -94,6 +91,7 @@ describe('Frame', () => {
           return false
         },
       },
+      'src/util/color/styles': {},
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: noop,

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { isMobileBrowser, getZoomSizingRatio } from '@zendesk/widget-shared-services'
 import WidgetLauncher from 'src/component/launcher/Launcher'
 import { FONT_SIZE } from 'src/constants/shared'
 import BaseFrame from 'src/embeds/webWidget/components/BaseFrame'
@@ -10,7 +11,6 @@ import { renewToken } from 'src/redux/modules/base'
 import { getColor, getFrameVisible, getHideZendeskLogo } from 'src/redux/modules/selectors'
 import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
 import { generateUserLauncherCSS } from 'src/util/color/styles'
-import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
 import { launcherStyles } from './styles'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()

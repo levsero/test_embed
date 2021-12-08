@@ -1,9 +1,17 @@
 import { render } from '@testing-library/react'
 import { zdColorGrey600 } from '@zendeskgarden/css-variables'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import FooterIconButton from 'src/embeds/chat/components/FooterIconButton'
-import { isMobileBrowser } from 'src/util/devices'
 
-jest.mock('src/util/devices')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isMobileBrowser: jest.fn().mockReturnValue(true),
+  }
+})
 
 describe('FooterIconButton', () => {
   const defaultProps = {

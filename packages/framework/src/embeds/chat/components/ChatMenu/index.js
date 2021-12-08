@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { connect } from 'react-redux'
 import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
+import { isMobileBrowser, onNextTick } from '@zendesk/widget-shared-services'
 import { HeaderItem } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 import { handleSoundIconClick, updateMenuVisibility } from 'src/embeds/chat/actions/actions'
@@ -20,14 +21,11 @@ import {
   updateEmailTranscriptVisibility,
   updateEndChatModalVisibility,
 } from 'src/redux/modules/chat'
-
 import {
   getChannelAvailable,
   getChatEmailTranscriptEnabled,
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
-import { onNextTick } from 'src/util/utils'
 import {
   SoundOffIcon,
   SoundOnIcon,

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useRef, useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
+import { onNextTick } from '@zendesk/widget-shared-services'
 import { useOnDrop } from 'src/components/FileDropProvider'
 import { TEST_IDS } from 'src/constants/shared'
 import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
@@ -14,7 +15,6 @@ import {
   getAttachmentLimitExceeded,
 } from 'src/embeds/support/selectors'
 import SupportPropTypes from 'src/embeds/support/utils/SupportPropTypes'
-import { onNextTick } from 'src/util/utils'
 import { Container, StyledLabel, StyledMessage } from './styles'
 
 const INPUT_ID = 'dropzone-input'

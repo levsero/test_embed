@@ -1,13 +1,11 @@
+import { publicApi, tracker } from '@zendesk/widget-shared-services'
 import { API_GET_IS_CHATTING_NAME } from 'src/constants/api'
-import publicApi from 'src/framework/services/publicApi'
 import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as apis from 'src/service/api/apis'
-import tracker from 'src/service/tracker'
 import { getWebWidgetPublicApi } from '../setupApi'
 import { getWebWidgetLegacyPublicApi } from '../setupLegacyApi'
 
-jest.mock('src/service/tracker')
 jest.mock('src/redux/modules/base')
 jest.mock('src/service/renderer')
 jest.mock('src/service/api/apis')
@@ -22,6 +20,11 @@ const isMessengerWidget = false
 publicApi.registerApi(getWebWidgetPublicApi(mockStore))
 publicApi.registerLegacyApi(getWebWidgetLegacyPublicApi(mockStore, {}))
 publicApi.run(isMessengerWidget)
+let track
+
+beforeEach(() => {
+  track = jest.spyOn(tracker, 'track')
+})
 
 describe('pre render methods', () => {
   describe('when that call is show', () => {
@@ -34,7 +37,7 @@ describe('pre render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.show')
+      expect(track).toHaveBeenCalledWith('webWidget.show')
     })
   })
 
@@ -48,7 +51,7 @@ describe('pre render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.open')
+      expect(track).toHaveBeenCalledWith('webWidget.open')
     })
   })
 
@@ -62,7 +65,7 @@ describe('pre render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.close')
+      expect(track).toHaveBeenCalledWith('webWidget.close')
     })
   })
 
@@ -76,7 +79,7 @@ describe('pre render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.toggle')
+      expect(track).toHaveBeenCalledWith('webWidget.toggle')
     })
   })
 
@@ -90,7 +93,7 @@ describe('pre render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.setLocale', 'fr')
+      expect(track).toHaveBeenCalledWith('webWidget.setLocale', 'fr')
     })
   })
 
@@ -104,7 +107,7 @@ describe('pre render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.clear')
+      expect(track).toHaveBeenCalledWith('webWidget.clear')
     })
   })
 
@@ -172,7 +175,7 @@ describe('pre render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith('webWidget.prefill', payload)
+        expect(track).toHaveBeenCalledWith('webWidget.prefill', payload)
       })
     })
 
@@ -188,7 +191,7 @@ describe('pre render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith('webWidget.updateSettings', settings)
+        expect(track).toHaveBeenCalledWith('webWidget.updateSettings', settings)
       })
     })
 
@@ -202,7 +205,7 @@ describe('pre render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith('webWidget.logout')
+        expect(track).toHaveBeenCalledWith('webWidget.logout')
       })
     })
 
@@ -218,7 +221,7 @@ describe('pre render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith('webWidget.helpCenter:setSuggestions', options)
+        expect(track).toHaveBeenCalledWith('webWidget.helpCenter:setSuggestions', options)
       })
     })
 
@@ -234,7 +237,7 @@ describe('pre render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith('webWidget.updatePath', options)
+        expect(track).toHaveBeenCalledWith('webWidget.updatePath', options)
       })
     })
 
@@ -248,7 +251,7 @@ describe('pre render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith(`webWidget:get.chat:isChatting`)
+        expect(track).toHaveBeenCalledWith(`webWidget:get.chat:isChatting`)
       })
     })
   })
@@ -267,7 +270,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.hide')
+      expect(track).toHaveBeenCalledWith('webWidget.hide')
     })
   })
 
@@ -281,7 +284,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.show')
+      expect(track).toHaveBeenCalledWith('webWidget.show')
     })
   })
 
@@ -295,7 +298,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.open')
+      expect(track).toHaveBeenCalledWith('webWidget.open')
     })
   })
 
@@ -309,7 +312,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.close')
+      expect(track).toHaveBeenCalledWith('webWidget.close')
     })
   })
 
@@ -323,7 +326,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.toggle')
+      expect(track).toHaveBeenCalledWith('webWidget.toggle')
     })
   })
 
@@ -365,7 +368,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.setLocale', 'fr')
+      expect(track).toHaveBeenCalledWith('webWidget.setLocale', 'fr')
     })
   })
 
@@ -396,7 +399,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.prefill', payload)
+      expect(track).toHaveBeenCalledWith('webWidget.prefill', payload)
     })
   })
 
@@ -412,7 +415,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.updateSettings', settings)
+      expect(track).toHaveBeenCalledWith('webWidget.updateSettings', settings)
     })
   })
 
@@ -426,7 +429,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.logout')
+      expect(track).toHaveBeenCalledWith('webWidget.logout')
     })
   })
 
@@ -442,7 +445,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.helpCenter:setSuggestions', options)
+      expect(track).toHaveBeenCalledWith('webWidget.helpCenter:setSuggestions', options)
     })
   })
 
@@ -458,7 +461,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.updatePath', options)
+      expect(track).toHaveBeenCalledWith('webWidget.updatePath', options)
     })
   })
 
@@ -472,7 +475,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.chat:end')
+      expect(track).toHaveBeenCalledWith('webWidget.chat:end')
     })
   })
 
@@ -486,7 +489,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.chat:send')
+      expect(track).toHaveBeenCalledWith('webWidget.chat:send')
     })
   })
 
@@ -497,7 +500,7 @@ describe('post render methods', () => {
     })
 
     it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget:on.close', expect.any(Function))
+      expect(track).toHaveBeenCalledWith('webWidget:on.close', expect.any(Function))
     })
   })
 
@@ -517,7 +520,7 @@ describe('post render methods', () => {
       })
 
       it('tracks the call', () => {
-        expect(tracker.track).toHaveBeenCalledWith(`webWidget:get.chat:${API_GET_IS_CHATTING_NAME}`)
+        expect(track).toHaveBeenCalledWith(`webWidget:get.chat:${API_GET_IS_CHATTING_NAME}`)
       })
     })
   })

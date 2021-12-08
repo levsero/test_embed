@@ -179,24 +179,20 @@ describe('onStateChange middleware', () => {
         getChatEmbed: () => mockChatEnabled,
         getIPMWidget: () => mockIPMWidget,
       },
-      'src/framework/services/persistence': {
-        store: {
+      '@zendesk/widget-shared-services': {
+        persistence: {
           get: () => mockStoreValue,
           enable: storeEnableSpy,
           disable: storeDisableSpy,
         },
-      },
-      'src/redux/modules/chat/chat-screen-types': {
-        CHATTING_SCREEN: 'chatting',
-      },
-      'src/util/devices': {
         isMobileBrowser() {
           return mockIsMobileBrowser
         },
-      },
-      'src/util/globals': {
         win: mockWin,
         isPopout: () => mockIsPopout,
+      },
+      'src/redux/modules/chat/chat-screen-types': {
+        CHATTING_SCREEN: 'chatting',
       },
       'src/redux/middleware/onStateChange/onWidgetOpen': noop,
       'src/redux/middleware/onStateChange/onChatOpen': noop,

@@ -29,7 +29,7 @@ describe('StructuredMessage component', () => {
       'src/redux/modules/chat': {
         sendMsg: sendMsgSpy,
       },
-      'src/util/globals': {
+      '@zendesk/widget-shared-services': {
         win: {
           open: openSpy,
         },

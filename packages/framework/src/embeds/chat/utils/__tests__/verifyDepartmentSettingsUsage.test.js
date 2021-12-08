@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { waitFor } from '@testing-library/dom'
+import { errorTracker } from '@zendesk/widget-shared-services'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
-import errorTracker from 'src/framework/services/errorTracker'
 import createStore from 'src/redux/createStore'
 import {
   SDK_CONNECTION_UPDATE,
@@ -10,7 +10,18 @@ import {
 import { updateSettings } from 'src/redux/modules/settings'
 import verifyDepartmentSettingsUsage from '../verifyDepartmentsSettingUsage'
 
-jest.mock('src/framework/services/errorTracker')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    errorTracker: {
+      ...originalModule.errorTracker,
+      error: jest.fn(),
+    },
+  }
+})
 
 describe('verifyDepartmentsSettingUsage', () => {
   const defaultRealDepartments = [

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { tracker } from '@zendesk/widget-shared-services'
 import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
@@ -26,13 +27,13 @@ import {
   WIDGET_CLOSED_EVENT,
   WIDGET_OPENED_EVENT,
 } from 'src/constants/event'
-import { apiResetWidget } from 'src/redux/modules/base'
-import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
 import {
   getChatStatus,
   getHasBackfillCompleted,
   getNotificationCount,
 } from 'src/embeds/chat/selectors'
+import { apiResetWidget } from 'src/redux/modules/base'
+import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
 import {
   endChatApi,
   openApi,
@@ -60,7 +61,6 @@ import {
   reauthenticateApi,
 } from 'src/service/api/apis'
 import * as callbacks from 'src/service/api/callbacks'
-import tracker from 'src/service/tracker'
 
 export const getApiObj = () => {
   return {

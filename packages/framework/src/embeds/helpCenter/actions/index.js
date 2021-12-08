@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { location, isOnHostMappedDomain } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
@@ -21,8 +22,6 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import { location } from 'src/util/globals'
-import { isOnHostMappedDomain } from 'src/util/pages'
 import {
   SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,

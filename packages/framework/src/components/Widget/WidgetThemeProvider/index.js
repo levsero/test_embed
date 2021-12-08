@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { FONT_SIZE } from 'src/constants/shared'
 import { getColor } from 'src/redux/modules/selectors'
 import { getWidgetColorVariables } from 'src/util/color/styles'
 import { getThemeColor } from 'src/util/color/validate'
-import { isMobileBrowser } from 'src/util/devices'
 
 const themeColors = (baseColors) => {
   const themeColor = getThemeColor()

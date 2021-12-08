@@ -38,10 +38,8 @@ describe('helpCenter selectors', () => {
         CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess,
         CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure,
       },
-      'src/util/utils': {
+      '@zendesk/widget-shared-services': {
         getPageKeywords: () => mockPageKeywords,
-      },
-      'src/util/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
       },
     })

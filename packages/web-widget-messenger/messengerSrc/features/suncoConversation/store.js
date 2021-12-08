@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import errorTracker from 'src/framework/services/errorTracker'
+import { errorTracker } from '@zendesk/widget-shared-services'
 import {
   fetchMessages,
   getActiveConversation,

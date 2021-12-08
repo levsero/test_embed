@@ -1,15 +1,15 @@
 import { waitFor } from '@testing-library/dom'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
+import { publicApi } from '@zendesk/widget-shared-services/public-api'
+import tracker from '@zendesk/widget-shared-services/tracker'
 import webWidget from 'src/apps/webWidget'
 import * as boot from 'src/apps/webWidget/boot'
-import publicApi from 'src/framework/services/publicApi'
 import setupIframe from 'src/framework/setupIframe'
-import { beacon } from 'src/service/beacon'
-import tracker from 'src/service/tracker'
 
 jest.mock('src/framework/setupIframe')
-jest.mock('src/service/beacon')
-jest.mock('src/service/tracker')
-jest.mock('src/framework/services/publicApi')
+jest.mock('@zendesk/widget-shared-services/beacon')
+jest.mock('@zendesk/widget-shared-services/tracker')
+jest.mock('@zendesk/widget-shared-services/public-api')
 jest.mock('src/embeds/webWidget/selectors/feature-flags')
 jest.mock('src/apps/webWidget/boot')
 
@@ -28,6 +28,12 @@ describe('start', () => {
   const expectedServiceData = {
     config: mockWidgetConfig,
     embeddableName: 'webWidget',
+    localeData: {
+      clientLocale: 'en-us',
+      rawClientLocale: 'en-US',
+      rawServerLocale: undefined,
+      serverLocale: 'en-us',
+    },
   }
   it('initialises the iframe to respects the referrer policy of host page', async () => {
     await runWidgetStart(mockWidgetConfig, 123)
@@ -92,7 +98,7 @@ describe('start', () => {
     expect(beacon.sendWidgetInitInterval).not.toHaveBeenCalled()
   })
 
-  it('initialises the messenger', async () => {
+  it('initialises the web widget', async () => {
     await runWidgetStart(mockWidgetConfig)
 
     expect(boot.init).toHaveBeenCalledWith(expectedServiceData)
@@ -105,7 +111,7 @@ describe('start', () => {
   })
 
   it('sends a page view blip for the web widget', async () => {
-    await runWidgetStart()
+    await runWidgetStart(mockWidgetConfig)
 
     expect(beacon.sendPageView).toHaveBeenCalledWith('web_widget')
   })

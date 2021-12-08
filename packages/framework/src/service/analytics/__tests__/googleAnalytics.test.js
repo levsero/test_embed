@@ -1,8 +1,6 @@
 import { GA } from '../googleAnalytics'
 
-jest.mock('src/util/globals')
-
-const globals = require('src/util/globals')
+let { globals } = require('@zendesk/widget-shared-services')
 
 describe('when there is no GA snippet on the page', () => {
   beforeEach(() => {

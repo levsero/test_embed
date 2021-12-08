@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 import { Widget, Main } from 'src/components/Widget'
 import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
@@ -13,7 +14,6 @@ import {
   getSettingsHelpCenterTitle,
   getShowNextButton,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 
 const SearchPage = ({ title, showNextButton, isMobile, isSearchLoading, articles }) => {
   const inputRef = useRef(null)

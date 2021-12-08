@@ -1,4 +1,12 @@
 import _ from 'lodash'
+import {
+  beacon,
+  clickBusterHandler,
+  errorTracker,
+  isMobileBrowser,
+  publicApi,
+  win,
+} from '@zendesk/widget-shared-services'
 import { getWebWidgetPublicApi } from 'src/apps/webWidget/public-api/setupApi'
 import { getWebWidgetLegacyPublicApi } from 'src/apps/webWidget/public-api/setupLegacyApi'
 import { i18n } from 'src/apps/webWidget/services/i18n'
@@ -6,8 +14,6 @@ import verifyDepartmentsSettingUsage from 'src/embeds/chat/utils/verifyDepartmen
 import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import { pollTalkStatus } from 'src/embeds/talk/actions'
 import webWidgetApp from 'src/embeds/webWidget'
-import errorTracker from 'src/framework/services/errorTracker'
-import publicApi from 'src/framework/services/publicApi'
 import createStore from 'src/redux/createStore'
 import {
   updateEmbedAccessible,
@@ -18,11 +24,8 @@ import { setUpChat } from 'src/redux/modules/chat'
 import { GA } from 'src/service/analytics/googleAnalytics'
 import { setLocaleApi } from 'src/service/api/apis'
 import zopimApi from 'src/service/api/zopimApi'
-import { beacon } from 'src/service/beacon'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import { clickBusterHandler, isMobileBrowser } from 'src/util/devices'
-import { win } from 'src/util/globals'
 
 let initialised = false
 let hasRendered = false

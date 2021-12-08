@@ -1,9 +1,8 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
+import { isPopout } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { DEPARTMENT_STATUSES } from 'src/constants/chat'
-import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import {
   getChatScreen,
   getWindowSettings,
@@ -25,6 +24,8 @@ import {
   getEmbeddableConfigOfflineEnabled,
   getConnection,
 } from 'src/embeds/chat/selectors'
+import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import {
   getSettingsChatProfileCard,
   getSettingsChatTitle,
@@ -38,7 +39,6 @@ import {
   getSettingsChatConnectOnDemand,
   getSettingsChatConnectOnPageLoad,
 } from 'src/redux/modules/settings/settings-selectors'
-import { isPopout } from 'src/util/globals'
 
 export const getShowMenu = (state) =>
   getActiveEmbed(state) === 'chat' &&

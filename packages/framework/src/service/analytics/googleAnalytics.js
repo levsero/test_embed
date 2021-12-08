@@ -1,6 +1,6 @@
 import _ from 'lodash'
+import { win } from '@zendesk/widget-shared-services'
 import { GA_CATEGORY } from 'src/constants/shared'
-import { win } from 'src/util/globals'
 
 let ga = null
 

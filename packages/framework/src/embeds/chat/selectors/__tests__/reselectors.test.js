@@ -1,6 +1,6 @@
+import { globals } from '@zendesk/widget-shared-services'
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'src/constants/chat'
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state'
-import * as globals from 'src/util/globals'
 import * as selectors from '../reselectors'
 
 describe('getIsPopoutAvailable', () => {

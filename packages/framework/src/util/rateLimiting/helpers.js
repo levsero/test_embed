@@ -1,4 +1,4 @@
-import { store } from 'src/framework/services/persistence'
+import { persistence as store } from '@zendesk/widget-shared-services'
 
 const RATE_LIMITING_QUEUES = 'rateRimitingQueues'
 

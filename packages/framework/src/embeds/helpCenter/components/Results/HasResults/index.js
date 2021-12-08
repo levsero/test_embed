@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { handleArticleView } from 'src/embeds/helpCenter/actions'
 import Legend from 'src/embeds/helpCenter/components/Legend'
 import List from 'src/embeds/helpCenter/components/List'
@@ -11,7 +12,6 @@ import {
 } from 'src/embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
 
 const HasResults = ({
   isMobile,

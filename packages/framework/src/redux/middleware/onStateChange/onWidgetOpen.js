@@ -1,9 +1,8 @@
+import { isMobileBrowser, setScaleLock } from '@zendesk/widget-shared-services'
 import { FRAME_ANIMATION_DELAY } from 'src/constants/shared'
-import { updateWidgetShown } from 'src/redux/modules/base/base-actions'
 import { getStandaloneMobileNotificationVisible } from 'src/embeds/chat/selectors'
+import { updateWidgetShown } from 'src/redux/modules/base/base-actions'
 import { getWebWidgetVisibleOpenAndReady } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'src/util/devices'
-import { setScaleLock } from 'src/util/devices'
 import { setScrollKiller, setWindowScroll, revertWindowScroll } from 'src/util/scrollHacks'
 
 export default function onWidgetOpen(prevState, nextState, dispatch, getState) {

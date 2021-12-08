@@ -1,12 +1,10 @@
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
+import { publicApi, persistence, win } from '@zendesk/widget-shared-services'
+import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
+import { identity } from '@zendesk/widget-shared-services/identity'
 import isFeatureEnabled, { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
-import errorTracker from 'src/framework/services/errorTracker'
-import { store as persistence } from 'src/framework/services/persistence'
-import publicApi from 'src/framework/services/publicApi'
-import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import { identity } from 'src/service/identity'
 import { hasExistingConversation, setupSuncoClient } from 'messengerSrc/api/sunco'
 import App from 'messengerSrc/features/app'
 import { subscribeToI18n } from 'messengerSrc/features/i18n/store'
@@ -67,9 +65,7 @@ const init = async ({ config }) => {
 const run = async ({ config, embeddableData }) => {
   const { store } = embeddableData
 
-  const element = hostPageWindow.document.body.appendChild(
-    hostPageWindow.document.createElement('div')
-  )
+  const element = win.document.body.appendChild(win.document.createElement('div'))
 
   const messengerReadyCallback = () => {
     listenForOnlineOfflineEvents(store)

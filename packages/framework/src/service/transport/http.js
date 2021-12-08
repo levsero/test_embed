@@ -1,7 +1,5 @@
 import _ from 'lodash'
 import superagent from 'superagent'
-import { settings } from 'src/service/settings'
-import { getZendeskHost } from 'src/util/globals'
 import {
   send,
   logFailure,
@@ -11,7 +9,9 @@ import {
   updateConfig,
   resetConfig,
   getConfig,
-} from './http-base'
+  getZendeskHost,
+} from '@zendesk/widget-shared-services'
+import { settings } from 'src/service/settings'
 
 let config = {
   scheme: 'https',

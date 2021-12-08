@@ -1,8 +1,19 @@
+import { isOnHostMappedDomain } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as selectors from 'src/redux/modules/base/base-selectors'
 import { http } from 'src/service/transport'
-import * as pages from 'src/util/pages'
 import hcStats from '../hcStats'
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    isOnHostMappedDomain: jest.fn().mockReturnValue(false),
+    send: jest.fn(),
+  }
+})
 
 beforeEach(() => {
   jest.spyOn(http, 'send')
@@ -54,7 +65,7 @@ describe('articleViewed', () => {
   })
 
   test('sets the useHostMappingIfAvailable property', () => {
-    jest.spyOn(pages, 'isOnHostMappedDomain').mockReturnValue(true)
+    isOnHostMappedDomain.mockReturnValue(true)
     hcStats.articleViewed(123, 'fr', params)
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -70,6 +81,7 @@ describe('ticketSubmitted', () => {
   })
 
   test('sends the expected params', () => {
+    isOnHostMappedDomain.mockReturnValue(false)
     hcStats.ticketSubmitted(123, 'query')
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -98,7 +110,7 @@ describe('ticketSubmitted', () => {
   })
 
   test('sets the useHostMappingIfAvailable property', () => {
-    jest.spyOn(pages, 'isOnHostMappedDomain').mockReturnValue(true)
+    isOnHostMappedDomain.mockReturnValue(true)
     hcStats.ticketSubmitted(123, 'query')
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({

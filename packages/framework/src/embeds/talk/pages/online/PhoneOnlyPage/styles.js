@@ -1,7 +1,7 @@
 import styled from 'styled-components'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { FONT_SIZE } from 'src/constants/shared'
 import TalkIcon from 'src/embeds/talk/icons/talk.svg'
-import { isMobileBrowser } from 'src/util/devices'
 
 const Container = styled.div`
   text-align: center;

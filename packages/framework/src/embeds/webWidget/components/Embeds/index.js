@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { isMobileBrowser, isPopout, getZoomSizingRatio } from '@zendesk/widget-shared-services'
 import WebWidget from 'src/component/webWidget/WebWidget'
 import FocusJail from 'src/components/FrameFocusJail'
 import { FONT_SIZE, DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
@@ -10,8 +11,6 @@ import { widgetShowAnimationComplete } from 'src/redux/modules/base'
 import { getColor, getFrameVisible } from 'src/redux/modules/selectors'
 import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
 import { generateUserWidgetCSS } from 'src/util/color/styles'
-import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
-import { isPopout } from 'src/util/globals'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`

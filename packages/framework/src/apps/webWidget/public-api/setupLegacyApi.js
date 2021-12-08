@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { tracker } from '@zendesk/widget-shared-services'
 import { displayArticle } from 'src/embeds/helpCenter/actions'
 import { activateReceived, legacyShowReceived } from 'src/redux/modules/base'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
@@ -11,7 +12,6 @@ import {
   setLocaleApi,
 } from 'src/service/api/apis'
 import { renderer } from 'src/service/renderer'
-import tracker from 'src/service/tracker'
 
 export const getWebWidgetLegacyPublicApi = (reduxStore, embeddableConfig) => {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds)

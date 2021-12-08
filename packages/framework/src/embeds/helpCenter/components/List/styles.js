@@ -1,6 +1,6 @@
 import styled from 'styled-components'
+import { isMobileBrowser } from '@zendesk/widget-shared-services'
 import { FONT_SIZE } from 'src/constants/shared'
-import { isMobileBrowser } from 'src/util/devices'
 
 export const StyledList = styled.ol`
   padding: ${8 / FONT_SIZE}rem 0 0 ${16 / FONT_SIZE}rem;

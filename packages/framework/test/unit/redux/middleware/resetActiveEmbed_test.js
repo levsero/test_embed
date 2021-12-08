@@ -85,7 +85,7 @@ describe('resetActiveEmbed middleware', () => {
       'src/embeds/support/routes': {
         home: () => 'support/home',
       },
-      'src/util/globals': {
+      '@zendesk/widget-shared-services': {
         isPopout: () => mockIsPopout,
       },
       'src/util/chat': {},

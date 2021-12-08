@@ -1,21 +1,15 @@
+import { beacon } from '@zendesk/widget-shared-services/beacon'
 import { getHasContextuallySearched, getSearchTerm } from 'src/embeds/helpCenter/selectors'
 import { getAttachmentsForForm } from 'src/embeds/support/selectors'
 import trackTicketSubmitted from 'src/embeds/support/utils/track-ticket-submitted'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
-import { beacon } from 'src/service/beacon'
 import hcStats from 'src/service/hcStats'
 
 jest.mock('src/embeds/helpCenter/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/embeds/support/selectors')
-
-jest.mock('src/service/beacon', () => ({
-  beacon: {
-    trackUserAction: jest.fn(),
-  },
-}))
 
 beforeEach(() => {
   jest.spyOn(hcStats, 'ticketSubmitted')
@@ -83,6 +77,7 @@ describe('trackTicketSubmitted', () => {
 
   describe('when "request" exists in response body', () => {
     it('tracks a "submitTicket" user action', () => {
+      const trackUserAction = jest.spyOn(beacon, 'trackUserAction').mockImplementation(() => {})
       const response = getResponse('request')
       const formValues = {
         attachments: {
@@ -103,7 +98,7 @@ describe('trackTicketSubmitted', () => {
 
       trackTicketSubmitted(response, formValues, {})
 
-      expect(beacon.trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
+      expect(trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
         label: 'ticketSubmissionForm',
         value: {
           query: 'search term',
@@ -119,6 +114,7 @@ describe('trackTicketSubmitted', () => {
 
   describe('when "suspended_ticket" exists in response body', () => {
     it('tracks a "submitTicket" user action', () => {
+      const trackUserAction = jest.spyOn(beacon, 'trackUserAction').mockImplementation(() => {})
       const response = getResponse('suspended_ticket')
       const formValues = {
         attachments: {
@@ -139,7 +135,7 @@ describe('trackTicketSubmitted', () => {
 
       trackTicketSubmitted(response, formValues, {})
 
-      expect(beacon.trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
+      expect(trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
         label: 'ticketSubmissionForm',
         value: {
           query: 'search term',

@@ -1,15 +1,14 @@
 import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import { persistence as store, identity } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import { store } from 'src/framework/services/persistence'
-import { identity } from 'src/service/identity'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
 import * as actions from '../question-submitted'
 
 jest.mock('src/service/transport')
-jest.mock('src/service/identity')
+
 jest.mock('src/apps/webWidget/services/i18n')
 
 jest.useFakeTimers()

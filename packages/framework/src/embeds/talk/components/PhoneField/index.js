@@ -9,13 +9,13 @@ import {
   ControlledComponent,
 } from '@zendeskgarden/react-selection'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
+import { onNextTick } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { TEST_IDS } from 'src/constants/shared'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
 import { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import countriesByIso from 'src/translation/ze_countries'
 import { getStyledLabelText } from 'src/util/fields'
-import { onNextTick } from 'src/util/utils'
 import { Container, FauxInput, Input, Message } from './styles'
 import styleOverrides from './styles.overrides'
 

@@ -1,10 +1,20 @@
+import { getReferrerPolicy } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import routes from 'src/embeds/support/routes'
-import * as globals from 'src/util/globals'
 import formatRequestData from '../requestFormatter'
 
 jest.mock('src/apps/webWidget/services/i18n')
-jest.mock('src/util/globals')
+
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    location: { href: 'test.com' },
+    getReferrerPolicy: jest.fn(),
+  }
+})
 
 const mockTicketField = {
   id: '22660514',
@@ -22,9 +32,6 @@ describe('formatRequestData', () => {
   ) => {
     jest.spyOn(i18n, 'getLocaleId').mockReturnValue('fr')
     jest.spyOn(i18n, 't').mockImplementation((st) => st)
-    globals.location = {
-      href: 'test.com',
-    }
 
     const formState = {
       name: 'bob',
@@ -133,7 +140,7 @@ describe('formatRequestData', () => {
 
   describe('description field', () => {
     it('adds "submitted from" data when referrerPolicy is false', () => {
-      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue(false)
+      getReferrerPolicy.mockReturnValue(false)
 
       const result = format()
 
@@ -143,7 +150,7 @@ describe('formatRequestData', () => {
     })
 
     it('does not add "submitted from" data when referrerPolicy is true', () => {
-      jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue(true)
+      getReferrerPolicy.mockReturnValue(true)
       const result = format()
 
       expect(result.request.comment.body).toBe('Mock Description')

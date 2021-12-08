@@ -19,7 +19,7 @@
     "dashboard": "USE_DASHBOARD=true npm run dev",
     "dashboard:lazy": "LAZY_DASHBOARD=true USE_DASHBOARD=true npm run dev",
     "dev-preview": "webpack serve --config ./webpack/webpack.previewer.dev.js",
-    "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && yarn workspace @zendesk/conversation-components build && yarn workspace @zendesk/sunco-js-client build",
+    "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && yarn workspace @zendesk/conversation-components build && yarn workspace @zendesk/sunco-js-client build && yarn workspace @zendesk/widget-shared-services build",
     "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.ac.prod.js",
     "build:validate": "npm run build:prod && npm run size",
     "build:previewer": "NODE_ENV=production webpack --config ./webpack/webpack.previewer.prod.js",
@@ -63,20 +63,12 @@
       "maxSize": "60 KB"
     }
   ],
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions",
-    "last 2 iOS versions",
-    "last 2 Android versions",
-    "last 2 ChromeAndroid versions",
-    "IE 11"
-  ],
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
     "@zendesk/client-i18n-tools": "^17.2.0",
     "@zendesk/conversation-components": "*",
     "@zendesk/sunco-js-client": "*",
+    "@zendesk/widget-shared-services": "*",
     "@zendeskgarden/container-focusjail": "^1.2.2",
     "@zendeskgarden/container-modal": "^0.8.2",
     "@zendeskgarden/css-bedrock": "^8.0.1",
@@ -198,5 +190,18 @@
     "webpack-stats-plugin": "^1.0.3",
     "when": "~3.7.8",
     "yaml-loader": "^0.5.0"
-  }
+  },
+  "peerDependencies": {
+    "uuid": "^8.3.2"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Android versions",
+    "last 2 ChromeAndroid versions",
+    "IE 11"
+  ],
+  "sideEffects": false
 }

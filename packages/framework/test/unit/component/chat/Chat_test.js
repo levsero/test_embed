@@ -21,7 +21,7 @@ describe('Chat component', () => {
         cancelButtonClicked: noop,
       },
       'src/component/chat/chatting/chatHistoryScreen': {},
-      'src/util/devices': {
+      '@zendesk/widget-shared-services': {
         isMobileBrowser: noop,
       },
       'src/redux/modules/selectors': {

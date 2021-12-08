@@ -1,5 +1,5 @@
+import { globals } from '@zendesk/widget-shared-services'
 import i18n from 'src/framework/services/i18n'
-import * as globals from 'src/util/globals'
 import createStore from 'messengerSrc/store'
 import { getLocale, subscribeToI18n } from '../store'
 

@@ -1,5 +1,4 @@
-import { isMobileBrowser } from 'src/util/devices'
-import { isPopout } from 'src/util/globals'
+import { isMobileBrowser, isPopout } from '@zendesk/widget-shared-services'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,

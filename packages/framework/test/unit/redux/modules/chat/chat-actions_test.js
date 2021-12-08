@@ -151,19 +151,15 @@ describe('chat redux actions', () => {
         zChatWithTimeout: mockZChatWithTimeout,
         canBeIgnored: mockCanBeIgnored,
       },
-      'src/util/utils': {
+      '@zendesk/widget-shared-services': {
         getPageTitle: () => mockPageTitle,
         getHostUrl: () => mockHostUrl,
         isValidUrl: () => mockIsValidUrl,
+        isMobileBrowser: () => false,
+        error: () => undefined,
       },
       'src/util/chat': {
         formatSchedule: formatScheduleSpy,
-      },
-      'src/framework/services/errorTracker': {
-        error: () => undefined,
-      },
-      'src/util/devices': {
-        isMobileBrowser: () => false,
       },
       'src/redux/modules/base': {},
       'src/redux/modules/selectors': {

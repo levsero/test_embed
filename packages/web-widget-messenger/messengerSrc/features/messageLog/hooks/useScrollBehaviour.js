@@ -3,8 +3,8 @@ import { rem, stripUnit } from 'polished'
 import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
+import { win } from '@zendesk/widget-shared-services'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import { useShouldDisableAnimations } from 'messengerSrc/features/animations/useDisableAnimationProps'
 import { AnimationContext } from 'messengerSrc/features/widget/components/WidgetFrame/FrameAnimation'
 import {
@@ -120,10 +120,10 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
       scrollToBottomIfNeeded({ smooth: false })
     }
 
-    hostPageWindow.addEventListener('resize', onResize)
+    win.addEventListener('resize', onResize)
 
     return () => {
-      hostPageWindow.removeEventListener('resize', onResize)
+      win.removeEventListener('resize', onResize)
     }
   }, [])
 

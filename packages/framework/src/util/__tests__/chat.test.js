@@ -1,6 +1,6 @@
 import _ from 'lodash'
+import { win } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import * as globals from 'src/util/globals'
 import {
   combineNumbers,
   formatSchedule,
@@ -11,17 +11,21 @@ import {
   getDisplayName,
 } from '../chat'
 
-jest.mock('src/util/globals')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
 
-beforeEach(() => {
-  globals.win = {
-    open: jest.fn(),
-    location: {
-      hostname: 'abc.com',
+  return {
+    __esModule: true,
+    ...originalModule,
+    win: {
+      ...originalModule.win,
+      open: jest.fn().mockImplementation(() => {}),
+      location: {
+        hostname: 'abc.com',
+      },
+      btoa: (x) => x,
     },
-    btoa: (x) => x,
   }
-  globals.getZendeskHost = () => 'a.zendesk.com'
 })
 
 describe('isDefaultNickname', () => {
@@ -243,9 +247,9 @@ describe('createChatPopoutWindow', () => {
     createChatPopoutWindow('settings, 初期設定時の質問', 'machineId', 'defactoLanguage')
 
     const url =
-      'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=10#key=a.zendesk.com&settings=%22settings%2C%20%E5%88%9D%E6%9C%9F%E8%A8%AD%E5%AE%9A%E6%99%82%E3%81%AE%E8%B3%AA%E5%95%8F%22&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat' // eslint-disable-line no-useless-escape
+      'https://static-staging.zdassets.com/web_widget/latest/liveChat.html?v=10#key=testingHost&settings=%22settings%2C%20%E5%88%9D%E6%9C%9F%E8%A8%AD%E5%AE%9A%E6%99%82%E3%81%AE%E8%B3%AA%E5%95%8F%22&mid=machineId&locale=defactoLanguage&title=WebWidgetLiveChat' // eslint-disable-line no-useless-escape
 
-    expect(globals.win.open).toHaveBeenCalledWith(url, 'WebWidgetLiveChat', 'height=600,width=400')
+    expect(win.open).toHaveBeenCalledWith(url, 'WebWidgetLiveChat', 'height=600,width=400')
   })
 })
 

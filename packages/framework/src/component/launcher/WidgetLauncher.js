@@ -1,19 +1,21 @@
 import PropTypes from 'prop-types'
 import { createRef, Component } from 'react'
 import { connect } from 'react-redux'
+import { isSafari, onNextTick } from '@zendesk/widget-shared-services'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Icon } from 'src/component/Icon'
 import WidgetLauncherTitle from 'src/component/launcher/WidgetLauncherTitle'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
+import { getNotificationCount } from 'src/embeds/chat/selectors'
 import {
   getLauncherChatLabel,
   getLauncherTalkLabel,
   getLauncherLabel,
 } from 'src/embeds/launcher/settings/selectors'
+import { isCallbackEnabled } from 'src/embeds/talk/selectors'
 import { FrameStyle } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { launcherClicked } from 'src/redux/modules/base/'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { getNotificationCount } from 'src/embeds/chat/selectors'
 import {
   getChatAvailable,
   getTalkOnline,
@@ -21,9 +23,6 @@ import {
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
-import { isCallbackEnabled } from 'src/embeds/talk/selectors'
-import { isSafari } from 'src/util/devices'
-import { onNextTick } from 'src/util/utils'
 import { locals as styles } from './WidgetLauncher.scss'
 
 const baseLauncherStyle = {

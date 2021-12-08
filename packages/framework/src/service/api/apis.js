@@ -1,4 +1,7 @@
 import _ from 'lodash'
+import { nameValid, emailValid, phoneValid } from '@zendesk/widget-shared-services'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
+import { identity } from '@zendesk/widget-shared-services/identity'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   API_ON_CHAT_STATUS_NAME,
@@ -23,6 +26,17 @@ import {
   CHAT_POPOUT_EVENT,
   USER_EVENT,
 } from 'src/constants/event'
+import {
+  getDepartment,
+  getDepartmentsList,
+  getIsChatting,
+  getIsPopoutAvailable,
+  getChatConnected,
+  getZChatVendor,
+  getNotificationCount,
+  getChatStatus,
+  getHasBackfillCompleted,
+} from 'src/embeds/chat/selectors'
 import { setContextualSuggestionsManually } from 'src/embeds/helpCenter/actions'
 import {
   handlePrefillReceived,
@@ -46,26 +60,12 @@ import {
   sendMsg,
   setVisitorInfo,
 } from 'src/redux/modules/chat/chat-actions'
-import {
-  getDepartment,
-  getDepartmentsList,
-  getIsChatting,
-  getIsPopoutAvailable,
-  getChatConnected,
-  getZChatVendor,
-  getNotificationCount,
-  getChatStatus,
-  getHasBackfillCompleted,
-} from 'src/embeds/chat/selectors'
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import { updateSettings } from 'src/redux/modules/settings'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
 import * as callbacks from 'src/service/api/callbacks'
 import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
-import { beacon } from 'src/service/beacon'
-import { identity } from 'src/service/identity'
 import { createChatPopoutWindow } from 'src/util/chat'
-import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 
 const getTagsInString = (tags) => {
   return tags.reduce((newTags, tag) => {

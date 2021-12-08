@@ -34,6 +34,7 @@ module.exports = {
     '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
     '^src/(.*)': '<rootDir>/src/$1',
     '@zendesk/web-widget-messenger': '<rootDir>/src/__mocks__/messengerMock.js',
+    '^@zendesk/widget-shared-services/(.*)': '<rootDir>/../shared-services/dist/$1',
   },
 
   // The path to a module that runs some code to configure or set up the testing framework before each test

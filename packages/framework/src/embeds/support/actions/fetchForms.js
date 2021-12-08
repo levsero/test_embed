@@ -1,6 +1,6 @@
 import _ from 'lodash'
+import { errorTracker } from '@zendesk/widget-shared-services'
 import { getForm, getHasFetchedTicketForms } from 'src/embeds/support/selectors'
-import errorTracker from 'src/framework/services/errorTracker'
 import { getCustomFieldIds } from 'src/redux/modules/base/base-selectors'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 import { http } from 'src/service/transport'

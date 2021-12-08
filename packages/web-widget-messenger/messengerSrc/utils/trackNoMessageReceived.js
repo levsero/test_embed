@@ -1,4 +1,4 @@
-import errorTracker from 'src/framework/services/errorTracker'
+import { errorTracker } from '@zendesk/widget-shared-services'
 import { getAllMessages } from 'messengerSrc/features/messageLog/store'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 

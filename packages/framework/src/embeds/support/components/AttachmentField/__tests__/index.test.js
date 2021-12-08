@@ -1,10 +1,18 @@
 import { fireEvent, wait } from '@testing-library/react'
+import { onNextTick } from '@zendesk/widget-shared-services'
 import { FileDropProvider } from 'src/components/FileDropProvider'
 import { render } from 'src/util/testHelpers'
-import * as utils from 'src/util/utils'
 import { Component as AttachmentField } from '../'
 
-jest.mock('src/util/devices')
+jest.mock('@zendesk/widget-shared-services', () => {
+  const originalModule = jest.requireActual('@zendesk/widget-shared-services')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    onNextTick: jest.fn(),
+  }
+})
 
 const defaultProps = {
   displayAttachmentLimitError: false,
@@ -83,9 +91,8 @@ describe('AttachmentField', () => {
   })
 
   it('calls handleAttachmentsError when displayAttachmentLimitError switches to true', () => {
-    utils.onNextTick = jest.fn()
     const { rerender } = renderComponent()
     renderComponent({ value: { limitExceeded: true } }, rerender)
-    expect(utils.onNextTick).toHaveBeenCalled()
+    expect(onNextTick).toHaveBeenCalled()
   })
 })

@@ -1,4 +1,4 @@
-import { nameValid, emailValid } from 'src/util/utils'
+import { nameValid, emailValid } from '@zendesk/widget-shared-services'
 
 export default (values, requiredFormData) => {
   const nameError = !nameValid(values.display_name ?? '', {

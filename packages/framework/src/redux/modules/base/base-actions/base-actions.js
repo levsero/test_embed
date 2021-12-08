@@ -1,8 +1,10 @@
+import { persistence as store } from '@zendesk/widget-shared-services'
+import { focusLauncher, nameValid, emailValid, phoneValid } from '@zendesk/widget-shared-services'
 import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'src/constants/event'
+import { getPrechatFormRequired } from 'src/embeds/chat/selectors'
 import { contextualSearch } from 'src/embeds/helpCenter/actions'
 import { getHasContextuallySearched } from 'src/embeds/helpCenter/selectors'
 import { clearAttachments } from 'src/embeds/support/actions'
-import { store } from 'src/framework/services/persistence'
 import {
   getOAuth,
   getBaseIsAuthenticated,
@@ -17,12 +19,9 @@ import {
 } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { getPrechatFormRequired } from 'src/embeds/chat/selectors'
 import * as callbacks from 'src/service/api/callbacks'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import { focusLauncher } from 'src/util/globals'
-import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 import * as actions from './../base-action-types'
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {

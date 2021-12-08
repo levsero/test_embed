@@ -1,9 +1,9 @@
 import { fireEvent, waitFor } from '@testing-library/react'
+import { devices } from '@zendesk/widget-shared-services'
 import WebWidget from 'src/component/webWidget/WebWidget'
 import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, chatConnected } from 'src/redux/modules/chat/chat-actions'
 import { updateSettings } from 'src/redux/modules/settings'
-import * as devices from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
 
 jest.mock('src/service/transport/http')

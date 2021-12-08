@@ -6,7 +6,7 @@ import {
   zdColorGrey700,
 } from '@zendeskgarden/css-variables'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import { isChromeOnIPad } from 'src/util/devices'
+import { isChromeOnIPad } from '@zendesk/widget-shared-services'
 
 const InputBoxContainer = styled.div`
   flex-grow: 1;

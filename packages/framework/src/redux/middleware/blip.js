@@ -1,3 +1,4 @@
+import { beacon } from '@zendesk/widget-shared-services/beacon'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 import {
@@ -43,7 +44,6 @@ import {
 import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
-import { beacon } from 'src/service/beacon'
 import hcStats from 'src/service/hcStats'
 
 let talkOpenedBlipSent = false

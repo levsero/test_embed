@@ -1,9 +1,9 @@
 import _ from 'lodash'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
 import { getHasContextuallySearched, getSearchTerm } from 'src/embeds/helpCenter/selectors'
 import { getAttachmentsForForm } from 'src/embeds/support/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
-import { beacon } from 'src/service/beacon'
 import hcStats from 'src/service/hcStats'
 
 const trackTicketSubmitted = (apiResponse, formValues, state) => {

@@ -2,12 +2,12 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import { win } from '@zendesk/widget-shared-services'
 import {
   CHAT_STRUCTURED_CONTENT_TYPE,
   CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
 } from 'src/constants/chat'
 import { sendMsg } from 'src/redux/modules/chat'
-import { win } from 'src/util/globals'
 import { ButtonCard } from './structuredMessage/ButtonCard'
 import { ListCard } from './structuredMessage/ListCard'
 import { PanelCard } from './structuredMessage/PanelCard'

@@ -10,11 +10,6 @@ import GreetingMessage from 'src/embeds/chat/components/PrechatForm/GreetingMess
 import PrechatFormControls from 'src/embeds/chat/components/PrechatForm/PrechatFormControls'
 import SocialLogin from 'src/embeds/chat/components/SocialLogin'
 import ViewHistoryButton from 'src/embeds/chat/components/ViewHistoryButton'
-import { getVisiblePrechatFields, getPrechatGreeting } from 'src/embeds/chat/selectors/prechat-form'
-import { getReadOnlyState } from 'src/embeds/support/selectors'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
-import useTranslate from 'src/hooks/useTranslate'
-import { initiateSocialLogout } from 'src/redux/modules/chat'
 import {
   getAuthUrls,
   getChatVisitor,
@@ -23,6 +18,11 @@ import {
   getSocialLogin,
   getPreChatFormState,
 } from 'src/embeds/chat/selectors'
+import { getVisiblePrechatFields, getPrechatGreeting } from 'src/embeds/chat/selectors/prechat-form'
+import { getReadOnlyState } from 'src/embeds/support/selectors'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import useTranslate from 'src/hooks/useTranslate'
+import { initiateSocialLogout } from 'src/redux/modules/chat'
 import { getChatTitle, getOfflineFormSettings } from 'src/redux/modules/selectors'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
 import validate from './validate'

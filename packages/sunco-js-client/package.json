@@ -19,5 +19,15 @@
   "peerDependencies": {
     "superagent": "^3.7.0",
     "uuid": "^8.3.2"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Android versions",
+    "last 2 ChromeAndroid versions",
+    "IE 11"
+  ],
+  "sideEffects": false
 }

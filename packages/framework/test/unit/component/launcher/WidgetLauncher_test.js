@@ -16,10 +16,11 @@ describe('WidgetLauncher component', () => {
     mockChatSuppressedValue = false
 
     initMockRegistry({
-      'src/util/devices': {
+      '@zendesk/widget-shared-services': {
         isMobileBrowser: () => {
           return false
         },
+        onNextTick: (callback) => callback(),
       },
       'src/component/Icon': {
         Icon: class extends Component {
@@ -44,9 +45,6 @@ describe('WidgetLauncher component', () => {
           getLocale: () => mockLocale,
           isRTL: () => mockIsRTL,
         },
-      },
-      'src/util/utils': {
-        onNextTick: (callback) => callback(),
       },
       'src/redux/modules/selectors': {
         getChatOnline: noop,

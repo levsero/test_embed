@@ -3,9 +3,9 @@ import { useRef } from 'react'
 import { connect } from 'react-redux'
 import { useFocusJail } from '@zendeskgarden/container-focusjail'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
+import { focusLauncher } from '@zendesk/widget-shared-services'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
-import { focusLauncher } from 'src/util/globals'
 
 const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
   const containerRef = useRef()

@@ -1,5 +1,5 @@
+import { errorTracker } from '@zendesk/widget-shared-services'
 import { getChatConnected } from 'src/embeds/chat/selectors'
-import errorTracker from 'src/framework/services/errorTracker'
 import { getEnabledDepartments } from 'src/redux/modules/selectors'
 import { getRawSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
 

@@ -1,4 +1,4 @@
-import { beacon } from 'src/service/beacon'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
 import { isRateLimited } from './helpers'
 
 export default (apiCall, payload, name, _errorCallback) => {

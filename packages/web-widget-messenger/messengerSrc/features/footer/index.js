@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
 import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
-import { isSafari } from 'src/framework/utils/hostPageWindow'
 import useSendFiles from 'messengerSrc/features/app/hooks/useSendFiles'
 import {
   getComposerDraft,
@@ -14,6 +13,9 @@ import { stopTyping, startTyping } from 'messengerSrc/features/footer/typing'
 import { sendMessage } from 'messengerSrc/features/messageLog/store'
 import { getIsFullScreen } from 'messengerSrc/features/responsiveDesign/store'
 import { AnimationContext } from 'messengerSrc/features/widget/components/WidgetFrame/FrameAnimation'
+
+// Because this was using a variant which was deleted as part of hostPageWindow and operates differently to the @zendesk/widget-shared-services isSafari()
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
 const Footer = () => {
   const dispatch = useDispatch()

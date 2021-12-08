@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorWhite } from '@zendeskgarden/css-variables'
-import { isMobileBrowser } from 'src/util/devices'
-import { isPopout } from 'src/util/globals'
+import { isMobileBrowser, isPopout } from '@zendesk/widget-shared-services'
 
 const Container = styled.div`
   display: flex;

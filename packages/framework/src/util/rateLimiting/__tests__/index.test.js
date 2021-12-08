@@ -1,9 +1,10 @@
-import { beacon } from 'src/service/beacon'
+import { beacon } from '@zendesk/widget-shared-services/beacon'
 import rateLimiting from '../'
 import * as helpers from '../helpers'
 
 jest.mock('../helpers')
-jest.mock('src/service/beacon')
+
+jest.mock('@zendesk/widget-shared-services/beacon')
 
 describe('rateLimiting', () => {
   let apiCall, errorCallback

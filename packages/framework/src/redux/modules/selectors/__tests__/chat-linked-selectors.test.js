@@ -1,16 +1,20 @@
+import { isPopout } from '@zendesk/widget-shared-services'
+import * as chatReselectors from 'src/embeds/chat/selectors/reselectors'
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import * as chatReselectors from 'src/embeds/chat/selectors/reselectors'
-import * as globals from 'src/util/globals'
 import * as selectors from '../chat-linked-selectors'
+
+jest.mock('@zendesk/widget-shared-services', () => ({
+  isPopout: jest.fn(),
+}))
 
 describe('getShowMenu', () => {
   test('when values are correct', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(false)
+    isPopout.mockReturnValue(false)
     const result = selectors.getShowMenu(getModifiedState())
 
     expect(result).toEqual(true)
-    globals.isPopout.mockRestore()
+    isPopout.mockRestore()
   })
 
   describe('when a value is false', () => {
@@ -29,11 +33,11 @@ describe('getShowMenu', () => {
     })
 
     test('when isPopout is true', () => {
-      jest.spyOn(globals, 'isPopout').mockReturnValue(true)
+      isPopout.mockReturnValue(true)
       const result = selectors.getShowMenu(getModifiedState())
 
       expect(result).toEqual(false)
-      globals.isPopout.mockRestore()
+      isPopout.mockRestore()
     })
 
     test('when chat screen is CHATTING_SCREEN and user is viewing offline page', () => {
@@ -588,7 +592,7 @@ describe('getChatHistoryLabel', () => {
 
 describe('getIsPopoutButtonVisible', () => {
   test('when values are correct', () => {
-    jest.spyOn(globals, 'isPopout').mockReturnValue(false)
+    isPopout.mockReturnValue(false)
 
     const result = selectors.getIsPopoutButtonVisible(getModifiedState())
 
@@ -604,12 +608,12 @@ describe('getIsPopoutButtonVisible', () => {
     })
 
     test('when activeEmbed is not chat', () => {
-      jest.spyOn(globals, 'isPopout').mockReturnValue(false)
+      isPopout.mockReturnValue(false)
       const result = selectors.getIsPopoutButtonVisible(
         getModifiedState({ base: { activeEmbed: 'notChat' } })
       )
       expect(result).toEqual(false)
-      globals.isPopout.mockRestore()
+      isPopout.mockRestore()
     })
 
     test('when popout button is not enabled in settings', () => {

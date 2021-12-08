@@ -1,5 +1,7 @@
+import { setReferrerMetas } from '@zendesk/widget-shared-services/util/globals'
 import setupIframe from 'src/framework/setupIframe'
-import * as globals from 'src/util/globals'
+
+jest.mock('@zendesk/widget-shared-services/util/globals')
 
 describe('setupIframe', () => {
   let mockComputedStyle = {},
@@ -9,12 +11,12 @@ describe('setupIframe', () => {
 
   beforeEach(() => {
     jest.spyOn(window, 'getComputedStyle').mockImplementation(() => mockComputedStyle)
-    jest.spyOn(globals, 'setReferrerMetas').mockImplementation(() => {})
+    setReferrerMetas.mockImplementation(() => {})
   })
 
   afterEach(() => {
     window.getComputedStyle.mockRestore()
-    globals.setReferrerMetas.mockRestore()
+    setReferrerMetas.mockRestore()
   })
 
   describe('when Iframe is provied', () => {
@@ -23,7 +25,7 @@ describe('setupIframe', () => {
     })
 
     it('expect setReferrerMetas to have been called', () => {
-      expect(globals.setReferrerMetas).toHaveBeenCalled()
+      expect(setReferrerMetas).toHaveBeenCalled()
     })
   })
 
@@ -33,7 +35,7 @@ describe('setupIframe', () => {
     })
 
     it('expect setReferrerMetas not to have been called', () => {
-      expect(globals.setReferrerMetas).not.toHaveBeenCalled()
+      expect(setReferrerMetas).not.toHaveBeenCalled()
     })
   })
 })

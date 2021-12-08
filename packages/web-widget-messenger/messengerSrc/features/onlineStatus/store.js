@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { onBrowserComingBackOnline, onBrowserGoingOffline } from 'src/framework/utils/browser'
+import { onBrowserComingBackOnline, onBrowserGoingOffline } from '@zendesk/widget-shared-services'
 
 const onlineStatus = createSlice({
   name: 'onlineStatus',
