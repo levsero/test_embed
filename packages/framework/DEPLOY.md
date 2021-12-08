@@ -239,7 +239,7 @@ Please notify [#team-taipan] if a rollback has occurred out of Melbourne hours.
 [staging browser tests]: https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/
 [production freeze]: https://zendesk.atlassian.net/wiki/display/ops/Production+Freeze
 [canary smoke tests]: https://jenkins-pod26.zende.sk/job/smoke_26/view/Web%20Widget/
-[production smoke tests]: https://jenkins-pod23.zende.sk/job/smoke_23/view/Web%20Widget/
+[production smoke tests]: https://jenkins-pod23.zende.sk/job/smoke_26/view/Web%20Widget/
 [build staging]: https://samson.zende.sk/projects/embeddable_framework/stages/build-staging
 [build production]: https://samson.zende.sk/projects/embeddable_framework/stages/build-production
 [samson - embeddable framework]: https://samson.zende.sk/projects/embeddable_framework
