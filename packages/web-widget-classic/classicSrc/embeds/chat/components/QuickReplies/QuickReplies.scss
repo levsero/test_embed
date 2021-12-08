@@ -1,0 +1,71 @@
+@import 'classicSrc/styles/_vars.scss';
+
+// Slider's height: button's line-height + button's padding + button's border-width + $focusRingWidth
+$focusRingWidth: 3px;
+$buttonLineHeight: 16 / $font-size;
+$buttonPaddingVertical: 7 / $font-size;
+$buttonBorderWidth: 1 / $font-size;
+$buttonInnerHeight: $buttonLineHeight + ($buttonPaddingVertical * 2);
+
+// scrollBufferHeight hides the scrollbar
+$scrollBufferHeight: 10 / $font-size;
+$mobileSliderHeight: $buttonInnerHeight + $buttonBorderWidth * 2;
+
+$sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
+
+.container {
+  text-align: right;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+
+  &.mobile {
+    height: #{$mobileSliderHeight}rem;
+    overflow: hidden;
+
+    .scroll {
+      height: #{$mobileSliderHeight + $scrollBufferHeight}rem;
+      overflow-x: auto;
+    }
+  }
+}
+
+.scroll {
+  white-space: nowrap;
+}
+
+.quickReply {
+  min-width: 0;
+  height: auto !important; // garden override
+  line-height: #{$buttonLineHeight}rem !important; // garden override, follow MessageBubble
+  padding: #{$buttonPaddingVertical}rem #{12 / $font-size}rem; // Different from MessageBubble because of border
+  border-width: #{$buttonBorderWidth}rem; // garden override
+}
+
+.separator {
+  margin-right: #{8 / $font-size}rem;
+}
+
+.lastSeparator {
+  margin-right: calc(
+    #{$buttonBorderWidth}rem + #{$focusRingWidth}
+  ); // prevent cutoff of the last element and its focus ring
+}
+
+:global {
+  .structuredMessageSlider {
+    .variableWidth {
+      &.slick-slider {
+        margin: 0 22px;
+      }
+
+      .slick-slide {
+        height: auto !important;
+      }
+
+      .slick-list {
+        padding: $focusRingWidth;
+      }
+    }
+  }
+}

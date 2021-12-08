@@ -34,7 +34,7 @@ const start = async () => {
       ).then((messenger) => messenger.default.start(config, configLoadEnd))
     } else {
       await import(
-        /* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget'
+        /* webpackChunkName: "lazy/web_widget" */ '@zendesk/web-widget-classic'
       ).then((webWidget) => webWidget.default.start(config, configLoadEnd))
     }
   } catch (err) {

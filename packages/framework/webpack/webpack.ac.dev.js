@@ -125,8 +125,11 @@ module.exports = () => {
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {
       framework: path.join(projectRoot, '/src/framework/index.js'),
-      webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
-      chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
+      webWidgetPreview: path.join(
+        projectRoot,
+        '../web-widget-classic/classicSrc/webWidgetPreview.js'
+      ),
+      chatPreview: path.join(projectRoot, '../web-widget-classic/classicSrc/chatPreview.js'),
     }
     webpackConfig.plugins.push(...previewTemplates())
     webpackConfig.plugins.push(

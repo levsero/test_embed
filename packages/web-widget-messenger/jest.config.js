@@ -31,7 +31,7 @@ module.exports = {
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|webp)$': '<rootDir>/../framework/__mocks__/fileMock.js',
-    '\\.(css|scss)$': '<rootDir>/../framework/__mocks__/styleMock.js',
+    '\\.(css|scss)$': '<rootDir>/messengerSrc/__mocks__/styleMock.js',
     '^src/(.*)': '<rootDir>/../framework/src/$1',
     '^messengerSrc/(.*)': '<rootDir>/messengerSrc/$1',
     '^@zendesk/widget-shared-services/(.*)': '<rootDir>/../shared-services/dist/$1',
@@ -43,7 +43,7 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     '^.+\\.js$': ['babel-jest', { configFile: path.resolve(__dirname, '.babelrc.json') }],
-    '^.+\\.svg$': '<rootDir>/../framework/src/__mocks__/svgrMock.js',
+    '^.+\\.svg$': '<rootDir>/messengerSrc/__mocks__/svgrMock.js',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

@@ -1,0 +1,37 @@
+{
+  "name": "@zendesk/web-widget-classic",
+  "version": "0.0.1",
+  "author": "Zendesk",
+  "license": "All Rights Reserved",
+  "private": true,
+  "engines": {
+    "node": ">= 12.21.0",
+    "npm": ">= 6.13.4"
+  },
+  "scripts": {},
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.0.0",
+    "jasmine": "^2.8.0",
+    "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax.git#v2.0.0.rc2",
+    "jasmine-spec-reporter": "^4.2.1",
+    "mockery": "~1.4.0",
+    "require-uncached": "~1.0.2",
+    "lodash": "^4.17.20",
+    "react-test-renderer": "^16.8.6"
+  },
+  "peerDependencies": {},
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Android versions",
+    "last 2 ChromeAndroid versions",
+    "IE 11"
+  ],
+  "sideEffects": false
+}

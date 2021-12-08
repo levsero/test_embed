@@ -31,10 +31,10 @@ module.exports = {
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.js',
-    '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
     '^src/(.*)': '<rootDir>/src/$1',
     '@zendesk/web-widget-messenger': '<rootDir>/src/__mocks__/messengerMock.js',
     '^@zendesk/widget-shared-services/(.*)': '<rootDir>/../shared-services/dist/$1',
+    '@zendesk/web-widget-classic': '<rootDir>/src/__mocks__/classicMock.js',
   },
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
@@ -43,7 +43,6 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     '^.+\\.js$': ['babel-jest', { configFile: path.resolve(__dirname, '.babelrc.json') }],
-    '^.+\\.svg$': '<rootDir>/src/__mocks__/svgrMock.js',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

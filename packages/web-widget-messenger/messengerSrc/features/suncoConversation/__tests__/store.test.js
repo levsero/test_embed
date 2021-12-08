@@ -1,9 +1,9 @@
 import { waitFor } from '@testing-library/dom'
-import { createMockStore } from 'src/util/testHelpers'
 import * as suncoApi from 'messengerSrc/api/sunco'
 import { cookiesDisabled } from 'messengerSrc/store/cookies'
 import createStore from 'messengerSrc/store/index'
 import { fetchIntegrations, selectIntegrationById } from 'messengerSrc/store/integrations'
+import { createMockStore } from 'messengerSrc/utils/testHelpers'
 import {
   startConversation,
   reducer,

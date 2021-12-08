@@ -14,6 +14,7 @@ const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_E
 
 const projectRoot = path.resolve(__dirname, '../')
 const messengerRoot = path.resolve(__dirname, '../', '../', 'web-widget-messenger')
+const classicRoot = path.resolve(__dirname, '../', '../', 'web-widget-classic')
 
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
@@ -49,6 +50,14 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           configFile: path.resolve(messengerRoot, '.babelrc.json'),
+        },
+      },
+      {
+        test: /\.js$/,
+        include: path.resolve(classicRoot, 'classicSrc'),
+        loader: 'babel-loader',
+        options: {
+          configFile: path.resolve(classicRoot, '.babelrc.json'),
         },
       },
       {
@@ -129,6 +138,8 @@ module.exports = {
       src: path.join(projectRoot + '/src'),
       '@zendesk/web-widget-messenger': path.resolve(messengerRoot, 'messengerSrc'),
       messengerSrc: path.resolve(messengerRoot, 'messengerSrc'),
+      '@zendesk/web-widget-classic': path.resolve(classicRoot, 'classicSrc'),
+      classicSrc: path.resolve(classicRoot, 'classicSrc'),
     },
     fallback: {
       stream: require.resolve('stream-browserify'),

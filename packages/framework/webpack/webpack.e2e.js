@@ -6,7 +6,7 @@ const webWidgetTemplates = require('../dev/web_widget_templates')
 const fs = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const projectRoot = path.resolve(__dirname, '../')
+const classicRoot = path.resolve(__dirname, '../', '../', 'web-widget-classic')
 
 module.exports = () => {
   const templatesOptions = {
@@ -26,8 +26,8 @@ module.exports = () => {
       publicPath: '/',
     },
     entry: {
-      webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
-      chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
+      webWidgetPreview: path.join(classicRoot, '/classicSrc/webWidgetPreview.js'),
+      chatPreview: path.join(classicRoot, '/classicSrc/chatPreview.js'),
     },
     devServer: {
       host: 'localhost',

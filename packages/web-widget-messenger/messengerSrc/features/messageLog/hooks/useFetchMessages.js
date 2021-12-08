@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import useSafeState from 'src/hooks/useSafeState'
+import useSafeState from '@zendesk/widget-shared-services/hooks/useSafeState'
 import { hasExistingConversation } from 'messengerSrc/api/sunco'
 import {
   getHasPrevious,

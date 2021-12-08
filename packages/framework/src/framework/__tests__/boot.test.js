@@ -1,6 +1,6 @@
+import webWidget from '@zendesk/web-widget-classic'
 import messenger from '@zendesk/web-widget-messenger'
 import { errorTracker } from '@zendesk/widget-shared-services'
-import webWidget from 'src/apps/webWidget'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import framework from 'src/framework/framework'
 import * as blacklist from 'src/framework/isBlacklisted'
@@ -8,7 +8,7 @@ import * as blacklist from 'src/framework/isBlacklisted'
 jest.mock('src/framework/api/embeddableConfig')
 jest.mock('@zendesk/widget-shared-services/errorTracker')
 jest.mock('@zendesk/web-widget-messenger')
-jest.mock('src/apps/webWidget')
+jest.mock('@zendesk/web-widget-classic')
 jest.mock('src/framework/isBlacklisted')
 
 describe('start', () => {

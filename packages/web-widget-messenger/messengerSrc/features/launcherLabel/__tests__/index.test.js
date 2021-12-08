@@ -1,7 +1,6 @@
 import { waitFor, within } from '@testing-library/dom'
 import { stripUnit } from 'polished'
 import { persistence } from '@zendesk/widget-shared-services'
-import wait from 'src/util/wait'
 import { launcherSize } from 'messengerSrc/constants'
 import {
   initialiseLauncherLabel,
@@ -13,6 +12,7 @@ import createStore from 'messengerSrc/store'
 import { messengerConfigReceived } from 'messengerSrc/store/actions'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 import { render } from 'messengerSrc/utils/testHelpers'
+import wait from 'messengerSrc/utils/wait'
 import LauncherLabel from '../index'
 
 describe('launcher label', () => {

@@ -8,6 +8,7 @@
     "^@zendeskgarden/(.*)$",
     "^@zendesk/(.*)$",
     "^src",
+    "^classicSrc",
     "^messengerSrc",
     "^[../]",
     "^[./]"

@@ -2,11 +2,14 @@ import { render as rtlRender } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 import t from '@zendesk/client-i18n-tools'
 import { win } from '@zendesk/widget-shared-services'
 import usTranslations from 'src/translation/messenger/en-us.json'
 import ThemeProvider from 'messengerSrc/features/themeProvider'
 import createStore from 'messengerSrc/store'
+import { reducer } from '../features/suncoConversation/store'
 
 export const render = (
   ui,
@@ -88,3 +91,8 @@ export const testReducer = (reducer, actions) => {
     })
   })
 }
+
+const mockStore = configureStore([thunk])
+const initialState = () => reducer({}, {})
+
+export const createMockStore = (state) => mockStore(state || initialState)

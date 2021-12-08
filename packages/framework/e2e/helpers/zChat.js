@@ -1,4 +1,5 @@
 import accountSettings from 'e2e/fixtures/responses/chat-account-settings.json'
+import zChat from 'e2e/helpers/zChat'
 
 const getAccountSettings = async () => {
   await page.evaluate((accountSettings) => {
@@ -104,6 +105,7 @@ const online = async () => {
   await getOperatingHours()
   await clearVisitorDefaultDepartment()
   await isChatting()
+  await zChat.setVisitorInfo()
   await endChat()
   await connectionUpdate('connecting')
   await accountStatus('online')
