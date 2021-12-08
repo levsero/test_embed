@@ -1,19 +1,20 @@
-/* eslint-disable no-console */
-import {
-  MessengerContainerDecorator,
-  ChannelLinkContainerDecorator,
-} from '../../../.storybook/decorators'
+import ChannelLinkContainer from 'src/messenger/ChannelLinkContainer'
+import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 import ChannelLinkWithButton from './ChannelLinkWithButton'
 
 export default {
   title: 'Messenger/ChannelLink',
   component: ChannelLinkWithButton,
-  decorators: [ChannelLinkContainerDecorator, MessengerContainerDecorator],
+  decorators: [MessengerContainerDecorator],
 }
 
-const Template = (args) => <ChannelLinkWithButton {...args} />
-
-export const LinkUsingButton = Template.bind()
+export const LinkUsingButton = (args) => {
+  return (
+    <ChannelLinkContainer>
+      <ChannelLinkWithButton {...args} />
+    </ChannelLinkContainer>
+  )
+}
 LinkUsingButton.args = {
   channelId: 'messenger',
   url: 'www.awesomeurl.com',
