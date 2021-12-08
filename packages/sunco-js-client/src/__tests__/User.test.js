@@ -65,45 +65,6 @@ describe('User', () => {
         })
       })
     })
-
-    describe('when information about the user is missing', () => {
-      it('removes appUserId and sessionToken from local storage', () => {
-        const user = new AppUser({ integrationId: '123' })
-        const mockGetJWTFn = jest.fn()
-
-        user.updateAppUser({
-          clientId: 'client-id',
-          appUserId: null,
-          getJWT: mockGetJWTFn,
-        })
-
-        const result = user.getCurrentAppUserIfAny()
-
-        expect(result.sessionToken).toBe(null)
-        expect(result.appUserId).toBe(null)
-
-        expect(storage.getItem(`123.sessionToken`)).toBe(undefined)
-        expect(storage.getItem(`123.appUserId`)).toBe(undefined)
-      })
-
-      it('removes jwt data', () => {
-        const user = new AppUser({ integrationId: '123' })
-        const mockGetJWTFn = jest.fn()
-        user.jwt = 'some-jwt'
-
-        user.updateAppUser({
-          clientId: 'client-id',
-          appUserId: null,
-          getJWT: mockGetJWTFn,
-        })
-
-        const result = user.getCurrentAppUserIfAny()
-
-        expect(result.appUserId).toBe(null)
-        expect(result.getJWT).toBe(undefined)
-        expect(user.jwt).toBe(null)
-      })
-    })
   })
 
   describe('updateAppUser', () => {

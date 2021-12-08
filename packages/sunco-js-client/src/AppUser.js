@@ -22,18 +22,6 @@ class AppUser {
     let appUserId = storage.getItem(`${this.integrationId}.appUserId`)
     const clientId = getOrCreateClientId(this.integrationId)
 
-    const hasAuthInfo = sessionToken || this.jwt || this.getJWT
-
-    // If any part of the user is missing, remove everything
-    if (!hasAuthInfo || !appUserId || !clientId) {
-      storage.removeItem(`${this.integrationId}.appUserId`)
-      storage.removeItem(`${this.integrationId}.sessionToken`)
-      this.jwt = null
-      this.getJWT = null
-      sessionToken = null
-      appUserId = null
-    }
-
     if (this.jwt || this.getJWT) {
       return {
         appUserId,
