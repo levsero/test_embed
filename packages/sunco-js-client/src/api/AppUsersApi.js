@@ -1,5 +1,3 @@
-import { getClientInfo } from '../utils/device'
-import storage from '../utils/storage'
 import BaseApi from './BaseApi'
 
 class AppUsersApi extends BaseApi {
@@ -8,11 +6,12 @@ class AppUsersApi extends BaseApi {
       method: 'POST',
       path: `/v2/apps/${this.appId}/appusers`,
       data: {
-        client: getClientInfo(this.integrationId),
+        client: this.getClientInfo(),
         // userId: '', //  omit userId while all users are anonymous
         intent: 'conversation:start', //this will trigger a conversation:start webhook needed by AB
         ...data,
       },
+      authorizationRequired: false,
     })
   }
 
@@ -20,14 +19,7 @@ class AppUsersApi extends BaseApi {
     return this.request({
       method: 'PUT',
       path: `/v2/apps/${this.appId}/appusers/${appUserId}`,
-      data: {
-        ...data,
-      },
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-      },
+      data,
     })
   }
 
@@ -35,11 +27,6 @@ class AppUsersApi extends BaseApi {
     return this.request({
       method: 'GET',
       path: `/v2/apps/${this.appId}/appusers/${appUserId}`,
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-      },
     })
   }
 
@@ -47,11 +34,6 @@ class AppUsersApi extends BaseApi {
     return this.request({
       method: 'GET',
       path: `/v2/apps/${this.appId}/appusers/${appUserId}/linkrequest?integrationIds=${integrationId}`,
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-      },
     })
   }
 
@@ -59,11 +41,6 @@ class AppUsersApi extends BaseApi {
     return this.request({
       method: 'DELETE',
       path: `/v2/apps/${this.appId}/appusers/${appUserId}/clients/${clientId}`,
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-      },
     })
   }
 }

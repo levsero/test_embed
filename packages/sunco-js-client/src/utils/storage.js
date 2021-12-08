@@ -81,6 +81,8 @@ const setStorageType = ({ type }) => {
       case 'localStorage':
         instance = new LocalStore()
         break
+      case 'variable':
+        instance = new Store()
     }
   } catch (err) {
     instance = new Store()

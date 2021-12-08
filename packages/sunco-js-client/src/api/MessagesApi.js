@@ -1,6 +1,4 @@
 import { MAX_FILE_SIZE_IN_BYTES } from '../utils/constants'
-import { getClientInfo, getSessionId } from '../utils/device'
-import storage from '../utils/storage'
 import SuncoAPIError from './../utils/SuncoAPIError'
 import BaseApi from './BaseApi'
 
@@ -10,11 +8,6 @@ class MessagesApi extends BaseApi {
       method: 'GET',
       path: `/v2/apps/${this.appId}/conversations/${conversationId}/messages`,
       params,
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-      },
     })
   }
 
@@ -28,11 +21,6 @@ class MessagesApi extends BaseApi {
       method: 'POST',
       path: `/v2/apps/${this.appId}/conversations/${conversationId}/messages`,
       data: messagePayload,
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-      },
     })
   }
 
@@ -58,10 +46,6 @@ class MessagesApi extends BaseApi {
       path: `/v2/apps/${this.appId}/conversations/${conversationId}/files`,
       data,
       headers: {
-        Authorization: `Basic ${btoa(
-          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`,
-
         // Content-Type will get set by superagent automatically when FormData is provided
         'Content-Type': undefined,
       },
@@ -72,8 +56,7 @@ class MessagesApi extends BaseApi {
     return {
       role: 'appUser',
       appUserId: appUserId,
-      client: getClientInfo(this.integrationId),
-      sessionId: getSessionId(this.integrationId),
+      client: this.getClientInfo(),
     }
   }
 }

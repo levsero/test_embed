@@ -64,6 +64,7 @@
     }
   ],
   "dependencies": {
+    "jwt-decode": "^3.1.2",
     "@reduxjs/toolkit": "^1.6.2",
     "@zendesk/client-i18n-tools": "^17.2.0",
     "@zendesk/conversation-components": "*",

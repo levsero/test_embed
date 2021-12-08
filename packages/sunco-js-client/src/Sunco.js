@@ -1,16 +1,12 @@
+import decodeJwt from 'jwt-decode'
+import AppUser from 'src/AppUser'
+import LoginApi from 'src/api/LoginApi'
 import ActivityAPI from './api/ActivityApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
 import IntegrationsApi from './api/IntegrationsApi'
 import MessagesApi from './api/MessagesApi'
 import SocketClient from './socket/SocketClient'
-import { getCurrentUserIfAny, removeAppUser, storeAppUser } from './utils/context'
-import {
-  getOrCreateClientId,
-  getSessionId,
-  removeClientId,
-  setClientId as setClientIdInStorage,
-} from './utils/device'
 import retryWrapper from './utils/retries'
 import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
 
@@ -34,17 +30,20 @@ export default class Sunco {
     storage.setStorageType({ type: storageType })
     this.locale = null
     this.debug = debug
+
+    this.user = new AppUser(this)
+
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
     this.activity = new ActivityAPI(this)
     this.integrations = new IntegrationsApi(this)
 
-    getOrCreateClientId(integrationId)
+    this.login = new LoginApi(this)
   }
 
   get hasExistingAppUser() {
-    const { appUserId } = getCurrentUserIfAny(this.integrationId)
+    const { appUserId } = this.user.getCurrentAppUserIfAny()
     return Boolean(appUserId)
   }
 
@@ -56,7 +55,7 @@ export default class Sunco {
   }
 
   set activeConversation({ conversationId, socketSettings, lastRead, integrations }) {
-    const { appUserId, sessionToken } = getCurrentUserIfAny(this.integrationId)
+    const { appUserId } = this.user.getCurrentAppUserIfAny()
 
     if (this.debug) {
       /* eslint no-console:0 */
@@ -66,8 +65,7 @@ export default class Sunco {
     const socketClient = new SocketClient({
       ...socketSettings,
       appId: this.appId,
-      appUserId: appUserId,
-      sessionToken: sessionToken,
+      user: this.user,
     })
 
     this._activeConversation = {
@@ -117,7 +115,7 @@ export default class Sunco {
       retryWrapper(
         () =>
           new Promise((resolve, reject) => {
-            const { appUserId } = getCurrentUserIfAny(this.integrationId)
+            const { appUserId } = this.user.getCurrentAppUserIfAny()
             if (appUserId) {
               this.appUsers
                 .get(appUserId)
@@ -137,10 +135,10 @@ export default class Sunco {
 
                   switch (status) {
                     case 401:
-                      removeAppUser({ integrationId: this.integrationId })
+                      this.user.removeAppUser()
                       return resolve(this.createAppUser())
                     default:
-                      reject()
+                      reject(error)
                   }
                 })
             } else {
@@ -161,7 +159,7 @@ export default class Sunco {
   setLocale(locale) {
     this.locale = locale
 
-    const { appUserId } = getCurrentUserIfAny(this.integrationId)
+    const { appUserId } = this.user.getCurrentAppUserIfAny()
     if (appUserId) {
       this.startConversation()
     }
@@ -177,10 +175,9 @@ export default class Sunco {
       this.appUsers
         .create({ ...(this.locale ? { locale: this.locale } : {}) })
         .then((response) => {
-          storeAppUser({
+          this.user.updateAppUser({
             appUserId: response.body.appUser._id,
             sessionToken: response.body.sessionToken,
-            integrationId: this.integrationId,
           })
           this.activeConversation = {
             conversationId: response.body.conversations[0]._id,
@@ -202,25 +199,71 @@ export default class Sunco {
   }
 
   wasMessageSentFromThisTab(message) {
-    if (message.source.id !== getOrCreateClientId(this.integrationId)) return false
-    return message.source.sessionId === getSessionId(this.integrationId)
+    const { sessionId, clientId } = this.user.getCurrentAppUserIfAny()
+
+    if (message.source.id !== clientId) return false
+    return message.source.sessionId === sessionId
   }
 
   updateSession(appUser) {
     const { _id: appUserId, sessionToken } = appUser
-    storeAppUser({ appUserId, sessionToken, integrationId: this.integrationId })
+    this.user.updateAppUser({ appUserId, sessionToken })
   }
 
   setClientId(clientId) {
-    setClientIdInStorage(this.integrationId, clientId)
+    this.user.updateAppUser({
+      clientId,
+    })
   }
 
   forgetUser() {
-    removeAppUser({ integrationId: this.integrationId })
-    removeClientId(this.integrationId)
+    this.user.removeAppUser()
   }
 
-  getClientId(integrationId) {
-    return getOrCreateClientId(integrationId)
+  getClientId() {
+    const { clientId } = this.user.getCurrentAppUserIfAny()
+    return clientId
+  }
+
+  async loginUser(generateJwtCallback) {
+    this.user.updateAppUser({
+      getJWT: generateJwtCallback,
+    })
+    const jwt = await this.user.generateJWT()
+
+    if (!jwt) {
+      throw new Error('Invalid jwt')
+    }
+
+    // eslint-disable-next-line babel/camelcase
+    const { external_id } = decodeJwt(jwt)
+    const { appUserId } = this.user.getCurrentAppUserIfAny()
+
+    this.login
+      .create(appUserId, external_id)
+      .then((response) => {
+        // if JWT  has name and/or email
+        // Call PUT this.appUsers.update({givenName, email})
+
+        // if we have a conversation with this user, store appUserId and conversation details
+        if (response.body.conversations.length) {
+          this.activeConversation = {
+            conversationId: response.body.conversations[0]._id,
+            socketSettings: response.body.settings.realtime,
+            lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
+            integrations: response.body.appUser.clients.filter(
+              (client) => client.platform !== 'web'
+            ),
+          } // TODO - might need to eventually select a particular conversation - isDefault: true
+        } else {
+          // store the app user ID
+          // Don't create a conversation until the user tries to start one by opening the widget.
+          this.user.updateAppUser({
+            appUserId: response.body.appUser._id,
+            sessionToken: response.body.sessionToken,
+          })
+        }
+      })
+      .catch(() => {})
   }
 }

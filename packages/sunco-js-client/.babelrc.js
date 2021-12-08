@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = (api) => {
-  const aliasPath = api.env('development') ? path.resolve(__dirname, './src') : './src'
+  const aliasPath = api.env('production') ? './src' : path.resolve(__dirname, './src')
 
   return {
     presets: [
