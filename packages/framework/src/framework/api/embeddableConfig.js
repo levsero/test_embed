@@ -1,4 +1,4 @@
-const hostPageWindow = window.top
+const hostPageWindow = window.parent
 
 const isRequestFromLivePreview = () => {
   const livePreviewHosts = ['static-staging.zdassets.com', 'static.zdassets.com']
@@ -16,15 +16,6 @@ const fetchEmbeddableConfig = async () => {
   }
 
   const path = isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config'
-
-  // attempt to use the config that was preloaded
-  if (window.ACFetch) {
-    try {
-      return window.ACFetch(`https://${window.document.zendesk.web_widget.id}${path}`)
-    } catch {
-      // fallback to fetching embeddable config
-    }
-  }
 
   if (typeof fetch === 'undefined') {
     await import('whatwg-fetch')

@@ -1,4 +1,4 @@
-const hostPageWindow = window.top
+const hostPageWindow = window.parent
 
 export const onBrowserTabFocus = (callback) => {
   // https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
