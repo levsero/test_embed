@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-import { send } from '@zendesk/widget-shared-services/transport/http/base'
-
-const hostPageWindow = window.top
+const hostPageWindow = window.parent
 
 const isRequestFromLivePreview = () => {
   const livePreviewHosts = ['static-staging.zdassets.com', 'static.zdassets.com']
@@ -11,41 +8,24 @@ const isRequestFromLivePreview = () => {
 }
 
 const fetchEmbeddableConfig = async () => {
-  // attempt to use the config that was preloaded
-  if (window.ACFetch) {
-    try {
-      const endpoint = isRequestFromLivePreview()
-        ? '/embeddable/preview/config'
-        : '/embeddable/config'
+  const zendeskHost =
+    document.zendeskHost || document.zendesk?.web_widget?.id || document.web_widget?.id
 
-      console.log(`firing ACFetch: ${endpoint}`)
-
-      const result = await window.ACFetch(
-        `https://${window.document.zendesk.web_widget.id}${endpoint}`
-      )
-
-      console.log('completed ACFetch')
-
-      return result
-    } catch {
-      // fallback to fetching embeddable config
-    }
+  if (!zendeskHost) {
+    throw new Error('Missing zendeskHost config param.')
   }
 
-  console.log('firing superagent Send')
+  const path = isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config'
 
-  return new Promise((resolve, reject) => {
-    send(
-      {
-        method: 'get',
-        path: isRequestFromLivePreview() ? '/embeddable/preview/config' : '/embeddable/config',
-        callbacks: {
-          done: (res) => resolve(res.body),
-          fail: reject,
-        },
-      },
-      false
-    )
+  if (typeof fetch === 'undefined') {
+    await import('whatwg-fetch')
+  }
+
+  return fetch(`https://${zendeskHost}${path}`).then((response) => {
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch config')
+    }
+    return response.json()
   })
 }
 

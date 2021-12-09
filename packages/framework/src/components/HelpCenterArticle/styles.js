@@ -1,8 +1,6 @@
 import { darken, getLuminance, lighten } from 'polished'
 import styled from 'styled-components'
 
-window.top.getLuminance = getLuminance
-
 const Container = styled.div`
   &&& {
     a {
