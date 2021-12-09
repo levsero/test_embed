@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { send } from '@zendesk/widget-shared-services/transport/http/base'
 
 const hostPageWindow = window.top
@@ -17,15 +18,21 @@ const fetchEmbeddableConfig = async () => {
         ? '/embeddable/preview/config'
         : '/embeddable/config'
 
+      console.log(`firing ACFetch: ${endpoint}`)
+
       const result = await window.ACFetch(
         `https://${window.document.zendesk.web_widget.id}${endpoint}`
       )
+
+      console.log('completed ACFetch')
 
       return result
     } catch {
       // fallback to fetching embeddable config
     }
   }
+
+  console.log('firing superagent Send')
 
   return new Promise((resolve, reject) => {
     send(
