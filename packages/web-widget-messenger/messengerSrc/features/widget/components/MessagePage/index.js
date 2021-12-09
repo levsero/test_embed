@@ -2,7 +2,6 @@ import { forwardRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { Dropzone } from '@zendesk/conversation-components'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import useDisableAnimationProps from 'messengerSrc/features/animations/useDisableAnimationProps'
 import useSendFiles from 'messengerSrc/features/app/hooks/useSendFiles'
 import Footer from 'messengerSrc/features/footer'
@@ -50,17 +49,10 @@ const MessagePage = forwardRef((_props, ref) => {
       <Header />
       <ConnectionStatusBanner />
       <ConversationConnectionStatus>
-        {isFeatureEnabled(null, 'web_widget_drag_drop_file_upload') ? (
-          <Dropzone onDrop={onFilesSelected}>
-            <MessageLog />
-            <Footer />
-          </Dropzone>
-        ) : (
-          <>
-            <MessageLog />
-            <Footer />
-          </>
-        )}
+        <Dropzone onDrop={onFilesSelected}>
+          <MessageLog />
+          <Footer />
+        </Dropzone>
       </ConversationConnectionStatus>
     </Container>
   )
