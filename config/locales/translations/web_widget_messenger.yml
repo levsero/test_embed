@@ -437,3 +437,8 @@ parts:
       title: 'Link to generate a new QR code that links their widget to one of their social channels'
       screenshot: 'https://drive.google.com/file/d/1xxalh7xJ_xSwI96G1-FufDVE3lWZyilW/view?usp=sharing'
       value: 'Generate new QR code'
+  - translation:
+      key: 'embeddable_framework.messenger.unread_message_divider.new'
+      title: 'Text that appears in Web Widget along with a divider. It indicates to users the section containing new and unread messages.'
+      screenshot: 'https://drive.google.com/file/d/1K5_1gCR49pPA41eI5FzoeiT9uQFx3fZH/view?usp=sharing'
+      value: 'New'
