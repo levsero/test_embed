@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types'
+import { Dropdown, Field } from '@zendeskgarden/react-dropdowns'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
 import useIsRTL from 'classicSrc/app/webWidget/hooks/useIsRTL'
 import { FONT_SIZE, TEST_IDS } from 'classicSrc/constants/shared'
 import Flag from 'classicSrc/embeds/talk/components/Flag'
-import PropTypes from 'prop-types'
-import { Dropdown, Field } from '@zendeskgarden/react-dropdowns'
-import { useCurrentFrame } from 'src/framework/components/Frame'
 import { Item, Menu, Select, CountryData } from './styles'
 
 const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onToggleOpen }) => {

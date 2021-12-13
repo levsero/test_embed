@@ -1,5 +1,5 @@
-import { setReferrerMetas } from '@zendesk/widget-shared-services/util/globals'
-import setupIframe from 'src/framework/setupIframe'
+import { setReferrerMetas } from 'src/util/globals'
+import setupIframe from 'src/util/setupIframe'
 
 jest.mock('@zendesk/widget-shared-services/util/globals')
 

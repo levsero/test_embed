@@ -3,7 +3,6 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { StyleSheetManager } from 'styled-components'
-import { smoothScroll } from '../../utils/smoothScroll'
 import CurrentFrameProvider, { useCurrentFrame, CurrentFrameConsumer } from './CurrentFrameProvider'
 
 const useCombinedRefs = (extraRef) => {
@@ -65,10 +64,6 @@ const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props
     const body = currentFrame.contentDocument.body
 
     body.appendChild(currentContainer)
-
-    if (!('scrollBehavior' in currentFrame.contentDocument.documentElement.style)) {
-      smoothScroll(window, window.document)
-    }
 
     setIsTargetReady(true)
     return () => body.removeChild(currentContainer)

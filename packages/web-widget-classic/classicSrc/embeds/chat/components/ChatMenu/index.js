@@ -1,3 +1,10 @@
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { connect } from 'react-redux'
+import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
+import { Tooltip } from '@zendeskgarden/react-tooltips'
+import { isMobileBrowser, onNextTick } from '@zendesk/widget-shared-services'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
 import { HeaderItem } from 'classicSrc/components/Widget'
 import { TEST_IDS } from 'classicSrc/constants/shared'
 import { handleSoundIconClick, updateMenuVisibility } from 'classicSrc/embeds/chat/actions/actions'
@@ -19,13 +26,6 @@ import {
   getChatEmailTranscriptEnabled,
   getHelpCenterAvailable,
 } from 'classicSrc/redux/modules/selectors'
-import PropTypes from 'prop-types'
-import { useState } from 'react'
-import { connect } from 'react-redux'
-import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
-import { Tooltip } from '@zendeskgarden/react-tooltips'
-import { isMobileBrowser, onNextTick } from '@zendesk/widget-shared-services'
-import { useCurrentFrame } from 'src/framework/components/Frame'
 import {
   SoundOffIcon,
   SoundOnIcon,

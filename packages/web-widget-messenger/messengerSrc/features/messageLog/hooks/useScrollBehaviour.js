@@ -4,7 +4,7 @@ import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
 import { win } from '@zendesk/widget-shared-services'
-import { useCurrentFrame } from 'src/framework/components/Frame'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
 import { useShouldDisableAnimations } from 'messengerSrc/features/animations/useDisableAnimationProps'
 import { AnimationContext } from 'messengerSrc/features/widget/components/WidgetFrame/FrameAnimation'
 import {

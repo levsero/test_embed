@@ -1,11 +1,11 @@
-import { init, run, initIPM } from 'classicSrc/app/webWidget/boot'
-import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 import { beacon } from '@zendesk/widget-shared-services/beacon'
 import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
 import { identity } from '@zendesk/widget-shared-services/identity'
 import { publicApi } from '@zendesk/widget-shared-services/public-api'
 import tracker from '@zendesk/widget-shared-services/tracker'
-import setupIframe from 'src/framework/setupIframe'
+import setupIframe from '@zendesk/widget-shared-services/util/setup-iframe'
+import { init, run, initIPM } from 'classicSrc/app/webWidget/boot'
+import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 
 const frameworkServices = [identity, beacon, publicApi, tracker]
 

@@ -1,3 +1,10 @@
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { cloneElement, Component } from 'react'
+import { connect } from 'react-redux'
+import Transition from 'react-transition-group/Transition'
+import { getZoomSizingRatio, onNextTick } from '@zendesk/widget-shared-services'
+import IFrame from '@zendesk/widget-shared-services/Frame'
 import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 import EmbedWrapper from 'classicSrc/component/frame/EmbedWrapper'
 import {
@@ -23,13 +30,6 @@ import {
   getStylingPositionVertical,
   getStylingZIndex,
 } from 'classicSrc/redux/modules/settings/settings-selectors'
-import _ from 'lodash'
-import PropTypes from 'prop-types'
-import { cloneElement, Component } from 'react'
-import { connect } from 'react-redux'
-import Transition from 'react-transition-group/Transition'
-import { getZoomSizingRatio, onNextTick } from '@zendesk/widget-shared-services'
-import IFrame from 'src/framework/components/Frame'
 import { locals as styles } from './Frame.scss'
 
 const mapStateToProps = (state, ownProps) => {

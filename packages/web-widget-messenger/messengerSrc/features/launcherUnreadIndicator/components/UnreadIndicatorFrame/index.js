@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import Frame from 'src/framework/components/Frame'
+import Frame from '@zendesk/widget-shared-services/Frame'
 import { frameMarginFromPage, unreadIndicatorSize, launcherSize } from 'messengerSrc/constants'
 import useTranslate from 'messengerSrc/features/i18n/useTranslate'
 import { getIsLauncherVisible } from 'messengerSrc/features/launcher/store'

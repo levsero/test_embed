@@ -8,9 +8,9 @@ import {
   MESSAGE_STATUS,
 } from '@zendesk/conversation-components'
 import { MAX_FILE_SIZE_IN_BYTES } from '@zendesk/sunco-js-client'
-import { useCurrentFrame } from 'src/framework/components/Frame'
-import i18n from 'src/framework/services/i18n'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
 import { baseFontSize, baseFontSizeFullScreen, fileUploadCountLimit } from 'messengerSrc/constants'
+import i18n from 'messengerSrc/features/i18n'
 import useTranslate from 'messengerSrc/features/i18n/useTranslate'
 import { getIsFullScreen } from 'messengerSrc/features/responsiveDesign/store'
 import { getMessengerColors } from 'messengerSrc/features/themeProvider/store'
