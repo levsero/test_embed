@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types'
+import useSafeState from '@zendesk/widget-shared-services/util/useSafeState'
 import { TEST_IDS } from 'classicSrc/constants/shared'
 import sharedPropTypes from 'classicSrc/types/shared'
-import PropTypes from 'prop-types'
-import useSafeState from '@zendesk/widget-shared-services/hooks/useSafeState'
 import { ImageContainer, Link, Spinner, StyledImage } from './styles'
 
 const ImageMessage = ({ placeholderEl, onImageLoad, file }) => {
