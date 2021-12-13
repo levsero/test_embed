@@ -56,7 +56,6 @@ export default {
     connection: 'emotional',
     currentMessage: "I can't let you do that, Dave",
     config: {
-      defaultToChatWidgetLite: false,
       badge: {
         text: 'blahtext',
         image: 'blahmage',

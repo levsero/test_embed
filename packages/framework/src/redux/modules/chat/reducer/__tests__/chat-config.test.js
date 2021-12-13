@@ -2,14 +2,13 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import { testReducer } from 'src/util/testHelpers'
 import config from '../chat-config'
 
-const initialState = {
-  defaultToChatWidgetLite: false,
-}
 const embeddableConfigPayload = {
   embeds: {
     chat: {
       props: {
-        defaultToChatWidgetLite: true,
+        forms: {
+          offlineEnabled: true,
+        },
       },
     },
   },
@@ -18,16 +17,18 @@ const embeddableConfigPayload = {
 testReducer(config, [
   {
     action: { type: undefined },
-    expected: initialState,
+    expected: {},
   },
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: embeddableConfigPayload },
     expected: {
-      defaultToChatWidgetLite: true,
+      forms: {
+        offlineEnabled: true,
+      },
     },
   },
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: {} },
-    expected: initialState,
+    expected: {},
   },
 ])

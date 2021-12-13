@@ -118,9 +118,7 @@ Object {
   },
   "chatLogBackfillCompleted": false,
   "chats": Map {},
-  "config": Object {
-    "defaultToChatWidgetLite": false,
-  },
+  "config": Object {},
   "connection": "",
   "contactDetailsSubmissionError": false,
   "contactDetailsSubmissionPending": false,
