@@ -1,13 +1,13 @@
-import { FRAME_ANIMATION_DELAY } from 'classicSrc/constants/shared'
-import { getStandaloneMobileNotificationVisible } from 'classicSrc/embeds/chat/selectors'
-import { updateWidgetShown } from 'classicSrc/redux/modules/base/base-actions'
-import { getWebWidgetVisibleOpenAndReady } from 'classicSrc/redux/modules/selectors'
 import { isMobileBrowser, setScaleLock } from '@zendesk/widget-shared-services'
 import {
   setScrollKiller,
   setWindowScroll,
   revertWindowScroll,
 } from '@zendesk/widget-shared-services/util/scrollHacks'
+import { FRAME_ANIMATION_DELAY } from 'classicSrc/constants/shared'
+import { getStandaloneMobileNotificationVisible } from 'classicSrc/embeds/chat/selectors'
+import { updateWidgetShown } from 'classicSrc/redux/modules/base/base-actions'
+import { getWebWidgetVisibleOpenAndReady } from 'classicSrc/redux/modules/selectors'
 
 export default function onWidgetOpen(prevState, nextState, dispatch, getState) {
   if (!getWebWidgetVisibleOpenAndReady(prevState) && getWebWidgetVisibleOpenAndReady(nextState)) {
