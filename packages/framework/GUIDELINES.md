@@ -298,7 +298,7 @@ Use the `routes/index.js` file to define all of your embeds routes.
 
 ## Feature flags
 
-You can add feature flags to the Web Widget in this file [src/embeds/webWidget/selectors/feature-flags/features.js](src/embeds/webWidget/selectors/feature-flags/features.js)
+You can add feature flags to the Web Widget in this file [@zendesk/widget-shared-services/feature-flags/features.js](@zendesk/widget-shared-services/feature-flags/features.js)
 
 The only thing required for this is the feature flag name and its default value.
 
@@ -344,7 +344,7 @@ Note:
 ```jsx
 import React from 'react
 import { useSelector } from 'react-redux'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const FancyNewFeature = React.lazy(() => import('./FancyNewFeature))
 

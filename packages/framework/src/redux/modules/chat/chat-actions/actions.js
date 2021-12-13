@@ -6,6 +6,7 @@ import {
   getHostUrl,
   isValidUrl,
 } from '@zendesk/widget-shared-services'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import {
   CHAT_CONNECTED_EVENT,
@@ -24,7 +25,6 @@ import {
   getPrechatFormRequired,
   getChatBanned,
 } from 'src/embeds/chat/selectors'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'

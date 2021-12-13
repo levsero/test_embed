@@ -104,7 +104,7 @@ describe('ChatOnline component', () => {
         onNextTick: (cb) => setTimeout(cb, 0),
       },
       'src/embeds/chat/components/ButtonPill': {},
-      'src/embeds/webWidget/selectors/feature-flags': {},
+      '@zendesk/widget-shared-services/feature-flags': {},
     })
 
     mockery.registerAllowable(chatPath)

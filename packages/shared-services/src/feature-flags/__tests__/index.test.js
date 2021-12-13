@@ -1,8 +1,8 @@
-import inDebugMode from '@zendesk/widget-shared-services/util/in-debug-mode'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from 'src/feature-flags'
+import inDebugMode from 'src/util/in-debug-mode'
 import features from '../features'
 
-jest.mock('@zendesk/widget-shared-services/util/in-debug-mode', () => jest.fn())
+jest.mock('src/util/in-debug-mode', () => jest.fn())
 
 jest.mock('../features', () => ({
   fancyFeature: {

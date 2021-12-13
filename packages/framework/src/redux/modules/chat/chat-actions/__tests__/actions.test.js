@@ -3,6 +3,7 @@ import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { isMobileBrowser } from '@zendesk/widget-shared-services'
+import { updateFeatures } from '@zendesk/widget-shared-services/feature-flags'
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
@@ -10,7 +11,6 @@ import {
 } from 'src/constants/event'
 import * as reselectors from 'src/embeds/chat/selectors/reselectors'
 import * as selectors from 'src/embeds/chat/selectors/selectors'
-import { updateFeatures } from 'src/embeds/webWidget/selectors/feature-flags'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/routing-actions'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'

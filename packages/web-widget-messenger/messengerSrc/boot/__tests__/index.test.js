@@ -6,7 +6,7 @@ import * as boot from 'messengerSrc/boot'
 import messenger from '../..'
 
 jest.mock('src/framework/setupIframe')
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 jest.mock('messengerSrc/boot')
 jest.mock('messengerSrc/public-api')
 jest.mock('@zendesk/widget-shared-services/errorTracker')

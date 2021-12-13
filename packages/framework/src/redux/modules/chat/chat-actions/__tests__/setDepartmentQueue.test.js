@@ -1,7 +1,7 @@
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import * as queue from '../setDepartmentQueue'
 
-jest.mock('src/embeds/webWidget/selectors/feature-flags')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 beforeEach(() => {
   queue.resetDepartmentQueue()
