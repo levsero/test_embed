@@ -1,4 +1,4 @@
-import zELocaleIdMap from './ze_localeIdMap'
+import zELocaleIdMap from './gen/ze_localeIdMap'
 
 function regulateDash(locale) {
   return locale.replace('_', '-')

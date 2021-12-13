@@ -4,7 +4,7 @@ import { navigator } from '@zendesk/widget-shared-services/util/globals'
 import listeners from 'messengerSrc/features/i18n/listeners'
 import parseLocale from 'messengerSrc/features/i18n/parseLocale'
 import fetchLocale from './fetchLocale'
-import zELocaleIdMap from './ze_localeIdMap'
+import zELocaleIdMap from './gen/ze_localeIdMap'
 
 let currentLocale
 

@@ -1,6 +1,6 @@
 const fetchLocale = (locale) => {
   return import(
-    /* webpackChunkName: "locales/messenger/[request]" */ `src/translation/messenger/${locale.toLowerCase()}.json`
+    /* webpackChunkName: "locales/messenger/[request]" */ `./gen/translations/${locale.toLowerCase()}.json`
   ).catch(() => {})
 }
 
