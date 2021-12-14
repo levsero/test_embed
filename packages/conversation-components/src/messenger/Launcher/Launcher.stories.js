@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import { withDesign } from 'storybook-addon-designs'
 import { LAUNCHER_SHAPES, LAUNCHER_POSITION } from 'src/constants'
+import { figmaAddOn, figmaUrl } from '../../../.storybook/figma'
 import Launcher from './index'
 
 export default {
   title: 'Messenger/Launcher',
   component: Launcher,
+  decorators: [withDesign],
   argTypes: {
     shape: {
       defaultValue: LAUNCHER_SHAPES.square,
@@ -23,11 +26,18 @@ export default {
   },
 }
 
-export const Default = (args) => {
+export const DefaultLauncher = (args) => {
   return <Launcher {...args} />
 }
 
-export const ClickableExample = (args) => {
+DefaultLauncher.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.launcherShapes,
+  },
+}
+
+export const ClickableLauncher = (args) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -39,4 +49,11 @@ export const ClickableExample = (args) => {
       }}
     />
   )
+}
+
+ClickableLauncher.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.launcherShapes,
+  },
 }

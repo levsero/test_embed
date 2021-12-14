@@ -1,11 +1,13 @@
+import { withDesign } from 'storybook-addon-designs'
 import ChannelLinkContainer from 'src/messenger/ChannelLinkContainer'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
+import { figmaAddOn, figmaUrl } from '../../../.storybook/figma'
 import ChannelLinkWithQrCode from './ChannelLinkWithQrCode'
 
 export default {
   title: 'Messenger/ChannelLink',
   component: ChannelLinkWithQrCode,
-  decorators: [MessengerContainerDecorator],
+  decorators: [MessengerContainerDecorator, withDesign],
 }
 
 export const LinkWithProvidedQrCode = (args) => {
@@ -32,8 +34,22 @@ export const LinkWithGeneratedQrCode = (args) => {
   )
 }
 
+LinkWithProvidedQrCode.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.channelLinking,
+  },
+}
+
 LinkWithGeneratedQrCode.args = {
   channelId: 'messenger',
   url: 'www.awesomeurl.com',
   status: 'success',
+}
+
+LinkWithGeneratedQrCode.parameters = {
+  design: {
+    ...figmaAddOn,
+    url: figmaUrl.channelLinking,
+  },
 }
