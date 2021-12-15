@@ -741,19 +741,16 @@ describe('getPrechatFormFields', () => {
 
 describe('getDelayChatConnectionEnabled', () => {
   test.each([
-    [false, false, true, false],
-    [false, false, false, true],
-    [false, true, true, true],
-    [false, true, false, true],
-    [true, true, false, true],
-    [true, false, false, true],
-    [true, false, true, true],
-    [true, true, true, true],
+    [true, true, true],
+    [true, false, true],
+    [true, false, true],
+    [false, false, true],
+    [false, true, false],
+    [true, true, true],
   ])(
-    'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, it returns %p',
-    (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, expectedValue) => {
+    'when connectOnDemand == %p, connectOnPageLoad == %p, it returns %p',
+    (connectOnDemand, connectOnPageLoad, expectedValue) => {
       const result = selectors.getDelayChatConnectionEnabled.resultFunc(
-        defaultToChatWidgetLite,
         connectOnDemand,
         connectOnPageLoad
       )

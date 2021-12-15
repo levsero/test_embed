@@ -53,9 +53,7 @@ const defaultState = {
     rating: {
       value: 5,
     },
-    config: {
-      defaultToChatWidgetLite: false,
-    },
+    config: {},
     activeAgents: new Map([]),
     chatting: false,
     enabled: true,

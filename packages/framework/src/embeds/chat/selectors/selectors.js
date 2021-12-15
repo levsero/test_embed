@@ -164,7 +164,6 @@ export const getChatBanned = (state) => state.chat.chatBanned
 export const getHasChatSdkConnected = (state) => state.chat.sdkConnected
 export const getHasBackfillCompleted = (state) => state.chat.chatLogBackfillCompleted
 export const getIsEndChatModalVisible = (state) => state.chat.endChatModalVisible
-export const getDefaultToChatWidgetLite = (state) => state.chat.config.defaultToChatWidgetLite
 
 export const getDeferredChatApi = (state) => {
   const config = getEmbeddableConfig(state)

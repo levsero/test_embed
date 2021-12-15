@@ -17,7 +17,6 @@ import {
   getActiveAgents,
   getIsPopoutAvailable,
   getShowOfflineChat,
-  getDefaultToChatWidgetLite,
   getIsChatting,
   getActiveAgentCount,
   getEmbeddableConfigBadgeSettings,
@@ -308,9 +307,9 @@ export const getOfflineFormEnabled = createSelector(
 )
 
 export const getDelayChatConnectionEnabled = createSelector(
-  [getDefaultToChatWidgetLite, getSettingsChatConnectOnDemand, getSettingsChatConnectOnPageLoad],
-  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad) => {
-    return connectOnDemand || !connectOnPageLoad || defaultToChatWidgetLite
+  [getSettingsChatConnectOnDemand, getSettingsChatConnectOnPageLoad],
+  (connectOnDemand, connectOnPageLoad) => {
+    return connectOnDemand || !connectOnPageLoad
   }
 )
 
