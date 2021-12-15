@@ -16,6 +16,8 @@ class AppUser {
     this.jwt = null
     this.getJWT = null
     this.externalId = null
+    this.refetchedTokens = {}
+    this.refetchJWTPromise = null
   }
 
   getCurrentAppUserIfAny() {
@@ -64,6 +66,8 @@ class AppUser {
     this.jwt = null
     this.getJWT = null
     this.externalId = null
+    this.refetchedTokens = {}
+    this.refetchJWTPromise = null
   }
 
   async generateJWT() {
@@ -71,9 +75,28 @@ class AppUser {
       throw new Error('no JWT provided')
     }
 
-    await this.getJWTFromCallback(this.getJWT).then((jwt) => {
+    return await this.getJWTFromCallback(this.getJWT).then((jwt) => {
       this.jwt = jwt
     })
+  }
+
+  refetchJWT(previousJWT) {
+    if (!this.refetchedTokens[previousJWT]) {
+      this.refetchedTokens[previousJWT] = true
+
+      this.refetchJWTPromise = new Promise((resolve, reject) => {
+        this.generateJWT()
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            this.refetchedTokens[previousJWT] = false
+            reject(error)
+          })
+      })
+    }
+
+    return this.refetchJWTPromise
   }
 
   async getJWTFromCallback(jwtCallback) {

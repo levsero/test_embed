@@ -1,5 +1,5 @@
 import Request from '../http/Request'
-import { VENDOR_ID, VERSION } from '../utils/constants'
+import { VENDOR_ID, VERSION, MAX_RETRIES } from '../utils/constants'
 import { buildUrl } from '../utils/path'
 
 class BaseApi {
@@ -10,14 +10,17 @@ class BaseApi {
     this.user = options.user
   }
 
-  async request({
-    method = 'GET',
-    path = '',
-    data = {},
-    params = {},
-    headers = {},
-    authorizationRequired = true,
-  }) {
+  async request(
+    {
+      method = 'GET',
+      path = '',
+      data = {},
+      params = {},
+      headers = {},
+      authorizationRequired = true,
+    },
+    attempt = 0
+  ) {
     const { jwt: maybeJwt, getJWT } = this.user.getCurrentAppUserIfAny()
 
     if (!maybeJwt && getJWT) {
@@ -45,7 +48,43 @@ class BaseApi {
     const url = buildUrl(this.baseUrl, path)
     const _request = new Request({ method, url, data, params, headers: suncoApiHeaders })
 
-    return _request.response()
+    const retryCallback = () =>
+      this.request(
+        {
+          method,
+          path,
+          data,
+          params,
+          headers,
+          authorizationRequired,
+        },
+        attempt + 1
+      )
+
+    const response = _request.response().catch((res) => {
+      const options = { response: res, attempt, retryCallback }
+      if (authorizationRequired && jwt) options.currentJwt = jwt
+
+      return this.handleResponseFailure(options)
+    })
+
+    return response
+  }
+
+  async handleResponseFailure({ response, attempt, currentJwt, retryCallback }) {
+    const status = response.status
+
+    if (status === 401 && attempt < MAX_RETRIES) {
+      // If this request was made using a JWT token in its authorization headers,
+      // then it might be expired now. Attempt to refetch the token from the customer.
+      if (currentJwt) await this.user.refetchJWT(currentJwt)
+
+      return retryCallback()
+    }
+
+    const { error = {} } = response
+    error.status = status
+    throw error
   }
 
   getClientInfo() {

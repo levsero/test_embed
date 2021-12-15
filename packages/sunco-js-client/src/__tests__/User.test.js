@@ -130,6 +130,8 @@ describe('User', () => {
       const user = new AppUser({ integrationId: '123' })
       const mockGetJWTFn = jest.fn()
       user.jwt = 'some-jwt'
+      user.refetchedTokens = { 'some-token': true }
+      user.refetchJWTPromise = Promise.resolve()
       user.updateAppUser({
         appUserId: 'app-user',
         clientId: 'client-id',
@@ -146,6 +148,8 @@ describe('User', () => {
       expect(user.getJWT).toBe(null)
       expect(user.jwt).toBe(null)
       expect(user.externalId).toBe(null)
+      expect(user.refetchedTokens).toEqual({})
+      expect(user.refetchJWTPromise).toEqual(null)
     })
   })
 
@@ -238,6 +242,57 @@ describe('User', () => {
       })
 
       return expect(user.getJWTFromCallback(mockGetJWTFn)).rejects.toEqual(new Error('something'))
+    })
+  })
+
+  describe('refetchJWT', () => {
+    describe('when the token is not already being refetched for that invalid token', () => {
+      it('refetches the jwt token', () => {
+        const user = new AppUser({ integrationId: '123' })
+        const mockGetJWTFn = jest.fn((callback) => callback('some-jwt'))
+        user.updateAppUser({
+          appUserId: 'app-user',
+          clientId: 'client-id',
+          getJWT: mockGetJWTFn,
+          externalId: '123456',
+        })
+
+        expect(user.refetchJWT('a-fresh-invalid-token')).resolves.toBe(undefined)
+      })
+    })
+
+    describe('when the token is already being refetched for that invalid token', () => {
+      it('does not attempt to refetch the jwt token and returns the cached promise', () => {
+        const user = new AppUser({ integrationId: '123' })
+        const mockGetJWTFn = jest.fn((callback) => callback('some-jwt'))
+        user.generateJWT = jest.fn()
+        user.updateAppUser({
+          appUserId: 'app-user',
+          clientId: 'client-id',
+          getJWT: mockGetJWTFn,
+          externalId: '123456',
+        })
+        user.refetchedTokens['already-fetching-this-one'] = true
+        user.refetchJWT('already-fetching-this-one')
+
+        expect(user.generateJWT).not.toHaveBeenCalled()
+      })
+    })
+
+    it('rejects the promise and resets cache properties if there is an error getting a new token', async () => {
+      const user = new AppUser({ integrationId: '123' })
+      const mockGetJWTFn = jest.fn(() => {
+        throw new Error('some error message')
+      })
+      user.updateAppUser({
+        appUserId: 'app-user',
+        clientId: 'client-id',
+        getJWT: mockGetJWTFn,
+        externalId: '123456',
+      })
+      const promise = user.refetchJWT('some-token')
+      await expect(promise).rejects.toEqual(new Error('some error message'))
+      expect(user.refetchedTokens['some-token']).toEqual(false)
     })
   })
 })
