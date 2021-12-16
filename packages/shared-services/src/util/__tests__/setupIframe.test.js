@@ -1,7 +1,7 @@
 import { setReferrerMetas } from 'src/util/globals'
 import setupIframe from 'src/util/setupIframe'
 
-jest.mock('@zendesk/widget-shared-services/util/globals')
+jest.mock('src/util/globals')
 
 describe('setupIframe', () => {
   let mockComputedStyle = {},

@@ -1,11 +1,5 @@
-<<<<<<< HEAD:packages/web-widget-classic/classicSrc/__tests__/useSafeState.test.js
-import { fireEvent, waitFor } from '@testing-library/dom'
-import { render } from 'classicSrc/util/testHelpers'
-import useSafeState from '@zendesk/widget-shared-services/hooks/useSafeState'
-=======
 import { fireEvent, waitFor, render } from '@testing-library/react'
 import useSafeState from 'src/util/useSafeState'
->>>>>>> Move useSafeState to shared services:packages/shared-services/src/util/__tests__/useSafeState.test.js
 
 describe('useSafeState', () => {
   // eslint-disable-next-line react/prop-types

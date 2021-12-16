@@ -47,6 +47,10 @@ const featureConfig = {
     defaultValue: false,
     getArturoValue: () => features.jwtAuth,
   },
+  module_federation: {
+    defaultValue: false,
+    getArturoValue: () => features.moduleFederation,
+  },
   ...(__DEV__ && {
     dev_override_sunco: {
       defaultValue: false,
