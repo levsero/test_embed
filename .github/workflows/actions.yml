@@ -16,19 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         task:
-          [
-            'lint',
-            'test',
-            'test-legacy',
-            'fossa',
-            'audit',
-            'validate',
-            'e2e0',
-            'e2e1',
-            'e2e2',
-            'e2e3',
-            'visual',
-          ]
+          ['lint', 'test', 'fossa', 'audit', 'validate', 'e2e0', 'e2e1', 'e2e2', 'e2e3', 'visual']
         include:
           - task: lint
             run: |
@@ -38,11 +26,6 @@ jobs:
               echo "Starting unit and integration tests"
               download_translations
               yarn test --ci --runInBand
-          - task: test-legacy
-            run: |
-              echo "Starting legacy jasmine tests"
-              download_translations
-              yarn workspace @zendesk/embeddable-framework test:old
           - task: fossa
             run: |
               echo "Starting Fossa open source scan"
