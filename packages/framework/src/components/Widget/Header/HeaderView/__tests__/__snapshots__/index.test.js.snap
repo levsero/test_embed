@@ -7,11 +7,11 @@ exports[`HeaderView renders 1`] = `
   color: !important;
 }
 
-<div
+<header
   class="c0"
 >
   <div>
     Some child component
   </div>
-</div>
+</header>
 `;

@@ -133,6 +133,7 @@
     "@storybook/addon-links": "^6.0.21",
     "@storybook/react": "6.1.9",
     "@svgr/webpack": "^5.4.0",
+    "@wordpress/jest-puppeteer-axe": "3.1.0",
     "app-root-path": "^2.0.1",
     "autoprefixer": "^9.7.3",
     "babel-core": "^7.0.0-bridge.0",

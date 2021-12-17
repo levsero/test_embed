@@ -134,6 +134,7 @@ test('attachments can be uploaded and submitted', async () => {
       email: 'my@email.com',
     })
   )
+  await expect(page).toPassAxeTests()
 })
 
 test('attachments can be removed from the form', async () => {
@@ -184,6 +185,7 @@ test('attachments can be removed from the form', async () => {
       email: 'my@email.com',
     })
   )
+  await expect(page).toPassAxeTests()
 })
 
 test('attachments too large are rejected', async () => {

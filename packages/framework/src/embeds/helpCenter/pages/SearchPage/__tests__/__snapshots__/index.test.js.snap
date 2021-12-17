@@ -941,7 +941,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
     <div
       class="c0"
     >
-      <div
+      <header
         class="c1"
         data-testid="widget-header-view"
       >
@@ -952,7 +952,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="alert"
           >
             pageTitle
           </h1>
@@ -1024,8 +1023,8 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             </form>
           </div>
         </div>
-      </div>
-      <div
+      </header>
+      <main
         aria-live="polite"
         class="c18"
         data-testid="scroll-container-content"
@@ -1044,7 +1043,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             Try searching for something else.
           </p>
         </div>
-      </div>
+      </main>
       <footer
         class="c22"
       >
@@ -2029,7 +2028,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
     <div
       class="c0"
     >
-      <div
+      <header
         class="c1"
         data-testid="widget-header-view"
       >
@@ -2040,7 +2039,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="alert"
           >
             pageTitle
           </h1>
@@ -2112,8 +2110,8 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             </form>
           </div>
         </div>
-      </div>
-      <div
+      </header>
+      <main
         aria-live="polite"
         class="c18"
         data-testid="scroll-container-content"
@@ -2132,7 +2130,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             Try searching for something else.
           </p>
         </div>
-      </div>
+      </main>
       <footer
         class="c22"
       >

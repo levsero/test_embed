@@ -23,6 +23,7 @@ test('displays the original article button', async () => {
   await assertOriginalArticleLink(
     'https://answerbot.zendesk.com/hc/en-us/articles/2nd-article?auth_token=eyJ'
   )
+  await expect(page).toPassAxeTests()
 })
 
 test('hides the original article button via api', async () => {
@@ -46,4 +47,5 @@ test('hides the original article button via api', async () => {
   await queries.getByText(doc, 'This is the body.')
   const link = await queries.queryByTitle(doc, 'View original article')
   expect(link).not.toBeTruthy()
+  await expect(page).toPassAxeTests()
 })

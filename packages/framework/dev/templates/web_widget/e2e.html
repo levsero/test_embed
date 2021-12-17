@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta content='width=device-width,initial-scale=1' name='viewport'>
-  <title>End-to-end tests</title>
-</head>
-<body>
-  <h1>Web Widget Local</h1>
-  <%= htmlWebpackPlugin.options.snippet(htmlWebpackPlugin.files.js) %>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <title>End-to-end tests</title>
+  </head>
+  <body>
+    <main aria-labelledby="e2e">
+      <h1 id="e2e">Web Widget Local</h1>
+    </main>
+    <%= htmlWebpackPlugin.options.snippet(htmlWebpackPlugin.files.js) %>
+  </body>
 </html>

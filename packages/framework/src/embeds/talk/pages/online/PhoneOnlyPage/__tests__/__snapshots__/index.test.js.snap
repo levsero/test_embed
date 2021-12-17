@@ -531,7 +531,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
     <div
       class="c0"
     >
-      <div
+      <header
         class="c1"
         data-testid="widget-header-view"
       >
@@ -542,7 +542,6 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="alert"
           >
             Call us
           </h1>
@@ -563,8 +562,8 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             />
           </button>
         </div>
-      </div>
-      <div
+      </header>
+      <main
         aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
@@ -601,7 +600,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             </a>
           </div>
         </div>
-      </div>
+      </main>
       <footer
         class="c16"
       >

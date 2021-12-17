@@ -543,7 +543,7 @@ exports[`SuccessNotificationPage renders 1`] = `
     <div
       class="c0"
     >
-      <div
+      <header
         class="c1"
         data-testid="widget-header-view"
       >
@@ -554,7 +554,6 @@ exports[`SuccessNotificationPage renders 1`] = `
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="alert"
           >
             Request sent
           </h1>
@@ -575,8 +574,8 @@ exports[`SuccessNotificationPage renders 1`] = `
             />
           </button>
         </div>
-      </div>
-      <div
+      </header>
+      <main
         aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
@@ -615,7 +614,7 @@ exports[`SuccessNotificationPage renders 1`] = `
             </button>
           </div>
         </div>
-      </div>
+      </main>
       <footer
         class="c16"
       >

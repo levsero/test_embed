@@ -13,4 +13,5 @@ test('clicking chat channel goes to chat embed', async () => {
   await widget.waitForText('How do you want to get in touch?')
   await widget.clickText('Live chat')
   await widget.expectToSeeText('Chat with us')
+  await expect(page).toPassAxeTests()
 })

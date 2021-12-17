@@ -39,6 +39,7 @@ describe('Regular Chat without chat badge settings', () => {
   test('does not show a launcher when agents are offline', async () => {
     await page.waitFor(2000)
     await expect(launcher).toBeHidden()
+    await expect(page).toPassAxeTests()
   })
 })
 
@@ -55,6 +56,7 @@ describe('Chat standalone with chat badge settings', () => {
   test('does not show a launcher when agents are offline', async () => {
     await page.waitFor(2000)
     await expect(launcher).toBeHidden()
+    await expect(page).toPassAxeTests()
   })
 
   test('minimize shows the launcher', async () => {
@@ -118,6 +120,7 @@ describe('When Chat and Help Center are enabled', () => {
   test('shows the default launcher when agents are offline', async () => {
     await launcher.waitForLauncherPill()
     await itBehavesLikeADefaultLauncher()
+    await expect(page).toPassAxeTests()
   })
 })
 

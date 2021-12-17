@@ -716,7 +716,7 @@ exports[`ArticlePage default render matches snapshot 1`] = `
     <div
       class="c0"
     >
-      <div
+      <header
         class="c1"
         data-testid="widget-header-view"
       >
@@ -727,7 +727,6 @@ exports[`ArticlePage default render matches snapshot 1`] = `
             class="c3 c4"
             data-testid="widget-title"
             id="widgetHeaderTitle"
-            role="alert"
           >
             pageTitle
           </h1>
@@ -748,8 +747,8 @@ exports[`ArticlePage default render matches snapshot 1`] = `
             />
           </button>
         </div>
-      </div>
-      <div
+      </header>
+      <main
         aria-live="polite"
         class="c9"
         data-testid="scroll-container-content"
@@ -793,7 +792,7 @@ exports[`ArticlePage default render matches snapshot 1`] = `
             down to the waterline
           </div>
         </div>
-      </div>
+      </main>
       <footer
         class="c13"
       >
