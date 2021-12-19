@@ -87,6 +87,11 @@ parts:
       screenshot: 'https://drive.google.com/file/d/1HqjYMnvy64G9XURD-3f77oESTSg1TrgF/view?usp=sharing'
       value: 'Company logo'
   - translation:
+      key: 'embeddable_framework.messenger.message.avatar'
+      title: '[A11Y] Alt tag for avatars in message logs'
+      screenshot: 'https://drive.google.com/file/d/1lrvx0UrEV4fJy7DF8bsQJnBDBEmlV9jH/view?usp=sharing'
+      value: 'Avatar'
+  - translation:
       key: 'embeddable_framework.messenger.connection_status.offline'
       title: 'Message displayed on interface to let the user know their network connection has gone offline'
       screenshot: 'https://drive.google.com/file/d/11rm3TT-nZfHqttDo7HjsNLsahIb1fhN-/view?usp=sharing'
