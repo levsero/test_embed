@@ -1,4 +1,4 @@
-import _ from 'lodash'
+const isNumber = (a) => typeof a === 'number'
 
 export const assertScreenshot = async (identifier, customOptions = {}) => {
   const options = {
@@ -12,7 +12,7 @@ export const assertScreenshot = async (identifier, customOptions = {}) => {
     }
     options.customSnapshotIdentifier = identifier
   }
-  const wait = _.isNumber(customOptions.wait) ? customOptions.wait : 1000
+  const wait = isNumber(customOptions.wait) ? customOptions.wait : 1000
   await page.waitFor(wait)
   const image = await page.screenshot()
   expect(image).toMatchImageSnapshot(options)

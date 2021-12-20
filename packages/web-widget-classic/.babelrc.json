@@ -37,6 +37,9 @@
       "plugins": ["babel-plugin-styled-components", "dynamic-import-node"]
     },
     "production": {
+      "plugins": ["lodash", "babel-plugin-styled-components"]
+    },
+    "development": {
       "plugins": ["lodash"]
     }
   }

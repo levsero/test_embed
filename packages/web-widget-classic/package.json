@@ -15,13 +15,10 @@
   },
   "devDependencies": {
     "@babel/register": "^7.0.0",
-    "jasmine": "^2.8.0",
-    "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax.git#v2.0.0.rc2",
-    "jasmine-spec-reporter": "^4.2.1",
     "mockery": "~1.4.0",
-    "require-uncached": "~1.0.2",
     "lodash": "^4.17.20",
-    "react-test-renderer": "^16.8.6"
+    "react-test-renderer": "^16.8.6",
+    "babel-plugin-lodash": "^3.3.4"
   },
   "peerDependencies": {},
   "browserslist": [
