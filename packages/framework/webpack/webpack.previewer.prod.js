@@ -6,13 +6,13 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const common = require('./webpack.common.js')
 
-const projectRoot = path.resolve(__dirname, '../')
+const classicRoot = path.resolve(__dirname, '../', '../', 'web-widget-classic')
 
 module.exports = merge(common, {
   mode: 'production',
   entry: {
-    webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
+    webWidgetPreview: path.join(classicRoot, '/classicSrc/webWidgetPreview.js'),
+    chatPreview: path.join(classicRoot, '/classicSrc/chatPreview.js'),
   },
   output: {
     chunkFilename: '[name].[chunkhash].js',
