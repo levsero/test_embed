@@ -38,10 +38,7 @@ const start = async () => {
       ).then((webWidget) => webWidget.default.start(config, configLoadEnd))
     }
   } catch (err) {
-    errorTracker.error(err, {
-      rollbarFingerprint: 'Failed to render embeddable',
-      rollbarTitle: 'Failed to render embeddable',
-    })
+    errorTracker.error(err)
   }
 }
 
