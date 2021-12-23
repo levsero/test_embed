@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 const http = require('http')
-const _ = require('lodash')
 
 const fields = [
   '{ "ticket_field": { "type": "text", "title": "textField", "visible_in_portal": "true", "editable_in_portal": "true", "required_in_portal": "true" } }',
@@ -58,7 +57,7 @@ function createTicketFields() {
 
   const fieldIds = []
 
-  _.forEach(fields, (field) => {
+  fields.forEach((field) => {
     const ticketFieldsRequest = http.request(options, (res) => {
       res.setEncoding('utf8')
       res.on('data', (data) => {

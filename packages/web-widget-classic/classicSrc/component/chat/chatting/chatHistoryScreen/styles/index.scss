@@ -1,0 +1,38 @@
+@import '../../../../../styles/_vars.scss';
+@import '../../../../../styles/mixins.scss';
+@import 'classicSrc/embeds/chat/components/QuickReplies/QuickReplies.scss';
+
+.historyFetchingContainer {
+  composes: u-posAbsolute u-flex u-flexAlignItemsCenter u-flexJustifyCenter from global;
+  top: #{110 / $font-size}rem;
+  left: 0;
+  right: 0;
+}
+
+.historyFetchingText {
+  color: $zd-color-grey-800;
+  border-radius: #{30 / $font-size}rem !important;
+  box-shadow: 0 #{1 / $font-size}rem #{10 / $font-size}rem 0 rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  height: #{30 / $font-size}rem;
+  line-height: #{30 / $font-size}rem;
+  padding: 0 #{12 / $font-size}rem;
+  background-color: $zd-color-white;
+}
+
+.scrollBarFix {
+  overflow-y: scroll !important;
+  margin-right: 0 !important;
+  padding-right: #{3 / $font-size}rem !important;
+}
+
+.chatLogContainer {
+  min-height: calc(100% - #{$sliderHeight});
+}
+
+.chatLogContainerMobile {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}

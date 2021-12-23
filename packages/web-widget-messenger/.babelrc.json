@@ -36,8 +36,28 @@
       ],
       "plugins": ["babel-plugin-styled-components", "dynamic-import-node"]
     },
+    "development": {
+      "presets": [
+        [
+          "@babel/preset-react",
+          {
+            "runtime": "automatic",
+            "development": true
+          }
+        ]
+      ],
+      "plugins": ["babel-plugin-styled-components", "lodash"]
+    },
     "production": {
-      "plugins": ["lodash"]
+      "plugins": [
+        [
+          "babel-plugin-styled-components",
+          {
+            "displayName": false
+          }
+        ],
+        "lodash"
+      ]
     }
   }
 }

@@ -294,7 +294,7 @@ When importing modules, make sure that they are imported in alphabetical order b
 ```js
 import { Container } from 'src/component/Container';
 import { HelpCenterArticle } from 'src/component/helpCenter/HelpCenterArticle';
-import { i18n } from 'src/apps/webWidget/services/i18n';
+import { i18n } from '@zendesk/web-widget-classic/services/i18n';
 import { isMobileBrowser } from '@zendesk/widget-shared-services/util/devices';
 
 ...

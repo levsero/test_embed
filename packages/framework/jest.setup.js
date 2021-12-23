@@ -9,10 +9,6 @@ beforeAll(() => {
   t.set(classicUSTranslations.locale)
 })
 
-jest.mock('src/redux/middleware/preventLoops/index')
-jest.mock('src/embed/webWidget/webWidgetStyles')
-jest.mock('src/embed/sharedStyles')
-
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WWI18N'
 global.noop = () => {}
 global.URL.createObjectURL = jest.fn()

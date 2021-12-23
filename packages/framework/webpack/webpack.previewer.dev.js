@@ -6,13 +6,13 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const common = require('./webpack.common.js')
 const previewTemplates = require('../dev/preview_templates')
 
-const projectRoot = path.resolve(__dirname, '../')
+const classicRoot = path.resolve(__dirname, '../', '../', 'web-widget-classic')
 
 module.exports = merge(common, {
   mode: 'development',
   entry: {
-    webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
+    webWidgetPreview: path.join(classicRoot, '/classicSrc/webWidgetPreview.js'),
+    chatPreview: path.join(classicRoot, '/classicSrc/chatPreview.js'),
   },
   output: {
     publicPath: '/',

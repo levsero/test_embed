@@ -1,0 +1,162 @@
+@import 'classicSrc/styles/_vars.scss';
+
+.btn {
+  width: 100%;
+  padding: 0 !important;
+  height: #{75 / $font-size}rem !important;
+  box-shadow: 0 #{1 / $font-size}rem #{8 / $font-size}rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: #{4 / $font-size}rem;
+  border: none;
+  outline: none;
+  background-color: $zd-color-white !important;
+}
+
+.btnEnabled {
+  color: $zd-color-black !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $zd-color-black !important;
+    box-shadow: 0 #{1 / $font-size}rem #{8 / $font-size}rem 0 rgba(0, 0, 0, 0.3) !important;
+    text-decoration: underline !important;
+  }
+
+  &:focus,
+  &:active {
+    background-color: $zd-color-grey-100 !important;
+  }
+}
+
+.btnDisabled {
+  background-color: $zd-color-white !important;
+  color: $zd-color-grey-600 !important;
+  line-height: normal !important;
+  text-align: left !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    box-shadow: 0 #{1 / $font-size}rem #{8 / $font-size}rem 0 rgba(0, 0, 0, 0.2) !important;
+    background-color: $zd-color-white !important;
+    color: $zd-color-grey-600 !important;
+  }
+}
+
+.chatBtnDisabled {
+  composes: btnDisabled;
+
+  svg path {
+    fill: $zd-color-grey-300 !important;
+  }
+}
+
+.talkBtnDisabled {
+  composes: btnDisabled;
+
+  svg path {
+    stroke: $zd-color-grey-400 !important;
+  }
+}
+
+.iconTalk {
+  padding-left: #{31 / $font-size}rem;
+  padding-right: #{14 / $font-size}rem !important;
+  height: #{30 / $font-size}rem !important;
+  width: #{30 / $font-size}rem !important;
+
+  svg {
+    min-width: #{30 / $font-size}rem;
+    min-height: #{30 / $font-size}rem;
+    max-width: #{30 / $font-size}rem;
+    max-height: #{30 / $font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{14 / $font-size}rem;
+    padding-right: #{31 / $font-size}rem !important;
+  }
+}
+
+.iconSubmitTicket {
+  padding-left: #{31 / $font-size}rem;
+  padding-right: #{18 / $font-size}rem !important;
+  width: #{27 / $font-size}rem;
+  height: #{27 / $font-size}rem;
+
+  svg {
+    min-width: #{27 / $font-size}rem;
+    min-height: #{27 / $font-size}rem;
+    max-width: #{27 / $font-size}rem;
+    max-height: #{27 / $font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{18 / $font-size}rem;
+    padding-right: #{31 / $font-size}rem !important;
+  }
+}
+
+.iconChat {
+  padding-left: #{30 / $font-size}rem;
+  padding-right: #{14 / $font-size}rem !important;
+  width: #{32 / $font-size}rem;
+  height: #{32 / $font-size}rem;
+
+  svg {
+    min-width: #{32 / $font-size}rem;
+    min-height: #{32 / $font-size}rem;
+    max-width: #{32 / $font-size}rem;
+    max-height: #{32 / $font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{14 / $font-size}rem;
+    padding-right: #{30 / $font-size}rem !important;
+  }
+}
+
+.newIcon {
+  composes: u-iconColor from global;
+
+  box-sizing: content-box;
+
+  svg {
+    path,
+    rect {
+      fill: currentColor !important;
+    }
+  }
+}
+
+.newIconDisabled {
+  box-sizing: content-box;
+
+  svg {
+    path,
+    rect {
+      fill: $zd-color-grey-400 !important;
+    }
+  }
+}
+
+.offlineLabelOption {
+  color: $zd-color-grey-800;
+  margin-bottom: #{5 / $font-size}rem;
+}
+
+.offlineOptionContainer {
+  text-align: left;
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+}
+
+.listItem {
+  padding: 0 #{6 / $font-size}rem #{12 / $font-size}rem;
+}
+
+.listItemMobile {
+  font-size: #{15 / $font-size}rem;
+}

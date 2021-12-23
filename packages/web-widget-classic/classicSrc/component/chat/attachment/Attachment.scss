@@ -1,0 +1,95 @@
+@import 'classicSrc/styles/_vars.scss';
+
+.container {
+  composes: u-posRelative from global;
+  border: $thin-border-size solid $zd-color-grey-300;
+  background-color: $zd-color-grey-100;
+  padding: #{10 / $font-size}rem;
+}
+
+.containerError {
+  composes: u-marginTL from global;
+  background-color: $error-background-color;
+  border-radius: #{4 / $font-size}rem;
+  border: #{1 / $font-size}rem solid $zd-color-red-300;
+  color: $error-text-color;
+  padding: #{13 / $font-size}rem #{13 / $font-size}rem;
+  padding-left: #{50 / $font-size}rem !important;
+  line-height: #{18 / $font-size}rem;
+  background-position-y: #{14 / $font-size}rem;
+}
+
+.preview {
+  composes: u-flex u-flexAlignItemsCenter from global;
+  min-height: #{32 / $font-size}rem;
+  z-index: 2;
+}
+
+.previewError {
+  color: $zd-color-grey-700 !important;
+  font-size: #{12 / $font-size}rem;
+  font-weight: normal;
+}
+
+.description {
+  flex: 1;
+}
+
+.previewName {
+  composes: u-flex from global;
+  color: $zd-color-grey-800;
+  overflow: hidden;
+}
+
+.secondaryText {
+  composes: u-block from global;
+  color: $zd-color-grey-600;
+}
+
+.secondaryTextError {
+  color: $zd-color-red-500;
+  font-size: #{12 / $font-size}rem;
+}
+
+.downloadSize {
+  color: $zd-color-grey-600;
+}
+
+.downloadText {
+  color: $zd-color-blue-600;
+  margin-left: #{5 / $font-size}rem;
+}
+
+.icon {
+  composes: u-paddingTN u-isActionable from global;
+
+  svg {
+    fill: $zd-color-grey-500 !important;
+    min-width: #{10 / $font-size}rem; /* 1 */
+    min-height: #{10 / $font-size}rem; /* 1 */
+    height: #{10 / $font-size}rem;
+    width: #{10 / $font-size}rem;
+  }
+}
+
+.iconPreview {
+  padding-right: #{8 / $font-size}rem;
+  margin-top: #{4 / $font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: #{8 / $font-size}rem;
+    padding-right: 0;
+  }
+
+  svg {
+    min-width: #{24 / $font-size}rem; /* 1 */
+    min-height: #{24 / $font-size}rem; /* 1 */
+    height: #{24 / $font-size}rem;
+    width: #{24 / $font-size}rem;
+  }
+  composes: u-paddingTN u-marginTN u-inlineBlock from global;
+}
+
+.link {
+  composes: u-linkClean from global;
+}
