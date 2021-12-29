@@ -22,7 +22,10 @@ export default (store) => ({
     },
     loginUser: (getJWTFn) => {
       loginUser(getJWTFn)
-        .then(() => {
+        .then((response) => {
+          if (response?.hasExternalIdChanged) {
+            store.dispatch(userLoggedOut())
+          }
           if (hasExistingConversation()) {
             store.dispatch(startConversation())
           }

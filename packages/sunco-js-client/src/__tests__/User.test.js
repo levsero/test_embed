@@ -33,6 +33,7 @@ describe('User', () => {
           appUserId: 'app-user',
           clientId: 'client-id',
           getJWT: mockGetJWTFn,
+          externalId: '123456',
         })
 
         const result = user.getCurrentAppUserIfAny()
@@ -42,6 +43,7 @@ describe('User', () => {
           appUserId: 'app-user',
           jwt: 'some-jwt',
           getJWT: mockGetJWTFn,
+          externalId: '123456',
         })
       })
 
@@ -53,6 +55,7 @@ describe('User', () => {
           appUserId: 'app-user',
           clientId: 'client-id',
           getJWT: mockGetJWTFn,
+          externalId: '123456',
         })
 
         const result = user.getCurrentAppUserIfAny()
@@ -62,6 +65,7 @@ describe('User', () => {
           appUserId: 'app-user',
           jwt: null,
           getJWT: mockGetJWTFn,
+          externalId: '123456',
         })
       })
     })
@@ -103,6 +107,22 @@ describe('User', () => {
       })
       expect(user.getJWT).toBe(mockGetJWTFn)
     })
+
+    it('saves externalId locally if provided', () => {
+      const user = new AppUser({ integrationId: '123' })
+      user.updateAppUser({
+        externalId: '123456',
+      })
+      expect(user.externalId).toBe('123456')
+    })
+
+    it('saves jwt locally if provided', () => {
+      const user = new AppUser({ integrationId: '123' })
+      user.updateAppUser({
+        jwt: 'fakejwttoken',
+      })
+      expect(user.jwt).toBe('fakejwttoken')
+    })
   })
 
   describe('removeAppUser', () => {
@@ -115,6 +135,7 @@ describe('User', () => {
         clientId: 'client-id',
         sessionToken: 'session-token',
         getJWT: mockGetJWTFn,
+        externalId: '123456',
       })
 
       user.removeAppUser()
@@ -124,7 +145,7 @@ describe('User', () => {
       expect(storage.getItem(`123.clientId`)).toBe(undefined)
       expect(user.getJWT).toBe(null)
       expect(user.jwt).toBe(null)
-      expect(user.currentFetchJWT).toBe(null)
+      expect(user.externalId).toBe(null)
     })
   })
 
@@ -140,20 +161,6 @@ describe('User', () => {
       return expect(user.generateJWT()).rejects.toEqual(new Error('no JWT provided'))
     })
 
-    it('caches JWT promise so only one can happen at a time', async () => {
-      const user = new AppUser({ integrationId: '123' })
-      const mockGetJWTFn = jest.fn((callback) => callback('some-jwt'))
-      user.updateAppUser({
-        appUserId: 'app-user',
-        clientId: 'client-id',
-        getJWT: mockGetJWTFn,
-      })
-
-      await Promise.all([user.generateJWT(), user.generateJWT()])
-
-      expect(mockGetJWTFn).toHaveBeenCalledTimes(1)
-    })
-
     it('resolves with the JWT', async () => {
       const user = new AppUser({ integrationId: '123' })
       const mockGetJWTFn = jest.fn((callback) => callback('some-jwt'))
@@ -161,11 +168,11 @@ describe('User', () => {
         appUserId: 'app-user',
         clientId: 'client-id',
         getJWT: mockGetJWTFn,
+        externalId: '123456',
       })
 
-      const result = await user.generateJWT()
-
-      expect(result).toBe('some-jwt')
+      await user.generateJWT()
+      expect(user.jwt).toBe('some-jwt')
     })
 
     it('throws an error if the getJWT function errors', async () => {
@@ -202,6 +209,35 @@ describe('User', () => {
       } catch {}
 
       expect(mockGetJWTFn).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('getJWTFromCallback', () => {
+    it('resolves with the jwtCallback', async () => {
+      const user = new AppUser({ integrationId: '123' })
+      const mockGetJWTFn = jest.fn((callback) => callback('some-jwt'))
+      user.updateAppUser({
+        appUserId: 'app-user',
+        clientId: 'client-id',
+        getJWT: mockGetJWTFn,
+        externalId: '123456',
+      })
+      return expect(user.getJWTFromCallback(mockGetJWTFn)).resolves.toBe('some-jwt')
+    })
+
+    it('throws an error if the jwtCallback function errors', async () => {
+      const user = new AppUser({ integrationId: '123' })
+      const mockGetJWTFn = jest.fn(() => {
+        throw new Error('something')
+      })
+      user.updateAppUser({
+        appUserId: 'app-user',
+        clientId: 'client-id',
+        getJWT: mockGetJWTFn,
+        externalId: '123456',
+      })
+
+      return expect(user.getJWTFromCallback(mockGetJWTFn)).rejects.toEqual(new Error('something'))
     })
   })
 })
