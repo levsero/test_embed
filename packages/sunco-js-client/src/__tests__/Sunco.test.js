@@ -104,7 +104,7 @@ describe('Sunco', () => {
           sunco.appUsers.login = jest.fn(() => Promise.resolve(responseBodyWithoutConversation))
 
           const promise = sunco.loginUser(validGenerateJWT)
-          await expect(promise).resolves.toEqual(null)
+          await expect(promise).resolves.toEqual()
           expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {
             appUserId: 'test-appuser-id',
           })
@@ -120,9 +120,11 @@ describe('Sunco', () => {
           sunco.user.generateJWT = jest.fn().mockImplementation(() => 'jwtToken')
           sunco.user.updateAppUser = jest.fn()
           sunco.appUsers.login = jest.fn(() => Promise.resolve(responseBodyWithConversation))
+          sunco.conversationPromise = jest.fn()
           const promise = sunco.loginUser(validGenerateJWT)
 
-          await expect(promise).resolves.toEqual(
+          await expect(promise).resolves.toEqual()
+          expect(sunco.conversationPromise).toEqual(
             expect.objectContaining({ conversationId: 'test-conversation-id' })
           )
           expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {

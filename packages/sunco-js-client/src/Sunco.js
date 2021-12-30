@@ -262,7 +262,7 @@ export default class Sunco {
 
     const { appUserId } = this.user.getCurrentAppUserIfAny()
 
-    this.conversationPromise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.appUsers
         .login(appUserId, external_id)
         .then((response) => {
@@ -272,22 +272,21 @@ export default class Sunco {
             })
 
             this.setActiveConversationFromResponse(response)
-            resolve(this.activeConversation)
+
+            // Set the conversationPromise here to avoid a repeat trip to the API during startConversation()
+            this.conversationPromise = this.activeConversation
+            resolve()
           } else {
             this.user.updateAppUser({
               appUserId: response.body.appUser._id,
             })
-            resolve(null)
-            this.conversationPromise = null
+            resolve()
           }
         })
         .catch((error) => {
           reject({ message: 'Error while attempting to login', error })
-          this.conversationPromise = null
         })
     })
-
-    return this.conversationPromise
   }
 
   logoutUser() {
