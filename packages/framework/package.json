@@ -19,7 +19,7 @@
     "dashboard": "USE_DASHBOARD=true npm run dev",
     "dashboard:lazy": "LAZY_DASHBOARD=true USE_DASHBOARD=true npm run dev",
     "dev-preview": "webpack serve --config ./webpack/webpack.previewer.dev.js",
-    "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && yarn workspace @zendesk/conversation-components build && yarn workspace @zendesk/sunco-js-client build && yarn workspace @zendesk/widget-shared-services build && yarn workspace @zendesk/web-widget-messenger build",
+    "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && yarn workspace @zendesk/conversation-components build && yarn workspace @zendesk/sunco-js-client build && yarn workspace @zendesk/widget-shared-services build && yarn workspace @zendesk/web-widget-messenger build:prod",
     "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.ac.prod.js",
     "build:validate": "npm run build && npm run size",
     "build:previewer": "NODE_ENV=production webpack --config ./webpack/webpack.previewer.prod.js",

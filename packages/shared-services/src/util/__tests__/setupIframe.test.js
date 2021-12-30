@@ -1,5 +1,5 @@
 import { setReferrerMetas } from 'src/util/globals'
-import setupIframe from 'src/util/setupIframe'
+import setupIframe from 'src/util/setup-iframe'
 
 jest.mock('src/util/globals')
 

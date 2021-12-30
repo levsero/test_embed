@@ -1,11 +1,13 @@
 import { validate } from 'bcp47-validate'
 import { logger } from '@zendesk/widget-shared-services'
-import { startConversation } from 'messengerSrc/features/suncoConversation/store'
-import { setLocale as suncoUpdateLocale,   loginUser,
+import {
+  setLocale as suncoUpdateLocale,
+  loginUser,
   logoutUser,
-  hasExistingConversation, } from 'messengerSrc/api/sunco'
+  hasExistingConversation,
+} from 'messengerSrc/api/sunco'
 import i18n from 'messengerSrc/features/i18n'
-import { zIndexUpdated } from 'messengerSrc/store/actions'
+import { startConversation } from 'messengerSrc/features/suncoConversation/store'
 import { userLoggedOut, zIndexUpdated } from 'messengerSrc/store/actions'
 import { cookiesEnabled, cookiesDisabled } from 'messengerSrc/store/cookies'
 import { widgetOpened, widgetClosed } from 'messengerSrc/store/visibility'
