@@ -82,7 +82,7 @@ module.exports = {
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
       __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify(embeddableEnv),
       __ASSET_BASE_PATH__: JSON.stringify(assetBasePath),
-      __DEV__: JSON.stringify(true),
+      __DEV__: JSON.stringify(isDev),
     }),
     new WebpackManifestPlugin({
       fileName: 'asset_manifest.json',
