@@ -111,45 +111,46 @@ export default class Sunco {
   }
 
   startConversation() {
-    this.conversationPromise =
-      this.conversationPromise ||
-      retryWrapper(
-        () =>
-          new Promise((resolve, reject) => {
-            const { appUserId } = this.user.getCurrentAppUserIfAny()
-            if (appUserId) {
-              this.appUsers
-                .get(appUserId)
-                .then((response) => {
-                  if (!response.body.appUser.conversationStarted) {
-                    resolve(this.createConversation())
-                  } else {
-                    this.setActiveConversationFromResponse(response)
-                  }
-                  resolve(this.activeConversation)
-                })
-                .catch((error) => {
-                  const { status } = error
+    if (this.hasExistingActiveConversation) return this.activeConversation
+    if (this.conversationPromise) return this.conversationPromise
 
-                  switch (status) {
-                    case 401:
-                      this.user.removeAppUser()
-                      return resolve(this.createAppUser())
-                    default:
-                      reject(error)
-                  }
-                })
-            } else {
-              resolve(this.createAppUser())
-            }
-          }),
-        DELAY_BETWEEN_RETRIES,
-        MAX_RETRIES
-      ).catch(() => {
-        // When any of the promises in this retry wrapper are rejected, eg. from a failed request,
-        // setting the conversationPromise back to null will allow users to 'try again'
-        this.conversationPromise = null
-      })
+    this.conversationPromise = retryWrapper(
+      () =>
+        new Promise((resolve, reject) => {
+          const { appUserId } = this.user.getCurrentAppUserIfAny()
+          if (appUserId) {
+            this.appUsers
+              .get(appUserId)
+              .then((response) => {
+                if (!response.body.appUser.conversationStarted) {
+                  resolve(this.createConversation())
+                } else {
+                  this.setActiveConversationFromResponse(response)
+                }
+                resolve(this.activeConversation)
+              })
+              .catch((error) => {
+                const { status } = error
+
+                switch (status) {
+                  case 401:
+                    this.user.removeAppUser()
+                    return resolve(this.createAppUser())
+                  default:
+                    reject(error)
+                }
+              })
+          } else {
+            resolve(this.createAppUser())
+          }
+        }),
+      DELAY_BETWEEN_RETRIES,
+      MAX_RETRIES
+    ).catch(() => {
+      // When any of the promises in this retry wrapper are rejected, eg. from a failed request,
+      // setting the conversationPromise back to null will allow users to 'try again'
+      this.conversationPromise = null
+    })
 
     return this.conversationPromise
   }
@@ -272,9 +273,6 @@ export default class Sunco {
             })
 
             this.setActiveConversationFromResponse(response)
-
-            // Set the conversationPromise here to avoid a repeat trip to the API during startConversation()
-            this.conversationPromise = this.activeConversation
             resolve()
           } else {
             this.user.updateAppUser({

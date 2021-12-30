@@ -124,9 +124,6 @@ describe('Sunco', () => {
           const promise = sunco.loginUser(validGenerateJWT)
 
           await expect(promise).resolves.toEqual()
-          expect(sunco.conversationPromise).toEqual(
-            expect.objectContaining({ conversationId: 'test-conversation-id' })
-          )
           expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {
             appUserId: 'test-appuser-id',
           })
@@ -286,52 +283,72 @@ describe('Sunco', () => {
   })
 
   describe('startConversation', () => {
-    describe('when there is an appUserId', () => {
-      describe('and the app user does not have a conversation', () => {
-        it('creates a new conversation for that user', async () => {
-          const sunco = createSunco()
-          sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
-            appUserId: 'test-appuser-id',
-          }))
-          sunco.appUsers.get = jest.fn(() => Promise.resolve(responseBodyWithoutConversation))
-          sunco.createConversation = jest.fn()
+    describe('when there is an existing active conversation', () => {
+      it('returns that conversation', () => {
+        const sunco = createSunco()
+        sunco.activeConversation = jest.fn()
 
-          await sunco.startConversation()
-          expect(sunco.createConversation).toHaveBeenCalled()
-        })
-      })
-
-      describe('and the app user does have a conversation', () => {
-        it('sets the active conversation', async () => {
-          const sunco = createSunco()
-          sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
-            appUserId: 'test-appuser-id',
-          }))
-          sunco.appUsers.get = jest.fn(() => Promise.resolve(responseBodyWithConversation))
-          const promise = sunco.startConversation()
-
-          await expect(promise).resolves.toEqual(
-            expect.objectContaining({ conversationId: 'test-conversation-id' })
-          )
-          expect(SocketClient).toHaveBeenCalledWith(
-            expect.objectContaining({
-              appId: '123',
-            })
-          )
-        })
+        expect(sunco.startConversation()).toEqual(sunco.activeConversation)
       })
     })
 
-    describe('when no appUserId exists', () => {
-      it('creates a new conversation for that user', async () => {
-        const sunco = createSunco()
-        sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
-          appUserId: null,
-        }))
-        sunco.createAppUser = jest.fn()
+    describe('when there is not an existing active conversation', () => {
+      describe('when there is an existing conversation promise', () => {
+        it('returns that promise', () => {
+          const sunco = createSunco()
+          sunco.conversationPromise = jest.fn()
 
-        await sunco.startConversation()
-        expect(sunco.createAppUser).toHaveBeenCalled()
+          expect(sunco.startConversation()).toEqual(sunco.conversationPromise)
+        })
+      })
+
+      describe('when there is an appUserId', () => {
+        describe('and the app user does not have a conversation', () => {
+          it('creates a new conversation for that user', async () => {
+            const sunco = createSunco()
+            sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
+              appUserId: 'test-appuser-id',
+            }))
+            sunco.appUsers.get = jest.fn(() => Promise.resolve(responseBodyWithoutConversation))
+            sunco.createConversation = jest.fn()
+
+            await sunco.startConversation()
+            expect(sunco.createConversation).toHaveBeenCalled()
+          })
+        })
+
+        describe('and the app user does have a conversation', () => {
+          it('sets the active conversation', async () => {
+            const sunco = createSunco()
+            sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
+              appUserId: 'test-appuser-id',
+            }))
+            sunco.appUsers.get = jest.fn(() => Promise.resolve(responseBodyWithConversation))
+            const promise = sunco.startConversation()
+
+            await expect(promise).resolves.toEqual(
+              expect.objectContaining({ conversationId: 'test-conversation-id' })
+            )
+            expect(SocketClient).toHaveBeenCalledWith(
+              expect.objectContaining({
+                appId: '123',
+              })
+            )
+          })
+        })
+      })
+
+      describe('when no appUserId exists', () => {
+        it('creates a new conversation for that user', async () => {
+          const sunco = createSunco()
+          sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
+            appUserId: null,
+          }))
+          sunco.createAppUser = jest.fn()
+
+          await sunco.startConversation()
+          expect(sunco.createAppUser).toHaveBeenCalled()
+        })
       })
     })
   })
