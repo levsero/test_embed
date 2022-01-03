@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { persistence } from '@zendesk/widget-shared-services'
 import { cookiesDisabled } from 'messengerSrc/store/cookies'
+import { userLoggedOut } from './actions'
 
 const widgetOpenKey = 'widgetOpen'
 
@@ -25,6 +26,10 @@ const visibility = createSlice({
   },
   extraReducers: {
     [cookiesDisabled.pending]: (state) => {
+      state.widgetOpen = false
+    },
+    [userLoggedOut]: (state) => {
+      persistence.sessionStorageSet(widgetOpenKey, false)
       state.widgetOpen = false
     },
   },

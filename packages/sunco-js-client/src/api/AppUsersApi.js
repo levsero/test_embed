@@ -43,6 +43,35 @@ class AppUsersApi extends BaseApi {
       path: `/v2/apps/${this.appId}/appusers/${appUserId}/clients/${clientId}`,
     })
   }
+
+  login(appUserId, externalId) {
+    const data = {
+      client: this.getClientInfo(),
+      userId: externalId,
+    }
+
+    if (appUserId) {
+      data.appUserId = appUserId
+    }
+
+    return this.request({
+      method: 'POST',
+      path: `/v2/apps/${this.appId}/login`,
+      data,
+    })
+  }
+
+  logout(appUserId) {
+    const data = {
+      client: this.getClientInfo(),
+    }
+
+    return this.request({
+      method: 'POST',
+      path: `/v2/apps/${this.appId}/appusers/${appUserId}/logout`,
+      data,
+    })
+  }
 }
 
 export default AppUsersApi

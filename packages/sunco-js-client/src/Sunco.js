@@ -1,6 +1,5 @@
 import decodeJwt from 'jwt-decode'
 import AppUser from 'src/AppUser'
-import LoginApi from 'src/api/LoginApi'
 import ActivityAPI from './api/ActivityApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
@@ -38,13 +37,15 @@ export default class Sunco {
     this.messages = new MessagesApi(this)
     this.activity = new ActivityAPI(this)
     this.integrations = new IntegrationsApi(this)
-
-    this.login = new LoginApi(this)
   }
 
   get hasExistingAppUser() {
     const { appUserId } = this.user.getCurrentAppUserIfAny()
     return Boolean(appUserId)
+  }
+
+  get hasExistingActiveConversation() {
+    return Boolean(this._activeConversation)
   }
 
   get activeConversation() {
@@ -110,48 +111,46 @@ export default class Sunco {
   }
 
   startConversation() {
-    this.conversationPromise =
-      this.conversationPromise ||
-      retryWrapper(
-        () =>
-          new Promise((resolve, reject) => {
-            const { appUserId } = this.user.getCurrentAppUserIfAny()
-            if (appUserId) {
-              this.appUsers
-                .get(appUserId)
-                .then((response) => {
-                  this.activeConversation = {
-                    conversationId: response.body.conversations[0]._id,
-                    socketSettings: response.body.settings.realtime,
-                    lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
-                    integrations: response.body.appUser.clients.filter(
-                      (client) => client.platform !== 'web'
-                    ),
-                  } // TODO - might need to eventually select a particular conversation - isDefault: true
-                  resolve(this.activeConversation)
-                })
-                .catch((error) => {
-                  const { status } = error
+    if (this.hasExistingActiveConversation) return this.activeConversation
+    if (this.conversationPromise) return this.conversationPromise
 
-                  switch (status) {
-                    case 401:
-                      this.user.removeAppUser()
-                      return resolve(this.createAppUser())
-                    default:
-                      reject(error)
-                  }
-                })
-            } else {
-              resolve(this.createAppUser())
-            }
-          }),
-        DELAY_BETWEEN_RETRIES,
-        MAX_RETRIES
-      ).catch(() => {
-        // When any of the promises in this retry wrapper are rejected, eg. from a failed request,
-        // setting the conversationPromise back to null will allow users to 'try again'
-        this.conversationPromise = null
-      })
+    this.conversationPromise = retryWrapper(
+      () =>
+        new Promise((resolve, reject) => {
+          const { appUserId } = this.user.getCurrentAppUserIfAny()
+          if (appUserId) {
+            this.appUsers
+              .get(appUserId)
+              .then((response) => {
+                if (!response.body.appUser.conversationStarted) {
+                  resolve(this.createConversation())
+                } else {
+                  this.setActiveConversationFromResponse(response)
+                }
+                resolve(this.activeConversation)
+              })
+              .catch((error) => {
+                const { status } = error
+
+                switch (status) {
+                  case 401:
+                    this.user.removeAppUser()
+                    return resolve(this.createAppUser())
+                  default:
+                    reject(error)
+                }
+              })
+          } else {
+            resolve(this.createAppUser())
+          }
+        }),
+      DELAY_BETWEEN_RETRIES,
+      MAX_RETRIES
+    ).catch(() => {
+      // When any of the promises in this retry wrapper are rejected, eg. from a failed request,
+      // setting the conversationPromise back to null will allow users to 'try again'
+      this.conversationPromise = null
+    })
 
     return this.conversationPromise
   }
@@ -179,13 +178,22 @@ export default class Sunco {
             appUserId: response.body.appUser._id,
             sessionToken: response.body.sessionToken,
           })
-          this.activeConversation = {
-            conversationId: response.body.conversations[0]._id,
-            socketSettings: response.body.settings.realtime,
-            integrations: response.body.appUser.clients?.filter(
-              (client) => client.platform !== 'web'
-            ),
-          }
+          this.setActiveConversationFromResponse(response)
+          resolve(this.activeConversation)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  }
+
+  createConversation = () => {
+    return new Promise((resolve, reject) => {
+      const { appUserId } = this.user.getCurrentAppUserIfAny(this.integrationId)
+      this.conversations
+        .create(appUserId)
+        .then((response) => {
+          this.setActiveConversationFromResponse(response)
           resolve(this.activeConversation)
         })
         .catch((err) => {
@@ -225,6 +233,15 @@ export default class Sunco {
     return clientId
   }
 
+  setActiveConversationFromResponse(response) {
+    this.activeConversation = {
+      conversationId: response.body.conversations[0]._id,
+      socketSettings: response.body.settings.realtime,
+      lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
+      integrations: response.body.appUser.clients?.filter((client) => client.platform !== 'web'),
+    } // TODO - might need to eventually select a particular conversation - isDefault: true
+  }
+
   async loginUser(generateJwtCallback) {
     this.user.updateAppUser({
       getJWT: generateJwtCallback,
@@ -236,34 +253,58 @@ export default class Sunco {
     }
 
     // eslint-disable-next-line babel/camelcase
-    const { external_id } = decodeJwt(jwt)
+    let external_id
+    try {
+      // eslint-disable-next-line babel/camelcase
+      external_id = decodeJwt(jwt).external_id
+    } catch (error) {
+      throw new Error('Unable to read external_id from JWT token')
+    }
+
     const { appUserId } = this.user.getCurrentAppUserIfAny()
 
-    this.login
-      .create(appUserId, external_id)
-      .then((response) => {
-        // if JWT  has name and/or email
-        // Call PUT this.appUsers.update({givenName, email})
+    return new Promise((resolve, reject) => {
+      this.appUsers
+        .login(appUserId, external_id)
+        .then((response) => {
+          if (response.body.appUser.conversationStarted) {
+            this.user.updateAppUser({
+              appUserId: response.body.appUser._id,
+            })
 
-        // if we have a conversation with this user, store appUserId and conversation details
-        if (response.body.conversations.length) {
-          this.activeConversation = {
-            conversationId: response.body.conversations[0]._id,
-            socketSettings: response.body.settings.realtime,
-            lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
-            integrations: response.body.appUser.clients.filter(
-              (client) => client.platform !== 'web'
-            ),
-          } // TODO - might need to eventually select a particular conversation - isDefault: true
-        } else {
-          // store the app user ID
-          // Don't create a conversation until the user tries to start one by opening the widget.
-          this.user.updateAppUser({
-            appUserId: response.body.appUser._id,
-            sessionToken: response.body.sessionToken,
+            this.setActiveConversationFromResponse(response)
+            resolve()
+          } else {
+            this.user.updateAppUser({
+              appUserId: response.body.appUser._id,
+            })
+            resolve()
+          }
+        })
+        .catch((error) => {
+          reject({ message: 'Error while attempting to login', error })
+        })
+    })
+  }
+
+  logoutUser() {
+    const { appUserId, jwt } = this.user.getCurrentAppUserIfAny()
+
+    return new Promise((resolve, reject) => {
+      if (appUserId && jwt) {
+        this.appUsers
+          .logout(appUserId)
+          .then(() => {
+            this._activeConversation?.stopConversation()
+            this.forgetUser()
+            resolve()
           })
-        }
-      })
-      .catch(() => {})
+          .catch((error) => {
+            reject({ message: 'Error while attempting to logout', error })
+          })
+      } else {
+        reject({ message: 'No user to log out' })
+      }
+    })
   }
 }

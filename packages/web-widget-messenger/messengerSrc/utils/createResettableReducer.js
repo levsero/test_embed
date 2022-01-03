@@ -1,7 +1,9 @@
 import { cookiesDisabled } from 'messengerSrc/store/cookies'
+import { userLoggedOut } from '../store/actions'
 
 const resettableActions = {
   [cookiesDisabled.pending]: true,
+  [userLoggedOut]: true,
 }
 
 const createResettableReducer = (reducer) => (state, action) => {

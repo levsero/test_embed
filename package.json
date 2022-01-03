@@ -19,6 +19,7 @@
     "lint": "npm run lint:js && npm run lint:other",
     "test": "yarn build:testSetup && TZ=utc jest",
     "test:updateSnapshots": "TZ=utc jest --updateSnapshot",
+    "test:debug": "node --inspect node_modules/.bin/jest --watch --runInBand",
     "translations:update": "node ./packages/framework/script/translations/index.js"
   },
   "husky": {

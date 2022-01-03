@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useSafeState from '@zendesk/widget-shared-services/hooks/useSafeState'
-import { hasExistingConversation } from 'messengerSrc/api/sunco'
+import { hasExistingAppUser } from 'messengerSrc/api/sunco'
 import {
   getHasPrevious,
   fetchPaginatedMessages,
@@ -17,7 +17,7 @@ const useFetchMessages = ({ messages, container }) => {
   const [scrollHeightOnHistoryFetch, setScrollHeightOnHistoryFetch] = useSafeState(null)
 
   const retryFetchMessages = () => {
-    if (!hasExistingConversation()) {
+    if (!hasExistingAppUser()) {
       dispatch(startConversation())
     } else {
       if (isFetchingHistory) return
