@@ -63,10 +63,7 @@ describe('start', () => {
 
     await framework.start()
 
-    expect(errorTracker.error).toHaveBeenCalledWith(mockError, {
-      rollbarFingerprint: 'Failed to render embeddable',
-      rollbarTitle: 'Failed to render embeddable',
-    })
+    expect(errorTracker.error).toHaveBeenCalledWith(mockError)
   })
 
   // Simple helper function to check that mockFunction1 was called before mockFunction2
