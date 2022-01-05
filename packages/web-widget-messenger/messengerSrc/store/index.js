@@ -19,6 +19,7 @@ import errorLoggerMiddleware from 'messengerSrc/store/middleware/errorLoggerMidd
 import rememberConversationHistory from 'messengerSrc/store/rememberConversationHistory'
 import unreadIndicator from 'messengerSrc/store/unreadIndicator'
 import createResettableReducer from 'messengerSrc/utils/createResettableReducer'
+import authentication from './authentication'
 import cookies from './cookies'
 import visibility from './visibility'
 
@@ -63,6 +64,7 @@ const createStore = () => {
       rememberConversationHistory,
       conversation: createResettableReducer(conversation),
       launcher: launcherConfig,
+      authentication,
     }),
   })
 
