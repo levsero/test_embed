@@ -274,18 +274,12 @@ export default class Sunco {
         .login(appUserId, newExternalId)
         .then((response) => {
           if (response.body.appUser.conversationStarted) {
-            this.user.updateAppUser({
-              appUserId: response.body.appUser._id,
-            })
-
             this.setActiveConversationFromResponse(response)
-            resolve({ hasExternalIdChanged })
-          } else {
-            this.user.updateAppUser({
-              appUserId: response.body.appUser._id,
-            })
-            resolve({ hasExternalIdChanged })
           }
+          this.user.updateAppUser({
+            appUserId: response.body.appUser._id,
+          })
+          resolve({ hasExternalIdChanged })
         })
         .catch((error) => {
           reject({ message: 'Error while attempting to login', error })

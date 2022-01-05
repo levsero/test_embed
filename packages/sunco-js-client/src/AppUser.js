@@ -46,9 +46,6 @@ class AppUser {
     if (clientId) {
       storage.setItem(`${this.integrationId}.clientId`, clientId)
     }
-    if (clientId) {
-      storage.setItem(`${this.integrationId}.clientId`, clientId)
-    }
     if (getJWT) {
       this.getJWT = getJWT
     }
