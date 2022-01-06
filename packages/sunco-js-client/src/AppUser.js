@@ -15,6 +15,7 @@ class AppUser {
     this.integrationId = options.integrationId
     this.jwt = null
     this.getJWT = null
+    this.externalId = null
   }
 
   getCurrentAppUserIfAny() {
@@ -26,16 +27,16 @@ class AppUser {
       return {
         appUserId,
         clientId,
-
         jwt: this.jwt,
         getJWT: this.getJWT,
+        externalId: this.externalId,
       }
     }
 
     return { sessionToken, appUserId, clientId }
   }
 
-  updateAppUser({ appUserId, sessionToken, getJWT, clientId }) {
+  updateAppUser({ appUserId, sessionToken, getJWT, clientId, externalId, jwt }) {
     if (appUserId) {
       storage.setItem(`${this.integrationId}.appUserId`, appUserId)
     }
@@ -48,6 +49,12 @@ class AppUser {
     if (getJWT) {
       this.getJWT = getJWT
     }
+    if (externalId) {
+      this.externalId = externalId
+    }
+    if (jwt) {
+      this.jwt = jwt
+    }
   }
 
   removeAppUser() {
@@ -56,7 +63,7 @@ class AppUser {
     storage.removeItem(`${this.integrationId}.clientId`)
     this.jwt = null
     this.getJWT = null
-    this.currentFetchJWT = null
+    this.externalId = null
   }
 
   async generateJWT() {
@@ -64,25 +71,23 @@ class AppUser {
       throw new Error('no JWT provided')
     }
 
-    if (this.currentFetchJWT) {
-      return this.currentFetchJWT
-    }
+    await this.getJWTFromCallback(this.getJWT).then((jwt) => {
+      this.jwt = jwt
+    })
+  }
 
-    this.currentFetchJWT = new Promise((resolve, reject) => {
+  async getJWTFromCallback(jwtCallback) {
+    return new Promise((resolve, reject) => {
       try {
-        this.getJWT((jwt) => {
-          this.jwt = jwt
+        jwtCallback((jwt) => {
           resolve(jwt)
         })
       } catch (err) {
         reject(err)
       }
     }).catch((err) => {
-      delete this.currentFetchJWT
       throw err
     })
-
-    return this.currentFetchJWT
   }
 }
 

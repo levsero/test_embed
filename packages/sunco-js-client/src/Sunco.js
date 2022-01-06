@@ -242,44 +242,44 @@ export default class Sunco {
     } // TODO - might need to eventually select a particular conversation - isDefault: true
   }
 
-  async loginUser(generateJwtCallback) {
-    this.user.updateAppUser({
-      getJWT: generateJwtCallback,
-    })
-    const jwt = await this.user.generateJWT()
+  async loginUser(newJwtCallback) {
+    const { externalId } = this.user.getCurrentAppUserIfAny()
 
-    if (!jwt) {
-      throw new Error('Invalid jwt')
-    }
+    let newExternalId = null,
+      jwt = null
 
-    // eslint-disable-next-line babel/camelcase
-    let external_id
     try {
-      // eslint-disable-next-line babel/camelcase
-      external_id = decodeJwt(jwt).external_id
-    } catch (error) {
+      jwt = await this.user.getJWTFromCallback(newJwtCallback)
+      newExternalId = decodeJwt(jwt).external_id
+    } catch (err) {
       throw new Error('Unable to read external_id from JWT token')
     }
+
+    const hasExternalIdChanged = Boolean(externalId && externalId !== newExternalId)
+
+    if (hasExternalIdChanged) {
+      await this.logoutUser()
+    }
+
+    this.user.updateAppUser({
+      getJWT: newJwtCallback,
+      externalId: newExternalId,
+      jwt,
+    })
 
     const { appUserId } = this.user.getCurrentAppUserIfAny()
 
     return new Promise((resolve, reject) => {
       this.appUsers
-        .login(appUserId, external_id)
+        .login(appUserId, newExternalId)
         .then((response) => {
           if (response.body.appUser.conversationStarted) {
-            this.user.updateAppUser({
-              appUserId: response.body.appUser._id,
-            })
-
             this.setActiveConversationFromResponse(response)
-            resolve()
-          } else {
-            this.user.updateAppUser({
-              appUserId: response.body.appUser._id,
-            })
-            resolve()
           }
+          this.user.updateAppUser({
+            appUserId: response.body.appUser._id,
+          })
+          resolve({ hasExternalIdChanged })
         })
         .catch((error) => {
           reject({ message: 'Error while attempting to login', error })

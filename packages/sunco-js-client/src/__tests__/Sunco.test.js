@@ -49,14 +49,20 @@ describe('Sunco', () => {
 
   describe('loginUser', () => {
     describe('when a generateJWT function has been provided', () => {
-      it('updates the app user with the generate jwt function', () => {
+      it('updates the app user with the generate jwt function', async () => {
         const fakeJWTFn = (callback) => callback('fakejwttoken')
-
+        decodeJwt.mockReturnValue({ external_id: '123456' })
         const sunco = createSunco()
         sunco.user.updateAppUser = jest.fn()
+        sunco.appUsers.login = jest.fn(() => Promise.resolve(responseBodyWithoutConversation))
 
-        sunco.loginUser(fakeJWTFn)
-        expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(1, { getJWT: fakeJWTFn })
+        await sunco.loginUser(fakeJWTFn)
+
+        expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(1, {
+          getJWT: fakeJWTFn,
+          externalId: '123456',
+          jwt: 'fakejwttoken',
+        })
       })
     })
 
@@ -104,7 +110,8 @@ describe('Sunco', () => {
           sunco.appUsers.login = jest.fn(() => Promise.resolve(responseBodyWithoutConversation))
 
           const promise = sunco.loginUser(validGenerateJWT)
-          await expect(promise).resolves.toEqual()
+
+          await expect(promise).resolves.toEqual({ hasExternalIdChanged: false })
           expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {
             appUserId: 'test-appuser-id',
           })
@@ -123,7 +130,9 @@ describe('Sunco', () => {
           sunco.conversationPromise = jest.fn()
           const promise = sunco.loginUser(validGenerateJWT)
 
-          await expect(promise).resolves.toEqual()
+          await expect(promise).resolves.toEqual(
+            expect.objectContaining({ hasExternalIdChanged: false })
+          )
           expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {
             appUserId: 'test-appuser-id',
           })
