@@ -1,5 +1,6 @@
 import decodeJwt from 'jwt-decode'
 import AppUser from 'src/AppUser'
+import { JWT_TIMEOUT_IN_MS } from 'src/utils/constants'
 import ActivityAPI from './api/ActivityApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
@@ -258,10 +259,16 @@ export default class Sunco {
     let newExternalId = null,
       jwt = null
 
+    const timeoutPromise = new Promise((_r, reject) => {
+      setTimeout(reject, JWT_TIMEOUT_IN_MS, { timeout: true })
+    })
     try {
-      jwt = await this.user.getJWTFromCallback(newJwtCallback)
+      jwt = await Promise.race([this.user.getJWTFromCallback(newJwtCallback), timeoutPromise])
       newExternalId = decodeJwt(jwt).external_id
     } catch (err) {
+      if (err.timeout) {
+        throw new Error('JWT request did not resolve within an acceptable time')
+      }
       throw new Error('Unable to read external_id from JWT token')
     }
 
