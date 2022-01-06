@@ -19,7 +19,7 @@ const loginUser = createAsyncThunk('authentication/loginUser', (getJWTFn, { disp
       }
     })
     .catch((error) => {
-      logger.error('Unable to login user', error)
+      logger.devLog('Unable to login user', error)
     })
 })
 
@@ -29,7 +29,7 @@ const logoutUser = createAsyncThunk('authentication/logoutUser', (_, { dispatch 
       dispatch(userLoggedOut())
     })
     .catch((error) => {
-      logger.error('Unable to logout user', error)
+      logger.devLog('Unable to logout user', error)
     })
 })
 

@@ -74,7 +74,7 @@ describe('loginUser', () => {
     expect(store.dispatch).toHaveBeenCalledWith(authentication.loginUser())
   })
 
-  it('logs a user in failed when argument is not a function', () => {
+  it('throws an error for the customer to see when the argument is not a function', () => {
     jest.spyOn(authentication, 'loginUser').mockReturnValue({ type: 'login user' })
 
     const store = createStore()

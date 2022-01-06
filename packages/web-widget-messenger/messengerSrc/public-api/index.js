@@ -21,7 +21,7 @@ export default (store) => ({
       loginUser: (getJWTFn) => {
         if (!getJWTFn || typeof getJWTFn !== 'function') {
           const errorMessage =
-            "Invalid argument provided for loginUser. Needs to be of type 'function'"
+            'Invalid argument provided for loginUser. Needs to be of type function. See https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/web/sdk_api_reference/#login-user'
           logger.error(errorMessage)
           errorTracker.error(new Error(errorMessage))
           return
