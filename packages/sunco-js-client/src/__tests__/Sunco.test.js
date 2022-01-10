@@ -125,15 +125,13 @@ describe('Sunco', () => {
 
           const sunco = createSunco()
           sunco.user.generateJWT = jest.fn().mockImplementation(() => 'jwtToken')
-          sunco.user.updateAppUser = jest.fn()
+          const updateAppUserSpy = jest.spyOn(sunco.user, 'updateAppUser')
           sunco.appUsers.login = jest.fn(() => Promise.resolve(responseBodyWithConversation))
-          sunco.conversationPromise = jest.fn()
+          sunco._activeConversation = jest.fn()
           const promise = sunco.loginUser(validGenerateJWT)
 
-          await expect(promise).resolves.toEqual(
-            expect.objectContaining({ hasExternalIdChanged: false })
-          )
-          expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {
+          await expect(promise).resolves.toEqual({ hasExternalIdChanged: false })
+          expect(updateAppUserSpy).toHaveBeenNthCalledWith(2, {
             appUserId: 'test-appuser-id',
           })
           expect(SocketClient).toHaveBeenCalledWith(
@@ -141,6 +139,7 @@ describe('Sunco', () => {
               appId: '123',
             })
           )
+          expect(sunco._activeConversation.appUserId).toEqual('test-appuser-id')
         })
       })
 
