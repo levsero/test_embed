@@ -83,7 +83,7 @@ describe('loginUser', () => {
     api(store).messenger.loginUser('Invalid argument')
 
     expect(logger.error).toHaveBeenCalledWith(
-      "Invalid argument provided for loginUser. Needs to be of type 'function'"
+      'Invalid argument provided for loginUser. Needs to be of type function. See https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/web/sdk_api_reference/#login-user'
     )
 
     expect(store.dispatch).not.toHaveBeenCalledWith(authentication.loginUser())
