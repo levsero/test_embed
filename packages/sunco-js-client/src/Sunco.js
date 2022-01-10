@@ -273,12 +273,12 @@ export default class Sunco {
       this.appUsers
         .login(appUserId, newExternalId)
         .then((response) => {
-          if (response.body.appUser.conversationStarted) {
-            this.setActiveConversationFromResponse(response)
-          }
           this.user.updateAppUser({
             appUserId: response.body.appUser._id,
           })
+          if (response.body.appUser.conversationStarted) {
+            this.setActiveConversationFromResponse(response)
+          }
           resolve({ hasExternalIdChanged })
         })
         .catch((error) => {
