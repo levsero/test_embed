@@ -1,4 +1,5 @@
 import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import { isBlacklisted } from 'src/framework/isBlacklisted'
 
@@ -29,9 +30,15 @@ const start = async () => {
     // Load the embeddable
 
     if (config.messenger) {
-      await import(
-        /* webpackChunkName: "messenger" */ '@zendesk/web-widget-messenger'
-      ).then((messenger) => messenger.default.start(config, configLoadEnd))
+      if (isFeatureEnabled(null, 'module_federation')) {
+        await import('webWidgetMessenger').then((messenger) =>
+          messenger.default.start(config, configLoadEnd)
+        )
+      } else {
+        await import(
+          /* webpackChunkName: "messenger" */ '@zendesk/web-widget-messenger'
+        ).then((messenger) => messenger.default.start(config, configLoadEnd))
+      }
     } else {
       await import(
         /* webpackChunkName: "lazy/web_widget" */ '@zendesk/web-widget-classic'

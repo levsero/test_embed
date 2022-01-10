@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import i18n from 'src/framework/services/i18n'
+import i18n from 'messengerSrc/features/i18n'
 import { getLocale } from 'messengerSrc/features/i18n/store'
 
 const useTranslate = () => {

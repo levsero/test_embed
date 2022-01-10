@@ -1,5 +1,3 @@
-import ContactFormLabel from 'classicSrc/components/DynamicForm/FormField/ContactFormLabel'
-import { TEST_IDS } from 'classicSrc/constants/shared'
 import PropTypes from 'prop-types'
 import { useMemo, useState, useRef } from 'react'
 import { withTheme } from 'styled-components'
@@ -14,7 +12,9 @@ import {
   Hint,
   Message,
 } from '@zendeskgarden/react-dropdowns'
-import { useCurrentFrame } from 'src/framework/components/Frame'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
+import ContactFormLabel from 'classicSrc/components/DynamicForm/FormField/ContactFormLabel'
+import { TEST_IDS } from 'classicSrc/constants/shared'
 import { DropdownSelect } from './styles'
 
 const useDropdownTree = (items = []) => {

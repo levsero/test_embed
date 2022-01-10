@@ -1,7 +1,7 @@
 import { forwardRef, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LauncherLabel as SuncoLauncherLabel } from '@zendesk/conversation-components'
-import Frame from 'src/framework/components/Frame'
+import Frame from '@zendesk/widget-shared-services/Frame'
 import { frameMarginFromPage, launcherSize } from 'messengerSrc/constants'
 import useTranslate from 'messengerSrc/features/i18n/useTranslate'
 import { getLauncherLabelText } from 'messengerSrc/features/launcherLabel/store/config'

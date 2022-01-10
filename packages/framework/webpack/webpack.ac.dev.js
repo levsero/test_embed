@@ -8,6 +8,7 @@ const webWidgetTemplates = require('../dev/web_widget_templates')
 const previewTemplates = require('../dev/preview_templates')
 const runDashboard = require('./runDashboard')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const { ModuleFederationPlugin } = require('webpack').container
 
 const projectRoot = path.resolve(__dirname, '../')
 const CSP_HEADER =
@@ -78,6 +79,12 @@ module.exports = () => {
       new ProgressBarPlugin({
         format: 'Build [:bar] :percent (:elapsed seconds)',
         clear: false,
+      }),
+      new ModuleFederationPlugin({
+        name: 'framework',
+        remotes: {
+          webWidgetMessenger: 'messenger@http://localhost:1336/dist/web-widget-messenger.js',
+        },
       }),
     ],
   })

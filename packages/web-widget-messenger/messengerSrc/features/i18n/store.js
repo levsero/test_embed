@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import i18n from 'src/framework/services/i18n'
+import i18n from 'messengerSrc/features/i18n'
 
 const store = createSlice({
   name: 'i18n',

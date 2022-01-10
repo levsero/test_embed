@@ -10,7 +10,6 @@ npm-debug.log
 dist/
 build/
 REVISION
-src/translation/*
 
 # Editor specific things
 .vscode/*.*

@@ -1,6 +1,6 @@
-import { setScaleLock } from 'src/util/devices'
-import { win, document as doc } from 'src/util/globals'
-import { isNativeFunction } from 'src/util/native'
+import { setScaleLock } from './devices'
+import { win, document as doc } from './globals'
+import { isNativeFunction } from './native'
 
 let oldHostBodyPosition
 let oldWindowScrollY = null

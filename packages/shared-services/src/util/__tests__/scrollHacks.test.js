@@ -1,7 +1,7 @@
-import { isNativeFunction } from 'src/util/native'
-import { setWindowScroll } from 'src/util/scrollHacks'
+import { isNativeFunction } from '../native'
+import { setWindowScroll } from '../scrollHacks'
 
-jest.mock('src/util/native')
+jest.mock('../native')
 
 describe('setWindowScroll', () => {
   beforeEach(() => {

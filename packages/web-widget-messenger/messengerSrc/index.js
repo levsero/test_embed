@@ -1,9 +1,9 @@
 import { errorTracker } from '@zendesk/widget-shared-services'
 import { identity, publicApi, tracker } from '@zendesk/widget-shared-services'
 import { beacon } from '@zendesk/widget-shared-services/beacon'
-import i18n from 'src/framework/services/i18n'
-import setupIframe from 'src/framework/setupIframe'
+import setupIframe from '@zendesk/widget-shared-services/util/setup-iframe'
 import { init, run } from 'messengerSrc/boot'
+import i18n from 'messengerSrc/features/i18n'
 
 const frameworkServices = [identity, beacon, publicApi, tracker]
 

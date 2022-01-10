@@ -1,8 +1,8 @@
-import { i18n } from 'classicSrc/app/webWidget/services/i18n'
-import { getLocale } from 'classicSrc/redux/modules/base/base-selectors'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useCurrentFrame } from 'src/framework/components/Frame'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
+import { i18n } from 'classicSrc/app/webWidget/services/i18n'
+import { getLocale } from 'classicSrc/redux/modules/base/base-selectors'
 
 const HTMLManager = ({ baseFontSize }) => {
   const locale = useSelector(getLocale)

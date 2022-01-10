@@ -1,5 +1,5 @@
 import { FORM_ERROR } from 'final-form'
-import { useCurrentFrame } from 'src/framework/components/Frame'
+import { useCurrentFrame } from '@zendesk/widget-shared-services/Frame'
 
 // useScrollToFirstError returns a function that will scroll to the first field that has errored,
 // or to the submit error message if that is the only error to display

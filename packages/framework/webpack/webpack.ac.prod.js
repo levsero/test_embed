@@ -6,6 +6,7 @@ const { StatsWriterPlugin } = require('webpack-stats-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin')
+const { ModuleFederationPlugin } = require('webpack').container
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
 const PUBLIC_PATH = process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest'
@@ -58,6 +59,14 @@ let config = merge(common, {
           null,
           2
         )
+      },
+    }),
+    new ModuleFederationPlugin({
+      name: 'framework',
+      remotes: {
+        webWidgetMessenger: `messenger@${PUBLIC_PATH}/${
+          require('../../web-widget-messenger/dist/public/asset_manifest.json').path
+        }`,
       },
     }),
   ],

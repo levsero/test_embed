@@ -1,11 +1,11 @@
 import { waitFor } from '@testing-library/dom'
 import { publicApi, tracker } from '@zendesk/widget-shared-services'
 import { beacon } from '@zendesk/widget-shared-services/beacon'
-import setupIframe from 'src/framework/setupIframe'
+import setupIframe from '@zendesk/widget-shared-services/util/setup-iframe'
 import * as boot from 'messengerSrc/boot'
 import messenger from '../..'
 
-jest.mock('src/framework/setupIframe')
+jest.mock('@zendesk/widget-shared-services/util/setup-iframe')
 jest.mock('@zendesk/widget-shared-services/feature-flags')
 jest.mock('messengerSrc/boot')
 jest.mock('messengerSrc/public-api')

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { FRAME_ANIMATION_DURATION_IN_MS } from '@zendesk/conversation-components'
-import Frame from 'src/framework/components/Frame'
+import Frame from '@zendesk/widget-shared-services/Frame'
 import {
   bezierCurve,
   frameBoxShadow,

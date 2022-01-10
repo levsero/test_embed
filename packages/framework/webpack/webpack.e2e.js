@@ -5,6 +5,7 @@ const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
 const fs = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { ModuleFederationPlugin } = require('webpack').container
 
 const classicRoot = path.resolve(__dirname, '../', '../', 'web-widget-classic')
 
@@ -55,6 +56,12 @@ module.exports = () => {
       new webpack.NormalModuleReplacementPlugin(/loadZChat\.js/, './loadZChat.e2e.js'),
       new webpack.WatchIgnorePlugin({
         paths: [path.resolve(__dirname, './test/'), path.resolve(__dirname, './node_modules/')],
+      }),
+      new ModuleFederationPlugin({
+        name: 'framework',
+        remotes: {
+          webWidgetMessenger: 'messenger@http://localhost:1336/dist/web-widget-messenger.js',
+        },
       }),
     ],
   })

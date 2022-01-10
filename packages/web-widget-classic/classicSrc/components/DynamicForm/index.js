@@ -1,12 +1,12 @@
-import useScrollToFirstError from 'classicSrc/components/DynamicForm/hooks/useScrollToFirstError'
-import { getFormValues } from 'classicSrc/redux/modules/form/selectors'
 import { FORM_ERROR } from 'final-form'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Form as ReactFinalForm } from 'react-final-form'
 import { useSelector } from 'react-redux'
-import useSafeState from '@zendesk/widget-shared-services/hooks/useSafeState'
+import useSafeState from '@zendesk/widget-shared-services/util/useSafeState'
+import useScrollToFirstError from 'classicSrc/components/DynamicForm/hooks/useScrollToFirstError'
+import { getFormValues } from 'classicSrc/redux/modules/form/selectors'
 import Form from './Form'
 
 const DynamicForm = ({

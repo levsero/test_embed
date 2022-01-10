@@ -1,5 +1,5 @@
-import i18n from 'src/framework/services/i18n'
 import * as suncoApi from 'messengerSrc/api/sunco'
+import i18n from 'messengerSrc/features/i18n'
 import createStore from 'messengerSrc/store'
 import * as cookies from 'messengerSrc/store/cookies'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
