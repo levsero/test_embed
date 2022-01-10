@@ -1,8 +1,7 @@
-import { TEST_IDS } from 'classicSrc/constants/shared'
-import { keyCodes } from 'classicSrc/util/keyboard'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 import { Field } from '@zendeskgarden/react-forms'
+import { TEST_IDS } from 'classicSrc/constants/shared'
+import useOnMultilineSubmit from 'classicSrc/hooks/useOnMultilineSubmit'
 import { Container, HiddenLabel, Input } from './styles'
 
 const InputBox = ({
@@ -15,18 +14,9 @@ const InputBox = ({
   onFocus,
   onBlur,
 }) => {
-  // event.nativeEvent.isComposing and isComposing flag are used
-  // to support composing text in foreign languages across browsers.
-  const [isComposing, setIsComposing] = useState(false)
-  const handleKeyUp = () => setIsComposing(false)
-  const handleCompositionEnd = () => setIsComposing(true)
-
-  const handleKeyDown = (e) => {
-    if (e.key === keyCodes.ENTER && !e.shiftKey && !e.nativeEvent.isComposing && !isComposing) {
-      e.preventDefault()
-      handleSendInputValue()
-    }
-  }
+  const { handleCompositionStart, handleCompositionEnd, handleKeyDown } = useOnMultilineSubmit(
+    handleSendInputValue
+  )
 
   const handleInputValueChanged = (e) => {
     const { value } = e.target
@@ -42,7 +32,7 @@ const InputBox = ({
           value={inputValue}
           onChange={handleInputValueChanged}
           onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
+          onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}
           placeholder={placeholder}
           name={name}
