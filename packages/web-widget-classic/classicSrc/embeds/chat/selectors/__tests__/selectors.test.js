@@ -1,3 +1,5 @@
+import _ from 'lodash'
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 import { getDeferredChatApi } from 'classicSrc/embeds/chat/selectors'
 import * as selectors from 'classicSrc/embeds/chat/selectors/selectors'
 import {
@@ -6,7 +8,8 @@ import {
   getChatOnline,
 } from 'classicSrc/embeds/chat/selectors/selectors'
 import testState from 'classicSrc/fixtures/chat-selectors-test-state'
-import _ from 'lodash'
+
+jest.mock('@zendesk/widget-shared-services')
 
 test('getChats', () => {
   const result = selectors.getChats(testState)
@@ -407,18 +410,7 @@ describe('getChatOnline', () => {
   })
 
   describe('when an agent is online', () => {
-    const createState = ({ status, filter, departments, isDepartmentVisibleFeatureEnabled }) => ({
-      base: {
-        embeddableConfig: {
-          embeds: {
-            chat: {
-              props: {
-                webWidgetPrechatFormVisibleDepartments: isDepartmentVisibleFeatureEnabled,
-              },
-            },
-          },
-        },
-      },
+    const createState = ({ status, filter, departments }) => ({
       chat: {
         account_status: status,
         departments,
@@ -431,6 +423,9 @@ describe('getChatOnline', () => {
         },
       },
     })
+
+    // web_widget_prechat_form_visible_departments feature switch
+    beforeEach(() => isFeatureEnabled.mockImplementation(() => true))
 
     it('returns true when the status is online', () => {
       expect(
@@ -458,7 +453,6 @@ describe('getChatOnline', () => {
           getChatOnline(
             createState({
               status: 'online',
-              isDepartmentVisibleFeatureEnabled: true,
               filter: undefined,
             })
           )
@@ -470,7 +464,6 @@ describe('getChatOnline', () => {
           getChatOnline(
             createState({
               status: 'online',
-              isDepartmentVisibleFeatureEnabled: true,
               filter: [],
             })
           )
@@ -482,7 +475,6 @@ describe('getChatOnline', () => {
           getChatOnline(
             createState({
               status: 'online',
-              isDepartmentVisibleFeatureEnabled: true,
               filter: ['Something'],
               departments: {
                 1: {
@@ -501,7 +493,6 @@ describe('getChatOnline', () => {
           getChatOnline(
             createState({
               status: 'online',
-              isDepartmentVisibleFeatureEnabled: true,
               filter: ['Something'],
               departments: {
                 1: {

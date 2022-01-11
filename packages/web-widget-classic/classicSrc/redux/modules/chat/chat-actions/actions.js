@@ -1,3 +1,12 @@
+import _ from 'lodash'
+import {
+  errorTracker,
+  isMobileBrowser,
+  getPageTitle,
+  getHostUrl,
+  isValidUrl,
+  isFeatureEnabled,
+} from '@zendesk/widget-shared-services'
 import { CHAT_MESSAGE_TYPES } from 'classicSrc/constants/chat'
 import {
   CHAT_CONNECTED_EVENT,
@@ -32,15 +41,6 @@ import zopimApi from 'classicSrc/service/api/zopimApi'
 import { onChatSDKInitialized, onChatConnected } from 'classicSrc/service/api/zopimApi/callbacks'
 import audio from 'classicSrc/service/audio'
 import { formatSchedule } from 'classicSrc/util/chat'
-import _ from 'lodash'
-import {
-  errorTracker,
-  isMobileBrowser,
-  getPageTitle,
-  getHostUrl,
-  isValidUrl,
-} from '@zendesk/widget-shared-services'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import * as actions from '../chat-action-types'
 import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
 import {
@@ -576,13 +576,13 @@ export function setDepartment(departmentId, successCallback = noop, errCallback 
         if (!err) {
           successCallback()
         } else {
-          if (attempts < 2 && isFeatureEnabled(undefined, 'web_widget_set_department_queue')) {
+          if (attempts < 2 && isFeatureEnabled('web_widget_set_department_queue')) {
             attempts += 1
             attemptSettingDepartment()
             return
           }
 
-          if (isFeatureEnabled(undefined, 'web_widget_set_department_queue')) {
+          if (isFeatureEnabled('web_widget_set_department_queue')) {
             errorTracker.warn(err, {
               rollbarFingerprint: 'Failed setting department after multiple attempts',
               rollbarTitle: 'Failed setting department after multiple attempts',

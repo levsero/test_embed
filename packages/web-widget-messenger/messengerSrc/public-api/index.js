@@ -1,7 +1,5 @@
 import { validate } from 'bcp47-validate'
-import { logger } from '@zendesk/widget-shared-services'
-import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
+import { logger, errorTracker, isFeatureEnabled } from '@zendesk/widget-shared-services'
 import { setLocale as suncoUpdateLocale } from 'messengerSrc/api/sunco'
 import i18n from 'messengerSrc/features/i18n'
 import { zIndexUpdated } from 'messengerSrc/store/actions'

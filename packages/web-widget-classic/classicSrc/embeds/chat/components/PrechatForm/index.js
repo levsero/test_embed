@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 import DynamicForm from 'classicSrc/components/DynamicForm'
 import SubmitButton from 'classicSrc/components/DynamicForm/SubmitButton'
 import { Header, Widget } from 'classicSrc/components/Widget'
@@ -25,9 +28,6 @@ import useTranslate from 'classicSrc/hooks/useTranslate'
 import { initiateSocialLogout } from 'classicSrc/redux/modules/chat'
 import { getChatTitle, getOfflineFormSettings } from 'classicSrc/redux/modules/selectors'
 import { getSettingsChatDepartmentsEnabled } from 'classicSrc/redux/modules/settings/settings-selectors'
-import PropTypes from 'prop-types'
-import { connect, useSelector } from 'react-redux'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import validate from './validate'
 
 const PrechatForm = ({
@@ -46,9 +46,10 @@ const PrechatForm = ({
   isPreview,
   initialValues,
 }) => {
-  const isVisibleDepartmentsFeatureEnabled = useSelector((state) =>
-    isFeatureEnabled(state, 'web_widget_prechat_form_visible_departments')
+  const isVisibleDepartmentsFeatureEnabled = isFeatureEnabled(
+    'web_widget_prechat_form_visible_departments'
   )
+
   const translate = useTranslate()
 
   const isDepartmentFieldVisible = (options = {}) => {

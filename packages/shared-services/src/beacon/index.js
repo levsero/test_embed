@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import isFeatureEnabled, { updateFeatures } from 'src/feature-flags'
 import { store } from 'src/persistence'
 import { sendWithMeta } from 'src/transport/http/base'
 import { isMobileBrowser, getMetaTagsByName } from 'src/util/devices'
@@ -68,7 +69,7 @@ const sendPageViewWhenReady = (channel = 'web_widget') => {
 }
 
 const sendPageView = (channel = 'web_widget') => {
-  if (config.reduceBlipping) return
+  if (isFeatureEnabled('web_widget_reduce_blipping')) return
 
   const now = Date.now()
   const referrer = parseUrl(doc.referrer)
@@ -108,7 +109,7 @@ const sendPageView = (channel = 'web_widget') => {
 }
 
 function sendWidgetInitInterval() {
-  if (config.reduceBlipping) return
+  if (isFeatureEnabled('web_widget_reduce_blipping')) return
 
   const initTime = (win.zEmbed || win.zE || {}).t
 
@@ -135,14 +136,15 @@ function sendWidgetInitInterval() {
 
 function setConfig(_config) {
   _.merge(config, {
-    reduceBlipping: !!_config.reduceBlipping,
-    throttleIdentify: !!_config.throttleIdentify,
+    reduceBlipping: isFeatureEnabled('web_widget_reduce_blipping'),
+    throttleIdentify: isFeatureEnabled('web_widget_throttle_identify'),
   })
 }
 
 function init({ config, localeData }) {
   previousTime = Date.now()
 
+  updateFeatures(config.features)
   beacon.setConfig(config)
   beacon.trackLocaleDiff(localeData)
 }
@@ -169,7 +171,11 @@ function canSendApiUserActionBlips() {
 }
 
 function trackUserAction(category, action, options) {
-  if (_.isUndefined(category) || _.isUndefined(action) || config.reduceBlipping) {
+  if (
+    _.isUndefined(category) ||
+    _.isUndefined(action) ||
+    isFeatureEnabled('web_widget_reduce_blipping')
+  ) {
     return false
   }
 
@@ -205,7 +211,12 @@ function trackUserAction(category, action, options) {
 }
 
 function trackSettings(settings) {
-  if (!win.zESettings || _.isEmpty(settings) || config.reduceBlipping || settings.cookies === false)
+  if (
+    !win.zESettings ||
+    _.isEmpty(settings) ||
+    isFeatureEnabled('web_widget_reduce_blipping') ||
+    settings.cookies === false
+  )
     return
 
   const nowInSeconds = Math.floor(Date.now() / 1000)
@@ -237,7 +248,7 @@ function trackSettings(settings) {
 }
 
 function identify(user, localeId) {
-  if (config.throttleIdentify) return
+  if (isFeatureEnabled('web_widget_throttle_identify')) return
 
   const { method, identifyEndpoint } = config
   const payload = {
