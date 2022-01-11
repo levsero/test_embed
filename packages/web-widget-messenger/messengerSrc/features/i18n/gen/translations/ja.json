@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "メッセージングウィンドウを開くボタン",
       "embeddable_framework.messenger.launcher_label.close": "終了する",
       "embeddable_framework.messenger.launcher_label.frame.title": "会社からのメッセージ",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "アバター",
       "embeddable_framework.messenger.message.file.download": "新しいタブで開く",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}}KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}}MB",

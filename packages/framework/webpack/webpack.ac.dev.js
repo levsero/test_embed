@@ -26,10 +26,13 @@ const WEBPACK_DEV_SERVER_HOST = process.env.WEBPACK_DEV_SERVER_HOST || '127.0.0.
 const WEBPACK_DEV_SERVER_INJECT_CLIENT = process.env.WEBPACK_DEV_SERVER_INJECT_CLIENT
 
 const VERSION = execSync(
-  `cat ${path.resolve(__dirname, '../../../REVISION')} || git rev-parse HEAD`
+  `cat ${path.resolve(__dirname, '../../../REVISION')} || git rev-parse --short HEAD`
 )
   .toString()
   .trim()
+
+const MESSENGER_ENDPOINT = `http://localhost:1339/dist/web-widget-messenger-${VERSION}.js`
+const CLASSIC_ENDPOINT = `http://localhost:1336/dist/web-widget-classic-${VERSION}.js`
 
 module.exports = () => {
   const userConfig = process.env.USER_CONFIG || 'example-template'
@@ -72,6 +75,8 @@ module.exports = () => {
       ...webWidgetTemplates(config),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(true),
+        __MESSENGER_ENDPOINT__: JSON.stringify(MESSENGER_ENDPOINT),
+        __CLASSIC_ENDPOINT__: JSON.stringify(CLASSIC_ENDPOINT),
       }),
       new webpack.WatchIgnorePlugin({
         paths: [path.resolve(__dirname, './test/'), path.resolve(__dirname, './node_modules/')],
@@ -82,9 +87,6 @@ module.exports = () => {
       }),
       new ModuleFederationPlugin({
         name: 'framework',
-        remotes: {
-          webWidgetMessenger: 'messenger@http://localhost:1336/dist/web-widget-messenger.js',
-        },
       }),
     ],
   })

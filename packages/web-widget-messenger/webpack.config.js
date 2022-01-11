@@ -1,21 +1,30 @@
+const fs = require('fs')
+const { execSync } = require('child_process')
 const path = require('path')
 const { ModuleFederationPlugin } = require('webpack').container
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const shortVersion = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com'
 const embeddableEnv = process.env.EMBEDDABLE_FRAMEWORK_ENV || process.env.NODE_ENV || 'development'
-const version = 'version'
 
 const isDev = embeddableEnv === 'development'
 
+const longVersion = execSync(
+  `cat ${path.resolve(__dirname, '../../REVISION')} || git rev-parse --short HEAD`
+)
+  .toString()
+  .trim()
+
+const usedVersion = isDev ? longVersion : shortVersion
 module.exports = {
   entry: path.resolve(__dirname, 'messengerSrc/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist/public'),
-    publicPath: isDev ? 'http://localhost:1336/dist/' : assetBasePath,
-    filename: isDev ? 'web-widget-[name].js' : 'web-widget-[name]-[contenthash].js',
+    publicPath: isDev ? 'http://localhost:1339/dist/' : assetBasePath,
+    filename: `web-widget-[name]-${usedVersion}.js`,
   },
   mode: embeddableEnv,
   resolve: {
@@ -79,7 +88,7 @@ module.exports = {
       },
     }),
     new webpack.DefinePlugin({
-      __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __EMBEDDABLE_VERSION__: JSON.stringify(usedVersion),
       __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify(embeddableEnv),
       __ASSET_BASE_PATH__: JSON.stringify(assetBasePath),
       __DEV__: JSON.stringify(isDev),
@@ -107,6 +116,6 @@ module.exports = {
     new CleanWebpackPlugin(),
   ],
   devServer: {
-    port: 1336,
+    port: 1339,
   },
 }

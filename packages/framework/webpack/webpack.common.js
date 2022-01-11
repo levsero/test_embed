@@ -120,10 +120,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.(yml|yaml)/,
-        use: ['json-loader', 'yaml-loader'],
-      },
-      {
         test: /\.(png|mp3)$/i,
         use: [
           {

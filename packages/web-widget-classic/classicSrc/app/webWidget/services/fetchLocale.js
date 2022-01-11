@@ -1,6 +1,6 @@
 const fetchLocale = (locale) => {
   return import(
-    /* webpackChunkName: "locales/classic/[request]" */ `src/translation/classic/${locale.toLowerCase()}.json`
+    /* webpackChunkName: "locales/classic/[request]" */ `./gen/translations/${locale.toLowerCase()}.json`
   ).catch(() => {})
 }
 

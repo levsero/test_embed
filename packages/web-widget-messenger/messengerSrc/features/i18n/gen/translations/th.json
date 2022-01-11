@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "ปุ่มเพื่อเปิดใช้หน้าต่างการส่งข้อความ",
       "embeddable_framework.messenger.launcher_label.close": "ปิด",
       "embeddable_framework.messenger.launcher_label.frame.title": "ข้อความจากบริษัท",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "อวาตาร์",
       "embeddable_framework.messenger.message.file.download": "เปิดในแท็บใหม่",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",

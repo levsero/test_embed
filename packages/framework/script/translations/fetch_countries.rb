@@ -74,7 +74,7 @@ end.sort_by { |k, _| k }
 
 last = output.last[0]
 
-target = File.join(File.expand_path('../../src', __dir__), 'translation', 'ze_countries.js')
+target = File.join(File.expand_path('../../../web-widget-classic/classicSrc/app/webWidget/services/gen/', __dir__), 'ze_countries.js')
 
 puts "Regenerating #{target}"
 

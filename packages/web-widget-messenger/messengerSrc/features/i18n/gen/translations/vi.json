@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Nút để khởi chạy cửa sổ nhắn tin",
       "embeddable_framework.messenger.launcher_label.close": "Đóng",
       "embeddable_framework.messenger.launcher_label.frame.title": "Tin nhắn từ công ty",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "Hình đại diện",
       "embeddable_framework.messenger.message.file.download": "Mở trong tab mới",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",

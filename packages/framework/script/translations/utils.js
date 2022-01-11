@@ -9,9 +9,9 @@ const frameworkRoot = (...args) => repoRoot('./packages/framework', ...args)
 
 const printHeading = (heading) => console.log(`\n*** ${heading} ***`)
 
-const localesFile = frameworkRoot('./src/translation/locales.json')
 const downloadLocales = async ({ destination, packageName }) => {
   try {
+    const localesFile = path.resolve(destination, '../locales.json')
     const { stdout, stderr } = await exec(
       `yarn download-locales --destination='${destination}' --packages='${packageName}' --locales='${localesFile}'`
     )

@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "開啟傳訊視窗按鈕",
       "embeddable_framework.messenger.launcher_label.close": "關閉",
       "embeddable_framework.messenger.launcher_label.frame.title": "來自公司的訊息",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "頭像",
       "embeddable_framework.messenger.message.file.download": "在新分頁中開啟",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",

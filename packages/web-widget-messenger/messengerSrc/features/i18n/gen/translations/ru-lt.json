@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Кнопка запуска окна обмена сообщениями",
       "embeddable_framework.messenger.launcher_label.close": "Закрыть",
       "embeddable_framework.messenger.launcher_label.frame.title": "Сообщение от компании",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "Аватар",
       "embeddable_framework.messenger.message.file.download": "Открыть на новой вкладке",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} КБ",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} МБ",
