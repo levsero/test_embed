@@ -14,9 +14,12 @@ const InputBox = ({
   onBlur,
 }) => {
   const translate = useTranslate()
-  const { handleCompositionStart, handleCompositionEnd, handleKeyDown } = useOnMultilineSubmit(
-    sendChat
-  )
+  const {
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleKeyDown,
+    handleKeyUp,
+  } = useOnMultilineSubmit(sendChat)
 
   const handleChange = (e) => {
     const { value } = e.target
@@ -33,6 +36,7 @@ const InputBox = ({
           value={currentMessage}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}
           placeholder={placeholder}

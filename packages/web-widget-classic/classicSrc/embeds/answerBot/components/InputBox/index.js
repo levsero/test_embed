@@ -14,9 +14,12 @@ const InputBox = ({
   onFocus,
   onBlur,
 }) => {
-  const { handleCompositionStart, handleCompositionEnd, handleKeyDown } = useOnMultilineSubmit(
-    handleSendInputValue
-  )
+  const {
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleKeyDown,
+    handleKeyUp,
+  } = useOnMultilineSubmit(handleSendInputValue)
 
   const handleInputValueChanged = (e) => {
     const { value } = e.target
@@ -32,6 +35,7 @@ const InputBox = ({
           value={inputValue}
           onChange={handleInputValueChanged}
           onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}
           placeholder={placeholder}

@@ -26,7 +26,7 @@ describe('useOnMultilineSubmit', () => {
     expect(onSubmit).toBeCalled()
   })
 
-  it('does not submit text when Shift and Enter keys are pressed', () => {
+  it('does not submit multi-line text when Shift and Enter keys are pressed', () => {
     const onSubmit = jest.fn()
     const { getByLabelText } = render(<RandomComponent onSubmit={onSubmit} />)
     userEvent.type(getByLabelText('randomText'), 'The quick{shift}{enter}brown fox')
