@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Lähetä",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Raja on {{fileUploadCountLimit}} tiedostoa latausta kohti. Yritä uudelleen napauttamalla tätä.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Tiedostot voivat olla enintään {{fileUploadSizeLimitInMb}} Mt.",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Avaa kuva uudessa välilehdessä",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Avaa uudessa välilehdessä",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Yritä uudelleen napauttamalla",
       "embeddable_framework.messenger.file_upload.upload_button": "Lataa tiedosto",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Viestintäikkunan käynnistyspainike",
       "embeddable_framework.messenger.launcher_label.close": "Sulje",
       "embeddable_framework.messenger.launcher_label.frame.title": "Viesti yritykseltä",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Avaa uudessa välilehdessä",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} kt",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} Mt",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Lähetetty",
       "embeddable_framework.messenger.see_latest": "Katso viimeisin",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} kirjoittaa...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Lukemattomien viestien lukumäärä"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Lukemattomien viestien lukumäärä",
+      "embeddable_framework.messenger.unread_message_divider.new": "Uusi"
     }
   }
 }

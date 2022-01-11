@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Pošlji",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Nalaganje je omejeno na največ {{fileUploadCountLimit}} datotek. Tapnite za ponovni poskus.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Velikost datoteke je lahko največ {{fileUploadSizeLimitInMb}} MB",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Sliko odpri na novem zavihku",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Odpri na novem zavihku",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Tapnite za ponovni poskus",
       "embeddable_framework.messenger.file_upload.upload_button": "Naloži datoteko",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Gumb za odpiranje okna za sporočila",
       "embeddable_framework.messenger.launcher_label.close": "Zapri",
       "embeddable_framework.messenger.launcher_label.frame.title": "Sporočilo podjetja",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Odpri na novem zavihku",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Poslano",
       "embeddable_framework.messenger.see_latest": "Ogled najnovejših",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} tipka ...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Število neprebranih sporočil"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Število neprebranih sporočil",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

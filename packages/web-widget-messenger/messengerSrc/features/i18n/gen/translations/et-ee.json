@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Saada",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Korraga saab üles laadida kuni {{fileUploadCountLimit}} faili. Puudutage uuesti proovimiseks.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Failid peavad olema {{fileUploadSizeLimitInMb}} MB või väiksemad",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Ava kujutis uuel vahekaardil",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Ava uuel vahekaardil",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Puudutage uuesti proovimiseks",
       "embeddable_framework.messenger.file_upload.upload_button": "Laadi fail üles",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Sõnumiakna avamise nupp",
       "embeddable_framework.messenger.launcher_label.close": "Sulge",
       "embeddable_framework.messenger.launcher_label.frame.title": "Sõnum ettevõttelt",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Ava uues aknas",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} kB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Saadetud",
       "embeddable_framework.messenger.see_latest": "Vaata uusi sõnumeid",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} kirjutab...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Lugemata sõnumite arv"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Lugemata sõnumite arv",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

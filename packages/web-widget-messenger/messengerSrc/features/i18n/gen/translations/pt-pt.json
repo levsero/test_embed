@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Enviar",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limite de {{fileUploadCountLimit}} arquivos por carregamento. Toque para tentar novamente.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Os arquivos devem ter até {{fileUploadSizeLimitInMb}} MB",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Abrir imagem em nova aba",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Abrir em nova aba",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Toque para tentar novamente",
       "embeddable_framework.messenger.file_upload.upload_button": "Carregar arquivo",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Botão para abrir a janela de mensagens",
       "embeddable_framework.messenger.launcher_label.close": "Fechar",
       "embeddable_framework.messenger.launcher_label.frame.title": "Mensagem da empresa",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Abrir em uma nova aba",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Enviado",
       "embeddable_framework.messenger.see_latest": "Ver mais recente",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} está digitando...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Número de mensagens não lidas"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Número de mensagens não lidas",
+      "embeddable_framework.messenger.unread_message_divider.new": "Novo"
     }
   }
 }

@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Send",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limit of {{fileUploadCountLimit}} files per upload. Tap to retry.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Files must be {{fileUploadSizeLimitInMb}} MB or less",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Open image in new tab",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Open in new tab",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Tap to retry",
       "embeddable_framework.messenger.file_upload.upload_button": "Upload file",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Кнопка для запуску вікна повідомлень",
       "embeddable_framework.messenger.launcher_label.close": "Закрити",
       "embeddable_framework.messenger.launcher_label.frame.title": "Повідомлення від компанії",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Відкрити в новій вкладці",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} КБ",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} МБ",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Надіслано",
       "embeddable_framework.messenger.see_latest": "Переглянути останні",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} вводить текст...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Кількість непрочитаних повідомлень"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Кількість непрочитаних повідомлень",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

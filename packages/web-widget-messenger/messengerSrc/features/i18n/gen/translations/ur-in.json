@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "بھیجیں",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "فی اپ لوڈ {{fileUploadCountLimit}} فائلز کی حد۔ دوبارہ کوشش کرنے کے لیے ٹیپ کریں۔",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "فائل {{fileUploadSizeLimitInMb}} MB یا اس سے کم ہونی چاہیئے",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "نئے ٹیب میں تصویر کھولیں",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "نئے ٹیب میں کھولیں",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "دوبارہ کوشش کرنے کے لئے ٹیپ کریں",
       "embeddable_framework.messenger.file_upload.upload_button": "فائل اپ لوڈ کریں",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "پیغامات کا خانہ کھولنے کا بٹن",
       "embeddable_framework.messenger.launcher_label.close": "بند کریں",
       "embeddable_framework.messenger.launcher_label.frame.title": "کمپنی کا پیغام",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "نئے ٹیب میں کھولیں",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "بھیج دیا گیا",
       "embeddable_framework.messenger.see_latest": "تازہ ترین دیکھیں",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} ٹائپ کر رہے ہیں…",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "نہ پڑھے گئے پیغامات کی تعداد"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "نہ پڑھے گئے پیغامات کی تعداد",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

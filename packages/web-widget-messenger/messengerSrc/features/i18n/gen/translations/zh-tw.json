@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "傳送",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "限制每次上傳 {{fileUploadCountLimit}} 個檔案。點選以重試。",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "檔案必須小於 {{fileUploadSizeLimitInMb}} MB",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "在新分頁中開啟影像",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "在新分頁中開啟",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "點選以重試",
       "embeddable_framework.messenger.file_upload.upload_button": "上傳檔案",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "開啟傳訊視窗按鈕",
       "embeddable_framework.messenger.launcher_label.close": "關閉",
       "embeddable_framework.messenger.launcher_label.frame.title": "來自公司的訊息",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "在新分頁中開啟",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "已傳送",
       "embeddable_framework.messenger.see_latest": "檢視最新",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} 輸入中……",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "未讀訊息數"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "未讀訊息數",
+      "embeddable_framework.messenger.unread_message_divider.new": "新訊息"
     }
   }
 }

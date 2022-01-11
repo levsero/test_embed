@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Отправить",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Максимально допустимое количество файлов для отправки: {{fileUploadCountLimit}}. Нажмите, чтобы повторить попытку.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Размер файла не должен превышать {{fileUploadSizeLimitInMb}} МБ",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Открыть изображение в новой вкладке",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Открыть в новой вкладке",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Нажмите, чтобы повторить попытку.",
       "embeddable_framework.messenger.file_upload.upload_button": "Выложить файл",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Кнопка запуска окна обмена сообщениями",
       "embeddable_framework.messenger.launcher_label.close": "Закрыть",
       "embeddable_framework.messenger.launcher_label.frame.title": "Сообщение от компании",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Открыть на новой вкладке",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} КБ",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} МБ",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Отправлено",
       "embeddable_framework.messenger.see_latest": "См. последние",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} вводит текст...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Число непрочитанных сообщений"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Число непрочитанных сообщений",
+      "embeddable_framework.messenger.unread_message_divider.new": "Новинка"
     }
   }
 }

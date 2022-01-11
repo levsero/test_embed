@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Send",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Grænse på {{fileUploadCountLimit}} filer pr. upload. Tryk for at forsøge igen.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Filer skal være {{fileUploadSizeLimitInMb}} MB eller mindre",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Åbn billede i ny fane",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Åbn i en ny fane",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Tryk for at prøve igen",
       "embeddable_framework.messenger.file_upload.upload_button": "Upload fil",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Knap til at åbne messaging-vindue",
       "embeddable_framework.messenger.launcher_label.close": "Luk",
       "embeddable_framework.messenger.launcher_label.frame.title": "Meddelelse fra firma",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Åbn på et nyt faneblad",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} kB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Sendt",
       "embeddable_framework.messenger.see_latest": "Se seneste",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} skriver ...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Antal ulæste meddelelser"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Antal ulæste meddelelser",
+      "embeddable_framework.messenger.unread_message_divider.new": "Ny"
     }
   }
 }

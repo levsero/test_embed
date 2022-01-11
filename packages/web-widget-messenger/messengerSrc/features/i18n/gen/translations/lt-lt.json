@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Siųsti",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Vieno įkėlimo metu galima įkelti ne daugiau kaip {{fileUploadCountLimit}} failą (-us). Bakstelėdami pabandykite dar kartą.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Failų dydis turi būti {{fileUploadSizeLimitInMb}} MB arba mažiau",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Atidaryti vaizdą naujame skirtuke",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Atidaryti naujame skirtuke",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Bakstelėdami pabandykite dar kartą",
       "embeddable_framework.messenger.file_upload.upload_button": "Įkelti failą",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Mygtukas pranešimų langui paleisti",
       "embeddable_framework.messenger.launcher_label.close": "Uždaryti",
       "embeddable_framework.messenger.launcher_label.frame.title": "Pranešimas iš įmonės",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Atidaryti naujame skirtuke",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Išsiųsta",
       "embeddable_framework.messenger.see_latest": "Žiūrėti naujausią",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} rašo...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Neperskaitytų žinučių skaičius"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Neperskaitytų žinučių skaičius",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

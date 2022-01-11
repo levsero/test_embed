@@ -128,6 +128,9 @@ const ThemeProvider = ({ children }) => {
               `embeddable_framework.messenger.header.menu.continue_on_${name.toLowerCase()}`
             ),
         },
+        otherParticipantLayout: {
+          avatarAltTag: translate('embeddable_framework.messenger.message.avatar'),
+        },
         formMessage: {
           nextStep: translate('embeddable_framework.messenger.message.form.next_step'),
           send: translate('embeddable_framework.messenger.message.form.submit'),

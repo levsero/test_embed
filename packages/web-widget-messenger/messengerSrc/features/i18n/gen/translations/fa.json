@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "ارسال",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "تعداد مجاز {{fileUploadCountLimit}} فایل‌ها در هر بارگذاری. برای تلاش مجدد ضربه بزنید.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "فایل‌ها باید {{fileUploadSizeLimitInMb}} مگابایت یا کمتر باشند",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "تصویر را در صفحه جدید باز کن",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "در صفحه جدید باز کنید",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "برای سعی مجدد ضربه بزنید",
       "embeddable_framework.messenger.file_upload.upload_button": "فایل را بارگذاری کن",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "دکمه راه‌اندازی پنجره پیام‌رسانی",
       "embeddable_framework.messenger.launcher_label.close": "بستن",
       "embeddable_framework.messenger.launcher_label.frame.title": "پیام شرکت",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "باز کردن در زبانه جدید",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}}  کیلوبایت",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}}  مگابایت",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "ارسال شد",
       "embeddable_framework.messenger.see_latest": "مشاهده آخرین موارد",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} در حال نوشتن است...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "تعداد پیام‌های خوانده نشده"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "تعداد پیام‌های خوانده نشده",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }
