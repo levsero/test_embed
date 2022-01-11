@@ -12,6 +12,7 @@ class ConversationsApi extends BaseApi {
     const data = {
       client: this.getClientInfo(),
       type: 'personal',
+      intent: 'conversation:start',
     }
     return this.request({
       method: 'POST',

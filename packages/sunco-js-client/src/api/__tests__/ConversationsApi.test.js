@@ -41,6 +41,10 @@ describe('ConversationsApi', () => {
         expect.objectContaining({
           method: 'POST',
           path: `/v2/apps/app-id/appusers/app-user-id/conversations`,
+          data: expect.objectContaining({
+            intent: 'conversation:start',
+            type: 'personal',
+          }),
         })
       )
     })
