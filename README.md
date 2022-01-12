@@ -41,7 +41,7 @@ The bootstrap file will do the following:
 
 ### Running packages
 
-Each package inside `src/packages` will have its own README.md with its own instructions for how to run the package.
+Each package inside `./packages` will have its own README.md with its own instructions for how to run the package.
 
 Since this project uses [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/), you can run a specific script for a package with the command `yarn workspace <package name> <script to run>`
 
@@ -56,8 +56,11 @@ This will allow you to access the developer dashboard on [http://localhost:1338]
 The packages contained are:
 
 - [Conversation components](/packages/conversation-components) - Shared components for the new sunco experience
-- [Framework](/packages/framework) - Code for the old and new widgets
-- [sunco-js-client](/packages/sunco-js-client) - A client side JS library that communicates with the Sunco SDK API
+- [Framework](/packages/framework) - Entry point to select the appropriate widget
+- [Web Widget Classic](/packages/web-widget-classic) - Code base for the Classic Web Widget (and its embeds like Chat, Talk, Help Center, Answer Bot)
+- [Web Widget Messenger](/packages/web-widget-messenger) - Code base for the Web Widget Messenger and its features
+- [Shared Services](/packages/shared-services) - Code for services shared by both Web Widget Classic and Messenger
+- [Sunco JS Client](/packages/sunco-js-client) - A client side JS library that communicates with the Sunco SDK API
 
 _Please note_ - In order to build and run locally in your dev environment you will need to build the 2 dependencies
 
