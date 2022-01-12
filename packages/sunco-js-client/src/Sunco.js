@@ -29,6 +29,7 @@ export default class Sunco {
     storage.setStorageType({ type: storageType })
     this.locale = null
     this.debug = debug
+    this.freshConversationRequired = false
 
     this.user = new AppUser(this)
 
@@ -50,7 +51,7 @@ export default class Sunco {
 
   get activeConversation() {
     if (this._activeConversation === null) {
-      throw "There is no activeConversation available. Try running 'client.startConversation()' first"
+      throw "There is no activeConversation available. Try running 'client.getOrStartConversation()' first"
     }
     return this._activeConversation
   }
@@ -110,10 +111,19 @@ export default class Sunco {
     }
   }
 
-  startConversation() {
+  getOrStartConversation() {
+    if (this.freshConversationRequired) {
+      this.freshConversationRequired = false
+      return this.startConversation()
+    }
+
     if (this.hasExistingActiveConversation) return this.activeConversation
     if (this.conversationPromise) return this.conversationPromise
 
+    return this.startConversation()
+  }
+
+  startConversation() {
     this.conversationPromise = retryWrapper(
       () =>
         new Promise((resolve, reject) => {
@@ -278,6 +288,8 @@ export default class Sunco {
           })
           if (response.body.appUser.conversationStarted) {
             this.setActiveConversationFromResponse(response)
+          } else {
+            this.freshConversationRequired = true
           }
           resolve({ hasExternalIdChanged })
         })
