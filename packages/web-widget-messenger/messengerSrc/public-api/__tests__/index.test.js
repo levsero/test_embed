@@ -1,6 +1,9 @@
+import { logger } from '@zendesk/widget-shared-services'
+import { updateFeatures } from '@zendesk/widget-shared-services/feature-flags'
 import * as suncoApi from 'messengerSrc/api/sunco'
 import i18n from 'messengerSrc/features/i18n'
 import createStore from 'messengerSrc/store'
+import * as authentication from 'messengerSrc/store/authentication'
 import * as cookies from 'messengerSrc/store/cookies'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 import api from '../'
@@ -51,5 +54,55 @@ describe('cookies', () => {
     api(store)['messenger:set']['cookies'](true)
 
     expect(store.dispatch).toHaveBeenCalledWith(cookies.cookiesEnabled())
+  })
+})
+
+describe('loginUser', () => {
+  beforeEach(() => {
+    updateFeatures({
+      jwtAuth: true,
+    })
+  })
+
+  it('logs a user in', () => {
+    jest.spyOn(authentication, 'loginUser').mockReturnValue({ type: 'login user' })
+
+    const store = createStore()
+    store.dispatch = jest.fn()
+    api(store).messenger.loginUser(() => {})
+
+    expect(store.dispatch).toHaveBeenCalledWith(authentication.loginUser())
+  })
+
+  it('throws an error for the customer to see when the argument is not a function', () => {
+    jest.spyOn(authentication, 'loginUser').mockReturnValue({ type: 'login user' })
+
+    const store = createStore()
+    store.dispatch = jest.fn()
+    logger.error = jest.fn()
+    api(store).messenger.loginUser('Invalid argument')
+
+    expect(logger.error).toHaveBeenCalledWith(
+      'Invalid argument provided for loginUser. Needs to be of type function. See https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/web/sdk_api_reference/#login-user'
+    )
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(authentication.loginUser())
+  })
+})
+
+describe('logoutUser', () => {
+  beforeEach(() => {
+    updateFeatures({
+      jwtAuth: true,
+    })
+  })
+
+  it('logs a user out', () => {
+    jest.spyOn(authentication, 'logoutUser').mockReturnValue({ type: 'logout user' })
+
+    const store = createStore()
+    store.dispatch = jest.fn()
+    api(store).messenger.logoutUser()
+    expect(store.dispatch).toHaveBeenCalledWith(authentication.logoutUser())
   })
 })

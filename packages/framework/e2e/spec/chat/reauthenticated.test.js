@@ -99,7 +99,7 @@ describe('when authentication is provided during session', () => {
     const doc = await widget.getDocument()
     expect(await queries.queryByLabelText(doc, 'Name (optional)')).toBeFalsy()
     expect(await queries.queryByLabelText(doc, 'Email (optional)')).toBeFalsy()
-    await expect(page).toPassAxeTests()
+    await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
   })
 
   describe('start chat', () => {
@@ -124,20 +124,20 @@ describe('when authentication is provided during session', () => {
 
     test('shows past chats', async () => {
       await assertPastChatsVisible()
-      await expect(page).toPassAxeTests()
+      await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
     })
 
     test('chat input box is not available', async () => {
       const doc = await widget.getDocument()
       expect(await queries.queryByPlaceholderText(doc, 'Type a message here...')).toBeFalsy()
-      await expect(page).toPassAxeTests()
+      await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
     })
 
     test('can navigate back to prechat form', async () => {
       await widget.clickBack()
       await widget.waitForText('Your profile:')
       await widget.expectToSeeText('yolo@authenticated.com')
-      await expect(page).toPassAxeTests()
+      await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
     })
   })
 })
@@ -166,6 +166,6 @@ describe('when reauthenticating during an existing authenticated session', () =>
     const doc = await widget.getDocument()
     expect(await queries.queryByLabelText(doc, 'Name (optional)')).toBeFalsy()
     expect(await queries.queryByLabelText(doc, 'Email (optional)')).toBeFalsy()
-    await expect(page).toPassAxeTests()
+    await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
   })
 })

@@ -1,14 +1,11 @@
 import { validate } from 'bcp47-validate'
 import { logger } from '@zendesk/widget-shared-services'
-import {
-  setLocale as suncoUpdateLocale,
-  loginUser,
-  logoutUser,
-  hasExistingConversation,
-} from 'messengerSrc/api/sunco'
+import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
+import { setLocale as suncoUpdateLocale } from 'messengerSrc/api/sunco'
 import i18n from 'messengerSrc/features/i18n'
-import { startConversation } from 'messengerSrc/features/suncoConversation/store'
-import { userLoggedOut, zIndexUpdated } from 'messengerSrc/store/actions'
+import { zIndexUpdated } from 'messengerSrc/store/actions'
+import { loginUser, logoutUser } from 'messengerSrc/store/authentication'
 import { cookiesEnabled, cookiesDisabled } from 'messengerSrc/store/cookies'
 import { widgetOpened, widgetClosed } from 'messengerSrc/store/visibility'
 
@@ -20,29 +17,22 @@ export default (store) => ({
     close: () => {
       store.dispatch(widgetClosed())
     },
-    loginUser: (getJWTFn) => {
-      loginUser(getJWTFn)
-        .then((response) => {
-          if (response?.hasExternalIdChanged) {
-            store.dispatch(userLoggedOut())
-          }
-          if (hasExistingConversation()) {
-            store.dispatch(startConversation())
-          }
-        })
-        .catch((error) => {
-          logger.error('Unable to login user', error)
-        })
-    },
-    logoutUser: () => {
-      logoutUser()
-        .then(() => {
-          store.dispatch(userLoggedOut())
-        })
-        .catch((error) => {
-          logger.error('Unable to logout user', error)
-        })
-    },
+    ...(isFeatureEnabled(null, 'web_widget_jwt_auth') && {
+      loginUser: (getJWTFn) => {
+        if (!getJWTFn || typeof getJWTFn !== 'function') {
+          const errorMessage =
+            'Invalid argument provided for loginUser. Needs to be of type function. See https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/web/sdk_api_reference/#login-user'
+          logger.error(errorMessage)
+          errorTracker.error(new Error(errorMessage))
+          return
+        }
+
+        store.dispatch(loginUser(getJWTFn))
+      },
+      logoutUser: () => {
+        store.dispatch(logoutUser())
+      },
+    }),
   },
   ['messenger:set']: {
     __isSettingsApi: true,
