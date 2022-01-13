@@ -115,6 +115,7 @@ describe('Sunco', () => {
           expect(sunco.user.updateAppUser).toHaveBeenNthCalledWith(2, {
             appUserId: 'test-appuser-id',
           })
+          expect(sunco.freshConversationRequired).toEqual(true)
           expect(SocketClient).not.toHaveBeenCalled()
         })
       })
@@ -290,13 +291,23 @@ describe('Sunco', () => {
     })
   })
 
-  describe('startConversation', () => {
+  describe('getOrStartConversation', () => {
+    describe('when a fresh conversation is required', () => {
+      it('calls startConversation', () => {
+        const sunco = createSunco()
+        sunco.freshConversationRequired = true
+        sunco.startConversation = jest.fn()
+        sunco.getOrStartConversation()
+
+        expect(sunco.startConversation).toHaveBeenCalled()
+      })
+    })
     describe('when there is an existing active conversation', () => {
       it('returns that conversation', () => {
         const sunco = createSunco()
         sunco.activeConversation = jest.fn()
 
-        expect(sunco.startConversation()).toEqual(sunco.activeConversation)
+        expect(sunco.getOrStartConversation()).toEqual(sunco.activeConversation)
       })
     })
 
@@ -306,7 +317,7 @@ describe('Sunco', () => {
           const sunco = createSunco()
           sunco.conversationPromise = jest.fn()
 
-          expect(sunco.startConversation()).toEqual(sunco.conversationPromise)
+          expect(sunco.getOrStartConversation()).toEqual(sunco.conversationPromise)
         })
       })
 
@@ -320,7 +331,7 @@ describe('Sunco', () => {
             sunco.appUsers.get = jest.fn(() => Promise.resolve(responseBodyWithoutConversation))
             sunco.createConversation = jest.fn()
 
-            await sunco.startConversation()
+            await sunco.getOrStartConversation()
             expect(sunco.createConversation).toHaveBeenCalled()
           })
         })
@@ -332,7 +343,7 @@ describe('Sunco', () => {
               appUserId: 'test-appuser-id',
             }))
             sunco.appUsers.get = jest.fn(() => Promise.resolve(responseBodyWithConversation))
-            const promise = sunco.startConversation()
+            const promise = sunco.getOrStartConversation()
 
             await expect(promise).resolves.toEqual(
               expect.objectContaining({ conversationId: 'test-conversation-id' })
@@ -354,7 +365,7 @@ describe('Sunco', () => {
           }))
           sunco.createAppUser = jest.fn()
 
-          await sunco.startConversation()
+          await sunco.getOrStartConversation()
           expect(sunco.createAppUser).toHaveBeenCalled()
         })
       })

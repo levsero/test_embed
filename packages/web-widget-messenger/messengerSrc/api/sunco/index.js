@@ -36,7 +36,7 @@ export const hasExistingConversation = () =>
   hasExistingAppUser() && getClient().hasExistingActiveConversation
 
 export const getActiveConversation = async () => {
-  return await getClient().startConversation()
+  return await getClient().getOrStartConversation()
 }
 
 export const sendStartTyping = async () => {
