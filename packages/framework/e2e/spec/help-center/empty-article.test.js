@@ -39,5 +39,5 @@ test('displays no article contents for empty article', async () => {
   await widget.clickBack()
   await clickArticle('Non-empty Article 2')
   expect(await queries.queryByText(doc, 'Non-Empty Article Body 2')).toBeTruthy()
-  await expect(page).toPassAxeTests()
+  await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
 })

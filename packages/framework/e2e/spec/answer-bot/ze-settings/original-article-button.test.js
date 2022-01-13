@@ -34,5 +34,5 @@ test('hides the original article link', async () => {
     'View original article'
   )
   expect(originalArticleLink).toBeNull()
-  await expect(page).toPassAxeTests()
+  await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
 })

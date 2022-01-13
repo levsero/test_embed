@@ -29,7 +29,7 @@ const buildWidget = () =>
 test('hides the zendesk logo in desktop', async () => {
   await buildWidget().load()
   await assertLogoHidden()
-  await expect(page).toPassAxeTests()
+  await expect(page).toPassAxeTests({ include: 'iframe#webWidget' })
 })
 
 test('hides the zendesk logo in mobile', async () => {
