@@ -140,7 +140,7 @@ export default class Sunco {
                 resolve(this.activeConversation)
               })
               .catch((error) => {
-                const { status } = error
+                const status = error?.status
 
                 switch (status) {
                   case 401:
