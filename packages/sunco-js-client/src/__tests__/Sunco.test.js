@@ -1,9 +1,11 @@
 import decodeJwt from 'jwt-decode'
+import * as constants from 'src/utils/constants'
 import Sunco from '../Sunco'
 import SocketClient from '../socket/SocketClient'
 
 jest.mock('jwt-decode')
 jest.mock('../socket/SocketClient')
+jest.mock('src/utils/constants')
 
 const responseBodyWithConversation = {
   body: {
@@ -67,29 +69,32 @@ describe('Sunco', () => {
     })
 
     describe('when no generateJWT function has been provided', () => {
-      it('throws an error if no generateJWT function has been provided', () => {
+      it('throws an error if no generateJWT function has been provided', async () => {
         const sunco = createSunco()
 
-        expect(sunco.loginUser()).rejects.toEqual(new Error('no JWT provided'))
+        await expect(sunco.loginUser()).rejects.toThrow(`Unable to read external_id from JWT token`)
       })
     })
 
     describe('when an invalid generateJWT function has been provided', () => {
-      it('throws an error if the generateJWT function fails to return a jwt token', () => {
-        const invalidGenerateJWT = (callback) => callback(null)
+      it('throws an error if the generateJWT function fails to return a jwt token', async () => {
+        const invalidGenerateJWT = () => {
+          throw new Error('some error')
+        }
+
         const sunco = createSunco()
 
-        expect(sunco.loginUser(invalidGenerateJWT)).rejects.toEqual(new Error('Invalid jwt'))
+        await expect(sunco.loginUser(invalidGenerateJWT)).rejects.toEqual(
+          new Error('Unable to read external_id from JWT token')
+        )
       })
 
-      it('throws an error if the external_id is not able to be decoded from the token', () => {
-        decodeJwt.mockImplementation(() => {
-          throw new Error('Unable to read external_id from JWT token')
-        })
+      it('throws an error if the external_id is not able to be decoded from the token', async () => {
+        decodeJwt.mockImplementation(() => {})
         const generateJWT = (callback) => callback('token')
         const sunco = createSunco()
 
-        expect(sunco.loginUser(generateJWT)).rejects.toEqual(
+        await expect(sunco.loginUser(generateJWT)).rejects.toThrow(
           new Error('Unable to read external_id from JWT token')
         )
       })
@@ -98,6 +103,24 @@ describe('Sunco', () => {
     describe('when a valid generateJWT function has been prvovided', () => {
       beforeEach(() => {
         decodeJwt.mockReturnValue({ external_id: '123456' })
+      })
+
+      describe('when the generateJWT funtion has timed out', () => {
+        it('fires an error stating that the authentication took too long', async () => {
+          constants.JWT_TIMEOUT_IN_MS = 10
+          const delayedGenerateJwt = async (callback) =>
+            new Promise((r) => {
+              setTimeout(() => {
+                r('token')
+              }, 15)
+            }).then(() => callback('token'))
+
+          const sunco = createSunco()
+
+          await expect(sunco.loginUser(delayedGenerateJwt)).rejects.toThrow(
+            new Error('JWT request did not resolve within an acceptable time')
+          )
+        })
       })
 
       describe('and the app user does not have a conversation', () => {
@@ -264,8 +287,8 @@ describe('Sunco', () => {
         appUserId: 'test-appuser-id',
       }))
       sunco.conversations.create = jest.fn(() => Promise.resolve(responseBodyWithConversation))
-      const promise = sunco.createConversation()
 
+      const promise = sunco.createConversation()
       await expect(promise).resolves.toEqual(
         expect.objectContaining({ conversationId: 'test-conversation-id' })
       )
@@ -284,9 +307,9 @@ describe('Sunco', () => {
         }))
         const error = new Error()
         sunco.conversations.create = jest.fn().mockRejectedValueOnce(error)
-
         const promise = sunco.createConversation()
-        await expect(promise).rejects.toEqual(error)
+
+        expect(promise).rejects.toThrow(error)
       })
     })
   })

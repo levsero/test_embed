@@ -1,11 +1,11 @@
-import * as httpRequest from 'superagent'
+import superagent from 'superagent'
 import Response from '../http/Response'
 
 const isEmpty = (object) => Object.entries(object).length === 0
 
 class Request {
   constructor({ method = 'GET', url = '', data = {}, params = {}, headers = {} }) {
-    this._request = httpRequest(method, url)
+    this._request = superagent(method, url)
     this._response = null
 
     this._request.set(headers)
