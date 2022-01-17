@@ -15,8 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task:
-          ['lint', 'test', 'fossa', 'audit', 'validate', 'e2e0', 'e2e1', 'e2e2', 'e2e3', 'visual']
+        task: ['lint', 'test', 'audit', 'validate', 'e2e0', 'e2e1', 'e2e2', 'e2e3', 'visual']
         include:
           - task: lint
             run: |
