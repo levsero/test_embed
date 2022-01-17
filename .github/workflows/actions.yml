@@ -25,10 +25,6 @@ jobs:
               echo "Starting unit and integration tests"
               download_translations
               yarn test --ci --runInBand
-          - task: fossa
-            run: |
-              echo "Starting Fossa open source scan"
-              ./script/run_fossa.sh;
           - task: audit
             run: |
               echo "Starting audit"
