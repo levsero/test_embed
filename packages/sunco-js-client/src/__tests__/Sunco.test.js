@@ -78,20 +78,19 @@ describe('Sunco', () => {
 
     describe('when an invalid generateJWT function has been provided', () => {
       it('throws an error if the generateJWT function fails to return a jwt token', async () => {
-        const invalidGenerateJWT = (callback) => callback(null)
+        const invalidGenerateJWT = () => {
+          throw new Error('some error')
+        }
 
         const sunco = createSunco()
 
-        await expect(sunco.loginUser(invalidGenerateJWT)).rejects.toEqual({
-          error: new TypeError(`Cannot read property '_id' of undefined`),
-          message: 'Error while attempting to login',
-        })
+        await expect(sunco.loginUser(invalidGenerateJWT)).rejects.toEqual(
+          new Error('Unable to read external_id from JWT token')
+        )
       })
 
       it('throws an error if the external_id is not able to be decoded from the token', async () => {
-        decodeJwt.mockImplementation(() => {
-          throw new Error('Unable to read external_id from JWT token')
-        })
+        decodeJwt.mockImplementation(() => {})
         const generateJWT = (callback) => callback('token')
         const sunco = createSunco()
 
