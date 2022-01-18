@@ -236,6 +236,7 @@ export default class Sunco {
   }
 
   forgetUser() {
+    this._activeConversation?.stopConversation()
     this.user.removeAppUser()
   }
 
@@ -314,7 +315,6 @@ export default class Sunco {
         this.appUsers
           .logout(appUserId)
           .then(() => {
-            this._activeConversation?.stopConversation()
             this.forgetUser()
             resolve()
           })

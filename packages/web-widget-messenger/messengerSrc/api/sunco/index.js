@@ -24,7 +24,6 @@ export const setupSuncoClient = ({ integrationId, appId, baseUrl, conversationHi
 }
 
 export const forgetUserAndDisconnect = () => {
-  client?.activeConversation?.stopConversation()
   client?.forgetUser()
 }
 
