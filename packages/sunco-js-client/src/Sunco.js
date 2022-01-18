@@ -322,7 +322,8 @@ export default class Sunco {
             reject({ message: 'Error while attempting to logout', error })
           })
       } else {
-        reject({ message: 'No user to log out' })
+        this.forgetUser()
+        resolve()
       }
     })
   }
