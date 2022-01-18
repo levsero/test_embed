@@ -47,8 +47,8 @@ describe('integration store', () => {
         const store = createStore()
         store.dispatch(authentication.loginUser(getJWTFn))
 
-        expect(suncoApi.loginUser).toHaveBeenCalledWith(getJWTFn)
-        await waitFor(() => expect(actions.userLoggedOut).toHaveBeenCalledTimes(1))
+        await expect(suncoApi.loginUser).toHaveBeenCalledWith(getJWTFn)
+        expect(actions.userLoggedOut).toHaveBeenCalledTimes(1)
       })
 
       it('does not log the old user out when external id does not change', async () => {
@@ -68,6 +68,7 @@ describe('integration store', () => {
       it('logs an error', async () => {
         const mockError = new Error('Network error')
         logger.devLog = jest.fn()
+        jest.spyOn(actions, 'userLoggedOut')
         jest.spyOn(authentication, 'loginUser')
         jest.spyOn(suncoApi, 'loginUser').mockImplementation(async () => {
           throw mockError
@@ -77,9 +78,10 @@ describe('integration store', () => {
         store.dispatch(authentication.loginUser(getJWTFn))
 
         expect(suncoApi.loginUser).toHaveBeenCalledWith(getJWTFn)
-        await waitFor(() =>
+        await waitFor(() => {
           expect(logger.devLog).toHaveBeenCalledWith('Unable to login user', mockError)
-        )
+          expect(actions.userLoggedOut).toHaveBeenCalledTimes(1)
+        })
       })
     })
   })
@@ -101,6 +103,7 @@ describe('integration store', () => {
       it('logs an error', async () => {
         const mockError = new Error('Network error')
         logger.devLog = jest.fn()
+        jest.spyOn(actions, 'userLoggedOut')
         jest.spyOn(suncoApi, 'logoutUser').mockImplementation(async () => {
           throw mockError
         })
@@ -109,9 +112,10 @@ describe('integration store', () => {
         store.dispatch(authentication.logoutUser())
 
         expect(suncoApi.logoutUser).toHaveBeenCalledTimes(1)
-        await waitFor(() =>
+        await waitFor(() => {
           expect(logger.devLog).toHaveBeenCalledWith('Unable to logout user', mockError)
-        )
+          expect(actions.userLoggedOut).toHaveBeenCalledTimes(1)
+        })
       })
     })
   })

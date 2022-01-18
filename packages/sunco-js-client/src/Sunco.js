@@ -302,6 +302,8 @@ export default class Sunco {
           resolve({ hasExternalIdChanged })
         })
         .catch((error) => {
+          this.forgetUser()
+
           reject({ message: 'Error while attempting to login', error })
         })
     })
@@ -319,6 +321,7 @@ export default class Sunco {
             resolve()
           })
           .catch((error) => {
+            this.forgetUser()
             reject({ message: 'Error while attempting to logout', error })
           })
       } else {

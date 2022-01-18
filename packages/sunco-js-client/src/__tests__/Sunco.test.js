@@ -188,8 +188,8 @@ describe('Sunco', () => {
 
   describe('logoutUser', () => {
     describe('when an appUserId and jwt exist', () => {
-      describe('when there is an active conversation', () => {
-        it('logs out the user and stops the conversation', async () => {
+      describe('and the logout api call executes successfully', () => {
+        it('logs out and forgets the user', async () => {
           const sunco = createSunco()
           sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
             appUserId: 'test-appuser-id',
@@ -197,85 +197,71 @@ describe('Sunco', () => {
           }))
 
           sunco.appUsers.logout = jest.fn(() => Promise.resolve())
-          sunco._activeConversation = jest.fn()
-          sunco._activeConversation.stopConversation = jest.fn()
           sunco.forgetUser = jest.fn()
 
           const promise = sunco.logoutUser()
           await expect(promise).resolves.toBeUndefined()
-          expect(sunco._activeConversation.stopConversation).toHaveBeenCalled()
           expect(sunco.forgetUser).toHaveBeenCalled()
         })
       })
-
-      describe('when there is not an active conversation', () => {
-        it('logs out the user and does not have any active conversation to stop', async () => {
+      describe('and the logout api call fails', () => {
+        it('logs out and forgets the user and rejects with an error message', async () => {
           const sunco = createSunco()
           sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
             appUserId: 'test-appuser-id',
             jwt: 'some-jwt-token',
           }))
-          sunco.appUsers.logout = jest.fn(() => Promise.resolve())
+          const error = new Error('Invalid JWT')
+          sunco.appUsers.logout = jest.fn(() => Promise.reject(error))
+          sunco.forgetUser = jest.fn()
 
           const promise = sunco.logoutUser()
-          await expect(promise).resolves.toBeUndefined()
-          expect(sunco._activeConversation).toBeNull()
+          await expect(promise).rejects.toEqual({
+            message: 'Error while attempting to logout',
+            error,
+          })
+          expect(sunco.forgetUser).toHaveBeenCalled()
         })
       })
     })
 
-    describe('when the appUserId does not exist', () => {
-      it('rejects the logout request with an error message', async () => {
+    describe('when we only have a jwt token', () => {
+      it('logs out and forgets the user', async () => {
         const sunco = createSunco()
         sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
           jwt: 'some-jwt-token',
         }))
+        sunco.forgetUser = jest.fn()
 
         const promise = sunco.logoutUser()
-        await expect(promise).rejects.toEqual({ message: 'No user to log out' })
+        await expect(promise).resolves.toBeUndefined()
+        expect(sunco.forgetUser).toHaveBeenCalled()
       })
     })
 
-    describe('when either the jwt does not exist', () => {
-      it('rejects the logout request with an error message', async () => {
+    describe('when we only have an appUserId', () => {
+      it('logs out and forgets the user', async () => {
         const sunco = createSunco()
         sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
-          appUserId: 'test-appuser-id',
+          appUserId: 'app-user-id',
         }))
+        sunco.forgetUser = jest.fn()
 
         const promise = sunco.logoutUser()
-        await expect(promise).rejects.toEqual({ message: 'No user to log out' })
+        await expect(promise).resolves.toBeUndefined()
+        expect(sunco.forgetUser).toHaveBeenCalled()
       })
     })
 
     describe('when both the appUserId and jwt does not exist', () => {
-      it('rejects the logout request with an error message', async () => {
+      it('logs out and forgets the user', async () => {
         const sunco = createSunco()
-        sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
-          appUserId: null,
-          jwt: null,
-        }))
+        sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({}))
+        sunco.forgetUser = jest.fn()
 
         const promise = sunco.logoutUser()
-        await expect(promise).rejects.toEqual({ message: 'No user to log out' })
-      })
-    })
-
-    describe('when the logout call fails', () => {
-      it('rejects the logout request with an error message', async () => {
-        const sunco = createSunco()
-        sunco.user.getCurrentAppUserIfAny = jest.fn().mockImplementation(() => ({
-          appUserId: 'test-appuser-id',
-          jwt: 'some-jwt-token',
-        }))
-        const error = new Error('Error while attempting to logout')
-        sunco.appUsers.logout = jest.fn().mockRejectedValueOnce(error)
-
-        const promise = sunco.logoutUser()
-        await expect(promise).rejects.toEqual({
-          message: 'Error while attempting to logout',
-          error,
-        })
+        await expect(promise).resolves.toBeUndefined()
+        expect(sunco.forgetUser).toHaveBeenCalled()
       })
     })
   })
