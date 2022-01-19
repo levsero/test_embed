@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Nosūtīt",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "{{fileUploadCountLimit}} failu ierobežojums katrā augšupielādē. Pieskarieties, lai mēģinātu vēlreiz.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Failiem ir jābūt {{fileUploadSizeLimitInMb}} MB vai mazākiem",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Atvērt attēlu jaunā cilnē",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Atvērt jaunā cilnē",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Pieskarieties, lai mēģinātu vēlreiz",
       "embeddable_framework.messenger.file_upload.upload_button": "Augšupielādēt failu",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Poga, lai palaistu ziņojumapmaiņas logu",
       "embeddable_framework.messenger.launcher_label.close": "Aizvērt",
       "embeddable_framework.messenger.launcher_label.frame.title": "Ziņojums no uzņēmuma",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Atvērt jaunā cilnē",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Nosūtīts",
       "embeddable_framework.messenger.see_latest": "Skatīt jaunāko",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} raksta...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Nelasīto ziņojumu skaits"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Nelasīto ziņojumu skaits",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "ส่ง",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "จํากัดจำนวนไฟล์อัปโหลด {{fileUploadCountLimit}} ไฟล์ต่อครั้ง แตะเพื่อลองอีกครั้ง",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "ไฟล์ต้องมีขนาด {{fileUploadSizeLimitInMb}} MB หรือน้อยกว่า",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "เปิดรูปในแท็บใหม่",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "เปิดในแท็บใหม่",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "แตะเพื่อลองอีกครั้ง",
       "embeddable_framework.messenger.file_upload.upload_button": "อัปโหลดไฟล์",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "ปุ่มเพื่อเปิดใช้หน้าต่างการส่งข้อความ",
       "embeddable_framework.messenger.launcher_label.close": "ปิด",
       "embeddable_framework.messenger.launcher_label.frame.title": "ข้อความจากบริษัท",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "เปิดในแท็บใหม่",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "ส่งแล้ว",
       "embeddable_framework.messenger.see_latest": "ดูล่าสุด",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} กำลังพิมพ์...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "จำนวนข้อความที่ยังไม่ได้อ่าน"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "จำนวนข้อความที่ยังไม่ได้อ่าน",
+      "embeddable_framework.messenger.unread_message_divider.new": "ใหม่"
     }
   }
 }

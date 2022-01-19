@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "إرسال",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "حد يبلغ {{fileUploadCountLimit}} ملف (ملفات) لكل تحميل. اضغط لإعادة المحاولة.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "يجب أن يكون حجم الملفات{{fileUploadSizeLimitInMb}} ميجابايت أو أقل",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "فتح الصورة في علامة تبويب جديدة",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "الفتح في علامة تبويب جديدة",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "اضغط لإعادة المحاولة",
       "embeddable_framework.messenger.file_upload.upload_button": "تحميل ملف",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "زر إطلاق نافذة المراسلة",
       "embeddable_framework.messenger.launcher_label.close": "إغلاق",
       "embeddable_framework.messenger.launcher_label.frame.title": "رسالة من الشركة",
+      "embeddable_framework.messenger.message.avatar": "الصورة التمثيلية",
       "embeddable_framework.messenger.message.file.download": "فتح في علامة تبويب جديدة",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} كيلوبايت",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} ميجابايت",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "تم الإرسال",
       "embeddable_framework.messenger.see_latest": "معاينة أحدث الرسائل",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} يكتب...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "عدد الرسائل غير المقروءة"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "عدد الرسائل غير المقروءة",
+      "embeddable_framework.messenger.unread_message_divider.new": "جديد"
     }
   }
 }

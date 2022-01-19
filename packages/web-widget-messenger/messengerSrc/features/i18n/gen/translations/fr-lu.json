@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Envoyer",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limite de {{fileUploadCountLimit}} fichiers par chargement. Appuyez pour réessayer.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Les fichiers ne doivent pas dépasser {{fileUploadSizeLimitInMb}} Mo",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Ouvrez l’image dans un nouvel onglet",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Ouvrir dans un nouvel onglet",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Appuyer pour réessayer",
       "embeddable_framework.messenger.file_upload.upload_button": "Charger un fichier",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Bouton de lancement de la fenêtre de messagerie",
       "embeddable_framework.messenger.launcher_label.close": "Fermer",
       "embeddable_framework.messenger.launcher_label.frame.title": "Message de la compagnie",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Ouvrir dans un nouvel onglet",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} ko",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} Mo",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Envoyé",
       "embeddable_framework.messenger.see_latest": "Afficher les plus récents",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} est en train de taper...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Nombre de messages non lus"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Nombre de messages non lus",
+      "embeddable_framework.messenger.unread_message_divider.new": "Nouveau"
     }
   }
 }

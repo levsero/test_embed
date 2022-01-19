@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Ipadala",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "May limitasyon na {{fileUploadCountLimit}} (na) file bawat upload. I-tap para subukan muli.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Ang mga file ay dapat na {{fileUploadSizeLimitInMb}} MB o mas mababa",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Buksan ang larawan sa bagong tab",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Buksan sa bagong tab",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "I-tap para subukan muli",
       "embeddable_framework.messenger.file_upload.upload_button": "Mag-upload ng file",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Button para buksan ang window ng pagmensahe",
       "embeddable_framework.messenger.launcher_label.close": "Isara",
       "embeddable_framework.messenger.launcher_label.frame.title": "Mensahe mula sa kompanya",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Buksan sa bagong tab",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Naipadala",
       "embeddable_framework.messenger.see_latest": "Tingnan ang pinakabago",
       "embeddable_framework.messenger.typing_indicator.single": "Nagta-type si {{name}}...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Bilang ng hindi pa nababasang mensahe"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Bilang ng hindi pa nababasang mensahe",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

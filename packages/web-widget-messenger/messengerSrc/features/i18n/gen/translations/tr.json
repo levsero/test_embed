@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Gönder",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Yükleme başına {{fileUploadCountLimit}} dosya sınırı. Yeniden denemek için buraya dokunun.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Dosyalar {{fileUploadSizeLimitInMb}} MB veya daha küçük olmalıdır ",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Resmi yeni sekmede aç",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Yeni sekmede aç",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Yeniden denemek için dokunun",
       "embeddable_framework.messenger.file_upload.upload_button": "Dosya yükle",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Mesajlaşma penceresini başlatma düğmesi",
       "embeddable_framework.messenger.launcher_label.close": "Kapat",
       "embeddable_framework.messenger.launcher_label.frame.title": "Şirketten mesaj",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Yeni bir sekmede aç",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Gönderildi",
       "embeddable_framework.messenger.see_latest": "En sonuncuyu görün",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} yazıyor...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Okunmamış mesaj sayısı"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Okunmamış mesaj sayısı",
+      "embeddable_framework.messenger.unread_message_divider.new": "Yeni"
     }
   }
 }

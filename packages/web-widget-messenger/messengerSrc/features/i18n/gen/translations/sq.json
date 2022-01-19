@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Dërgo",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Kufi prej {{fileUploadCountLimit}} skedarësh për çdo ngarkim. Prek për të riprovuar.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Skedarët duhet të jenë {{fileUploadSizeLimitInMb}} MB ose më pak",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Hap imazhin në një skedë të re",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Hap në një skedë të re",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Prek për të riprovuar",
       "embeddable_framework.messenger.file_upload.upload_button": "Ngarko skedar",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Butoni për hapjen e dritares së dërgimit të mesazheve",
       "embeddable_framework.messenger.launcher_label.close": "Mbyll",
       "embeddable_framework.messenger.launcher_label.frame.title": "Mesazh nga shoqëria",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Hap në një skedë të re",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "U dërgua",
       "embeddable_framework.messenger.see_latest": "Shih më të fundit",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} po shkruan...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Numri i mesazheve të palexuara"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Numri i mesazheve të palexuara",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

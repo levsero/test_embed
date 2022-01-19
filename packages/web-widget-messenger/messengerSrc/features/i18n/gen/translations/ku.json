@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Şandin ",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Sinora {{fileUploadCountLimit}} faylan ji bo her barkirinek. Ji bo dîsa cerîbandin bigire.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Endazeya fayl dibe {{fileUploadSizeLimitInMb}} MB an kêmtir be",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Wêne di nave tebeke nû vebike",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Tebeke nû vebike",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Ji bo cerîbandina dûcarî bitikîne",
       "embeddable_framework.messenger.file_upload.upload_button": "Fayl bar bike",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Bişkok ji bo şandina pencereya peyamdanan",
       "embeddable_framework.messenger.launcher_label.close": "Daxistin",
       "embeddable_framework.messenger.launcher_label.frame.title": "Peyam ji bo kompanya",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Di tebeke nû vebike",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Hate şandin",
       "embeddable_framework.messenger.see_latest": "Dawîn bibîne",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} dinivîsîne…",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Hejmara peyamên nexwendî"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Hejmara peyamên nexwendî",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

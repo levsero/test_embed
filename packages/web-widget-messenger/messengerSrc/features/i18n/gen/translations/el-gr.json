@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Αποστολή",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Όριο {{fileUploadCountLimit}} αρχείων ανά αποστολή. Πατήστε για να προσπαθήσετε ξανά.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Το μέγεθος των αρχείων πρέπει να είναι {{fileUploadSizeLimitInMb}} MB ή μικρότερο",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Άνοιγμα εικόνας σε νέα καρτέλα",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Άνοιγμα σε νέα καρτέλα",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Πατήστε για επανάληψη",
       "embeddable_framework.messenger.file_upload.upload_button": "Αποστολή αρχείου",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Κουμπί για την εκκίνηση του παραθύρου ανταλλαγής μηνυμάτων",
       "embeddable_framework.messenger.launcher_label.close": "Κλείσιμο",
       "embeddable_framework.messenger.launcher_label.frame.title": "Μήνυμα από εταιρεία",
+      "embeddable_framework.messenger.message.avatar": "Εικονικός χαρακτήρας",
       "embeddable_framework.messenger.message.file.download": "Άνοιγμα σε νέα καρτέλα",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Εστάλη",
       "embeddable_framework.messenger.see_latest": "Εμφάνιση πιο πρόσφατων",
       "embeddable_framework.messenger.typing_indicator.single": "Ο χρήστης {{name}} πληκτρολογεί...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Αριθμός μη αναγνωσμένων μηνυμάτων"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Αριθμός μη αναγνωσμένων μηνυμάτων",
+      "embeddable_framework.messenger.unread_message_divider.new": "Νέο"
     }
   }
 }

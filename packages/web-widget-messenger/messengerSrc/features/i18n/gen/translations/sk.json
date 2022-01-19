@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Odoslať",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limit je {{fileUploadCountLimit}} súborov na nahrávanie. Ťuknite pre opakovanie.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Veľkosť súborov musí byť maximálne {{fileUploadSizeLimitInMb}} MB",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Otvoriť obrázok na novej karte",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Otvoriť na novej karte",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Ťuknite pre opakovanie",
       "embeddable_framework.messenger.file_upload.upload_button": "Nahrať súbor",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Tlačidlo na spustenie okna správ",
       "embeddable_framework.messenger.launcher_label.close": "Zatvoriť",
       "embeddable_framework.messenger.launcher_label.frame.title": "Správa od spoločnosti",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Otvoriť na novej karte",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Poslané",
       "embeddable_framework.messenger.see_latest": "Zobraziť posledné",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} práve píše...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Počet neprečítaných správ"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Počet neprečítaných správ",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

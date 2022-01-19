@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Kirim",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Batas {{fileUploadCountLimit}} file per unggahan. Sentuh untuk mencoba lagi.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "File harus {{fileUploadSizeLimitInMb}} MB atau kurang",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Buka gambar di tab baru",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Buka dalam tab baru",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Ketuk untuk mencoba lagi",
       "embeddable_framework.messenger.file_upload.upload_button": "Unggah file",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Tombol untuk meluncurkan jendela pesan",
       "embeddable_framework.messenger.launcher_label.close": "Tutup",
       "embeddable_framework.messenger.launcher_label.frame.title": "Pesan dari perusahaan",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Buka dalam satu tab baru",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Terkirim",
       "embeddable_framework.messenger.see_latest": "Lihat yang terbaru",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} sedang mengetik...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Jumlah pesan yang belum dibaca"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Jumlah pesan yang belum dibaca",
+      "embeddable_framework.messenger.unread_message_divider.new": "Baru"
     }
   }
 }

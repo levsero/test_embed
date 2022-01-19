@@ -40,7 +40,7 @@ const defaultLabels = {
     continueOnChannel: (name) => `Continue on ${name}`,
   },
   otherParticipantLayout: {
-    avatarAltTag: 'Agent avatar',
+    avatarAltTag: 'Avatar',
   },
   notification: {
     connectError: "Couldn't connect. Try again.",

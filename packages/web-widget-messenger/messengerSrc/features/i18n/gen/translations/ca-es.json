@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Envia",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Límit de {{fileUploadCountLimit}} fitxers per pujada. Toqueu per tornar-ho a provar.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Els fitxers han de ser de {{fileUploadSizeLimitInMb}} MB com a màxim",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Obre la imatge en una pestanya nova",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Obre-ho en una pestanya nova",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Toqueu per tornar-ho a provar",
       "embeddable_framework.messenger.file_upload.upload_button": "Penja un fitxer",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Botó per iniciar la finestra de missatges",
       "embeddable_framework.messenger.launcher_label.close": "Tanca",
       "embeddable_framework.messenger.launcher_label.frame.title": "Missatge de l’empresa",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Obre en una pestanya nova",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Enviat",
       "embeddable_framework.messenger.see_latest": "Mostra els darrers",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} està escrivint...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Nombre de missatges sense llegir"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Nombre de missatges sense llegir",
+      "embeddable_framework.messenger.unread_message_divider.new": "Nuevo"
     }
   }
 }

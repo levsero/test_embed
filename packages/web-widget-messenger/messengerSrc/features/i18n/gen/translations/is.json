@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Senda",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Takmarkað við {{fileUploadCountLimit}} skrár fyrir hvert upphal. Bankaðu til að reyna aftur.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Skrár verða að vea {{fileUploadSizeLimitInMb}} MB eða minni",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Opna mynd í nýjum flipa",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Opna í nýjum flipa",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Bankaðu til að reyna aftur",
       "embeddable_framework.messenger.file_upload.upload_button": "Hala upp skrá",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Hnappur til að ræsa skilaboðaglugga",
       "embeddable_framework.messenger.launcher_label.close": "Loka",
       "embeddable_framework.messenger.launcher_label.frame.title": "Skilaboð frá fyrirtæki",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Opna í nýjum flipa",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Sent",
       "embeddable_framework.messenger.see_latest": "Sjá nýjasta",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} er að rita…",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Fjöldi ólesinna skilaboða"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Fjöldi ólesinna skilaboða",
+      "embeddable_framework.messenger.unread_message_divider.new": "New"
     }
   }
 }

@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Gửi",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Giới hạn {{fileUploadCountLimit}} tập tin cho mỗi lần tải lên. Gõ vào để thử lại.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Tập tin phải là {{fileUploadSizeLimitInMb}} MB hoặc nhỏ hơn",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Mở ảnh trong một tab mới",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Mở trong tab mới",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Gõ để thử lại",
       "embeddable_framework.messenger.file_upload.upload_button": "Tải lên tập tin",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Nút để khởi chạy cửa sổ nhắn tin",
       "embeddable_framework.messenger.launcher_label.close": "Đóng",
       "embeddable_framework.messenger.launcher_label.frame.title": "Tin nhắn từ công ty",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Mở trong tab mới",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Đã gửi",
       "embeddable_framework.messenger.see_latest": "Xem tin nhắn mới nhất",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} đang nhập...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Số lượng tin nhắn chưa đọc"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Số lượng tin nhắn chưa đọc",
+      "embeddable_framework.messenger.unread_message_divider.new": "Mới"
     }
   }
 }

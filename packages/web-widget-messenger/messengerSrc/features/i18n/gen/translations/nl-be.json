@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Verzenden",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Limiet van {{fileUploadCountLimit}} bestanden per upload. Tik om het opnieuw te proberen.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Bestanden moeten {{fileUploadSizeLimitInMb}} MB of minder zijn",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Afbeelding openen op nieuw tabblad",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Openen in nieuw tabblad",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Tik om het opnieuw te proberen",
       "embeddable_framework.messenger.file_upload.upload_button": "Bestand uploaden",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Knop om het berichtenvenster te openen",
       "embeddable_framework.messenger.launcher_label.close": "Sluiten",
       "embeddable_framework.messenger.launcher_label.frame.title": "Bericht van bedrijf",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "Openen in een nieuw tabblad",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} kB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Verzonden",
       "embeddable_framework.messenger.see_latest": "Nieuwste bekijken",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} is aan het typen...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Aantal ongelezen berichten"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Aantal ongelezen berichten",
+      "embeddable_framework.messenger.unread_message_divider.new": "Nieuw"
     }
   }
 }

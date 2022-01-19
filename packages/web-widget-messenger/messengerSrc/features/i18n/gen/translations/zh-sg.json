@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "发送",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "上限为每次上传 {{fileUploadCountLimit}} 个文件。点击以重试。",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "文件必须小于或等于 {{fileUploadSizeLimitInMb}} MB",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "在新标签中打开图像",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "在新标签中打开",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "点击以重试",
       "embeddable_framework.messenger.file_upload.upload_button": "上传文件",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "启动消息传送窗口的按钮",
       "embeddable_framework.messenger.launcher_label.close": "关闭",
       "embeddable_framework.messenger.launcher_label.frame.title": "来自公司的消息",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "在新的标签页中打开",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} 千字节",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} 兆字节",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "已发送",
       "embeddable_framework.messenger.see_latest": "查看最新的",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} 正在输入……",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "未读消息的数量"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "未读消息的数量",
+      "embeddable_framework.messenger.unread_message_divider.new": "新建"
     }
   }
 }

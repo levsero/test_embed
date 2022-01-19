@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "送信",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "一度にアップロードできるファイルは{{fileUploadCountLimit}}個までです。タップしてもう一度やり直してください。",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "ファイルは{{fileUploadSizeLimitInMb}}MB以下でなければなりません",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "新しいタブで画像を開く",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "新しいタブで開く",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "タップして再試行する",
       "embeddable_framework.messenger.file_upload.upload_button": "ファイルのアップロード",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "メッセージングウィンドウを開くボタン",
       "embeddable_framework.messenger.launcher_label.close": "終了する",
       "embeddable_framework.messenger.launcher_label.frame.title": "会社からのメッセージ",
+      "embeddable_framework.messenger.message.avatar": "Avatar",
       "embeddable_framework.messenger.message.file.download": "新しいタブで開く",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}}KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}}MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "送信済み",
       "embeddable_framework.messenger.see_latest": "最新メッセージを見る",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}}さんが入力中です...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "未読メッセージ数"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "未読メッセージ数",
+      "embeddable_framework.messenger.unread_message_divider.new": "新規"
     }
   }
 }

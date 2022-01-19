@@ -47,14 +47,13 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "שלח",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "הגבלה ששל {{fileUploadCountLimit}} קבצים לכל העלאה. הקש לניסיון נוסף.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "קבצים חייבים להיות בגודל {{fileUploadSizeLimitInMb}} MB או פחות",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "פתח תמונה בכרטיסיה חדשה",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "פתח בלשונית חדשה",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "הקש לניסיון נוסף",
       "embeddable_framework.messenger.file_upload.upload_button": "העלה קובץ",
       "embeddable_framework.messenger.frame.title": "חלון הודעות הטקסט",
       "embeddable_framework.messenger.header.close": "סגור",
       "embeddable_framework.messenger.header.company_logo": "לוגו החברה",
-      "embeddable_framework.messenger.header.menu.continue_on_instagram": "המשך ב- Instagram",
+      "embeddable_framework.messenger.header.menu.continue_on_instagram": "המשך ב-Instagram",
       "embeddable_framework.messenger.header.menu.continue_on_messenger": "המשך ב-Messenger",
       "embeddable_framework.messenger.header.menu.continue_on_whatsapp": "המשך ב-WhatsApp",
       "embeddable_framework.messenger.initial_conversation_request_failed": "לא הצלחנו לטעון את ההודעות",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "לחצן לפתיחת חלון הודעות הטקסט",
       "embeddable_framework.messenger.launcher_label.close": "סגור",
       "embeddable_framework.messenger.launcher_label.frame.title": "הודעה מהחברה",
+      "embeddable_framework.messenger.message.avatar": "אווטאר",
       "embeddable_framework.messenger.message.file.download": "פתח בלשונית חדשה",
       "embeddable_framework.messenger.message.file.size_in_kb": "‎‎{{size}} KB‎",
       "embeddable_framework.messenger.message.file.size_in_mb": "‎‎{{size}} MB‎",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "נשלחה",
       "embeddable_framework.messenger.see_latest": "הצג אחרונה",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} מקליד/ה...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "מספר ההודעות שלא נקראו"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "מספר ההודעות שלא נקראו",
+      "embeddable_framework.messenger.unread_message_divider.new": "חדש"
     }
   }
 }

@@ -47,7 +47,6 @@
       "embeddable_framework.messenger.file_upload.drag_drop_overlay_text": "Изпращане",
       "embeddable_framework.messenger.file_upload.error.file_count_limit": "Ограничение от {{fileUploadCountLimit}} файла за качване. Натиснете за повторен опит.",
       "embeddable_framework.messenger.file_upload.error.file_size_limit": "Файловете трябва да са {{fileUploadSizeLimitInMb}} MB или по-малко",
-      "embeddable_framework.messenger.file_upload.open_image_in_new_tab": "Отваряне на изображението в нов раздел",
       "embeddable_framework.messenger.file_upload.open_image_in_new_tab_v2": "Отваряне в нов раздел",
       "embeddable_framework.messenger.file_upload.tap_to_retry": "Докоснете за нов опит",
       "embeddable_framework.messenger.file_upload.upload_button": "Качване на файл",
@@ -64,6 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Бутон за стартиране на прозореца за текстови съобщения",
       "embeddable_framework.messenger.launcher_label.close": "Затваряне",
       "embeddable_framework.messenger.launcher_label.frame.title": "Съобщение от компанията",
+      "embeddable_framework.messenger.message.avatar": "Аватар",
       "embeddable_framework.messenger.message.file.download": "Отваряне в нов раздел",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} kB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",
@@ -87,7 +87,8 @@
       "embeddable_framework.messenger.receipt.sent": "Изпратено",
       "embeddable_framework.messenger.see_latest": "Към най-новите",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} пише в момента...",
-      "embeddable_framework.messenger.unread_indicator.frame.title": "Брой непрочетени съобщения"
+      "embeddable_framework.messenger.unread_indicator.frame.title": "Брой непрочетени съобщения",
+      "embeddable_framework.messenger.unread_message_divider.new": "Нови"
     }
   }
 }
