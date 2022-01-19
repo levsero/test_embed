@@ -236,6 +236,7 @@ export default class Sunco {
   }
 
   forgetUser() {
+    this._activeConversation?.stopConversation()
     this.user.removeAppUser()
   }
 
@@ -301,6 +302,8 @@ export default class Sunco {
           resolve({ hasExternalIdChanged })
         })
         .catch((error) => {
+          this.forgetUser()
+
           reject({ message: 'Error while attempting to login', error })
         })
     })
@@ -314,15 +317,16 @@ export default class Sunco {
         this.appUsers
           .logout(appUserId)
           .then(() => {
-            this._activeConversation?.stopConversation()
             this.forgetUser()
             resolve()
           })
           .catch((error) => {
+            this.forgetUser()
             reject({ message: 'Error while attempting to logout', error })
           })
       } else {
-        reject({ message: 'No user to log out' })
+        this.forgetUser()
+        resolve()
       }
     })
   }
