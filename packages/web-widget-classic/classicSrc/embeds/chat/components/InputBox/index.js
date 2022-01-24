@@ -1,9 +1,8 @@
-import { TEST_IDS } from 'classicSrc/constants/shared'
-import useTranslate from 'classicSrc/hooks/useTranslate'
-import { keyCodes } from 'classicSrc/util/keyboard'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 import { Field } from '@zendeskgarden/react-forms'
+import { TEST_IDS } from 'classicSrc/constants/shared'
+import useOnMultilineSubmit from 'classicSrc/hooks/useOnMultilineSubmit'
+import useTranslate from 'classicSrc/hooks/useTranslate'
 import { Container, HiddenLabel, StyledTextarea } from './styles'
 
 const InputBox = ({
@@ -15,19 +14,12 @@ const InputBox = ({
   onBlur,
 }) => {
   const translate = useTranslate()
-
-  // event.nativeEvent.isComposing and isComposing flag are used
-  // to support composing text in foreign languages across browsers.
-  const [isComposing, setIsComposing] = useState(false)
-  const handleKeyUp = () => setIsComposing(false)
-  const handleCompositionEnd = () => setIsComposing(true)
-
-  const handleKeyDown = (e) => {
-    if (e.key === keyCodes.ENTER && !e.shiftKey && !e.nativeEvent.isComposing && !isComposing) {
-      e.preventDefault()
-      sendChat()
-    }
-  }
+  const {
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleKeyDown,
+    handleKeyUp,
+  } = useOnMultilineSubmit(sendChat)
 
   const handleChange = (e) => {
     const { value } = e.target
@@ -45,6 +37,7 @@ const InputBox = ({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onKeyUp={handleKeyUp}
+          onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}
           placeholder={placeholder}
           name="chatBox"
