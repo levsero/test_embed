@@ -27,6 +27,7 @@ class AppUser {
 
     if (this.jwt || this.getJWT) {
       return {
+        ...(sessionToken && { sessionToken }),
         appUserId,
         clientId,
         jwt: this.jwt,
@@ -57,6 +58,10 @@ class AppUser {
     if (jwt) {
       this.jwt = jwt
     }
+  }
+
+  clearSessionToken() {
+    storage.removeItem(`${this.integrationId}.sessionToken`)
   }
 
   removeAppUser() {

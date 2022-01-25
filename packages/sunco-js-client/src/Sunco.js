@@ -294,6 +294,8 @@ export default class Sunco {
           this.user.updateAppUser({
             appUserId: response.body.appUser._id,
           })
+          this.user.clearSessionToken()
+
           if (response.body.appUser.conversationStarted) {
             this.setActiveConversationFromResponse(response)
           } else {
