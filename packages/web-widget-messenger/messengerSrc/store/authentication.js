@@ -6,7 +6,7 @@ import {
   hasExistingConversation,
 } from 'messengerSrc/api/sunco'
 import { startConversation } from 'messengerSrc/features/suncoConversation/store'
-import { userLoggedOut } from './actions'
+import { userLoggedOut, userLoggedIn } from './actions'
 
 const loginUser = createAsyncThunk('authentication/loginUser', (getJWTFn, { dispatch }) => {
   loginUserSunco(getJWTFn)
@@ -15,6 +15,7 @@ const loginUser = createAsyncThunk('authentication/loginUser', (getJWTFn, { disp
         dispatch(userLoggedOut())
       }
       if (hasExistingConversation()) {
+        dispatch(userLoggedIn())
         dispatch(startConversation())
       }
     })
