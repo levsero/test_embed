@@ -1,13 +1,14 @@
 import { cookiesDisabled } from 'messengerSrc/store/cookies'
-import { userLoggedOut } from '../store/actions'
+import { userLoggedIn, userLoggedOut } from '../store/actions'
 
 const resettableActions = {
   [cookiesDisabled.pending]: true,
   [userLoggedOut]: true,
+  [userLoggedIn]: true,
 }
 
-const createResettableReducer = (reducer) => (state, action) => {
-  if (resettableActions[action.type]) {
+const createResettableReducer = (reducer, options) => (state, action) => {
+  if (resettableActions[action.type] && !options?.excludeActions?.includes(action.type)) {
     return reducer(undefined, action)
   }
 

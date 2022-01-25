@@ -44,7 +44,7 @@ const createStore = () => {
     },
 
     reducer: combineReducers({
-      visibility: createResettableReducer(visibility),
+      visibility: createResettableReducer(visibility, { excludeActions: ['userLoggedIn'] }),
       i18n,
       responsiveDesign,
       onlineStatus,
@@ -54,7 +54,9 @@ const createStore = () => {
       forms: createResettableReducer(forms),
       launcherLabel: combineReducers({
         config: launcherLabelConfig,
-        visibility: createResettableReducer(launcherLabelVisibility),
+        visibility: createResettableReducer(launcherLabelVisibility, {
+          excludeActions: ['userLoggedIn'],
+        }),
       }),
       typingIndicators: createResettableReducer(typingIndicators),
       unreadIndicator: createResettableReducer(unreadIndicator),

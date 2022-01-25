@@ -20,12 +20,14 @@ describe('integration store', () => {
         jest.spyOn(suncoApi, 'hasExistingAppUser').mockImplementation(() => true)
         jest.spyOn(suncoApi, 'hasExistingConversation').mockImplementation(() => true)
         jest.spyOn(conversationStore, 'startConversation')
+        jest.spyOn(actions, 'userLoggedIn')
 
         const store = createStore()
         store.dispatch(authentication.loginUser(getJWTFn))
 
         expect(suncoApi.loginUser).toHaveBeenCalledWith(getJWTFn)
         await waitFor(() => expect(conversationStore.startConversation).toHaveBeenCalledTimes(1))
+        expect(actions.userLoggedIn).toHaveBeenCalled()
       })
       it('does not start a new conversation if the user has an existing conversation', async () => {
         jest.spyOn(suncoApi, 'loginUser').mockImplementation(async () => {})
