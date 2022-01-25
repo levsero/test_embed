@@ -45,9 +45,12 @@ class AppUsersApi extends BaseApi {
   }
 
   login(appUserId, externalId) {
+    const { sessionToken } = this.user.getCurrentAppUserIfAny()
     const data = {
       client: this.getClientInfo(),
       userId: externalId,
+      integrationId: this.integrationId,
+      sessionToken,
     }
 
     if (appUserId) {

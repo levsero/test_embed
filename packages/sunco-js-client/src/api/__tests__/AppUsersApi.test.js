@@ -11,6 +11,7 @@ describe('AppUsersApi', () => {
         getCurrentAppUserIfAny: jest.fn().mockImplementation(() => ({
           appUserId: undefined,
           clientId: 'client-id',
+          sessionToken: 'session-token',
         })),
       },
     })
@@ -29,6 +30,8 @@ describe('AppUsersApi', () => {
         expect.objectContaining({
           data: expect.objectContaining({
             userId: '123456',
+            sessionToken: 'session-token',
+            integrationId: 'integration-id',
           }),
           method: 'POST',
           path: `/v2/apps/app-id/login`,

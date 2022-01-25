@@ -34,11 +34,13 @@ describe('User', () => {
           clientId: 'client-id',
           getJWT: mockGetJWTFn,
           externalId: '123456',
+          sessionToken: 'session-token',
         })
 
         const result = user.getCurrentAppUserIfAny()
 
         expect(result).toEqual({
+          sessionToken: 'session-token',
           clientId: 'client-id',
           appUserId: 'app-user',
           jwt: 'some-jwt',
@@ -125,6 +127,18 @@ describe('User', () => {
     })
   })
 
+  describe('clearSessionToken', () => {
+    it('removes the session token', () => {
+      const user = new AppUser({ integrationId: '123' })
+      user.updateAppUser({
+        sessionToken: 'session-token',
+      })
+
+      user.clearSessionToken()
+
+      expect(storage.getItem(`123.sessionId`)).toBe(undefined)
+    })
+  })
   describe('removeAppUser', () => {
     it('removes all user data from storage', () => {
       const user = new AppUser({ integrationId: '123' })
