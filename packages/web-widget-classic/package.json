@@ -11,7 +11,7 @@
   "scripts": {
     "build:version:generate": "mkdir -p dist && git rev-parse --short HEAD > ./dist/VERSION_HASH",
     "build:version:clean": "rm -rf ./dist/VERSION_HASH",
-    "build": "NODE_ENV=production npm run build:version:generate && webpack  --config ./webpack.prod.config.js",
+    "build": "NODE_ENV=production yarn run build:version:generate && webpack  --config ./webpack.prod.config.js",
     "dev": "NODE_ENV=development yarn run build:version:generate &&  webpack serve",
     "test": "jest",
     "e2e:server": "NODE_ENV=e2e webpack serve --config ./webpack.e2e.config.js"

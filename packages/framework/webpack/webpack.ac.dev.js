@@ -147,7 +147,8 @@ module.exports = () => {
     )
     webpackConfig.target = 'web'
     webpackConfig.devServer.hot = true
-    runDashboard()
+    const useFederatedWidgets = process.env.USE_MODULE_FEDERATION
+    runDashboard(useFederatedWidgets)
   }
 
   return webpackConfig

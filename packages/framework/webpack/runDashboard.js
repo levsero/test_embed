@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const spawn = require('child_process').spawn
 
-const runDashboard = () => {
+const runDashboard = (useFederatedWidgets = false) => {
   const zendeskCodePath = process.env.ZENDESK_CODE_DIR || path.resolve(__dirname, '../')
 
   const dashboardPath = path.resolve(zendeskCodePath, 'widget-developer-dashboard')
@@ -17,32 +17,35 @@ const runDashboard = () => {
     )
   }
 
-  const messengerServer = spawn(
-    `cd ${frameworkPath} && yarn workspace @zendesk/web-widget-messenger dev`,
-    {
-      shell: true,
-    }
-  )
+  if (useFederatedWidgets) {
+    const messengerServer = spawn(
+      `cd ${frameworkPath} && yarn workspace @zendesk/web-widget-messenger dev`,
+      {
+        shell: true,
+      }
+    )
 
-  messengerServer.stdout.on('data', function (data) {
-    process.stdout.write(data, ' color: #008080')
-  })
-  messengerServer.stderr.on('data', function (data) {
-    process.stdout.write(data, ' color: #008080')
-  })
-  const classicServer = spawn(
-    `cd ${frameworkPath} && yarn workspace @zendesk/web-widget-classic dev`,
-    {
-      shell: true,
-    }
-  )
+    messengerServer.stdout.on('data', function (data) {
+      process.stdout.write(data)
+    })
+    messengerServer.stderr.on('data', function (data) {
+      process.stdout.write(data)
+    })
 
-  classicServer.stdout.on('data', function (data) {
-    process.stdout.write(data, 'color: #FFA500')
-  })
-  classicServer.stderr.on('data', function (data) {
-    process.stdout.write(data, 'color: #FFA500')
-  })
+    const classicServer = spawn(
+      `cd ${frameworkPath} && yarn workspace @zendesk/web-widget-classic dev`,
+      {
+        shell: true,
+      }
+    )
+
+    classicServer.stdout.on('data', function (data) {
+      process.stdout.write(data)
+    })
+    classicServer.stderr.on('data', function (data) {
+      process.stdout.write(data)
+    })
+  }
 
   const child = spawn(`cd ${dashboardPath} && yarn start`, {
     shell: true,

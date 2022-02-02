@@ -2,35 +2,9 @@ import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
 import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import { isBlacklisted } from 'src/framework/isBlacklisted'
+import injectModule from './utils/injectModule'
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
-
-const loadWidget = async (url, webpackModuleName, scope) => {
-  await new Promise((resolve, reject) => {
-    const element = document.createElement('script')
-
-    element.src = url
-    element.type = 'text/javascript'
-    element.async = true
-
-    element.onload = () => {
-      element.parentElement.removeChild(element)
-      resolve()
-    }
-    element.onerror = (error) => {
-      element.parentElement.removeChild(element)
-      reject(error)
-    }
-
-    document.head.appendChild(element)
-  })
-
-  const container = await window[webpackModuleName]
-
-  const factory = await container.get(scope)
-
-  return factory()
-}
 
 const start = async () => {
   try {
@@ -58,7 +32,7 @@ const start = async () => {
 
     if (config.messenger) {
       if (isFeatureEnabled(null, 'module_federation')) {
-        const messenger = await loadWidget(__MESSENGER_ENDPOINT__, 'messenger', '.')
+        const messenger = await injectModule(__MESSENGER_ENDPOINT__, 'messenger', '.')
 
         messenger.default.start(config, configLoadEnd)
       } else {
@@ -68,7 +42,7 @@ const start = async () => {
       }
     } else {
       if (isFeatureEnabled(null, 'module_federation')) {
-        const classic = await loadWidget(__CLASSIC_ENDPOINT__, 'classic', '.')
+        const classic = await injectModule(__CLASSIC_ENDPOINT__, 'classic', '.')
 
         classic.default.start(config, configLoadEnd)
       } else {
