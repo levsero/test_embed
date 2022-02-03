@@ -1,5 +1,4 @@
 import { logger } from '@zendesk/widget-shared-services'
-import { updateFeatures } from '@zendesk/widget-shared-services/feature-flags'
 import * as suncoApi from 'messengerSrc/api/sunco'
 import i18n from 'messengerSrc/features/i18n'
 import createStore from 'messengerSrc/store'
@@ -7,6 +6,11 @@ import * as authentication from 'messengerSrc/store/authentication'
 import * as cookies from 'messengerSrc/store/cookies'
 import { getIsWidgetOpen } from 'messengerSrc/store/visibility'
 import api from '../'
+
+const isFeatureEnabled = require('@zendesk/widget-shared-services/feature-flags').default
+isFeatureEnabled.mockImplementation(() => true) // web_widget_jwt_auth feature switch
+
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 describe('open', () => {
   it('opens the widget', () => {
@@ -58,15 +62,8 @@ describe('cookies', () => {
 })
 
 describe('loginUser', () => {
-  beforeEach(() => {
-    updateFeatures({
-      jwtAuth: true,
-    })
-  })
-
   it('logs a user in', () => {
     jest.spyOn(authentication, 'loginUser').mockReturnValue({ type: 'login user' })
-
     const store = createStore()
     store.dispatch = jest.fn()
     api(store).messenger.loginUser(() => {})
@@ -91,12 +88,6 @@ describe('loginUser', () => {
 })
 
 describe('logoutUser', () => {
-  beforeEach(() => {
-    updateFeatures({
-      jwtAuth: true,
-    })
-  })
-
   it('logs a user out', () => {
     jest.spyOn(authentication, 'logoutUser').mockReturnValue({ type: 'logout user' })
 

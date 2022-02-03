@@ -1,12 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { win } from '@zendesk/widget-shared-services'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 
 const useShouldDisableAnimations = () => {
-  const animationsDisabled = useSelector((state) =>
-    isFeatureEnabled(state, 'web_widget_messenger_animations_disabled')
-  )
+  const animationsDisabled = isFeatureEnabled('web_widget_messenger_animations_disabled')
 
   const [reduceMotion, setReduceMotion] = useState(
     Boolean(win.matchMedia('(prefers-reduced-motion: reduce)').matches)

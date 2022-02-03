@@ -1,10 +1,15 @@
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
-import { publicApi, persistence, win } from '@zendesk/widget-shared-services'
-import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
-import isFeatureEnabled, { updateFeatures } from '@zendesk/widget-shared-services/feature-flags'
-import { identity } from '@zendesk/widget-shared-services/identity'
+import {
+  publicApi,
+  identity,
+  persistence,
+  win,
+  errorTracker,
+  isFeatureEnabled,
+  updateFeatures,
+} from '@zendesk/widget-shared-services'
 import { hasExistingAppUser, setupSuncoClient } from 'messengerSrc/api/sunco'
 import App from 'messengerSrc/features/app'
 import { subscribeToI18n } from 'messengerSrc/features/i18n/store'
@@ -20,7 +25,7 @@ import trackNoMessageReceived from 'messengerSrc/utils/trackNoMessageReceived'
 
 const init = async ({ config }) => {
   if (__DEV__) {
-    if (isFeatureEnabled(undefined, 'dev_override_sunco')) {
+    if (isFeatureEnabled('dev_override_sunco')) {
       config.messenger.appId = window.top.dashboardConfig.customSunco.appId
       config.messenger.integrationId = window.top.dashboardConfig.customSunco.integrationId
     }
@@ -28,7 +33,7 @@ const init = async ({ config }) => {
 
   updateFeatures(config.features)
 
-  if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
+  if (isFeatureEnabled('log_all_messenger_errors')) {
     errorTracker.logOneOutOfXErrors(1)
   }
   if (config?.messenger?.conversationHistory === 'remember') {

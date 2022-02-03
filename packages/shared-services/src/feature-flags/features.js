@@ -9,10 +9,25 @@ export const updateFeatures = (updatedFeatures) => {
 }
 
 const featureConfig = {
+  web_widget_reduce_blipping: {
+    defaultValue: false,
+    getArturoValue: () => features.reduceBlipping,
+  },
+  web_widget_throttle_identify: {
+    defaultValue: false,
+    getArturoValue: () => features.throttleIdentify,
+  },
+  web_widget_disable_status_polling: {
+    defaultValue: false,
+    getArturoValue: () => features.disableStatusPolling,
+  },
+  web_widget_customizations: {
+    defaultValue: false,
+    getArturoValue: () => features.webWidgetCustomizations,
+  },
   web_widget_prechat_form_visible_departments: {
     defaultValue: false,
-    getArturoValue: (state) =>
-      state.base?.embeddableConfig?.embeds?.chat?.props?.webWidgetPrechatFormVisibleDepartments,
+    getArturoValue: () => features.webWidgetPrechatFormVisibleDepartments,
   },
   use_production_sunco: {
     defaultValue: false,
@@ -33,11 +48,11 @@ const featureConfig = {
   },
   web_widget_prefetch_widget_container: {
     defaultValue: false,
-    getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,
+    getArturoValue: () => features.prefetchWidgetContainer,
   },
   chat_flush_queue_order: {
     defaultValue: false,
-    getArturoValue: () => features.chat_flush_queue_order,
+    getArturoValue: () => features.chatFlushQueueOrder,
   },
   web_widget_set_department_queue: {
     defaultValue: false,

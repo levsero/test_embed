@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 import {
   getIsPollingChat,
   getDeferredChatHasResponse,
@@ -6,16 +7,19 @@ import {
   getEditContactDetails,
 } from '../index'
 
+jest.mock('@zendesk/widget-shared-services')
+
+const disableStatusPollingFeatureSwitch = (returnValue) => {
+  return isFeatureEnabled.mockImplementation(() => returnValue)
+}
+
 describe('chat selectors', () => {
   describe('getIsPollingChat', () => {
     it('returns true when deferred chat is polling', () => {
+      disableStatusPollingFeatureSwitch(false)
+
       expect(
         getIsPollingChat({
-          base: {
-            embeddableConfig: {
-              disableStatusPolling: false,
-            },
-          },
           chat: {
             deferredChatIsPolling: true,
           },
@@ -24,13 +28,10 @@ describe('chat selectors', () => {
     })
 
     it('returns false when deferred chat is not polling', () => {
+      disableStatusPollingFeatureSwitch(false)
+
       expect(
         getIsPollingChat({
-          base: {
-            embeddableConfig: {
-              disableStatusPolling: false,
-            },
-          },
           chat: {
             deferredChatIsPolling: false,
           },
@@ -39,13 +40,10 @@ describe('chat selectors', () => {
     })
 
     it('returns false when arturo "disableStatusPolling" is enabled', () => {
+      disableStatusPollingFeatureSwitch(true)
+
       expect(
         getIsPollingChat({
-          base: {
-            embeddableConfig: {
-              disableStatusPolling: true,
-            },
-          },
           chat: {
             deferredChatIsPolling: true,
           },

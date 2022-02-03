@@ -6,6 +6,7 @@ const noEmbeds = {
   brand: 'helloworld',
   color: '#eeeeee',
   embeds: {},
+  features: {},
 }
 
 test('page view blip is still fired when there are no embeds', async () => {

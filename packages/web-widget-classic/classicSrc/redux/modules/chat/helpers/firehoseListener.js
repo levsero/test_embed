@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'classicSrc/constants/chat'
 import {
   CHAT_DEPARTMENT_STATUS_EVENT,
@@ -13,7 +14,6 @@ import {
 } from 'classicSrc/redux/modules/chat/chat-action-types'
 import * as callbacks from 'classicSrc/service/api/callbacks'
 import { isVisitor } from 'classicSrc/util/chat'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const fireWidgetChatEvent = (action, getReduxState) => {
   switch (action.type) {
@@ -56,10 +56,7 @@ const firehoseListener = (zChat, dispatch, getReduxState) => (data) => {
     data.timestamp = Date.now()
   }
 
-  data.isLastChatRatingEnabled = isFeatureEnabled(
-    getReduxState(),
-    'web_widget_enable_last_chat_rating'
-  )
+  data.isLastChatRatingEnabled = isFeatureEnabled('web_widget_enable_last_chat_rating')
 
   const chatAction = {
     type: actionType,

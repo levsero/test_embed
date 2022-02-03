@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import createCachedSelector from 're-reselect'
 import { createSelector } from 'reselect'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 import { getEmbeddableConfig, getZopimId } from 'classicSrc/redux/modules/base/base-selectors'
 import { getSettingsChatDepartmentsEnabled } from 'classicSrc/redux/modules/settings/settings-selectors'
 
@@ -10,7 +10,7 @@ const getHistory = (state) => state.chat.chatHistory.chats
 const getState = (state) => state.chat
 
 export const getIsPollingChat = (state) =>
-  !getEmbeddableConfig(state).disableStatusPolling && getState(state).deferredChatIsPolling
+  !isFeatureEnabled('web_widget_disable_status_polling') && getState(state).deferredChatIsPolling
 
 export const getDeferredChatHasResponse = (state) => getState(state).deferredChatHasResponse
 
@@ -127,7 +127,6 @@ export const getChatOnline = (state) => {
 
   const isOnline = _.includes(['online', 'away'], getChatStatus(state))
   const isDepartmentsVisibleFeatureEnabled = isFeatureEnabled(
-    state,
     'web_widget_prechat_form_visible_departments'
   )
 

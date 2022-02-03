@@ -1,3 +1,5 @@
+import _ from 'lodash'
+import { isFeatureEnabled } from '@zendesk/widget-shared-services'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_DISCONNECT_SOCKET_EVENT,
@@ -9,8 +11,6 @@ import {
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
 } from 'classicSrc/embeds/talk/talk-capability-types'
-import _ from 'lodash'
-import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const capabilityMap = {
   0: CALLBACK_ONLY,
@@ -21,7 +21,7 @@ const capabilityMap = {
 
 const initialState = {
   averageWaitTimeSetting: null,
-  capability: isFeatureEnabled(null, 'digital_voice_enabled') ? CLICK_TO_CALL : CALLBACK_ONLY,
+  capability: isFeatureEnabled('digital_voice_enabled') ? CLICK_TO_CALL : CALLBACK_ONLY,
   enabled: false,
   nickname: '',
   phoneNumber: '',
@@ -41,7 +41,7 @@ const embeddableConfig = (state = initialState, action) => {
       return {
         ...payload,
         supportedCountries: _.pull(supportedCountries, '', null),
-        capability: isFeatureEnabled(null, 'digital_voice_enabled')
+        capability: isFeatureEnabled('digital_voice_enabled')
           ? CLICK_TO_CALL
           : capabilityMap[payload.capability],
         enabled: payload.enabled === true,
@@ -56,7 +56,7 @@ const embeddableConfig = (state = initialState, action) => {
     case RECEIVED_DEFERRED_TALK_STATUS:
       return {
         ...state,
-        capability: isFeatureEnabled(null, 'digital_voice_enabled')
+        capability: isFeatureEnabled('digital_voice_enabled')
           ? CLICK_TO_CALL
           : capabilityMap[payload.capability],
         enabled: payload.enabled === true,
