@@ -49,5 +49,5 @@ export const assertOriginalArticleLink = async (expectedUrl) => {
   const newPage = await newTarget.page()
   const url = await newPage.mainFrame().url()
 
-  expect(url).toBe(expectedUrl)
+  expect(url).toContain(expectedUrl)
 }
