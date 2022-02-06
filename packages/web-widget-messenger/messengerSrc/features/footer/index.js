@@ -2,7 +2,7 @@ import { useEffect, useRef, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
 import { SUPPORTED_FILE_TYPES } from '@zendesk/sunco-js-client'
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import useSendFiles from 'messengerSrc/features/app/hooks/useSendFiles'
 import {
   getComposerDraft,
@@ -67,7 +67,7 @@ const Footer = () => {
       onChange={onChange}
       onSendMessage={onSendMessage}
       onFilesSelected={onFilesSelected}
-      isFileInputVisible={isFeatureEnabled('web_widget_messenger_file_uploads')}
+      isFileInputVisible={isFeatureEnabled(undefined, 'web_widget_messenger_file_uploads')}
       allowedFileTypes={SUPPORTED_FILE_TYPES}
     />
   )

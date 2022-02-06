@@ -15,7 +15,6 @@ const baseConfig = {
       },
     },
   },
-  features: {},
 }
 
 const mergeEmbeddableConfigs = (configs) => {

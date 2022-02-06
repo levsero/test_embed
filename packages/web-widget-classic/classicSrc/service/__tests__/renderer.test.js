@@ -1,6 +1,7 @@
-import _ from 'lodash'
 import createStore from 'classicSrc/redux/createStore'
 import { BOOT_UP_TIMER_COMPLETE } from 'classicSrc/redux/modules/base/base-action-types'
+import _ from 'lodash'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 jest.mock('classicSrc/service/settings')
 jest.mock('classicSrc/redux/modules/base', () => ({
@@ -18,6 +19,7 @@ jest.mock('classicSrc/embeds/helpCenter/actions')
 jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 const store = createStore()
+
 store.dispatch = jest.fn()
 store.dispatch({ type: BOOT_UP_TIMER_COMPLETE })
 
@@ -31,7 +33,7 @@ let mockSettings,
   i18n,
   settings,
   errorTracker,
-  isFeatureEnabled,
+  talkfeature,
   renderWebWidget
 
 beforeEach(() => {
@@ -47,8 +49,8 @@ beforeEach(() => {
   settings.getErrorReportingEnabled = () => false
   errorTracker = require('@zendesk/widget-shared-services').errorTracker
   errorTracker.configure = jest.fn()
-  isFeatureEnabled = require('@zendesk/widget-shared-services/feature-flags').default
-  isFeatureEnabled.mockImplementation(() => false) // talkFeature feature switch
+  talkfeature = require('@zendesk/widget-shared-services/feature-flags').default
+  talkfeature.mockImplementation(() => false)
   baseActions = require('classicSrc/redux/modules/base')
   setLocaleApi = require('classicSrc/service/api/apis').setLocaleApi
   i18n = require('classicSrc/app/webWidget/services/i18n').i18n
@@ -169,7 +171,8 @@ describe('init', () => {
   })
 
   it('it sets up the embeds when polling talk', async () => {
-    isFeatureEnabled.mockImplementation(() => true) // talkFeature feature switch
+    talkfeature.mockImplementation(() => true)
+    isFeatureEnabled.mockReturnValue(true)
     await renderer.init({
       config: testConfig(),
       reduxStore: store,
@@ -197,19 +200,16 @@ describe('init', () => {
       renderer.init({
         config: {
           locale: 'en',
+          webWidgetCustomizations: true,
           embeds: {
             x: 1,
           },
-          features: {
-            webWidgetCustomizations: true,
-          },
         },
+        reduxStore: store,
       })
     }
 
     it('call settings.enableCustomizations', () => {
-      // web_widget_customizations feature switch
-      isFeatureEnabled.mockImplementation(() => true)
       initRender()
       expect(settings.enableCustomizations).toHaveBeenCalled()
     })
@@ -217,8 +217,8 @@ describe('init', () => {
     describe('when locale has not been set', () => {
       it('calls i18n.setLocale with the correct locale', async () => {
         i18n.getLocale.mockReturnValue(null)
-        initRender()
-        expect(setLocaleApi.mock.calls).toEqual([[expect.any(Object), 'en']])
+        await initRender()
+        expect(setLocaleApi).toHaveBeenCalledWith(store, 'en')
       })
     })
 

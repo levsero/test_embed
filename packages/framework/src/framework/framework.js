@@ -1,4 +1,5 @@
-import { errorTracker, isFeatureEnabled } from '@zendesk/widget-shared-services'
+import { errorTracker } from '@zendesk/widget-shared-services/errorTracker'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import { isBlacklisted } from 'src/framework/isBlacklisted'
 
@@ -29,7 +30,7 @@ const start = async () => {
     // Load the embeddable
 
     if (config.messenger) {
-      if (isFeatureEnabled('module_federation')) {
+      if (isFeatureEnabled(null, 'module_federation')) {
         await import('webWidgetMessenger').then((messenger) =>
           messenger.default.start(config, configLoadEnd)
         )

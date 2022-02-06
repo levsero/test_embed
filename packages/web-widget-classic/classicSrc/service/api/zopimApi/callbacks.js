@@ -1,4 +1,4 @@
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 let chatConnected = false
 let chatSDKInitialized = false
@@ -23,7 +23,7 @@ export const onChatSDKInitialized = (cb) => {
 }
 
 export const handleChatConnected = () => {
-  if (isFeatureEnabled('chat_flush_queue_order')) {
+  if (isFeatureEnabled(undefined, 'chat_flush_queue_order')) {
     chatConnected = true
   }
 
@@ -33,7 +33,7 @@ export const handleChatConnected = () => {
 }
 
 export const handleChatSDKInitialized = () => {
-  if (isFeatureEnabled('chat_flush_queue_order')) {
+  if (isFeatureEnabled(undefined, 'chat_flush_queue_order')) {
     chatSDKInitialized = true
   }
   flushQueue(onChatSDKInitializedQueue)

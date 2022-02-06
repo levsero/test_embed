@@ -1,14 +1,3 @@
-import _ from 'lodash'
-import {
-  beacon,
-  clickBusterHandler,
-  errorTracker,
-  isMobileBrowser,
-  publicApi,
-  win,
-  isFeatureEnabled,
-  updateFeatures,
-} from '@zendesk/widget-shared-services'
 import { getWebWidgetPublicApi } from 'classicSrc/app/webWidget/public-api/setupApi'
 import { getWebWidgetLegacyPublicApi } from 'classicSrc/app/webWidget/public-api/setupLegacyApi'
 import { i18n } from 'classicSrc/app/webWidget/services/i18n'
@@ -28,6 +17,15 @@ import { setLocaleApi } from 'classicSrc/service/api/apis'
 import zopimApi from 'classicSrc/service/api/zopimApi'
 import { settings } from 'classicSrc/service/settings'
 import { http } from 'classicSrc/service/transport'
+import _ from 'lodash'
+import {
+  beacon,
+  clickBusterHandler,
+  errorTracker,
+  isMobileBrowser,
+  publicApi,
+  win,
+} from '@zendesk/widget-shared-services'
 
 let initialised = false
 let hasRendered = false
@@ -84,7 +82,6 @@ async function init({ config }) {
   const reduxStore = createStore()
 
   const filteredConfig = filterEmbeds(config)
-  updateFeatures(config.features)
 
   settings.init(reduxStore)
   GA.init()
@@ -123,7 +120,7 @@ async function init({ config }) {
 
   if (_.isEmpty(filteredConfig.embeds)) return
 
-  if (isFeatureEnabled('web_widget_customizations')) {
+  if (config.webWidgetCustomizations) {
     settings.enableCustomizations()
   }
 

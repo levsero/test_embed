@@ -27,7 +27,7 @@ describe('isFeatureEnabled', () => {
         features.fancyFeature.getArturoValue.mockReturnValueOnce(false)
         localStorage['ZD-feature-fancyFeature'] = true
 
-        expect(isFeatureEnabled('fancyFeature')).toBe(false)
+        expect(isFeatureEnabled({}, 'fancyFeature')).toBe(false)
       })
     })
 
@@ -40,36 +40,36 @@ describe('isFeatureEnabled', () => {
         features.fancyFeature.getArturoValue.mockReturnValueOnce(false)
         localStorage['ZD-feature-fancyFeature'] = true
 
-        expect(isFeatureEnabled('fancyFeature')).toBe(true)
+        expect(isFeatureEnabled({}, 'fancyFeature')).toBe(true)
       })
 
       it('allows you to turn the feature off via local storage', () => {
         features.fancyFeature.getArturoValue.mockReturnValueOnce(true)
         localStorage['ZD-feature-fancyFeature'] = false
 
-        expect(isFeatureEnabled('fancyFeature')).toBe(false)
+        expect(isFeatureEnabled({}, 'fancyFeature')).toBe(false)
       })
 
       it('uses the arturo value if not overridden', () => {
         features.fancyFeature.getArturoValue.mockReturnValueOnce(true)
         delete localStorage['ZD-feature-fancyFeature']
 
-        expect(isFeatureEnabled('fancyFeature')).toBe(true)
+        expect(isFeatureEnabled({}, 'fancyFeature')).toBe(true)
       })
     })
   })
 
   it('returns true if the feature is enabled', () => {
     features.fancyFeature.getArturoValue.mockReturnValue(true)
-    expect(isFeatureEnabled('fancyFeature')).toBe(true)
+    expect(isFeatureEnabled({}, 'fancyFeature')).toBe(true)
   })
 
   it('returns false if the feature is disabled', () => {
     features.fancyFeature.getArturoValue.mockReturnValue(false)
-    expect(isFeatureEnabled('fancyFeature')).toBe(false)
+    expect(isFeatureEnabled({}, 'fancyFeature')).toBe(false)
   })
 
   it('returns false if the feature is not defined in the features.js file', () => {
-    expect(isFeatureEnabled('notDefinedInFeaturesFile')).toBe(false)
+    expect(isFeatureEnabled({}, 'notDefinedInFeaturesFile')).toBe(false)
   })
 })

@@ -1,9 +1,9 @@
+import Launcher from 'classicSrc/embeds/webWidget/components/Launcher'
+import { getFrameVisible } from 'classicSrc/redux/modules/selectors'
 import PropTypes from 'prop-types'
 import { lazy, Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
-import Launcher from 'classicSrc/embeds/webWidget/components/Launcher'
-import { getFrameVisible } from 'classicSrc/redux/modules/selectors'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const Embeds = lazy(() =>
   import(/* webpackChunkName: 'lazy/embeds' */ 'classicSrc/embeds/webWidget/components/Embeds')
@@ -11,7 +11,9 @@ const Embeds = lazy(() =>
 
 const WebWidget = ({ config }) => {
   const isWidgetOpen = useSelector((state) => getFrameVisible(state, 'webWidget'))
-  const isEarlyPrefetchEnabled = isFeatureEnabled('web_widget_prefetch_widget_container')
+  const isEarlyPrefetchEnabled = useSelector((state) =>
+    isFeatureEnabled(state, 'web_widget_prefetch_widget_container')
+  )
 
   return (
     <>
