@@ -10,15 +10,18 @@ import { getOfflineTitle, getTalkTitleKey, getCapability, getPhoneNumber } from 
 describe('talk selectors', () => {
   describe('getCapability returns the capability', () => {
     test.each([
-      [CLICK_TO_CALL, CLICK_TO_CALL],
-      [CALLBACK_ONLY, CALLBACK_ONLY],
-      [PHONE_ONLY, PHONE_ONLY],
-      [CALLBACK_AND_PHONE, CALLBACK_AND_PHONE],
+      [CLICK_TO_CALL, true, CLICK_TO_CALL],
+      [CLICK_TO_CALL, null, CLICK_TO_CALL],
+      [CALLBACK_ONLY, true, CLICK_TO_CALL],
+      [CALLBACK_ONLY, null, CALLBACK_ONLY],
+      [PHONE_ONLY, null, PHONE_ONLY],
+      [CALLBACK_AND_PHONE, null, CALLBACK_AND_PHONE],
+      [CALLBACK_AND_PHONE, false, CALLBACK_AND_PHONE],
     ])(
       'When config state is %p, embeddedVoiceSupported is %p, expect to return %p',
-      (state, expectedValue) => {
+      (state, embeddedVoiceSupported, expectedValue) => {
         const config = { capability: state }
-        const result = getCapability.resultFunc(config)
+        const result = getCapability.resultFunc(config, embeddedVoiceSupported)
         expect(result).toEqual(expectedValue)
       }
     )

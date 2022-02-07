@@ -1,5 +1,3 @@
-import _ from 'lodash'
-import { createSelector } from 'reselect'
 import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 import { CONTACT_OPTIONS } from 'classicSrc/embeds/talk/constants'
 import {
@@ -8,6 +6,12 @@ import {
   CLICK_TO_CALL,
 } from 'classicSrc/embeds/talk/talk-capability-types'
 import { getSettingsTalkTitle } from 'classicSrc/redux/modules/settings/settings-selectors'
+import _ from 'lodash'
+import { createSelector } from 'reselect'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
+
+export const getEmbeddedVoiceSupported = (_state) =>
+  isFeatureEnabled(null, 'embedded_voice_enabled')
 
 export const getIsCallInProgress = (state) => state.talk.embeddedVoiceCallStatus.isCallInProgress
 export const getHasLastCallFailed = (state) => state.talk.embeddedVoiceCallStatus.hasLastCallFailed
@@ -57,8 +61,10 @@ export const getAverageWaitTimeString = createSelector(
 )
 
 export const getCapability = createSelector(
-  [getTalkEmbeddableConfig],
-  (talkConfig) => talkConfig.capability
+  [getTalkEmbeddableConfig, getEmbeddedVoiceSupported],
+  (talkConfig, embeddedVoiceSupported) => {
+    return embeddedVoiceSupported ? CLICK_TO_CALL : talkConfig.capability
+  }
 )
 
 export const getOfflineTitle = (state) => {

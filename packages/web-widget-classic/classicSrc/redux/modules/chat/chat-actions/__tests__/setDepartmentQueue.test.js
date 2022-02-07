@@ -1,7 +1,7 @@
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 import * as queue from '../setDepartmentQueue'
 
-jest.mock('@zendesk/widget-shared-services')
+jest.mock('@zendesk/widget-shared-services/feature-flags')
 
 beforeEach(() => {
   queue.resetDepartmentQueue()

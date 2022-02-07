@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import { createStore } from 'redux'
 import reducer from 'classicSrc/redux/modules/reducer'
 import { settings } from 'classicSrc/service/settings'
+import _ from 'lodash'
+import { createStore } from 'redux'
 import { renderer } from '../renderer'
 
 jest.mock('classicSrc/service/settings')
@@ -35,12 +35,9 @@ test('new chat', async () => {
         props: {},
       },
     },
-    features: {
-      webWidgetCustomizations: true,
-    },
   }
 
-  renderer.init({
+  await renderer.init({
     config: configJSON,
     reduxStore: store,
   })

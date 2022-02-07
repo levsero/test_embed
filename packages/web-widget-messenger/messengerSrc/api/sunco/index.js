@@ -1,12 +1,12 @@
 import Sunco from '@zendesk/sunco-js-client'
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const PROD_URL = 'https://api.smooch.io'
 
 let client
 export const setupSuncoClient = ({ integrationId, appId, baseUrl, conversationHistory } = {}) => {
   const storageType = conversationHistory === 'remember' ? 'localStorage' : 'sessionStorage'
-  const url = isFeatureEnabled('use_production_sunco') ? PROD_URL : baseUrl
+  const url = isFeatureEnabled({}, 'use_production_sunco') ? PROD_URL : baseUrl
 
   client = new Sunco({
     integrationId,

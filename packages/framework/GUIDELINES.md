@@ -312,7 +312,7 @@ export default {
 ```
 
 All major features should be behind an arturo flag.
-To update your feature to use an arturo flag, you can provide a function on the property `getArturoValue` that returns the arturo flags value.
+To update your feature to use an arturo flag, you can provide a function on the property `getArturoValue` that takes the current redux state and returns the arturo flags value.
 
 When your feature flag matches up with an arturo, it is considered best practice to use the same name as the arturo for the local feature name.
 
@@ -321,7 +321,7 @@ export default {
   /* ... */
   fancyNewFeature: {
     defaultValue: false,
-    getArturoValue: () => features.fancyNewFeature,
+    getArturoValue: (state) => state.fancyNewFeature,
   },
 }
 ```
@@ -334,7 +334,7 @@ Example:
 localStorage.setItem(`ZD-feature-fancyNewFeature`, true)
 ```
 
-Then to check if this feature is enabled in your code, you can use the function `isFeatureEnabled`.
+Then to check if this feature is enabled in your code, you can use the provided redux selector function `isFeatureEnabled`.
 
 Note:
 
@@ -343,12 +343,13 @@ Note:
 
 ```jsx
 import React from 'react
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
+import { useSelector } from 'react-redux'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 const FancyNewFeature = React.lazy(() => import('./FancyNewFeature))
 
 const SomeComponent = () => {
-  const useFancyNewFeature = isFeatureEnabled('fancyNewFeature')
+  const useFancyNewFeature = useSelector(state => isFeatureEnabled(state, 'fancyNewFeature'))
 
   if(useFancyNewFeature) {
     return (

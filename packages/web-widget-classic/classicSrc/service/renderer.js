@@ -1,5 +1,3 @@
-import _ from 'lodash'
-import { errorTracker, isFeatureEnabled, updateFeatures } from '@zendesk/widget-shared-services'
 import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 import { setUpHelpCenterAuth } from 'classicSrc/embeds/helpCenter/actions'
 import { pollTalkStatus } from 'classicSrc/embeds/talk/actions'
@@ -8,6 +6,8 @@ import { updateEmbedAccessible, widgetInitialised } from 'classicSrc/redux/modul
 import { setUpChat } from 'classicSrc/redux/modules/chat'
 import { setLocaleApi } from 'classicSrc/service/api/apis'
 import { settings } from 'classicSrc/service/settings'
+import _ from 'lodash'
+import { errorTracker } from '@zendesk/widget-shared-services'
 
 let initialised = false
 let hasRendered = false
@@ -44,12 +44,12 @@ function init({ config = {}, reduxStore = dummyStore }) {
   }
 
   initialised = true
-  updateFeatures(config.features)
+
   errorTracker.configure({ enabled: settings.getErrorReportingEnabled() })
 
   if (_.isEmpty(config.embeds)) return
 
-  if (isFeatureEnabled('web_widget_customizations')) {
+  if (config.webWidgetCustomizations) {
     settings.enableCustomizations()
   }
 

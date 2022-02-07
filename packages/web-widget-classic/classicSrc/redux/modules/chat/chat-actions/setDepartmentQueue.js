@@ -1,10 +1,12 @@
-import { isFeatureEnabled } from '@zendesk/widget-shared-services'
+import isFeatureEnabled from '@zendesk/widget-shared-services/feature-flags'
 
 let isDepartmentSetting = false
 let queue = []
 
 export const onSetDepartmentComplete = (callback) => {
-  if (isFeatureEnabled('web_widget_set_department_queue') && isDepartmentSetting) {
+  const isSetDepartmentQueueEnabled = isFeatureEnabled(undefined, 'web_widget_set_department_queue')
+
+  if (isSetDepartmentQueueEnabled && isDepartmentSetting) {
     queue.push(callback)
   } else {
     callback()

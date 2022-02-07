@@ -1,4 +1,3 @@
-import isFeatureEnabled from 'src/feature-flags'
 import { store } from 'src/persistence'
 import * as http from 'src/transport/http/base'
 import { appendMetaTag } from 'src/util/devices'
@@ -12,7 +11,6 @@ globals.navigator = {
 }
 
 jest.mock('src/transport/http/base')
-jest.mock('src/feature-flags')
 
 let dateNowMock
 
@@ -22,6 +20,10 @@ beforeEach(() => {
   dateNowMock = jest.spyOn(Date, 'now')
   store.clear('session')
   store.clear()
+  beacon.setConfig({
+    reduceBlipping: false,
+    throttleIdentify: false,
+  })
   window.i18n = {}
 })
 
@@ -522,26 +524,17 @@ describe('trackSettings', () => {
   })
 })
 
-describe('throttleIdentify feature flag', () => {
-  const throttleIdentifyFeatureSwitch = (returnValue) => {
-    return isFeatureEnabled.mockImplementation(() => returnValue)
-  }
-
+describe('setConfig', () => {
   it('does not send identify when throttleIdentify is true', () => {
-    throttleIdentifyFeatureSwitch(true)
+    beacon.setConfig({ throttleIdentify: true })
     beacon.identify({ name: 'blah', email: 'a@b.com' })
     expect(http.sendWithMeta).not.toHaveBeenCalled()
   })
 
-  it('sends identify when throttleIdentify is false', () => {
-    throttleIdentifyFeatureSwitch(false)
-    beacon.identify({ name: 'blah', email: 'a@b.com' })
-    expect(http.sendWithMeta).toHaveBeenCalled()
-  })
-
-  describe('reduceBlipping feature flag', () => {
-    // enable feature flag for reduceBlipping
-    beforeEach(() => isFeatureEnabled.mockImplementation(() => true))
+  describe('reduceBlipping', () => {
+    beforeEach(() => {
+      beacon.setConfig({ reduceBlipping: true })
+    })
 
     it('does not send trackUserAction', () => {
       beacon.trackUserAction('fasd', 'adsfsadf', 'afdasdf')
