@@ -2,16 +2,20 @@
 
 const rest = require('rest')
 const fs = require('fs')
-const { frameworkRoot, repoRoot } = require('./utils')
-
-const localeIdMapPath = frameworkRoot('./src/translation/ze_localeIdMap.js')
-const localesPath = frameworkRoot('./src/translation/locales.json')
+const { repoRoot } = require('./utils')
 
 const messengerLocaleIdMapPath = repoRoot(
   './packages/web-widget-messenger/messengerSrc/features/i18n/gen/ze_localeIdMap.js'
 )
 const messengerLocalesPath = repoRoot(
   './packages/web-widget-messenger/messengerSrc/features/i18n/gen/locales.json'
+)
+
+const classicLocaleIdMapPath = repoRoot(
+  './packages/web-widget-classic/classicSrc/app/webWidget/services/gen/ze_localeIdMap.js'
+)
+const classicLocalesPath = repoRoot(
+  './packages/web-widget-classic/classicSrc/app/webWidget/services/gen/locales.json'
 )
 
 let localesEndpoint = 'https://support.zendesk.com/api/v2/locales/apps/web_widget.json'
@@ -35,10 +39,10 @@ const downloadCountryInformation = () => {
 
     const contents = 'module.exports = ' + JSON.stringify(localeIdMap, null, 2)
 
-    console.log('Writing to ' + localeIdMapPath)
-    fs.writeFileSync(localeIdMapPath, contents)
     console.log('Writing to ' + messengerLocaleIdMapPath)
     fs.writeFileSync(messengerLocaleIdMapPath, contents)
+    console.log('Writing to ' + classicLocaleIdMapPath)
+    fs.writeFileSync(classicLocaleIdMapPath, contents)
 
     var codes = JSON.stringify(
       locales.map((obj) => obj.locale.toLowerCase()),
@@ -46,10 +50,10 @@ const downloadCountryInformation = () => {
       2
     )
 
-    console.log('Writing to ' + localesPath)
-    fs.writeFileSync(localesPath, codes, { flag: 'w' })
     console.log('Writing to ' + messengerLocalesPath)
     fs.writeFileSync(messengerLocalesPath, codes, { flag: 'w' })
+    console.log('Writing to ' + classicLocalesPath)
+    fs.writeFileSync(classicLocalesPath, codes, { flag: 'w' })
   })
 }
 

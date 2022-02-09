@@ -3,7 +3,7 @@ import 'jest-styled-components'
 import 'mutationobserver-shim'
 import 'regenerator-runtime/runtime'
 import t from '@zendesk/client-i18n-tools'
-import classicUSTranslations from 'src/translation/classic/en-us.json'
+import classicUSTranslations from 'classicSrc/app/webWidget/services/gen/translations/en-us.json'
 
 beforeAll(() => {
   t.set(classicUSTranslations.locale)

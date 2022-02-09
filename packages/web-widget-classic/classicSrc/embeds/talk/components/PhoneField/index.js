@@ -11,7 +11,7 @@ import {
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { onNextTick } from '@zendesk/widget-shared-services'
 import { CurrentFrameConsumer } from '@zendesk/widget-shared-services/Frame'
-import countriesByIso from 'src/translation/ze_countries'
+import countriesByIso from 'classicSrc/app/webWidget/services/gen/ze_countries'
 import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 import { TEST_IDS } from 'classicSrc/constants/shared'
 import CountryDropdown from 'classicSrc/embeds/talk/components/CountryDropdown'

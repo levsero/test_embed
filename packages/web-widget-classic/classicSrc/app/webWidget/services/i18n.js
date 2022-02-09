@@ -1,11 +1,11 @@
-import { LOCALE_SET } from 'classicSrc/redux/modules/base/base-action-types'
-import { getLocale as getLocaleState } from 'classicSrc/redux/modules/base/base-selectors'
 import _ from 'lodash'
 import { sprintf } from 'sprintf-js'
 import t from '@zendesk/client-i18n-tools'
 import { errorTracker, navigator } from '@zendesk/widget-shared-services'
-import zELocaleIdMap from 'src/translation/ze_localeIdMap'
+import { LOCALE_SET } from 'classicSrc/redux/modules/base/base-action-types'
+import { getLocale as getLocaleState } from 'classicSrc/redux/modules/base/base-selectors'
 import fetchLocale from './fetchLocale'
+import zELocaleIdMap from './gen/ze_localeIdMap'
 
 let store
 let currentLocale

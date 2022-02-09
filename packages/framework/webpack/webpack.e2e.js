@@ -9,6 +9,9 @@ const { ModuleFederationPlugin } = require('webpack').container
 
 const classicRoot = path.resolve(__dirname, '../', '../', 'web-widget-classic')
 
+const MESSENGER_ENDPOINT = 'http://localhost:1339/dist/web-widget-messenger.js'
+const CLASSIC_ENDPOINT = 'http://localhost:1336/dist/web-widget-classic.js'
+
 module.exports = () => {
   const templatesOptions = {
     templatesFilter: (file) => file === 'e2e.html',
@@ -52,6 +55,8 @@ module.exports = () => {
       ...webWidgetTemplates(config, templatesOptions),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(false),
+        __CLASSIC_ENDPOINT__: JSON.stringify(CLASSIC_ENDPOINT),
+        __MESSENGER_ENDPOINT__: JSON.stringify(MESSENGER_ENDPOINT),
       }),
       new webpack.NormalModuleReplacementPlugin(/loadZChat\.js/, './loadZChat.e2e.js'),
       new webpack.WatchIgnorePlugin({
@@ -59,9 +64,6 @@ module.exports = () => {
       }),
       new ModuleFederationPlugin({
         name: 'framework',
-        remotes: {
-          webWidgetMessenger: 'messenger@http://localhost:1336/dist/web-widget-messenger.js',
-        },
       }),
     ],
   })

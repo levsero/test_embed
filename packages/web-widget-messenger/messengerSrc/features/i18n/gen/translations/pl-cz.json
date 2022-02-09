@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "Przycisk umożliwiający otwarcie okna komunikatora",
       "embeddable_framework.messenger.launcher_label.close": "Zamknij",
       "embeddable_framework.messenger.launcher_label.frame.title": "Wiadomość od firmy",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "Awatar",
       "embeddable_framework.messenger.message.file.download": "Otwórz na nowej karcie",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} MB",

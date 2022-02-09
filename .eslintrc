@@ -20,6 +20,8 @@
     "__EMBEDDABLE_FRAMEWORK_ENV__": true,
     "__ASSET_BASE_PATH__": true,
     "__ZENDESK_CLIENT_I18N_GLOBAL": true,
+    "__CLASSIC_ENDPOINT__": true,
+    "__MESSENGER_ENDPOINT__": true,
     "addCustomCommands": true,
     "webdrivercss": true,
     "webdriverio": true,

@@ -11,6 +11,9 @@ const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
 const PUBLIC_PATH = process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest'
 
+const MESSENGER_ENDPOINT = PUBLIC_PATH + `/web-widget-messenger-${version}.js`
+const CLASSIC_ENDPOINT = PUBLIC_PATH + `/web-widget-classic-${version}.js`
+
 let config = merge(common, {
   mode: 'production',
   devtool: 'hidden-source-map',
@@ -20,7 +23,9 @@ let config = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
+      __MESSENGER_ENDPOINT__: JSON.stringify(MESSENGER_ENDPOINT),
       'process.env.NODE_ENV': JSON.stringify('production'),
+      __CLASSIC_ENDPOINT__: JSON.stringify(CLASSIC_ENDPOINT),
     }),
     new CssMinimizerPlugin({
       minimizerOptions: {
@@ -63,11 +68,6 @@ let config = merge(common, {
     }),
     new ModuleFederationPlugin({
       name: 'framework',
-      remotes: {
-        webWidgetMessenger: `messenger@${PUBLIC_PATH}/${
-          require('../../web-widget-messenger/dist/public/asset_manifest.json').path
-        }`,
-      },
     }),
   ],
 })

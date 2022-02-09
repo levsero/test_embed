@@ -1,3 +1,5 @@
+import t from '@zendesk/client-i18n-tools'
+import classicUSTranslations from 'classicSrc/app/webWidget/services/gen/translations/en-us.json'
 import { i18n } from 'classicSrc/app/webWidget/services/i18n'
 import { TICKET_FIELDS_REQUEST_SUCCESS } from 'classicSrc/embeds/support/actions/action-types'
 import {
@@ -16,8 +18,6 @@ import createKeyID from 'classicSrc/embeds/support/utils/createKeyID'
 import createStore from 'classicSrc/redux/createStore'
 import { updateEmbeddableConfig } from 'classicSrc/redux/modules/base'
 import { UPDATE_SETTINGS } from 'classicSrc/redux/modules/settings/settings-action-types'
-import t from '@zendesk/client-i18n-tools'
-import classicUSTranslations from 'src/translation/classic/en-us.json'
 import * as selectors from '..'
 
 t.set(classicUSTranslations.locale)

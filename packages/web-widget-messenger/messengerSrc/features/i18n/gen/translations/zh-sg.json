@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "启动消息传送窗口的按钮",
       "embeddable_framework.messenger.launcher_label.close": "关闭",
       "embeddable_framework.messenger.launcher_label.frame.title": "来自公司的消息",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "头像",
       "embeddable_framework.messenger.message.file.download": "在新的标签页中打开",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}} 千字节",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}} 兆字节",

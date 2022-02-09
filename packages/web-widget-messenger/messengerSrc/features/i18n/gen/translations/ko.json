@@ -63,7 +63,7 @@
       "embeddable_framework.messenger.launcher.frame.title": "메시징 창을 시작하는 버튼",
       "embeddable_framework.messenger.launcher_label.close": "닫기",
       "embeddable_framework.messenger.launcher_label.frame.title": "회사에서 보낸 메시지",
-      "embeddable_framework.messenger.message.avatar": "Avatar",
+      "embeddable_framework.messenger.message.avatar": "아바타",
       "embeddable_framework.messenger.message.file.download": "새 탭에서 열기",
       "embeddable_framework.messenger.message.file.size_in_kb": "{{size}}KB",
       "embeddable_framework.messenger.message.file.size_in_mb": "{{size}}MB",
