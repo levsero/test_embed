@@ -31,7 +31,7 @@ const getUnreadMessages = createSelector(
     return messageLog.filter((message) => {
       return (
         !message.isLocalMessageType &&
-        message.received > lastReadTimestamp &&
+        (lastReadTimestamp ? message.received > lastReadTimestamp : message.received) &&
         message.role !== 'appUser'
       )
     })
@@ -48,4 +48,10 @@ const getUnreadCount = createSelector(getUnreadMessages, (unreadMessages) => {
 
 export default unreadIndicator.reducer
 
-export { getUnreadCount, getLastUnreadTimestamp, getLastReadTimestamp, markAsRead }
+export {
+  getUnreadCount,
+  getLastUnreadTimestamp,
+  getLastReadTimestamp,
+  markAsRead,
+  getUnreadMessages,
+}
